@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_72" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PlusMenuCell" id="KGk-i7-Jjw" customClass="PlusMenuCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="220" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="220" height="80"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Xp-2Z-8ke">
+                        <rect key="frame" x="0.0" y="0.0" width="220" height="50"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eGL-FP-v4L">
+                                <rect key="frame" x="16" y="13" width="188" height="24"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newScan" translatesAutoresizingMaskIntoConstraints="NO" id="5b5-O3-Fvp">
+                                        <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="DgR-vc-7Bd"/>
+                                            <constraint firstAttribute="height" constant="24" id="TTI-Cj-0h1"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scan" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0b-dl-zu0">
+                                        <rect key="frame" x="32" y="0.0" width="156" height="24"/>
+                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                                        <color key="textColor" name="gray-700"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="eGL-FP-v4L" firstAttribute="leading" secondItem="0Xp-2Z-8ke" secondAttribute="leading" constant="16" id="2xm-UV-rRK"/>
+                            <constraint firstAttribute="height" constant="50" id="4Q9-uI-hlr"/>
+                            <constraint firstItem="eGL-FP-v4L" firstAttribute="centerY" secondItem="0Xp-2Z-8ke" secondAttribute="centerY" id="Bvi-vq-vP8"/>
+                            <constraint firstItem="eGL-FP-v4L" firstAttribute="centerX" secondItem="0Xp-2Z-8ke" secondAttribute="centerX" id="ZXQ-oE-vWG"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                <color key="value" name="gray-200"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="0Xp-2Z-8ke" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Sny-Ug-JZa"/>
+                    <constraint firstAttribute="bottom" secondItem="0Xp-2Z-8ke" secondAttribute="bottom" constant="16" id="WEu-HQ-9am"/>
+                    <constraint firstItem="0Xp-2Z-8ke" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="YVx-VK-z2u"/>
+                    <constraint firstAttribute="trailing" secondItem="0Xp-2Z-8ke" secondAttribute="trailing" id="jMo-9G-BH5"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="containerView" destination="0Xp-2Z-8ke" id="5vB-QZ-ahR"/>
+                <outlet property="menuImageView" destination="5b5-O3-Fvp" id="Y9e-ep-0TR"/>
+                <outlet property="menuNameLabel" destination="A0b-dl-zu0" id="3Qo-Ee-ABU"/>
+            </connections>
+            <point key="canvasLocation" x="193.95348837209303" y="-4.5064377682403434"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="newScan" width="26" height="26"/>
+        <namedColor name="gray-200">
+            <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-700">
+            <color red="0.21568627450980393" green="0.25490196078431371" blue="0.31764705882352939" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>

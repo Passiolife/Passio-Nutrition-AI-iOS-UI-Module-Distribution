@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Bold.ttf">
+            <string>Inter-Bold</string>
+        </array>
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-Regular.ttf">
+            <string>Inter-Regular</string>
+        </array>
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FoodHeaderSimpleTableViewCell" rowHeight="331" id="KGk-i7-Jjw" customClass="FoodHeaderSimpleTableViewCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="384" height="330"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="384" height="330"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jrp-93-OZR">
+                        <rect key="frame" x="16" y="8" width="352" height="188"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="YG0-9n-kWp">
+                                <rect key="frame" x="16" y="16" width="275" height="40"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Yz-4i-NuH">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="CDc-we-OaU"/>
+                                            <constraint firstAttribute="width" constant="40" id="f5B-G0-N0g"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isRoundedCorner" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="uAf-TO-B4e">
+                                        <rect key="frame" x="48" y="3" width="227" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iY4-2V-gn5">
+                                                <rect key="frame" x="0.0" y="0.0" width="227" height="16.5"/>
+                                                <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-900"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S18-44-Zql">
+                                                <rect key="frame" x="0.0" y="17.5" width="227" height="16.5"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-400"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3x2-WO-DNv">
+                                <rect key="frame" x="307" y="16" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="7cy-a3-71o"/>
+                                    <constraint firstAttribute="width" constant="30" id="vZf-FG-EDw"/>
+                                </constraints>
+                                <color key="tintColor" name="gray-400"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="heart" catalog="system"/>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="5Xo-mh-bzi">
+                                <rect key="frame" x="16" y="72" width="320" height="100"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oB4-QV-Xj0">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="5ue-6q-D4L">
+                                                <rect key="frame" x="22" y="0.0" width="276" height="100"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5LT-dj-9Ms" customClass="DonutProgressView" customModule="PassioNutritionUIModule">
+                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="kG7-al-6qg">
+                                                                <rect key="frame" x="24.5" y="25.5" width="51.5" height="49.5"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="19g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IUW-rU-u94">
+                                                                        <rect key="frame" x="5.5" y="0.0" width="40.5" height="28"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="24"/>
+                                                                        <color key="textColor" name="yellow-500"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Calories" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rFa-qL-xQO">
+                                                                        <rect key="frame" x="0.0" y="33" width="51.5" height="16.5"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="gray-900"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstItem="kG7-al-6qg" firstAttribute="centerX" secondItem="5LT-dj-9Ms" secondAttribute="centerX" id="D9H-gi-s9J"/>
+                                                            <constraint firstAttribute="height" constant="100" id="Fcc-OK-qcO"/>
+                                                            <constraint firstItem="kG7-al-6qg" firstAttribute="centerY" secondItem="5LT-dj-9Ms" secondAttribute="centerY" id="QiD-rP-TaZ"/>
+                                                            <constraint firstAttribute="width" constant="100" id="rHj-9h-a9u"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
+                                                                <color key="value" name="gray-200"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BY6-dL-zyp">
+                                                        <rect key="frame" x="115" y="0.0" width="161" height="100"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="UgW-IY-1W2">
+                                                                <rect key="frame" x="0.0" y="22.5" width="161" height="55.5"/>
+                                                                <subviews>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bCO-yq-iXD">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="119.5" height="16.5"/>
+                                                                        <subviews>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Carbs:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="orS-vD-tB4">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="48.5" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="gray-900"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="19g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mq4-xE-GFB">
+                                                                                <rect key="frame" x="53.5" y="0.0" width="24" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="lightBlue"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="(50%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="siz-xM-fpr">
+                                                                                <rect key="frame" x="82.5" y="0.0" width="37" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="gray-400"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                        </subviews>
+                                                                    </stackView>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="6a9-3t-Lsz">
+                                                                        <rect key="frame" x="0.0" y="19.5" width="119.5" height="16.5"/>
+                                                                        <subviews>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Protein:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4qD-Hh-JPt">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="48.5" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="gray-900"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="19g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cbm-wG-axt">
+                                                                                <rect key="frame" x="53.5" y="0.0" width="24" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="green-500"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="(50%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LM4-AK-gbd">
+                                                                                <rect key="frame" x="82.5" y="0.0" width="37" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="gray-400"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                        </subviews>
+                                                                    </stackView>
+                                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="fRv-bu-epF">
+                                                                        <rect key="frame" x="0.0" y="39" width="119.5" height="16.5"/>
+                                                                        <subviews>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Fat:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AlH-lA-HCs">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="48.5" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="gray-900"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="19g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JM8-1G-3Po">
+                                                                                <rect key="frame" x="53.5" y="0.0" width="24" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="purple-500"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="(50%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tyR-tz-Bii">
+                                                                                <rect key="frame" x="82.5" y="0.0" width="37" height="16.5"/>
+                                                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                                                <color key="textColor" name="gray-400"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                        </subviews>
+                                                                    </stackView>
+                                                                </subviews>
+                                                                <constraints>
+                                                                    <constraint firstItem="orS-vD-tB4" firstAttribute="trailing" secondItem="4qD-Hh-JPt" secondAttribute="trailing" id="Lzv-dH-xJH"/>
+                                                                    <constraint firstItem="AlH-lA-HCs" firstAttribute="trailing" secondItem="4qD-Hh-JPt" secondAttribute="trailing" id="lhb-uI-yp4"/>
+                                                                </constraints>
+                                                            </stackView>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstItem="UgW-IY-1W2" firstAttribute="leading" secondItem="BY6-dL-zyp" secondAttribute="leading" id="Hk2-Xx-fjO"/>
+                                                            <constraint firstItem="UgW-IY-1W2" firstAttribute="centerY" secondItem="BY6-dL-zyp" secondAttribute="centerY" id="JTG-wc-R5v"/>
+                                                            <constraint firstItem="UgW-IY-1W2" firstAttribute="centerX" secondItem="BY6-dL-zyp" secondAttribute="centerX" id="Onm-hn-p3l"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="5ue-6q-D4L" firstAttribute="centerX" secondItem="oB4-QV-Xj0" secondAttribute="centerX" id="dF7-Mm-lhS"/>
+                                            <constraint firstAttribute="height" constant="100" id="hCH-Mm-zUG"/>
+                                            <constraint firstItem="5ue-6q-D4L" firstAttribute="centerY" secondItem="oB4-QV-Xj0" secondAttribute="centerY" id="lwr-nD-oZd"/>
+                                        </constraints>
+                                    </view>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AsR-qW-eVJ">
+                                        <rect key="frame" x="0.0" y="100" width="320" height="0.0"/>
+                                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="About this nutrition information">
+                                            <color key="titleColor" name="indigo-600"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5Xo-mh-bzi" firstAttribute="leading" secondItem="jrp-93-OZR" secondAttribute="leading" constant="16" id="I5S-Qb-u4g"/>
+                            <constraint firstAttribute="bottom" secondItem="5Xo-mh-bzi" secondAttribute="bottom" constant="16" id="Nwk-Kw-d1U"/>
+                            <constraint firstItem="YG0-9n-kWp" firstAttribute="top" secondItem="jrp-93-OZR" secondAttribute="top" constant="16" id="V3q-r7-xBe"/>
+                            <constraint firstAttribute="trailing" secondItem="3x2-WO-DNv" secondAttribute="trailing" constant="15" id="ob9-F4-hgo"/>
+                            <constraint firstItem="5Xo-mh-bzi" firstAttribute="top" secondItem="YG0-9n-kWp" secondAttribute="bottom" constant="16" id="poZ-e1-n9a"/>
+                            <constraint firstItem="3x2-WO-DNv" firstAttribute="top" secondItem="YG0-9n-kWp" secondAttribute="top" id="ssX-RE-45g"/>
+                            <constraint firstItem="YG0-9n-kWp" firstAttribute="leading" secondItem="jrp-93-OZR" secondAttribute="leading" constant="16" id="vf7-zH-lwn"/>
+                            <constraint firstItem="3x2-WO-DNv" firstAttribute="leading" secondItem="YG0-9n-kWp" secondAttribute="trailing" constant="16" id="wEQ-Fk-Tzk"/>
+                            <constraint firstAttribute="trailing" secondItem="5Xo-mh-bzi" secondAttribute="trailing" constant="16" id="xxH-Ih-vnD"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="jrp-93-OZR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="1Qq-va-I2G"/>
+                    <constraint firstAttribute="trailing" secondItem="jrp-93-OZR" secondAttribute="trailing" constant="16" id="LPl-KL-TpG"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="jrp-93-OZR" secondAttribute="bottom" constant="8" id="fPj-fM-Jf6"/>
+                    <constraint firstItem="jrp-93-OZR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="mom-uC-7vu"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="caloriesLabel" destination="IUW-rU-u94" id="CBI-pa-Ktq"/>
+                <outlet property="carbsLabel" destination="mq4-xE-GFB" id="aNC-Kz-oTO"/>
+                <outlet property="carbsPercentLabel" destination="siz-xM-fpr" id="vja-0U-zaA"/>
+                <outlet property="fatLabel" destination="JM8-1G-3Po" id="ft7-Vs-9Oh"/>
+                <outlet property="fatPercentLabel" destination="tyR-tz-Bii" id="tN4-Yt-aXh"/>
+                <outlet property="favouriteButton" destination="3x2-WO-DNv" id="7f7-kl-Nb9"/>
+                <outlet property="imageFood" destination="9Yz-4i-NuH" id="bFn-mZ-fit"/>
+                <outlet property="insetBackground" destination="jrp-93-OZR" id="npO-iq-dra"/>
+                <outlet property="labelName" destination="iY4-2V-gn5" id="2Ci-Uk-Y6X"/>
+                <outlet property="labelShortName" destination="S18-44-Zql" id="MEK-Zz-cO5"/>
+                <outlet property="nutritionInfoButton" destination="AsR-qW-eVJ" id="WOJ-mn-lgg"/>
+                <outlet property="nutritionView" destination="5LT-dj-9Ms" id="LzA-kH-e2o"/>
+                <outlet property="protienLabel" destination="cbm-wG-axt" id="iQb-DS-tfJ"/>
+                <outlet property="protienPercentLabel" destination="LM4-AK-gbd" id="1z7-C6-q1q"/>
+            </connections>
+            <point key="canvasLocation" x="-174" y="-58"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="heart" catalog="system" width="128" height="107"/>
+        <namedColor name="gray-200">
+            <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-400">
+            <color red="0.61176470588235299" green="0.63921568627450975" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="green-500">
+            <color red="0.062745098039215685" green="0.72549019607843135" blue="0.50588235294117645" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="lightBlue">
+            <color red="0.054901960784313725" green="0.6470588235294118" blue="0.9137254901960784" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="purple-500">
+            <color red="0.54509803921568623" green="0.36078431372549019" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="yellow-500">
+            <color red="0.96078431372549022" green="0.61960784313725492" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

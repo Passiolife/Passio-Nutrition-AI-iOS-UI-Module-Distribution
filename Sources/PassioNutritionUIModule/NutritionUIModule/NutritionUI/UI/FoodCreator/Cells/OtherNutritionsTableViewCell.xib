@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-Regular.ttf">
+            <string>Inter-Regular</string>
+        </array>
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OtherNutritionsTableViewCell" rowHeight="145" id="KGk-i7-Jjw" customClass="OtherNutritionsTableViewCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="143"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="393" height="143"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Inc-Ek-O4D">
+                        <rect key="frame" x="16" y="8" width="361" height="119"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other Nutrition Facts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ula-l9-E8O">
+                                <rect key="frame" x="16" y="16" width="329" height="29"/>
+                                <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="16"/>
+                                <color key="textColor" name="gray-900"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="eUS-O0-deG">
+                                <rect key="frame" x="16" y="61" width="329" height="42"/>
+                                <subviews>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gF6-tJ-5OD">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saturated Fat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H23-6p-Dcb">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bwq-my-VYs">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="hAL-9O-Tcm"/>
+                                                    <constraint firstAttribute="height" constant="42" id="jtr-RI-JEg"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KdR-ch-JCh">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="NuB-zj-zUB"/>
+                                                    <constraint firstAttribute="height" constant="24" id="esA-5g-Y4v"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7yu-gx-sYN"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8Om-eN-SL0">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trans Fat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hAM-AM-JG9">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uOd-p4-yO8">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="gE2-43-odY"/>
+                                                    <constraint firstAttribute="height" constant="42" id="lpG-zt-7cf"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tis-4B-Q2D">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="YlR-aV-ZI4"/>
+                                                    <constraint firstAttribute="width" constant="24" id="cAr-Dr-Xpp"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="tYJ-Tp-cC2"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="DmV-r2-aeP">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cholesterol" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ErQ-uR-55s">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JLD-Ut-wxX">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="1O1-fM-lob"/>
+                                                    <constraint firstAttribute="height" constant="42" id="J7D-Py-ehB"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XG3-uc-vMu">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="ZQb-sb-Olk"/>
+                                                    <constraint firstAttribute="width" constant="24" id="uRk-0r-log"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="gDj-Bq-rJM"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="yYC-hr-ALn">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sodium" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V9n-eF-0db">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EVz-3c-RUn">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="NQd-Pr-gfe"/>
+                                                    <constraint firstAttribute="height" constant="42" id="tvy-cx-vBn"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HQh-Nw-VYR">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="J6r-gm-aSv"/>
+                                                    <constraint firstAttribute="height" constant="24" id="o53-EJ-wU6"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="akg-mw-JCC"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="R6L-M8-th6">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dietary Fiber" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Org-eA-Jjd">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="7NZ-tT-C5f">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="Lem-xR-RT2"/>
+                                                    <constraint firstAttribute="height" constant="42" id="MTS-pN-ekG"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="63J-v3-eJh">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="Yiy-oY-JmD"/>
+                                                    <constraint firstAttribute="width" constant="24" id="oOj-cz-2iL"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uSr-nN-BOr"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bHu-Xt-HpS">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Sugars" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nqL-V2-ASM">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Rba-HY-rwg">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="T4v-jk-PWW"/>
+                                                    <constraint firstAttribute="height" constant="42" id="k3h-UQ-IyS"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wpj-HJ-LJn">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="UrM-r3-m7o"/>
+                                                    <constraint firstAttribute="width" constant="24" id="zTy-UX-YDy"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9yh-48-2HW"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ux0-KD-Rfw">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Added Sugar" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rlV-b0-dtK">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hdb-0j-qu8">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="5AG-lS-HQP"/>
+                                                    <constraint firstAttribute="height" constant="42" id="wM7-u5-O7N"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dS9-5E-uRi">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="J6F-KD-sQw"/>
+                                                    <constraint firstAttribute="width" constant="24" id="NPC-QB-fiU"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="QOK-Qk-53r"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="NqO-Nu-Jsh">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vitamin D" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrO-Rd-hgc">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jde-dA-OnC">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="42" id="n0D-cm-XTf"/>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="wbp-Ed-B0e"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1v6-d7-YLk">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="aZz-F8-JGH"/>
+                                                    <constraint firstAttribute="height" constant="24" id="yIL-Tm-boG"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="rDh-3s-WTt"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7mN-iz-uy5">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calcium" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2cm-bf-hBt">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="j9L-Yv-2Ia">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="42" id="62S-PP-T80"/>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="Xnj-gA-rHa"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hT3-NQ-dqF">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="24" id="P0Z-et-oq9"/>
+                                                    <constraint firstAttribute="height" constant="24" id="wt1-qz-oeA"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7JZ-PY-9Cc"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="SJp-xe-6oO">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Iron" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVT-Cq-5Dm">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="EdX-ST-5sJ">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="R0O-X0-hPi"/>
+                                                    <constraint firstAttribute="height" constant="42" id="gYY-nB-hdc"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Gt-MC-0mD">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="H8n-KV-Ce2"/>
+                                                    <constraint firstAttribute="width" constant="24" id="JCC-Qh-L7X"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="A99-0p-al3"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Nwi-vi-iff">
+                                        <rect key="frame" x="0.0" y="-42" width="329" height="42"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Potassium" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DGM-g2-Qky">
+                                                <rect key="frame" x="0.0" y="12.999999999999998" width="89" height="16.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" name="gray-500"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Value" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Y5R-ca-FLp">
+                                                <rect key="frame" x="97" y="0.0" width="200" height="42"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="42" id="8tq-h0-QiC"/>
+                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="r8j-Nk-nYg"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                            </textField>
+                                            <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c35-nh-ZUD">
+                                                <rect key="frame" x="305" y="9" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="T3G-05-KUx"/>
+                                                    <constraint firstAttribute="width" constant="24" id="cyw-iD-fKV"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="delete_icon"/>
+                                                <connections>
+                                                    <action selector="onDeleteNutrition:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="32u-7F-NKO"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Select Nutrient" borderStyle="roundedRect" placeholder="Select Nutrient" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="m0g-r3-cLL">
+                                        <rect key="frame" x="0.0" y="0.0" width="329" height="42"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="QXW-Rk-KHv"/>
+                                        </constraints>
+                                        <color key="textColor" name="gray-900"/>
+                                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="m0g-r3-cLL" firstAttribute="leading" secondItem="eUS-O0-deG" secondAttribute="leading" id="E64-Ei-ubF"/>
+                                    <constraint firstAttribute="trailing" secondItem="m0g-r3-cLL" secondAttribute="trailing" id="UZq-U0-Df8"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DHG-bt-iPG">
+                                <rect key="frame" x="16" y="61" width="329" height="42"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="eUS-O0-deG" secondAttribute="bottom" constant="16" id="2L7-Tq-RaW"/>
+                            <constraint firstItem="eUS-O0-deG" firstAttribute="leading" secondItem="Inc-Ek-O4D" secondAttribute="leading" constant="16" id="BBc-8v-YJf"/>
+                            <constraint firstItem="DHG-bt-iPG" firstAttribute="bottom" secondItem="m0g-r3-cLL" secondAttribute="bottom" id="Gb5-vH-zRZ"/>
+                            <constraint firstItem="DHG-bt-iPG" firstAttribute="top" secondItem="m0g-r3-cLL" secondAttribute="top" id="HJh-g1-Gcs"/>
+                            <constraint firstItem="ula-l9-E8O" firstAttribute="leading" secondItem="Inc-Ek-O4D" secondAttribute="leading" constant="16" id="Oqq-0C-nxy"/>
+                            <constraint firstItem="eUS-O0-deG" firstAttribute="top" secondItem="ula-l9-E8O" secondAttribute="bottom" constant="16" id="bvz-mt-OLt"/>
+                            <constraint firstItem="DHG-bt-iPG" firstAttribute="leading" secondItem="m0g-r3-cLL" secondAttribute="leading" id="igc-BP-YvJ"/>
+                            <constraint firstItem="DHG-bt-iPG" firstAttribute="trailing" secondItem="m0g-r3-cLL" secondAttribute="trailing" id="ouN-qw-Dut"/>
+                            <constraint firstAttribute="trailing" secondItem="eUS-O0-deG" secondAttribute="trailing" constant="16" id="vEK-f8-tUI"/>
+                            <constraint firstAttribute="trailing" secondItem="ula-l9-E8O" secondAttribute="trailing" constant="16" id="wZK-Q7-BPP"/>
+                            <constraint firstItem="ula-l9-E8O" firstAttribute="top" secondItem="Inc-Ek-O4D" secondAttribute="top" constant="16" id="yZw-kC-Go2"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Inc-Ek-O4D" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Cni-lL-q8b"/>
+                    <constraint firstItem="Inc-Ek-O4D" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="T6k-x1-obh"/>
+                    <constraint firstAttribute="trailing" secondItem="Inc-Ek-O4D" secondAttribute="trailing" constant="16" id="jN6-7l-LdC"/>
+                    <constraint firstAttribute="bottom" secondItem="Inc-Ek-O4D" secondAttribute="bottom" constant="16" id="yJ6-Xb-7o0"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addedSugarStackView" destination="ux0-KD-Rfw" id="Xbf-cG-GkE"/>
+                <outlet property="addedSugarTextField" destination="hdb-0j-qu8" id="QjV-aF-32k"/>
+                <outlet property="backgroundShadowView" destination="Inc-Ek-O4D" id="kVa-3j-mV9"/>
+                <outlet property="calciumStackView" destination="7mN-iz-uy5" id="uKI-aS-f5r"/>
+                <outlet property="calciumTextField" destination="j9L-Yv-2Ia" id="t1r-Ue-nNX"/>
+                <outlet property="cholesterolStackView" destination="DmV-r2-aeP" id="ets-Nb-PjG"/>
+                <outlet property="cholesterolTextField" destination="JLD-Ut-wxX" id="XfV-qW-XAX"/>
+                <outlet property="dietaryFiberStackView" destination="R6L-M8-th6" id="tvj-XQ-kqa"/>
+                <outlet property="dietaryFiberTextField" destination="7NZ-tT-C5f" id="C3j-q9-fLz"/>
+                <outlet property="ironStackView" destination="SJp-xe-6oO" id="2CQ-6m-iZi"/>
+                <outlet property="ironTextField" destination="EdX-ST-5sJ" id="OTE-pS-zPP"/>
+                <outlet property="potassiumStackView" destination="Nwi-vi-iff" id="tbM-Uv-hu3"/>
+                <outlet property="potassiumTextField" destination="Y5R-ca-FLp" id="UHA-J0-rRU"/>
+                <outlet property="satFatStackView" destination="gF6-tJ-5OD" id="ZCA-Os-xDH"/>
+                <outlet property="satFatTextField" destination="bwq-my-VYs" id="mDf-hr-GXq"/>
+                <outlet property="selectNutrientButton" destination="DHG-bt-iPG" id="c7d-oi-tho"/>
+                <outlet property="selectNutrientTextField" destination="m0g-r3-cLL" id="adN-pm-dAe"/>
+                <outlet property="sodiumStackView" destination="yYC-hr-ALn" id="Wnz-AS-vqf"/>
+                <outlet property="sodiumTextField" destination="EVz-3c-RUn" id="79K-my-XPb"/>
+                <outlet property="totalSugarsStackView" destination="bHu-Xt-HpS" id="7Db-g0-4nY"/>
+                <outlet property="totalSugarsTextField" destination="Rba-HY-rwg" id="moz-3r-VYx"/>
+                <outlet property="transFatStackView" destination="8Om-eN-SL0" id="Lp4-Qd-JXf"/>
+                <outlet property="transFatTextField" destination="uOd-p4-yO8" id="iRp-FC-lmk"/>
+                <outlet property="vitaminDStackView" destination="NqO-Nu-Jsh" id="w3o-BR-Fxs"/>
+                <outlet property="vitaminDTextField" destination="jde-dA-OnC" id="Uaf-P0-b4E"/>
+            </connections>
+            <point key="canvasLocation" x="-582" y="112"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="delete_icon" width="24" height="24"/>
+        <namedColor name="gray-500">
+            <color red="0.41960784313725491" green="0.44705882352941179" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

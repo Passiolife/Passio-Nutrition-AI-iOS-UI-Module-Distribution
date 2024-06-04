@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlternateNamesSearchCell" id="gTV-IL-0wX" customClass="AlternateNamesSearchCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="214" height="58"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="214" height="58"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s51-Hp-mwN">
+                        <rect key="frame" x="0.0" y="0.0" width="198" height="58"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xNs-8r-Ac1">
+                                <rect key="frame" x="12" y="1" width="174" height="56"/>
+                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="13"/>
+                                <color key="textColor" name="gray-900"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xNs-8r-Ac1" firstAttribute="top" secondItem="s51-Hp-mwN" secondAttribute="top" constant="1" id="04j-c5-vmm"/>
+                            <constraint firstItem="xNs-8r-Ac1" firstAttribute="leading" secondItem="s51-Hp-mwN" secondAttribute="leading" constant="12" id="Fct-LI-8sv"/>
+                            <constraint firstAttribute="bottom" secondItem="xNs-8r-Ac1" secondAttribute="bottom" constant="1" id="Omy-sj-5OC"/>
+                            <constraint firstAttribute="trailing" secondItem="xNs-8r-Ac1" secondAttribute="trailing" constant="12" id="XYs-Ve-mec"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="s51-Hp-mwN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="3uH-gV-cVS"/>
+                <constraint firstItem="s51-Hp-mwN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="YBw-hp-a3T"/>
+                <constraint firstAttribute="trailing" secondItem="s51-Hp-mwN" secondAttribute="trailing" constant="16" id="cum-Ma-7Cf"/>
+                <constraint firstAttribute="bottom" secondItem="s51-Hp-mwN" secondAttribute="bottom" id="ucV-Xx-ayX"/>
+            </constraints>
+            <size key="customSize" width="214" height="58"/>
+            <connections>
+                <outlet property="labelFoodName" destination="xNs-8r-Ac1" id="G28-PW-Fs8"/>
+                <outlet property="viewBackground" destination="s51-Hp-mwN" id="09b-UE-Ix6"/>
+            </connections>
+            <point key="canvasLocation" x="62.595419847328245" y="-26.056338028169016"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>

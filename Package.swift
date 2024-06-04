@@ -1,0 +1,43 @@
+// swift-tools-version: 5.10
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+    name: "PassioNutritionUIModule",
+    defaultLocalization: "en",
+    platforms: [
+        .iOS(.v14)
+    ],
+    products: [
+        // Products define the executables and libraries a package produces, making them visible to other packages.
+        .library(
+            name: "PassioNutritionUIModule",
+            targets: ["PassioNutritionUIModule"]),
+    ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
+                 .upToNextMajor(from: "3.0.0")),
+        .package(url: "https://github.com/SwipeCellKit/SwipeCellKit",
+                 .upToNextMajor(from: "2.7.1")),
+        .package(url: "https://github.com/WenchaoD/FSCalendar.git",
+                 .upToNextMajor(from: "2.8.4")),
+        .package(url: "https://github.com/SimonFairbairn/SwiftyMarkdown",
+                 .upToNextMajor(from: "1.2.4"))
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package, defining a module or a test suite.
+        // Targets can depend on other targets in this package and products from dependencies.
+        .target(
+            name: "PassioNutritionUIModule",
+            dependencies: [
+                .product(name: "PassioNutritionAISDK",
+                         package: "Passio-Nutrition-AI-iOS-SDK-Distribution"),
+                "SwipeCellKit",
+                "FSCalendar",
+                "SwiftyMarkdown"
+            ]
+        )
+    ]
+)

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Bold.ttf">
+            <string>Inter-Bold</string>
+        </array>
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-Regular.ttf">
+            <string>Inter-Regular</string>
+        </array>
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DailyNutritionGoalsCell" rowHeight="275" id="KGk-i7-Jjw" customClass="DailyNutritionGoalsCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="388" height="275"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="388" height="275"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Agy-cd-rD7">
+                        <rect key="frame" x="16" y="16" width="356" height="168"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Nutrition Target" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xjN-H1-Jw7">
+                                <rect key="frame" x="16" y="16" width="158" height="20"/>
+                                <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="17"/>
+                                <color key="textColor" name="gray-900"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYW-NB-2az">
+                                <rect key="frame" x="16" y="52" width="324" height="100"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bKA-mM-uym">
+                                        <rect key="frame" x="24" y="0.0" width="276" height="100"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wvB-4I-K0p" customClass="DonutProgressView" customModule="PassioNutritionUIModule">
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Zyk-aw-XY8">
+                                                        <rect key="frame" x="24.333333333333332" y="25.333333333333332" width="51.333333333333343" height="49.333333333333343"/>
+                                                        <subviews>
+                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="19g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xDS-fL-1dt">
+                                                                <rect key="frame" x="5.3333333333333428" y="0.0" width="40.666666666666664" height="28"/>
+                                                                <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="24"/>
+                                                                <color key="textColor" name="yellow-500"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Calories" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JNC-Wd-8wj">
+                                                                <rect key="frame" x="0.0" y="33" width="51.333333333333336" height="16.333333333333329"/>
+                                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                                <color key="textColor" name="gray-900"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="Zyk-aw-XY8" firstAttribute="centerX" secondItem="wvB-4I-K0p" secondAttribute="centerX" id="15k-Em-lZo"/>
+                                                    <constraint firstItem="Zyk-aw-XY8" firstAttribute="centerY" secondItem="wvB-4I-K0p" secondAttribute="centerY" id="AS5-tM-XfV"/>
+                                                    <constraint firstAttribute="width" constant="100" id="N16-X6-5v6"/>
+                                                    <constraint firstAttribute="height" constant="100" id="cJC-3X-vo0"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                                        <real key="value" value="8"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
+                                                        <color key="value" name="gray-200"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O8Z-i1-h7Q">
+                                                <rect key="frame" x="115" y="0.0" width="161" height="100"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="2Hq-16-wby">
+                                                        <rect key="frame" x="0.0" y="22.666666666666671" width="161" height="55"/>
+                                                        <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Cff-7m-pVU">
+                                                                <rect key="frame" x="0.0" y="0.0" width="119" height="16.333333333333332"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Carbs:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tjr-ee-sPD">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="48.333333333333336" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="gray-900"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="19g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tjt-LU-pz2">
+                                                                        <rect key="frame" x="53.333333333333336" y="0.0" width="23.666666666666664" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="lightBlue"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="(50%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g5z-x1-w74">
+                                                                        <rect key="frame" x="82" y="0.0" width="37" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="gray-400"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="RmG-8R-rWz">
+                                                                <rect key="frame" x="0.0" y="19.333333333333329" width="119" height="16.333333333333329"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Protein:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HgB-6l-fiM">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="48.333333333333336" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="gray-900"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="19g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UUF-Fx-rk5">
+                                                                        <rect key="frame" x="53.333333333333336" y="0.0" width="23.666666666666664" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="green-500"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="(50%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wbx-tl-Z8P">
+                                                                        <rect key="frame" x="82" y="0.0" width="37" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="gray-400"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="UpF-A9-w7U">
+                                                                <rect key="frame" x="0.0" y="38.666666666666671" width="119" height="16.333333333333329"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="Fat:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5lO-lG-7su">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="48.333333333333336" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="gray-900"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="19g" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rYF-rc-dcw">
+                                                                        <rect key="frame" x="53.333333333333336" y="0.0" width="23.666666666666664" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="purple-500"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <label opaque="NO" contentMode="left" verticalHuggingPriority="251" text="(50%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P80-tU-GCH">
+                                                                        <rect key="frame" x="82" y="0.0" width="37" height="16.333333333333332"/>
+                                                                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                                        <color key="textColor" name="gray-400"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                            </stackView>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="Tjr-ee-sPD" firstAttribute="trailing" secondItem="HgB-6l-fiM" secondAttribute="trailing" id="ZYf-Mj-CsD"/>
+                                                            <constraint firstItem="5lO-lG-7su" firstAttribute="trailing" secondItem="HgB-6l-fiM" secondAttribute="trailing" id="oqj-fs-bRV"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="2Hq-16-wby" firstAttribute="centerY" secondItem="O8Z-i1-h7Q" secondAttribute="centerY" id="eKo-s1-NDa"/>
+                                                    <constraint firstItem="2Hq-16-wby" firstAttribute="centerX" secondItem="O8Z-i1-h7Q" secondAttribute="centerX" id="hSf-Rh-gLU"/>
+                                                    <constraint firstItem="2Hq-16-wby" firstAttribute="leading" secondItem="O8Z-i1-h7Q" secondAttribute="leading" id="nES-xE-XVf"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="58V-cP-FVA"/>
+                                    <constraint firstItem="bKA-mM-uym" firstAttribute="centerX" secondItem="FYW-NB-2az" secondAttribute="centerX" id="W83-VW-hVA"/>
+                                    <constraint firstItem="bKA-mM-uym" firstAttribute="centerY" secondItem="FYW-NB-2az" secondAttribute="centerY" id="vN7-5Y-5Ss"/>
+                                </constraints>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="edit_icon" translatesAutoresizingMaskIntoConstraints="NO" id="iFg-gG-EsZ">
+                                <rect key="frame" x="320.66666666666669" y="16.333333333333336" width="19.333333333333314" height="19.333333333333336"/>
+                                <color key="tintColor" name="gray-400"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xjN-H1-Jw7" firstAttribute="top" secondItem="Agy-cd-rD7" secondAttribute="top" constant="16" id="BAh-wT-eUJ"/>
+                            <constraint firstAttribute="bottom" secondItem="FYW-NB-2az" secondAttribute="bottom" constant="16" id="GYu-B1-eg6"/>
+                            <constraint firstItem="FYW-NB-2az" firstAttribute="top" secondItem="xjN-H1-Jw7" secondAttribute="bottom" constant="16" id="N2P-zR-RGp"/>
+                            <constraint firstItem="iFg-gG-EsZ" firstAttribute="centerY" secondItem="xjN-H1-Jw7" secondAttribute="centerY" id="NOn-4e-BCP"/>
+                            <constraint firstAttribute="trailing" secondItem="iFg-gG-EsZ" secondAttribute="trailing" constant="16" id="PQZ-Vn-s6F"/>
+                            <constraint firstItem="xjN-H1-Jw7" firstAttribute="leading" secondItem="Agy-cd-rD7" secondAttribute="leading" constant="16" id="VSR-XI-RBo"/>
+                            <constraint firstAttribute="trailing" secondItem="FYW-NB-2az" secondAttribute="trailing" constant="16" id="iaS-nR-fTO"/>
+                            <constraint firstItem="FYW-NB-2az" firstAttribute="leading" secondItem="Agy-cd-rD7" secondAttribute="leading" constant="16" id="nxd-kP-w49"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="Agy-cd-rD7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Anh-k4-G4J"/>
+                    <constraint firstAttribute="trailing" secondItem="Agy-cd-rD7" secondAttribute="trailing" constant="16" id="P0p-b7-LCL"/>
+                    <constraint firstItem="Agy-cd-rD7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="iMz-4A-Mey"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Agy-cd-rD7" secondAttribute="bottom" id="wZj-nB-siz"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="caloriesValueLabel" destination="xDS-fL-1dt" id="VKx-DJ-eXi"/>
+                <outlet property="carbsPercentLabel" destination="g5z-x1-w74" id="azg-h0-qA1"/>
+                <outlet property="carbsValueLabel" destination="Tjt-LU-pz2" id="XWJ-Ih-zbz"/>
+                <outlet property="containerView" destination="Agy-cd-rD7" id="cGl-GU-he5"/>
+                <outlet property="fatPercentLabel" destination="P80-tU-GCH" id="ESt-wq-Jcz"/>
+                <outlet property="fatValueLabel" destination="rYF-rc-dcw" id="Fs8-YA-NwH"/>
+                <outlet property="nutritionView" destination="wvB-4I-K0p" id="QqM-JX-Id4"/>
+                <outlet property="proteinPercentLabel" destination="wbx-tl-Z8P" id="ILY-Y2-dqs"/>
+                <outlet property="proteinValueLabel" destination="UUF-Fx-rk5" id="uD2-4V-ONH"/>
+            </connections>
+            <point key="canvasLocation" x="-151.4018691588785" y="-18.466522678185747"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="edit_icon" width="19.333333969116211" height="19.333333969116211"/>
+        <namedColor name="gray-200">
+            <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-400">
+            <color red="0.61176470588235299" green="0.63921568627450975" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="green-500">
+            <color red="0.062745098039215685" green="0.72549019607843135" blue="0.50588235294117645" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="lightBlue">
+            <color red="0.054901960784313725" green="0.6470588235294118" blue="0.9137254901960784" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="purple-500">
+            <color red="0.54509803921568623" green="0.36078431372549019" blue="0.96470588235294119" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="yellow-500">
+            <color red="0.96078431372549022" green="0.61960784313725492" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
