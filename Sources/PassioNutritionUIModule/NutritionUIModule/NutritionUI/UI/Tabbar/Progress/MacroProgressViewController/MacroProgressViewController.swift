@@ -43,8 +43,8 @@ class MacroProgressViewController: UIViewController {
     }
 }
 
-// Date management
-extension MacroProgressViewController{
+//MARK: - Date management
+extension MacroProgressViewController {
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
         let setDate: (Calendar.Component, Int) = currentScope == .week ? (.day, -7) : (.month, -1)

@@ -16,5 +16,4 @@ extension Data {
         let insecure = computed.map { String(format: "%02hhx", $0) }.joined()
         return insecure
     }
-
 }

@@ -327,7 +327,7 @@ extension EditProfileViewController: UITableViewDataSource,UITableViewDelegate {
                                         forEvent: .touchUpInside)
             default:
                 $0.addImageInTextField(isLeftImg: false,
-                                       image: UIImage(systemName: ImageName.chevDown)?
+                                       image: UIImage(systemName: "chevron.down")?
                     .withTintColor(.gray900, renderingMode: .alwaysOriginal) ?? UIImage(),
                                        imageFrame: chevFrame)
             }

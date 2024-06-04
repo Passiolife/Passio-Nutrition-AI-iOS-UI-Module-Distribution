@@ -52,7 +52,7 @@ class EditSettingsViewController: UIViewController {
         [unitTextfield,heightUnitTextfield].forEach { textField in
             textField?.configureTextField()
             textField?.addImageInTextField(isLeftImg: false,
-                                           image: UIImage(systemName: ImageName.chevDown)?
+                                           image: UIImage(systemName: "chevron.down")?
                 .withTintColor(.gray900, renderingMode: .alwaysOriginal) ?? UIImage(),
                                            imageFrame: CGRect(x: 0, y: 0, width: 15, height: 8))
         }

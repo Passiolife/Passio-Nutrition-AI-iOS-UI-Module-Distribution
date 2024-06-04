@@ -103,6 +103,7 @@ extension String {
         }
 
 }
+
 extension UILabel {
     func setAttributedTextWithFont(for substring: String, font: UIFont) {
         guard let labelText = self.text else {

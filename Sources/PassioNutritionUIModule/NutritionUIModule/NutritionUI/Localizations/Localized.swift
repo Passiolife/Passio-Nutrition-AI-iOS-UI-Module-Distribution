@@ -9,70 +9,6 @@
 import Foundation
 
 enum Localized {
-    // MARK: Welcome
-    static let welcomeTo = "WelcomeTo".localized
-    static let welcomePrivacy = "WelcomePrivacy".localized
-    static let toCTitle = "ToCTitle".localized
-    static let toPrivacy = "ToPrivacy".localized
-    static let acceptAndContinue = "AcceptAndContinue".localized
-    static let version = "Version".localized
-
-    // MARK: VerifyClientMode
-    static let titleClientCode = "titleClientCode".localized
-    static let enterClientCode = "enterClientCode".localized
-    static let letsStart = "letsStart".localized
-    static let dontHaveCode = "dontHaveCode".localized
-    static let checkOurPlans = "checkOurPlans".localized
-    static let signUpSubscriptions = "signUpSubscriptions".localized
-
-    // MARK: SignUp
-    static let createAccount = "CreateAccount".localized
-    static let rgNeedLogin = "RGNeedLogin".localized
-    static let liEnterEmailAddress = "LIEnterEmailAddress".localized
-    static let liEnterPassword = "LIEnterPassword".localized
-
-    // MARK: Login
-    static let loginToContinue = "LoginToContinue".localized
-    static let liForgot = "LIForgot".localized
-    static let noAccount = "NoAccount".localized
-    static let provideAnEmail = "ProvideAnEmail".localized
-    static let resetPassword = "ResetPassword".localized
-    static let liMessageSentTo = "LIMessageSentTo".localized
-    static let signIn = "Login".localized
-    static let signUp = "WLSignUp".localized
-    static let email = "Email".localized
-    static let password = "Password".localized
-
-    // MARK: Subscription
-    static let subscribeToNaiya = "subscribeToNaiya".localized
-    static let naiyaBullets = "naiyaBullets".localized
-    static let selectSubscription = "selectSubscription".localized
-    static let redeemOffer = "redeemOffer".localized
-    static let freeTrialFor = "freeTrialFor".localized
-    static let forwithSpaces = "forwithSpaces".localized
-
-    // MARK: Provider
-    static let providerError = "providerError".localized
-    static let by = "By".localized
-
-    // MARK: Deactivate
-    static let yourAppWasDeactivated = "yourAppWasDeactivated".localized
-    static let youCanSubscribeToApp = "youCanSubscribeToApp".localized
-    static let clientCodeUsedOnOtherDevice = "clientCodeUsedOnOtherDevice".localized
-    static let clientCodeDeactivatedByOrganization = "clientCodeDeactivatedByOrganization".localized
-    static let organizationDeactivated = "organizationDeactivated".localized
-    static let subscritptionExpired = "subscritptionExpired".localized
-    static let startAgain = "startAgain".localized
-
-    // MARK: Tutorial
-    static let identifyMealsInfo = "IdentifyMealsInfo".localized
-    static let identifyMeals = "IdentifyMeals".localized
-    static let estimateWeightInfo = "EstimateWeightInfo".localized
-    static let estimateWeight = "EstimateWeight".localized
-    static let buildRecipesInfo = "BuildRecipesInfo".localized
-    static let buildRecipes = "BuildRecipes".localized
-    static let trackProgressInfo = "TrackProgressInfo".localized
-    static let trackProgress = "TrackProgress".localized
 
     // MARK: Profile & Setup
     static let age = "Age".localized
@@ -83,12 +19,6 @@ enum Localized {
     static let male = "Male".localized
     static let female = "Female".localized
     static let dietTitle = "Diet".localized
-    static let whatMayWeCallU = "WhatMayWeCallU".localized
-    static let whatsUrWeight = "WhatsUrWeight".localized
-    static let whatsUrGoalWeight = "WhatsUrGoalWeight".localized
-    static let whatsUrWaterGoal = "WhatsUrWaterGoal".localized
-    static let howAboutHeight = "HowAboutHeight".localized
-    static let whatsUrAge = "WhatsUrAge".localized
     static let years = "years".localized
     static let howActiveAreU = "HowActiveAreU?".localized
     static let notActive = "Not Active".localized
@@ -123,8 +53,6 @@ enum Localized {
     static let home = "Home".localized
     static let dairy = "Diary".localized
     static let myMeals = "MealPlan".localized
-    static let explore = "Explore".localized
-    static let yourJourney = "YourJourney".localized
 
     // MARK: Menu & Plus Menu
     static let profile = "Profile".localized
@@ -132,13 +60,11 @@ enum Localized {
     static let progressReport = "ProgressReport".localized
     static let reminders = "Reminders".localized
     static let settings = "Settings".localized
-    static let foodListReport = "FoodListReport".localized
     static let recipes = "Recipes".localized
     static let scan = "Scan".localized
     static let multiScan = "Multiscan".localized
     static let search = "Search".localized
     static let favorites = "Favorites".localized
-    static let addNote = "AddNote".localized
     static let foodScan = "Food Scanner".localized
     static let textSearch = "Text Search".localized
 
@@ -149,14 +75,6 @@ enum Localized {
     static let macronutrients = "Macronutrients".localized
     static let micronutrients = "Micronutrients".localized
     static let yourNutrition = "YourNutrition".localized
-    static let water = "Water".localized
-    static let addWater = "AddWater".localized
-    static let updateWater = "UpdateWater".localized
-    static let waterGoal = "UrWaterGoal".localized
-    static let weightGoal = "UrWeightGoal".localized
-    static let addWeight = "AddWeight".localized
-    static let updateWeight = "UpdateWeight".localized
-    static let excessWater = "UrExcessWater".localized
     static let remaining = "Remaining".localized
     static let excess = "Excess".localized
     static let weightGoalLose = "UrWeightGoalLose".localized
@@ -172,40 +90,10 @@ enum Localized {
     static let high = "High".localized
     static let YourJourney = "ExploreYourJourneys".localized
 
-    // MARK: Diary
-    static let dietWarning = "DietWarning".localized
-    static let noteTextViewPlaceholder = "WriteUrNoteShere".localized
-    static let writeNote = "PleaseWriteNote".localized
-    static let updateNote = "UpdateNote".localized
-
     // MARK: Meal Plan
     static let day = "Day".localized
     static let days14Plan = "14DaysPlan".localized
     static let foodList = "FoodList".localized
-
-    // MARK: Explore & Journey
-    static let exploreMoreJourneys = "ExploreMoreJourneys".localized
-    static let journeyOverview = "JourneyOverview".localized
-    static let actionPlan = "ActionPlan".localized
-    static let disclaimer = "Disclaimer".localized
-    static let disclaimerInfo = "DisclaimerInfo".localized
-    static let confirmActivation = "ConfirmActivation".localized
-    static let areYouWantToActiveNewPlan = "AreYouWantToActiveNewPlan".localized
-    static let deActivatePlan = "DeActivatePlan".localized
-    static let activatePlan = "ActivatePlan".localized
-    static let featured = "Featured".localized
-    static let featuredPlan = "FeaturedPlan".localized
-    static let pickMealPlan = "PickMealPlan".localized
-    static let navigateToExplore = "NavigateToExplore".localized
-    static let notEnrolledPlan = "NotEnrolledPlan".localized
-    static let tipsTrick = "Tips & Tricks".localized
-    static let top10 = "Top10".localized
-    static let recipeInspirations = "RecipeInspirations".localized
-    static let recommendedProducts = "RecommendedProducts".localized
-    static let bestPractices = "BestPractices".localized
-    static let stayConsistent = "StayConsistent".localized
-    static let cookingInstructions = "CookingInstructions".localized
-    static let yes = "Yes".localized
 
     // MARK: Food Editor
     static let log = "Log".localized
@@ -341,24 +229,7 @@ enum Localized {
     static let vitaminC = "VitaminC".localized
     static let vitaminD = "VitaminD".localized
     static let vitaminE = "VitaminE".localized
-
-    // MARK: Settings
-    static let support = "Support".localized
-    static let signOut = "SignOut".localized
-    static let destructiveMessage = "destructiveMessage".localized
-    static let deleteAccount = "Delete Account ".localized
-    static let deleteWarning = "Warning: \"Delete Account\" can not be undone! All your data will be lost!".localized
-    static let mailCantBeSent = "MailCannotBeSent".localized
-    static let manageYourSubscription = "ManageYourSubscription".localized
-    static let syncAppleHealth = "SyncToAppleHealth".localized
-
-    // MARK: Reminder
-    static let reminder = "Reminder".localized
-    static let reminderInfo = "ReminderInfo".localized
-    static let breakfastReminder = "BreakfastReminder".localized
-    static let lunchReminder = "LunchReminder".localized
-    static let dinnerReminder = "DinnerReminder".localized
-
+    
     // MARK: Other
     static let Ok = "OK".localized
     static let cancel = "Cancel".localized
@@ -402,17 +273,4 @@ enum Localized {
     static let consumed = "Consumed".localized
     static let am = "AM".localized
     static let pm = "PM".localized
-
-    // MARK: Apple Health
-    static let healthKitNotAvailable = "HealthKitNotavailable".localized
-    static let healthDataTypeNoteAvailable = "HealthKitTypeNotavailable".localized
-    static let unableToSaveHealthType = "UnableToSaveHealthType".localized
-    static let noWeightRecords = "NoWeightRecords".localized
-
-    static let deficit = "Deficit".localized
-    static let patient = "Patient".localized
-    static let bmi = "BMI".localized
-    static let mealTitle = "MealTimes".localized
-    static let pdfTitle = "HealthSummary".localized
-
 }

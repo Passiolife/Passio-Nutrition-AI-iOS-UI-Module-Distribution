@@ -19,6 +19,7 @@ extension Optional where Wrapped == Double {
         return (wself * multiplier).rounded()/multiplier
     }
 }
+
 extension Double {
 
     func roundDigits(afterDecimal: Int) -> Double {
@@ -37,6 +38,7 @@ extension Double {
 }
 
 extension Double {
+
     var clean: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
@@ -60,7 +62,8 @@ extension Double {
     }
 }
 
-extension CGFloat{
+extension CGFloat {
+
     func normalize(toMultipleOf multiple: Int) -> CGFloat {
         guard multiple > 0 else {
             fatalError("Multiple should be greater than 0")
