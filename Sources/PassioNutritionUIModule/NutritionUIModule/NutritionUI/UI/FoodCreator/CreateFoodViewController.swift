@@ -7,7 +7,9 @@
 //
 
 import UIKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 protocol FoodDataSetCellDelegate: AnyObject {
     func updateFoodDataSet(with newData: NutritionFactsDataSet?)

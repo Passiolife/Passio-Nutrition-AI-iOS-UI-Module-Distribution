@@ -1,5 +1,5 @@
 {
-  "originHash" : "2a86905ac5d211b363cd2119e2fb236439e6ee5dcc7c6bcaeea84c0c7f10f429",
+  "originHash" : "d5e8b0fa2a450b4947171f3d28e60f5c8d170ef15595e7cd951957127f1cac52",
   "pins" : [
     {
       "identity" : "fscalendar",
@@ -8,15 +8,6 @@
       "state" : {
         "revision" : "0fbdec5172fccb90f707472eeaea4ffe095278f6",
         "version" : "2.8.4"
-      }
-    },
-    {
-      "identity" : "passio-nutrition-ai-ios-sdk-distribution",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
-      "state" : {
-        "revision" : "656742338fd0281d3f4c62529777e2772e29b068",
-        "version" : "3.1.0"
       }
     },
     {

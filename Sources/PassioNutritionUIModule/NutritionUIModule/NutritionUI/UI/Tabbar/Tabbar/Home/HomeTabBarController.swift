@@ -6,7 +6,9 @@
 //
 
 import UIKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 enum HemburgarMenuOptions: String {
 

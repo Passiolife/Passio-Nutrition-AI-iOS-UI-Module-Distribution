@@ -7,7 +7,9 @@
 //
 
 import UIKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 protocol DetectedNutriFactResultViewControllerDelegate: NSObjectProtocol{
     func onClickNext(dataset: NutritionFactsDataSet)

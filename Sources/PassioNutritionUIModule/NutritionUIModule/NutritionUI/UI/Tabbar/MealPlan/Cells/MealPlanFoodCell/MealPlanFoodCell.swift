@@ -8,7 +8,9 @@
 
 import UIKit
 import SwipeCellKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 final class MealPlanFoodCell: SwipeCollectionViewCell {
 

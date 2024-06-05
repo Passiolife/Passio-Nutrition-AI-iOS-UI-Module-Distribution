@@ -7,7 +7,9 @@
 //
 
 import UIKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 import SwipeCellKit
 
 protocol GoToManualSearchDelegate: AnyObject {

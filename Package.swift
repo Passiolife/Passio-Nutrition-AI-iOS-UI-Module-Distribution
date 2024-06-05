@@ -17,8 +17,8 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
-                 .upToNextMajor(from: "3.0.0")),
+//        .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
+//                 .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/SwipeCellKit/SwipeCellKit",
                  .upToNextMajor(from: "2.7.1")),
         .package(url: "https://github.com/WenchaoD/FSCalendar.git",
@@ -32,12 +32,14 @@ let package = Package(
         .target(
             name: "PassioNutritionUIModule",
             dependencies: [
-                .product(name: "PassioNutritionAISDK",
-                         package: "Passio-Nutrition-AI-iOS-SDK-Distribution"),
+//                .product(name: "PassioNutritionAISDK",
+//                         package: "Passio-Nutrition-AI-iOS-SDK-Distribution"),
                 "SwipeCellKit",
                 "FSCalendar",
                 "SwiftyMarkdown"
-            ]
-        )
+            ],
+            path: "Sources/PassioNutritionUIModule",
+            sources: ["PassioNutritionAI", "CoreSDK", "NutritionUIModule"]
+        ),
     ]
 )

@@ -9,7 +9,9 @@ import UIKit
 import CoreGraphics
 import Accelerate
 import Photos
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 extension UIImage {
 

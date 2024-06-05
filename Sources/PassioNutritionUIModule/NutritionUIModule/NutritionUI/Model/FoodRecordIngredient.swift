@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 public struct FoodRecordIngredient: Codable, Equatable {
 
