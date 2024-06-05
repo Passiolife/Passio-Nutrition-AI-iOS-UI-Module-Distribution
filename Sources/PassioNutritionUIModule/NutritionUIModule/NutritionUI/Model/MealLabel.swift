@@ -33,7 +33,6 @@ public enum MealLabel: String, Comparable, Codable {
         case .lunch: self = .lunch
         case .dinner: self = .dinner
         case .snack: self = .snack
-        default: self = .snack
         }
     }
 

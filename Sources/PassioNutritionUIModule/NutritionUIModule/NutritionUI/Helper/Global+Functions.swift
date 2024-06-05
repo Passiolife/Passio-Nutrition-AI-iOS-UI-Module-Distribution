@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct ScreenSize {
-    static let height = UIScreen.main.bounds.height
-    static let width = UIScreen.main.bounds.width
+public struct ScreenSize {
+    public static let height = UIScreen.main.bounds.height
+    public static let width = UIScreen.main.bounds.width
 }

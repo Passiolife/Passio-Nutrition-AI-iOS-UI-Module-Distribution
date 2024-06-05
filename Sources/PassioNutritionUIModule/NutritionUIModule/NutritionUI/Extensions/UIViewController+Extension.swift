@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIViewController {
+public extension UIViewController {
 
     func configureNavBarWithImage(named: String = "header_bg", withColor: UIColor = .white ) {
         if let navBar = self.navigationController?.navigationBar {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UINavigationController {
+public extension UINavigationController {
     
     func updateStatusBarColor(color: UIColor) {
         if #available(iOS 13, *) {

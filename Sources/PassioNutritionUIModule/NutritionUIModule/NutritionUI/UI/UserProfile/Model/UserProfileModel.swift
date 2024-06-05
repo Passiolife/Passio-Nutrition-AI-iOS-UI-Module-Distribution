@@ -261,7 +261,7 @@ public struct UserProfileModel: Codable, Equatable {
         PassioInternalConnector.shared.updateUserProfile(userProfile: self)
     }
 
-    var getJSONDict: [String: Any]? {
+    public var getJSONDict: [String: Any]? {
         if let data = try? JSONEncoder().encode(self),
            let dic = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
             return dic

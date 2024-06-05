@@ -19,7 +19,7 @@ public struct Custom {
 }
 
 // MARK: - UIColor
-extension UIColor { // customized colors
+public extension UIColor { // customized colors
 
     static var gray50: UIColor {
         colorFromBundle(named: "gray-50") ?? .blue
@@ -45,7 +45,7 @@ extension UIColor { // customized colors
         colorFromBundle(named: "gray-700") ?? .blue
     }
 
-    public static var gray900: UIColor {
+    static var gray900: UIColor {
         colorFromBundle(named: "gray-900") ?? .blue
     }
 
@@ -103,9 +103,9 @@ extension UIColor { // customized colors
 }
 
 // MARK: - UIFont
-extension UIFont {
+public extension UIFont {
 
-    public static func inter(type: NutritionFont, size: CGFloat) -> UIFont {
+    static func inter(type: NutritionFont, size: CGFloat = 17) -> UIFont {
         UIFont(name: type.name, size: size) ?? .systemFont(ofSize: size)
     }
 }

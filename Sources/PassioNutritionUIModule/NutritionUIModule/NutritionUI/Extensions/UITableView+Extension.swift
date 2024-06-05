@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UITableView {
+public extension UITableView {
 
     func reloadWithAnimations(withDuration: Double = 0.5) {
         UIView.transition(with: self, duration: withDuration,
@@ -54,7 +54,7 @@ extension UITableView {
     }
 }
 
-extension UITableViewCell {
+public extension UITableViewCell {
 
     static var identifier: String {
         return String(describing: self)

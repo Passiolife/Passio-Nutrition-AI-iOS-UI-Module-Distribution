@@ -11,7 +11,7 @@ import Foundation
 import PassioNutritionAISDK
 #endif
 
-extension Optional where Wrapped == Double {
+public extension Optional where Wrapped == Double {
 
     func roundDigits(afterDecimal: Int) -> Double? {
         guard let wself = self else {return nil}
@@ -20,7 +20,7 @@ extension Optional where Wrapped == Double {
     }
 }
 
-extension Double {
+public extension Double {
 
     func roundDigits(afterDecimal: Int) -> Double {
         let multiplier = pow(10, Double(afterDecimal))
@@ -37,7 +37,7 @@ extension Double {
     }
 }
 
-extension Double {
+public extension Double {
 
     var clean: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
@@ -62,7 +62,7 @@ extension Double {
     }
 }
 
-extension CGFloat {
+public extension CGFloat {
 
     func normalize(toMultipleOf multiple: Int) -> CGFloat {
         guard multiple > 0 else {

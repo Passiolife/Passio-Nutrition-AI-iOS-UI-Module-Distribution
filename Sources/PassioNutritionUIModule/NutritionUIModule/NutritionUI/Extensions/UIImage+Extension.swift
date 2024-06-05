@@ -13,7 +13,7 @@ import Photos
 import PassioNutritionAISDK
 #endif
 
-extension UIImage {
+public extension UIImage {
 
     static func imageFromBundle(named: String) -> UIImage? {
         UIImage(named: named,

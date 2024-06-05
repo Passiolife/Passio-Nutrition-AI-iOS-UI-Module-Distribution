@@ -8,9 +8,9 @@
 
 import UIKit
 
-final class ProgressHUD {
+public final class ProgressHUD {
 
-    static func show(presentingVC: UIViewController) {
+    public static func show(presentingVC: UIViewController) {
 
         DispatchQueue.main.async {
 
@@ -40,7 +40,7 @@ final class ProgressHUD {
         }
     }
 
-    static func hide(presentedVC: UIViewController) {
+    public static func hide(presentedVC: UIViewController) {
         DispatchQueue.main.async {
             //UIApplication.shared.keyWindowUIScene.window?.rootViewController?.presentedViewController?.dismiss(animated: false)
             presentedVC.dismiss(animated: false)
