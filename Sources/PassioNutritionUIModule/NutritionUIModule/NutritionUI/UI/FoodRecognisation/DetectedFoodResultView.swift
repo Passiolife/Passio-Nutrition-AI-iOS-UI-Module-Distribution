@@ -173,7 +173,7 @@ class DetectedFoodResultView: CustomModalViewController {
             if let foodItem = passioFoodItem {
                 DispatchQueue.main.async {
                     self.setupNoLoderView()
-                    self.setupNameAndImage(name: foodItem.name, passioID: foodItem.iconId)
+                    self.setupNameAndImage(name: foodItem.name, passioID: foodItem.iconId, entityType: .packagedFoodCode)
                     self.setDragabble(isDraggable: false)
                 }
             } else {
