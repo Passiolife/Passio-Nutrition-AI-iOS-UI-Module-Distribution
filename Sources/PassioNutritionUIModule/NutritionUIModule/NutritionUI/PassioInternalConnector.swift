@@ -85,9 +85,7 @@ public class PassioInternalConnector {
     public func startPassioAppModule(passioExternalConnector: PassioConnector,
                                      presentingViewController: UIViewController,
                                      withViewController: UIViewController,
-                                     withDismissAnimation: Bool,
-                                     passioConfiguration: PassioConfiguration,
-                                     completion: @escaping (PassioStatus) -> Void) {
+                                     passioConfiguration: PassioConfiguration) {
 
         self.passioExternalConnector = passioExternalConnector
         if PassioNutritionAI.shared.status.mode == .isReadyForDetection {
@@ -108,7 +106,7 @@ public class PassioInternalConnector {
                              viewController: UIViewController) {
 
         if let navController = presentingViewController.navigationController {
-            navController.pushViewController(viewController, animated: true)
+            navController.pushViewController(viewController, animated: false)
         } else {
             let navController = UINavigationController(rootViewController: viewController)
             navController.modalPresentationStyle = .fullScreen

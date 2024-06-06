@@ -25,8 +25,8 @@ public extension UITableView {
         return cell
     }
 
-    func register(nibName: String) {
-        register(UINib.nibFromBundle(nibName: nibName), forCellReuseIdentifier: nibName)
+    func register(nibName: String, bundle: Bundle = PassioInternalConnector.shared.bundleForModule) {
+        register(UINib.nibFromBundle(nibName: nibName, bundle: bundle), forCellReuseIdentifier: nibName)
     }
 
     func scrollToBottom() {
