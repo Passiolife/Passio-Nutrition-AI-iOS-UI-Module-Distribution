@@ -985,7 +985,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rR3-el-xBP">
                                                         <rect key="frame" x="0.0" y="0.0" width="65.666666666666671" height="53"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan-foods" translatesAutoresizingMaskIntoConstraints="NO" id="J1E-Jg-Mfn">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wholeFoods" translatesAutoresizingMaskIntoConstraints="NO" id="J1E-Jg-Mfn">
                                                                 <rect key="frame" x="17" y="0.0" width="32" height="32"/>
                                                                 <color key="tintColor" name="indigo-600"/>
                                                                 <constraints>
@@ -1004,7 +1004,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="acb-2K-5vA">
                                                         <rect key="frame" x="65.666666666666671" y="0.0" width="66.000000000000014" height="53"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan-beverages" translatesAutoresizingMaskIntoConstraints="NO" id="QEo-0z-NyN">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="drinks" translatesAutoresizingMaskIntoConstraints="NO" id="QEo-0z-NyN">
                                                                 <rect key="frame" x="17" y="0.0" width="32" height="32"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="32" id="JPQ-tG-fdd"/>
@@ -1022,7 +1022,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="G2Q-74-ar5">
                                                         <rect key="frame" x="131.66666666666666" y="0.0" width="65.666666666666657" height="53"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan-packaging" translatesAutoresizingMaskIntoConstraints="NO" id="w5H-Wz-knX">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="packageFoods" translatesAutoresizingMaskIntoConstraints="NO" id="w5H-Wz-knX">
                                                                 <rect key="frame" x="17" y="0.0" width="32" height="32"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="32" id="R22-fD-dMS"/>
@@ -1040,7 +1040,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4F-nG-vpB">
                                                         <rect key="frame" x="197.33333333333334" y="0.0" width="66.000000000000028" height="53"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan-facts" translatesAutoresizingMaskIntoConstraints="NO" id="eAb-LS-VQs">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nutritionFacts" translatesAutoresizingMaskIntoConstraints="NO" id="eAb-LS-VQs">
                                                                 <rect key="frame" x="17" y="0.0" width="32" height="32"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" secondItem="eAb-LS-VQs" secondAttribute="height" id="qxT-Xz-aaE"/>
@@ -1058,7 +1058,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="N3d-h6-wri">
                                                         <rect key="frame" x="263.33333333333331" y="0.0" width="65.666666666666686" height="53"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan-barcodes" translatesAutoresizingMaskIntoConstraints="NO" id="HQw-Vv-12J">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barcode" translatesAutoresizingMaskIntoConstraints="NO" id="HQw-Vv-12J">
                                                                 <rect key="frame" x="16.666666666666686" y="0.0" width="32" height="32"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="32" id="NG5-NM-LPY"/>
@@ -1283,7 +1283,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7bp-6H-DSk">
                                         <rect key="frame" x="160.66666666666666" y="16" width="40" height="40"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barcode" translatesAutoresizingMaskIntoConstraints="NO" id="ztB-cG-UsV">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barcode_detected" translatesAutoresizingMaskIntoConstraints="NO" id="ztB-cG-UsV">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="Fzg-eQ-ANH"/>
@@ -1426,17 +1426,17 @@
     </scenes>
     <resources>
         <image name="barcode" width="40" height="40"/>
+        <image name="barcode_detected" width="40" height="40"/>
         <image name="barcode_error" width="40" height="40"/>
+        <image name="drinks" width="40.333332061767578" height="40"/>
         <image name="focus_off_icon" width="32" height="32"/>
         <image name="green-check" width="40" height="40"/>
+        <image name="nutritionFacts" width="40.333332061767578" height="40"/>
+        <image name="packageFoods" width="40" height="40"/>
         <image name="plus" catalog="system" width="128" height="113"/>
-        <image name="scan-barcodes" width="40" height="40"/>
-        <image name="scan-beverages" width="40.333332061767578" height="40"/>
-        <image name="scan-facts" width="40.333332061767578" height="40"/>
-        <image name="scan-foods" width="40" height="40"/>
-        <image name="scan-packaging" width="40" height="40"/>
         <image name="scan_frame" width="384" height="424"/>
         <image name="scope" catalog="system" width="128" height="124"/>
+        <image name="wholeFoods" width="40" height="40"/>
         <namedColor name="Blue0D1">
             <color red="0.050980392156862744" green="0.11764705882352941" blue="0.72549019607843135" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

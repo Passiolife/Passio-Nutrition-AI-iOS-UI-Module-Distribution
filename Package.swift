@@ -37,9 +37,10 @@ let package = Package(
                 "SwipeCellKit",
                 "FSCalendar",
                 "SwiftyMarkdown"
-            ],
-            path: "Sources/PassioNutritionUIModule",
-            sources: ["PassioNutritionAI", "CoreSDK", "NutritionUIModule"]
+            ]
+//            ,
+//            path: "Sources/PassioNutritionUIModule",
+//            sources: ["PassioNutritionAI", "CoreSDK", "NutritionUIModule"]
         ),
     ]
 )
