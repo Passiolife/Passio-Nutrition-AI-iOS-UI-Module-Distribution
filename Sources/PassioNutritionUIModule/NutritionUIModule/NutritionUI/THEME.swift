@@ -69,6 +69,10 @@ public extension UIColor { // customized colors
         colorFromBundle(named: "indigo-100") ?? .blue
     }
 
+    static var indigo500: UIColor {
+        colorFromBundle(named: "indigo-500") ?? .blue
+    }
+
     static var indigo600: UIColor {
         colorFromBundle(named: "indigo-600") ?? .blue
     }
