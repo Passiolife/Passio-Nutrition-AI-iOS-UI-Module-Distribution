@@ -387,7 +387,7 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
 
         case .results:
             let cell = tableView.dequeueCell(cellClass: AdvancedTextSearchCell.self, forIndexPath: indexPath)
-            if let foodResult = alternateSearches?.results[indexPath.row] {
+            if let foodResult = alternateSearches?.results[safe: indexPath.row] {
                 cell.setup(foodResult: foodResult)
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
@@ -400,11 +400,14 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
 
         case .favorites:
             let cell = tableView.dequeueCell(cellClass: AdvancedTextSearchCell.self, forIndexPath: indexPath)
-            if let favorites {
-                cell.setup(foodRecord: favorites[indexPath.row], isFromSearch: true, isFavorite: true)
+
+            if let favorites = favorites?[safe: indexPath.row] {
+
+                cell.setup(foodRecord: favorites, isFromSearch: true, isFavorite: true)
+
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
-                    getFoodRecord(foodData: nil, record: favorites[indexPath.row]) { foodRecord in
+                    getFoodRecord(foodData: nil, record: favorites) { foodRecord in
                         self.quickLogFood(record: foodRecord)
                     }
                 }
@@ -413,11 +416,14 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
 
         case .userFoods:
             let cell = tableView.dequeueCell(cellClass: AdvancedTextSearchCell.self, forIndexPath: indexPath)
-            if let userFoods {
-                cell.setup(foodRecord: userFoods[indexPath.row], isFromSearch: true)
+
+            if let userFoods = userFoods?[safe: indexPath.row] {
+
+                cell.setup(foodRecord: userFoods, isFromSearch: true)
+
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
-                    getFoodRecord(foodData: nil, record: userFoods[indexPath.row]) { foodRecord in
+                    getFoodRecord(foodData: nil, record: userFoods) { foodRecord in
                         self.quickLogFood(record: foodRecord)
                     }
                 }
@@ -461,13 +467,13 @@ extension AdvancedTextSearchView: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueCell(cellClass: AlternateNamesSearchCell.self, forIndexPath: indexPath)
-        let alternateFoodName = alternateSearches?.alternateNames[indexPath.item]
+        let alternateFoodName = alternateSearches?.alternateNames[safe: indexPath.item]
         cell.labelFoodName.text = alternateFoodName?.capitalized
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let alternateSearch = alternateSearches?.alternateNames[indexPath.item]
+        let alternateSearch = alternateSearches?.alternateNames[safe: indexPath.item]
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
         searchController.searchBar.text = alternateSearch?.capitalized
         filterContentForSearchText(alternateSearch ?? "")
@@ -476,7 +482,7 @@ extension AdvancedTextSearchView: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let foodName = alternateSearches?.alternateNames[indexPath.item] ?? ""
+        let foodName = alternateSearches?.alternateNames[safe: indexPath.item] ?? ""
         let sizeForText = foodName.getFixedTwoLineStringWidth()
         return CGSize(width: 80.0 + sizeForText, height: 60)
     }
