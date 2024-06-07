@@ -27,3 +27,11 @@ extension Array where Element: Hashable {
         return arrayOrdered
     }
 }
+
+// MARK: Safe use of Collection's Index while avoiding “Fatal error: Index out of range”.
+extension Collection where Indices.Iterator.Element == Index {
+
+    public subscript(safe index: Index) -> Iterator.Element? {
+        return (startIndex <= index && index < endIndex) ? self[index] : nil
+    }
+}
