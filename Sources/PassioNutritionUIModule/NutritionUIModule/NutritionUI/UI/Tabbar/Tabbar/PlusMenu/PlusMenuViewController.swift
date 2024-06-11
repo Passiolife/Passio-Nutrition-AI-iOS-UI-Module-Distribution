@@ -32,7 +32,7 @@ final class PlusMenuViewController: InstantiableViewController {
         case favourite
         case search
         case scan
-        case createFood
+        case myFoods
         case voiceLogging
         case useImage
         case takePhotos
@@ -44,7 +44,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .favourite: UIImage.imageFromBundle(named: "Heart")
             case .search: UIImage.imageFromBundle(named: "Search")
             case .scan: UIImage.imageFromBundle(named: "Scan")
-            case .createFood: UIImage.imageFromBundle(named: "myFoods")
+            case .myFoods: UIImage.imageFromBundle(named: "myFoods")
             case .voiceLogging: UIImage.imageFromBundle(named: "voiceLogging")
             case .takePhotos: UIImage.imageFromBundle(named: "takePhotos")
             case .selectPhotos: UIImage.imageFromBundle(named: "selectPhotos")
@@ -58,7 +58,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .favourite: Localized.favorites
             case .search: Localized.textSearch
             case .scan: Localized.foodScan
-            case .createFood: "My Foods"
+            case .myFoods: "My Foods"
             case .voiceLogging: "Voice Logging"
             case .takePhotos: "Take Photos"
             case .selectPhotos: "Select Photos"
@@ -67,10 +67,22 @@ final class PlusMenuViewController: InstantiableViewController {
         }
     }
 
-    private var menuData: [Rows] = [.createFood, .favourite, .voiceLogging, .search, .scan, .takePhotos, .selectPhotos]
+    private var menuData: [Rows] = [.myFoods,
+                                    .favourite,
+                                    .voiceLogging,
+                                    .search,
+                                    .scan]
+    private let allRows: [Rows] = [.myFoods,
+                                   .favourite,
+                                   .voiceLogging,
+                                   .useImage,
+                                   .search,
+                                   .scan,
+                                   .takePhotos,
+                                   .selectPhotos]
+    var bottomCountedValue: CGFloat = 70.0
 
     weak var delegate: PlusMenuDelegate?
-    var bottomCountedValue: CGFloat = 70.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +90,7 @@ final class PlusMenuViewController: InstantiableViewController {
         configureUI()
         menuTableView.isHidden = true
         menuTableView.clipsToBounds = true
+        menuData = menuData.filter { $0 != .takePhotos && $0 != .selectPhotos }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
             menuTableView.isHidden = false
@@ -142,6 +155,7 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         if menu != .useImage {
             dismiss(animated: true)
         }
+        menuData = allRows
         switch menu {
         case .favourite:
             delegate?.onFavouritesSelected()
@@ -151,7 +165,7 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
             delegate?.onScanSelected()
         case .search:
             delegate?.onSearchSelected()
-        case .createFood:
+        case .myFoods:
             delegate?.onMyFoodsSelected()
         case .voiceLogging:
             delegate?.onVoiceLoggingSelected()
@@ -160,8 +174,8 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         case .selectPhotos:
             delegate?.selectPhotosSelected()
         case .useImage:
-            menuData.filter { $0 == .takePhotos && $0 == .selectPhotos }
-            menuTableView.reloadSections(IndexSet(integer: 0), with: .fade)
+            menuData = menuData.filter { $0 == .takePhotos || $0 == .selectPhotos }
+            menuTableView.reloadWithAnimations(withDuration: 0.12)
         }
     }
 

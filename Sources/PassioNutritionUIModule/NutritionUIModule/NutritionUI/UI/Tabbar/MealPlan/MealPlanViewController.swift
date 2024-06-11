@@ -6,7 +6,6 @@
 //  Copyright © 2024 Passio Inc. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SwipeCellKit
 #if canImport(PassioNutritionAISDK)
@@ -21,7 +20,8 @@ class MealPlanViewController: UIViewController {
     var selectedDay: Int?
 
     enum Section {
-        case dietType,bf,l,d,s
+
+        case dietType, bf, l, d, s
 
         var mealForSection: MealLabel? {
             switch self {
@@ -39,7 +39,7 @@ class MealPlanViewController: UIViewController {
         }
     }
 
-    var sections: [Section] = [.dietType,.bf,.l,.d,.s]
+    var sections: [Section] = [.dietType, .bf, .l, .d, .s]
     var breakfastMealPlanItem: [PassioMealPlanItem] = []
     var lunchMealPlanItem: [PassioMealPlanItem] = []
     var dinnerMealPlanItem: [PassioMealPlanItem] = []
@@ -52,14 +52,14 @@ class MealPlanViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         if let mealPlan = UserManager.shared.user?.mealPlan {
-            if self.selectedMealPlan != mealPlan {
-                self.selectedMealPlan = mealPlan
-                self.getMealPlanData()
+            if selectedMealPlan != mealPlan {
+                selectedMealPlan = mealPlan
+                getMealPlanData()
             }
         } else {
-            self.selectedMealPlan = MealPlanManager.shared.mealPlans.first
-            self.selectedDay = 1
-            self.getMealPlanData()
+            selectedMealPlan = MealPlanManager.shared.mealPlans.first
+            selectedDay = 1
+            getMealPlanData()
         }
     }
 
@@ -272,22 +272,27 @@ extension MealPlanViewController {
         }
     }
 
-    func getFoodRecord(from mealPlanItem: PassioMealPlanItem, completion: @escaping (_ record: FoodRecordV3?) -> Void) {
+    func getFoodRecord(from mealPlanItem: PassioMealPlanItem,
+                       completion: @escaping (_ record: FoodRecordV3?) -> Void) {
 
-        guard let passioSearchResult = mealPlanItem.meal else {
+        guard let passioFoodDataInfo = mealPlanItem.meal else {
             completion(nil)
             return
         }
 
-        PassioNutritionAI.shared.fetchFoodItemFor(foodItem: passioSearchResult) { (foodItem) in
+        PassioNutritionAI.shared.fetchFoodItemFor(foodItem: passioFoodDataInfo) { (foodItem) in
+
             DispatchQueue.main.async {
+
                 guard let foodItem = foodItem else {
                     completion(nil)
                     return
                 }
-                let nutritionPreview = passioSearchResult.nutritionPreview
+
+                let nutritionPreview = passioFoodDataInfo.nutritionPreview
                 var foodRecord = FoodRecordV3(foodItem: foodItem)
                 foodRecord.mealLabel = MealLabel.init(mealTime: mealPlanItem.mealTime ?? .snack)
+
                 if foodRecord.setSelectedUnit(unit: nutritionPreview?.servingUnit ?? ""),
                    let quantity = nutritionPreview?.servingQuantity {
                     foodRecord.setSelectedQuantity(quantity: quantity)

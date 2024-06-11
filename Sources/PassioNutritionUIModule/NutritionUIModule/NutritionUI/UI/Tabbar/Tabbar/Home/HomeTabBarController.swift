@@ -251,6 +251,9 @@ extension HomeTabBarController: PlusMenuDelegate {
 
     func onVoiceLoggingSelected() {
         let vc = VoiceLoggingViewController()
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 

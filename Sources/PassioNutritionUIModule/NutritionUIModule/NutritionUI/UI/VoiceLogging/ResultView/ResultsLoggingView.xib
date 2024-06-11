@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -28,26 +27,20 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="440"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SR1-or-1BF">
-                            <rect key="frame" x="16" y="301.66666666666669" width="361" height="28.333333333333314"/>
+                            <rect key="frame" x="16" y="301" width="361" height="29"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not what you’re looking for?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0rX-Cg-hMf">
-                                    <rect key="frame" x="0.0" y="0.0" width="223.66666666666666" height="28.333333333333332"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="223.66666666666666" height="29"/>
                                     <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ewV-wE-gTl">
-                                    <rect key="frame" x="228.66666666666663" y="0.0" width="132.33333333333337" height="28.333333333333332"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ewV-wE-gTl">
+                                    <rect key="frame" x="228.66666666666663" y="0.0" width="132.33333333333337" height="29"/>
+                                    <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal">
-                                        <attributedString key="attributedTitle">
-                                            <fragment content="Search Manually">
-                                                <attributes>
-                                                    <color key="NSColor" red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <font key="NSFont" size="14" name="Inter-Bold"/>
-                                                </attributes>
-                                            </fragment>
-                                        </attributedString>
+                                    <state key="normal" title="Search Manually">
+                                        <color key="titleColor" red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="onSearchManually:" destination="iN0-l3-epB" eventType="touchUpInside" id="9pX-Hw-rJ6"/>
@@ -56,7 +49,7 @@
                             </subviews>
                         </stackView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="kYI-dt-h5Y">
-                            <rect key="frame" x="0.0" y="91.666666666666686" width="393" height="190"/>
+                            <rect key="frame" x="0.0" y="91.666666666666671" width="393" height="189.33333333333331"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </tableView>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ESe-ZR-8js">
@@ -109,7 +102,7 @@
                                         <action selector="onTryAgain:" destination="iN0-l3-epB" eventType="touchUpInside" id="DKY-o8-Xyn"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHE-pH-Csh">
+                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHE-pH-Csh">
                                     <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="50"/>
                                     <color key="backgroundColor" name="indigo-600"/>
                                     <constraints>
@@ -185,6 +178,7 @@
             <connections>
                 <outlet property="clearButton" destination="Xtw-bO-aZX" id="4US-ms-G02"/>
                 <outlet property="foodResultsTableView" destination="kYI-dt-h5Y" id="d84-ly-Mxv"/>
+                <outlet property="logSelectedButton" destination="LHE-pH-Csh" id="9rd-lT-Udh"/>
                 <outlet property="loggingView" destination="l0T-Sj-mjk" id="V60-nX-L8c"/>
                 <outlet property="resultsLabel" destination="NcQ-e8-tih" id="lX1-xl-6Wy"/>
                 <outlet property="searchManuallyButton" destination="ewV-wE-gTl" id="xyo-ju-kho"/>

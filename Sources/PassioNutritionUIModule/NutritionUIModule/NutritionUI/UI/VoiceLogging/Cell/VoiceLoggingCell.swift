@@ -14,7 +14,10 @@ class VoiceLoggingCell: UITableViewCell {
     @IBOutlet weak var foodDetailsLabel: UILabel!
     @IBOutlet weak var checkImage: UIImageView!
 
-    func configureUI(foodInfo: PassioFoodDataInfo, isSelected: Bool) {
+    func configureUI(with foodLog: FoodLog) {
+
+        let foodInfo = foodLog.foodData
+        let isSelected = foodLog.isSelected
 
         foodImageView.setFoodImage(id: foodInfo.iconID,
                                    passioID: foodInfo.iconID,
@@ -28,8 +31,11 @@ class VoiceLoggingCell: UITableViewCell {
         foodNameLabel.text = foodInfo.foodName.capitalized
 
         if let nutritionPreview = foodInfo.nutritionPreview {
-            let servingUnitQty = "\(nutritionPreview.servingQuantity) \(nutritionPreview.servingUnit)"
-            foodDetailsLabel.text = "\(servingUnitQty) | \(nutritionPreview.calories) cal"
+
+            let ratio = (Double(nutritionPreview.calories) / nutritionPreview.weightQuantity).roundDigits(afterDecimal: 2)
+            let servingUnit = foodLog.portionSize == "" ? "\(foodLog.weightGrams) g" : foodLog.portionSize
+            foodDetailsLabel.text = "\(servingUnit) | \((ratio * foodLog.weightGrams).roundDigits(afterDecimal: 2)) cal"
+
         } else {
             foodDetailsLabel.text = ""
         }

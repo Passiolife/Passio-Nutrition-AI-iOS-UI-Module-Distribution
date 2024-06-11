@@ -155,26 +155,9 @@ extension VoiceLoggingViewController: ResultsLoggingDelegate {
         speechTextView.isHidden = true
     }
 
-    func onLogSelectedTapped(foods: [PassioFoodDataInfo]) {
-
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-
-        DispatchQueue.global(qos: .userInteractive).async {
-
-            foods.forEach { food in
-                PassioNutritionAI.shared.fetchFoodItemFor(foodItem: food) { (foodItem) in
-                    if let foodItem {
-                        PassioInternalConnector.shared.updateRecord(foodRecord: FoodRecordV3(foodItem: foodItem),
-                                                                    isNew: true)
-                    }
-                }
-            }
-            dispatchGroup.leave()
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            self.navigationController?.popViewController(animated: true)
+    func onLogSelectedTapped() {
+        navigationController?.popViewController(animated: true) { [weak self] in
+            self?.showMessage(msg: "Log Added")
         }
     }
 
