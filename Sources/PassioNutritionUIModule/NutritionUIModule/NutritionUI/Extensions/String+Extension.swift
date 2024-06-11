@@ -94,26 +94,55 @@ public extension String {
         }
         return sizeForText
     }
-    
-        func attributedStringWithFont(for substring: String, font: UIFont) -> NSAttributedString {
-            let attributedString = NSMutableAttributedString(string: self)
-            let range = (self as NSString).range(of: substring)
-            attributedString.addAttribute(.font, value: font, range: range)
-            return attributedString
-        }
 
+    func attributedStringWithFont(for substring: String, font: UIFont) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: self)
+        let range = (self as NSString).range(of: substring)
+        attributedString.addAttribute(.font, value: font, range: range)
+        return attributedString
+    }
+
+    var toMutableAttributedString: NSMutableAttributedString {
+        NSMutableAttributedString(string: self)
+    }
+}
+
+extension NSMutableAttributedString {
+
+    func apply(attribute: [NSAttributedString.Key: Any], subString: String) {
+        if let range = string.range(of: subString) {
+            apply(attribute: attribute, onRange: NSRange(range, in: self.string))
+        }
+    }
+
+    func apply(attribute: [NSAttributedString.Key: Any], onRange range: NSRange) {
+        if range.location != NSNotFound {
+            setAttributes(attribute, range: range)
+        }
+    }
+
+    func apply(font: UIFont, subString: String) {
+        if let range = string.range(of: subString) {
+            apply(font: font, onRange: NSRange(range, in: self.string))
+        }
+    }
+
+    func apply(font: UIFont, onRange: NSRange) {
+        addAttributes([NSAttributedString.Key.font: font], range: onRange)
+    }
 }
 
 extension UILabel {
+
     func setAttributedTextWithFont(for substring: String, font: UIFont) {
-        guard let labelText = self.text else {
+
+        guard let labelText = text else {
             return
         }
-        
         let attributedString = NSMutableAttributedString(string: labelText)
         let range = (labelText as NSString).range(of: substring)
         attributedString.addAttribute(.font, value: font, range: range)
-        
+
         self.attributedText = attributedString
     }
 }

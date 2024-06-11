@@ -30,7 +30,7 @@ enum HemburgarMenuOptions: String {
     }
 
     var pickerElememt: PickerElement {
-        PickerElement.init(title: self.rawValue, image: image)
+        PickerElement(title: rawValue, image: image)
     }
 }
 
@@ -64,52 +64,19 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         }
     }
 
-    private var tabs: [Tabs] = [.home,.diary,.mealPlan,.progress]
+    private var tabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         UserManager.shared.configure()
 
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        self.navigationController?.updateStatusBarColor(color: .white)
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.isTranslucent = false
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.updateStatusBarColor(color: .white)
 
-        for i in 0..<tabs.count {
-
-            switch tabs[i] {
-
-            case .home:
-                let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
-                    .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
-                let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
-                dashboardNavVC.isNavigationBarHidden = true
-                self.viewControllers?[i] = dashboardNavVC
-
-            case .diary:
-                let diaryVC = UIStoryboard(name: "Diary", bundle: PassioInternalConnector.shared.bundleForModule)
-                    .instantiateViewController(identifier: "DiaryViewController") as! DiaryViewController
-                let macroNavVC = UINavigationController(rootViewController: diaryVC)
-                macroNavVC.isNavigationBarHidden = true
-                self.viewControllers?[i] = macroNavVC
-
-            case .progress:
-                let progressVC = UIStoryboard(name: "Progress", bundle: PassioInternalConnector.shared.bundleForModule)
-                    .instantiateViewController(identifier: "ProgressViewController") as! ProgressViewController
-                let progressNavVC = UINavigationController(rootViewController: progressVC)
-                progressNavVC.isNavigationBarHidden = true
-                self.viewControllers?[i] = progressNavVC
-
-            case .mealPlan:
-                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: PassioInternalConnector.shared.bundleForModule)
-                    .instantiateViewController(identifier: "MealPlanViewController") as! MealPlanViewController
-                let mealPlanNavVC = UINavigationController(rootViewController: mealPlanVC)
-                mealPlanNavVC.isNavigationBarHidden = true
-                self.viewControllers?[i] = mealPlanNavVC
-            }
-        }
-
+        addTabBarControllers()
         configureUI()
         configureNavBar()
         MealPlanManager.shared.getMealPlans()
@@ -160,6 +127,43 @@ extension HomeTabBarController {
         tabBar.frame = tabFrame
         tabBar.setNeedsLayout()
         tabBar.layoutIfNeeded()
+    }
+
+    private func addTabBarControllers() {
+
+        for i in 0..<tabs.count {
+
+            switch tabs[i] {
+
+            case .home:
+                let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
+                    .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
+                let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
+                dashboardNavVC.isNavigationBarHidden = true
+                self.viewControllers?[i] = dashboardNavVC
+
+            case .diary:
+                let diaryVC = UIStoryboard(name: "Diary", bundle: PassioInternalConnector.shared.bundleForModule)
+                    .instantiateViewController(identifier: "DiaryViewController") as! DiaryViewController
+                let macroNavVC = UINavigationController(rootViewController: diaryVC)
+                macroNavVC.isNavigationBarHidden = true
+                self.viewControllers?[i] = macroNavVC
+
+            case .progress:
+                let progressVC = UIStoryboard(name: "Progress", bundle: PassioInternalConnector.shared.bundleForModule)
+                    .instantiateViewController(identifier: "ProgressViewController") as! ProgressViewController
+                let progressNavVC = UINavigationController(rootViewController: progressVC)
+                progressNavVC.isNavigationBarHidden = true
+                self.viewControllers?[i] = progressNavVC
+
+            case .mealPlan:
+                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: PassioInternalConnector.shared.bundleForModule)
+                    .instantiateViewController(identifier: "MealPlanViewController") as! MealPlanViewController
+                let mealPlanNavVC = UINavigationController(rootViewController: mealPlanVC)
+                mealPlanNavVC.isNavigationBarHidden = true
+                self.viewControllers?[i] = mealPlanNavVC
+            }
+        }
     }
 
     private func handlePlusButtonTap(_ sender: UIButton) {
@@ -242,6 +246,21 @@ extension HomeTabBarController: PlusMenuDelegate {
 
     func onMyFoodsSelected() {
         let vc = CreateFoodViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func onVoiceLoggingSelected() {
+        let vc = VoiceLoggingViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func takePhotosSelected() {
+        let vc = TakePhotosViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func selectPhotosSelected() {
+        let vc = SelectPhotosViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 

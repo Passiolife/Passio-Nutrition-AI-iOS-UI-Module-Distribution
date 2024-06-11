@@ -24,7 +24,9 @@ let package = Package(
         .package(url: "https://github.com/WenchaoD/FSCalendar.git",
                  .upToNextMajor(from: "2.8.4")),
         .package(url: "https://github.com/SimonFairbairn/SwiftyMarkdown",
-                 .upToNextMajor(from: "1.2.4"))
+                 .upToNextMajor(from: "1.2.4")),
+        .package(url: "https://github.com/airbnb/lottie-spm.git",
+                 .upToNextMajor(from: "4.4.3"))
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -36,11 +38,10 @@ let package = Package(
 //                         package: "Passio-Nutrition-AI-iOS-SDK-Distribution"),
                 "SwipeCellKit",
                 "FSCalendar",
-                "SwiftyMarkdown"
-            ]
-//            ,
-//            path: "Sources/PassioNutritionUIModule",
-//            sources: ["PassioNutritionAI", "CoreSDK", "NutritionUIModule"]
+                "SwiftyMarkdown",
+                .product(name: "Lottie", package: "lottie-spm")
+            ],
+            resources: [.process("NutritionUIModule/VoiceLogging.json")]
         ),
     ]
 )

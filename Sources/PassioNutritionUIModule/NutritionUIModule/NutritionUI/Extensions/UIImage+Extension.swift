@@ -388,7 +388,7 @@ public extension UIImage {
     }
 }
 
-// Usage in MasterModule
+// Usage in Nutrition UI Module
 public extension UIImageView {
 
     func setFoodImage(id: String,

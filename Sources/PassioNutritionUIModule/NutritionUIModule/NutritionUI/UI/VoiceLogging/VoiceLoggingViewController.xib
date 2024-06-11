@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VoiceLoggingViewController" customModule="PassioNutritionUIModule">
+            <connections>
+                <outlet property="generatingResultsLabel" destination="xdS-Fc-kCf" id="znZ-t2-FXp"/>
+                <outlet property="generatingResultsStackView" destination="JJp-Bk-5iv" id="dTt-BP-1s7"/>
+                <outlet property="speechActivityIndicator" destination="z85-aE-y0W" id="zVY-Qu-ua8"/>
+                <outlet property="speechTextView" destination="Aha-JU-OQF" id="Mhw-WZ-NrF"/>
+                <outlet property="startListeningButton" destination="kVd-US-iiW" id="el1-4c-Ful"/>
+                <outlet property="startListeningLabel" destination="gJ6-KX-u6t" id="S8J-p8-dId"/>
+                <outlet property="startListeningStackView" destination="PEi-eV-UbI" id="HBd-XI-DIe"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="voiceLoggingLottieView" destination="m0j-Ju-F2l" id="N4e-4K-JAJ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Aha-JU-OQF">
+                    <rect key="frame" x="16" y="99" width="361" height="64"/>
+                    <color key="backgroundColor" name="indigo-50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="64" id="Usz-eM-YlU"/>
+                    </constraints>
+                    <color key="textColor" name="gray48"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                            <real key="value" value="8"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </textView>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="0Pc-Au-kpb">
+                    <rect key="frame" x="24" y="387.33333333333331" width="345" height="77.333333333333314"/>
+                    <subviews>
+                        <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="JJp-Bk-5iv">
+                            <rect key="frame" x="109.66666666666666" y="0.0" width="126" height="8"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="z85-aE-y0W">
+                                    <rect key="frame" x="53" y="0.0" width="20" height="0.0"/>
+                                    <color key="tintColor" name="indigo-600"/>
+                                    <color key="color" name="indigo-600"/>
+                                </activityIndicatorView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Generating results..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xdS-Fc-kCf">
+                                    <rect key="frame" x="0.0" y="8" width="126" height="0.0"/>
+                                    <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="14"/>
+                                    <color key="textColor" name="gray-900"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="PEi-eV-UbI">
+                            <rect key="frame" x="5.3333333333333428" y="0.0" width="334.33333333333326" height="77.333333333333329"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Start Listening, then say something like:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gJ6-KX-u6t">
+                                    <rect key="frame" x="0.0" y="0.0" width="334.33333333333331" height="20.333333333333332"/>
+                                    <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                    <color key="textColor" name="gray-900"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="“I had one blueberry muffin and a cup of green tea for my breakfast”" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Me4-pd-To0">
+                                    <rect key="frame" x="0.0" y="35.333333333333371" width="334.33333333333331" height="42"/>
+                                    <fontDescription key="fontDescription" name="Inter-Italic" family="Inter" pointSize="18"/>
+                                    <color key="textColor" name="gray-900"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kVd-US-iiW">
+                    <rect key="frame" x="110" y="742" width="173" height="50"/>
+                    <color key="backgroundColor" name="indigo-600"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="AwF-Wz-3ts"/>
+                        <constraint firstAttribute="width" constant="173" id="jmj-DI-ZYI"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                    <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="-8" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title=" Start Listening" image="mic.fill" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="onStartListening:" destination="-1" eventType="touchUpInside" id="rEX-Pb-gWk"/>
+                    </connections>
+                </button>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m0j-Ju-F2l" customClass="LottieAnimationView" customModule="Lottie">
+                    <rect key="frame" x="-50" y="251" width="493" height="350"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="350" id="C2d-CI-Oad"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="m0j-Ju-F2l" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" constant="50" id="0TR-6Z-ujf"/>
+                <constraint firstItem="m0j-Ju-F2l" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="-50" id="DUf-bn-yK2"/>
+                <constraint firstItem="Aha-JU-OQF" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="40" id="ElV-F3-WX3"/>
+                <constraint firstItem="0Pc-Au-kpb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="24" id="IpA-Lv-gbM"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Aha-JU-OQF" secondAttribute="trailing" constant="16" id="MdP-Oc-1Z6"/>
+                <constraint firstItem="0Pc-Au-kpb" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="ZyS-Ki-DhE"/>
+                <constraint firstItem="kVd-US-iiW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="cf9-CX-QTH"/>
+                <constraint firstItem="m0j-Ju-F2l" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="fBO-Lj-EtR"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0Pc-Au-kpb" secondAttribute="trailing" constant="24" id="oP8-hQ-enV"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="kVd-US-iiW" secondAttribute="bottom" constant="26" id="pZu-aM-5bE"/>
+                <constraint firstItem="Aha-JU-OQF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="rln-Pv-SJA"/>
+            </constraints>
+            <point key="canvasLocation" x="130.53435114503816" y="-11.267605633802818"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="mic.fill" catalog="system" width="110" height="128"/>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray48">
+            <color red="0.28235294117647058" green="0.28235294117647058" blue="0.28235294117647058" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="indigo-50">
+            <color red="0.93333333333333335" green="0.94901960784313721" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -29,7 +29,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="eGL-FP-v4L">
                                 <rect key="frame" x="16" y="13" width="188" height="24"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="newScan" translatesAutoresizingMaskIntoConstraints="NO" id="5b5-O3-Fvp">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="myFoods" translatesAutoresizingMaskIntoConstraints="NO" id="5b5-O3-Fvp">
                                         <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -82,7 +82,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="newScan" width="26" height="26"/>
+        <image name="myFoods" width="24" height="24"/>
         <namedColor name="gray-200">
             <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

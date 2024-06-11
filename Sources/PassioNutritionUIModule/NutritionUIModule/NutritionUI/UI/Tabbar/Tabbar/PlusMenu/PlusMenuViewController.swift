@@ -14,6 +14,9 @@ protocol PlusMenuDelegate: AnyObject {
     func onFavouritesSelected()
     func onRecipesSelected()
     func onMyFoodsSelected()
+    func onVoiceLoggingSelected()
+    func takePhotosSelected()
+    func selectPhotosSelected()
 }
 
 final class PlusMenuViewController: InstantiableViewController {
@@ -30,6 +33,10 @@ final class PlusMenuViewController: InstantiableViewController {
         case search
         case scan
         case createFood
+        case voiceLogging
+        case useImage
+        case takePhotos
+        case selectPhotos
 
         var image: UIImage? {
             switch self {
@@ -38,20 +45,29 @@ final class PlusMenuViewController: InstantiableViewController {
             case .search: UIImage.imageFromBundle(named: "Search")
             case .scan: UIImage.imageFromBundle(named: "Scan")
             case .createFood: UIImage.imageFromBundle(named: "myFoods")
+            case .voiceLogging: UIImage.imageFromBundle(named: "voiceLogging")
+            case .takePhotos: UIImage.imageFromBundle(named: "takePhotos")
+            case .selectPhotos: UIImage.imageFromBundle(named: "selectPhotos")
+            case .useImage: UIImage.imageFromBundle(named: "useImage")
             }
         }
+
         var title: String? {
-            switch self{
+            switch self {
             case .recipe: Localized.recipes
             case .favourite: Localized.favorites
             case .search: Localized.textSearch
             case .scan: Localized.foodScan
             case .createFood: "My Foods"
+            case .voiceLogging: "Voice Logging"
+            case .takePhotos: "Take Photos"
+            case .selectPhotos: "Select Photos"
+            case .useImage: "Use Image"
             }
         }
     }
 
-    private var menuData: [Rows] = [.createFood, .favourite, .search, .scan]
+    private var menuData: [Rows] = [.createFood, .favourite, .voiceLogging, .search, .scan, .takePhotos, .selectPhotos]
 
     weak var delegate: PlusMenuDelegate?
     var bottomCountedValue: CGFloat = 70.0
@@ -123,8 +139,10 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let menu = menuData[indexPath.row]
-        dismiss(animated: true)
-        switch menu{
+        if menu != .useImage {
+            dismiss(animated: true)
+        }
+        switch menu {
         case .favourite:
             delegate?.onFavouritesSelected()
         case .recipe:
@@ -135,10 +153,21 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
             delegate?.onSearchSelected()
         case .createFood:
             delegate?.onMyFoodsSelected()
+        case .voiceLogging:
+            delegate?.onVoiceLoggingSelected()
+        case .takePhotos:
+            delegate?.takePhotosSelected()
+        case .selectPhotos:
+            delegate?.selectPhotosSelected()
+        case .useImage:
+            menuData.filter { $0 == .takePhotos && $0 == .selectPhotos }
+            menuTableView.reloadSections(IndexSet(integer: 0), with: .fade)
         }
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   willDisplay cell: UITableViewCell,
+                   forRowAt indexPath: IndexPath) {
         viewWillLayoutSubviews()
     }
 }

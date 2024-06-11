@@ -10,7 +10,6 @@ import UIKit
 
 final class PlusMenuCell: UITableViewCell {
 
-
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var menuNameLabel: UILabel!
     @IBOutlet weak var menuImageView: UIImageView!
