@@ -16,8 +16,8 @@ class VoiceLoggingCell: UITableViewCell {
 
     func configureUI(with foodLog: FoodLog) {
 
-        let foodInfo = foodLog.foodData
-        let isSelected = foodLog.isSelected
+        let advisorInfo = foodLog.foodData.advisorFoodInfo
+        let foodInfo = advisorInfo.foodDataInfo
 
         foodImageView.setFoodImage(id: foodInfo.iconID,
                                    passioID: foodInfo.iconID,
@@ -33,14 +33,14 @@ class VoiceLoggingCell: UITableViewCell {
         if let nutritionPreview = foodInfo.nutritionPreview {
 
             let ratio = (Double(nutritionPreview.calories) / nutritionPreview.weightQuantity).roundDigits(afterDecimal: 2)
-            let servingUnit = foodLog.portionSize == "" ? "\(foodLog.weightGrams) g" : foodLog.portionSize
-            foodDetailsLabel.text = "\(servingUnit) | \((ratio * foodLog.weightGrams).roundDigits(afterDecimal: 2)) cal"
+            let servingUnit = advisorInfo.portionSize == "" ? "\(advisorInfo.weightGrams) g" : advisorInfo.portionSize
+            foodDetailsLabel.text = "\(servingUnit) | \((ratio * advisorInfo.weightGrams).roundDigits(afterDecimal: 2)) cal"
 
         } else {
             foodDetailsLabel.text = ""
         }
 
-        checkImage.image = UIImage(systemName: isSelected ? "circle.fill" : "circle")
-        checkImage.tintColor = isSelected ? .indigo600 : .gray300
+        checkImage.image = UIImage(systemName: foodLog.isSelected ? "circle.fill" : "circle")
+        checkImage.tintColor = foodLog.isSelected ? .indigo600 : .gray300
     }
 }

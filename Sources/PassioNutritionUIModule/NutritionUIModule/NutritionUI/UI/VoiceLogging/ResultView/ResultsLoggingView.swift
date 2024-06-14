@@ -15,9 +15,7 @@ protocol ResultsLoggingDelegate: AnyObject {
 
 struct FoodLog {
     var isSelected: Bool
-    var portionSize: String
-    var weightGrams: Double
-    let foodData: PassioFoodDataInfo
+    var foodData: PassioSpeechRecognitionModel
 }
 
 class ResultsLoggingView: UIView {
@@ -32,10 +30,7 @@ class ResultsLoggingView: UIView {
     var recognitionData: [PassioSpeechRecognitionModel]? {
         didSet {
             foodLogs = recognitionData?.map {
-                FoodLog(isSelected: false,
-                        portionSize: $0.advisorFoodInfo.portionSize,
-                        weightGrams: $0.advisorFoodInfo.weightGrams,
-                        foodData: $0.advisorFoodInfo.foodDataInfo)
+                FoodLog(isSelected: true, foodData: $0)
             } ?? []
         }
     }
@@ -97,21 +92,23 @@ class ResultsLoggingView: UIView {
         foods.forEach { food in
 
             dispatchGroup.enter()
+            let advisorFoodInfo = food.foodData.advisorFoodInfo
 
-            PassioNutritionAI.shared.fetchFoodItemFor(foodItem: food.foodData) { (foodItem) in
+            PassioNutritionAI.shared.fetchFoodItemFor(foodItem: advisorFoodInfo.foodDataInfo) { (foodItem) in
 
                 if let foodItem {
 
                     var foodRecord = FoodRecordV3(foodItem: foodItem)
 
-                    if foodRecord.setSelectedUnit(unit: food.portionSize.separateStringAndNumber.1 ?? "") {
-                        let quantity = food.portionSize.separateStringAndNumber.0 ?? "0"
+                    if foodRecord.setSelectedUnit(unit: advisorFoodInfo.portionSize.separateStringAndNumber.1 ?? "") {
+                        let quantity = advisorFoodInfo.portionSize.separateStringAndNumber.0 ?? "0"
                         foodRecord.setSelectedQuantity(quantity: Double(quantity) ?? 0)
                     } else {
                         if foodRecord.setSelectedUnit(unit: "gram") {
-                            foodRecord.setSelectedQuantity(quantity: food.weightGrams)
+                            foodRecord.setSelectedQuantity(quantity: advisorFoodInfo.weightGrams)
                         }
                     }
+                    foodRecord.mealLabel = MealLabel(mealTime: food.foodData.meal ?? PassioMealTime.currentMealTime())
                     PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord, isNew: true)
                     dispatchGroup.leave()
 

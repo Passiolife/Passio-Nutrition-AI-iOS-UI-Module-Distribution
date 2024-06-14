@@ -290,3 +290,12 @@ class PassThroughView: UIView {
         return false
     }
 }
+
+extension CALayer {
+    class func performWithoutAnimation(_ callback: () -> Void) {
+        CATransaction.begin()
+        CATransaction.setValue(true, forKey: kCATransactionDisableActions)
+        callback()
+        CATransaction.commit()
+    }
+}

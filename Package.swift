@@ -41,7 +41,7 @@ let package = Package(
                 "SwiftyMarkdown",
                 .product(name: "Lottie", package: "lottie-spm")
             ],
-            resources: [.process("NutritionUIModule/VoiceLogging.json")]
+            resources: [.process("NutritionUIModule/VoiceLogging.json")] // Lottie Animation
         ),
     ]
 )

@@ -70,8 +70,11 @@ final class PlusMenuViewController: InstantiableViewController {
     private var menuData: [Rows] = [.myFoods,
                                     .favourite,
                                     .voiceLogging,
+                                    .useImage,
                                     .search,
-                                    .scan]
+                                    .scan,
+                                    .takePhotos,
+                                    .selectPhotos]
     private let allRows: [Rows] = [.myFoods,
                                    .favourite,
                                    .voiceLogging,

@@ -2,7 +2,7 @@
 //  SelectPhotosViewController.swift
 //  
 //
-//  Created by nikunj Prajapati on 11/06/24.
+//  Created by Nikunj Prajapati on 11/06/24.
 //
 
 import UIKit
