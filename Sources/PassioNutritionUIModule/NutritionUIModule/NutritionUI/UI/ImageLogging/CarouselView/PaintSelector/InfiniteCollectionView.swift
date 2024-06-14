@@ -57,6 +57,7 @@ final class InfiniteCollectionView: UICollectionView {
          */
         return 401
     }
+    var isFinishedInitializing: (() -> Void)?
 
     fileprivate var cellPadding: Double = 0
     fileprivate var cellWidth: Double = 0
@@ -90,7 +91,6 @@ final class InfiniteCollectionView: UICollectionView {
 
     private func configureCollectionView() {
         dataSource = self
-        contentInset = .zero
         contentInsetAdjustmentBehavior = .always
         showsHorizontalScrollIndicator = false
         semanticContentAttribute = .forceLeftToRight
@@ -113,9 +113,7 @@ final class InfiniteCollectionView: UICollectionView {
 
         navigationStackView.frame = bounds
 
-        guard numberOfItems > 4 else {
-            return
-        }
+        guard numberOfItems > 4 else { return }
 
         let currentOffset = contentOffset
         let contentWidth = self.contentWidth
@@ -214,6 +212,7 @@ final class InfiniteCollectionView: UICollectionView {
             widthConstraint.isActive = true
             navigationStackConstraints.append(widthConstraint)
             navigationStackView.addArrangedSubview(navigationView)
+            isFinishedInitializing?()
         }
     }
 
@@ -254,10 +253,8 @@ final class InfiniteCollectionView: UICollectionView {
             currentIndexPath.item + offset
         }
 
-        let indexPath = IndexPath(item: itemIndex, section: 0)
-
         if numberOfItems(inSection: 0) > 4 {
-            scrollToIndexPath(indexPath)
+            scrollToIndexPath(IndexPath(item: itemIndex, section: 0))
         }
 
         infiniteDelegate?.navigationTapped(self,

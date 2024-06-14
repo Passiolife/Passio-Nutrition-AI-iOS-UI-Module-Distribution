@@ -13,7 +13,6 @@
             <connections>
                 <outlet property="activityIndicatorStackView" destination="vnn-6F-o6U" id="2Xb-pX-56G"/>
                 <outlet property="captureButton" destination="5kM-7K-XUz" id="AY7-oC-RNs"/>
-                <outlet property="carouselCollectionView" destination="hxP-dr-Oio" id="nT4-sd-Grh"/>
                 <outlet property="foodImageCollectionView" destination="4g7-16-8L9" id="tRV-fj-Mrm"/>
                 <outlet property="scanFrameImageView" destination="54z-kR-LOQ" id="iMJ-PV-Xpp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -106,26 +105,13 @@
                         </label>
                     </subviews>
                 </stackView>
-                <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4g7-16-8L9" customClass="InfiniteCollectionView" customModule="PassioNutritionUIModule">
-                    <rect key="frame" x="38" y="647" width="354" height="100"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4g7-16-8L9" customClass="InfiniteCollectionView" customModule="PassioNutritionUIModule">
+                    <rect key="frame" x="0.0" y="647" width="430" height="100"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="100" id="lrT-VQ-CmE"/>
                     </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BCt-zM-amH" customClass="CarouselCollectionFlowLayout" customModule="PassioNutritionUIModule">
-                        <size key="itemSize" width="128" height="128"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hxP-dr-Oio">
-                    <rect key="frame" x="38" y="647" width="354" height="100"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="100" id="0ZU-HA-4sp"/>
-                    </constraints>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oIn-pe-UTk">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -139,18 +125,15 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Eih-Q5-tL6" secondAttribute="trailing" constant="16" id="2gB-hZ-zlb"/>
                 <constraint firstItem="vnn-6F-o6U" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="GaE-oE-7w3"/>
                 <constraint firstItem="Cax-nm-UDu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="IqD-kg-nAs"/>
-                <constraint firstItem="5kM-7K-XUz" firstAttribute="top" secondItem="hxP-dr-Oio" secondAttribute="bottom" constant="32" id="JwV-Ig-MVq"/>
                 <constraint firstItem="5kM-7K-XUz" firstAttribute="leading" secondItem="Cax-nm-UDu" secondAttribute="trailing" constant="16" id="Mwc-Kg-Xzc"/>
                 <constraint firstAttribute="bottom" secondItem="5kM-7K-XUz" secondAttribute="bottom" constant="75" id="NBb-Ul-Ped"/>
                 <constraint firstItem="Eih-Q5-tL6" firstAttribute="leading" secondItem="5kM-7K-XUz" secondAttribute="trailing" constant="16" id="O4q-Pm-nps"/>
-                <constraint firstItem="hxP-dr-Oio" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="38" id="SDr-he-hI6"/>
                 <constraint firstItem="5kM-7K-XUz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="U8D-mA-2nZ"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4g7-16-8L9" secondAttribute="trailing" constant="38" id="bA2-wg-Ink"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4g7-16-8L9" secondAttribute="trailing" id="bA2-wg-Ink"/>
                 <constraint firstItem="5kM-7K-XUz" firstAttribute="top" secondItem="4g7-16-8L9" secondAttribute="bottom" constant="32" id="bi0-3a-4eQ"/>
                 <constraint firstItem="54z-kR-LOQ" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.966921" id="fWC-GS-ipV"/>
                 <constraint firstItem="Cax-nm-UDu" firstAttribute="centerY" secondItem="5kM-7K-XUz" secondAttribute="centerY" id="gYC-4g-qEw"/>
-                <constraint firstItem="4g7-16-8L9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="38" id="mBZ-Ft-rcp"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hxP-dr-Oio" secondAttribute="trailing" constant="38" id="oPZ-wI-D4m"/>
+                <constraint firstItem="4g7-16-8L9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="mBZ-Ft-rcp"/>
                 <constraint firstItem="Eih-Q5-tL6" firstAttribute="centerY" secondItem="5kM-7K-XUz" secondAttribute="centerY" id="rHk-8s-gRo"/>
                 <constraint firstItem="54z-kR-LOQ" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" constant="-80" id="wWY-Iq-SY4"/>
                 <constraint firstItem="vnn-6F-o6U" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="xSK-AQ-KCa"/>
