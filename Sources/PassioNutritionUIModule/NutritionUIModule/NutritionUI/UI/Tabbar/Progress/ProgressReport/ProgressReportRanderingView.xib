@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-Regular.ttf">
+            <string>Inter-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProgressReportRanderingView" customModule="PassioNutritionUIModule">
+            <connections>
+                <outlet property="BMILabel" destination="fUx-OA-6w6" id="yO7-lJ-VQK"/>
+                <outlet property="dobLabel" destination="2Ga-aJ-8sw" id="1Ai-aE-LTb"/>
+                <outlet property="genderLabel" destination="3P4-tk-K1n" id="HWb-A8-EMy"/>
+                <outlet property="heightLabel" destination="Q6S-ck-FHP" id="ZSE-23-Lfb"/>
+                <outlet property="nameLabel" destination="BqV-Dy-R4V" id="rmO-60-XV1"/>
+                <outlet property="weigthtLabel" destination="AZx-hG-GN3" id="qU8-Ws-ZKW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="1240" height="1700"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aZQ-5W-9aR">
+                    <rect key="frame" x="0.0" y="0.0" width="1240" height="110"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Health Summary" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m1l-JT-b4A">
+                            <rect key="frame" x="60.000000000000014" y="41.666666666666664" width="171.33333333333337" height="26.999999999999993"/>
+                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="23"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" name="indigo-600"/>
+                    <constraints>
+                        <constraint firstItem="m1l-JT-b4A" firstAttribute="centerY" secondItem="aZQ-5W-9aR" secondAttribute="centerY" id="Btd-Kh-0vL"/>
+                        <constraint firstItem="m1l-JT-b4A" firstAttribute="leading" secondItem="aZQ-5W-9aR" secondAttribute="leading" constant="60" id="DoG-Ti-IEh"/>
+                        <constraint firstAttribute="height" constant="110" id="nz6-xJ-t85"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDw-QJ-Sf1">
+                    <rect key="frame" x="0.0" y="110" width="1240" height="110"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="nIn-Xt-Dzh">
+                            <rect key="frame" x="59.999999999999986" y="27.333333333333339" width="151.66666666666663" height="55.666666666666657"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Patient Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrJ-Wd-rXo">
+                                    <rect key="frame" x="0.0" y="0.0" width="121.33333333333333" height="23.333333333333332"/>
+                                    <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                    <color key="textColor" name="gray-900"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Patient Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BqV-Dy-R4V">
+                                    <rect key="frame" x="0.0" y="26.333333333333314" width="151.66666666666666" height="29.333333333333329"/>
+                                    <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="25"/>
+                                    <color key="textColor" name="indigo-600"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xiR-n5-LZL">
+                            <rect key="frame" x="648.33333333333348" y="27.333333333333339" width="531.66666666666652" height="55.666666666666657"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="OBP-Lc-onu">
+                                    <rect key="frame" x="0.0" y="0.0" width="43" height="55.666666666666664"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="DOB" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOh-p2-GIA">
+                                            <rect key="frame" x="0.0" y="0.0" width="43" height="23.333333333333332"/>
+                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                            <color key="textColor" name="gray-900"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="--" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ga-aJ-8sw">
+                                            <rect key="frame" x="0.0" y="26.333333333333314" width="19.666666666666668" height="29.333333333333329"/>
+                                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="25"/>
+                                            <color key="textColor" name="indigo-600"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="pee-Bu-rPo">
+                                    <rect key="frame" x="94" y="0.0" width="66.333333333333314" height="55.666666666666664"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Gender" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Pb-JX-x0g">
+                                            <rect key="frame" x="0.0" y="0.0" width="66.333333333333329" height="23.333333333333332"/>
+                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                            <color key="textColor" name="gray-900"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="--" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3P4-tk-K1n">
+                                            <rect key="frame" x="0.0" y="26.333333333333314" width="19.666666666666668" height="29.333333333333329"/>
+                                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="25"/>
+                                            <color key="textColor" name="indigo-600"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="wsq-gr-caS">
+                                    <rect key="frame" x="211.33333333333326" y="0.0" width="58.666666666666686" height="55.666666666666664"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Height" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="50L-2x-ROL">
+                                            <rect key="frame" x="0.0" y="0.0" width="58.666666666666664" height="23.333333333333332"/>
+                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                            <color key="textColor" name="gray-900"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="--" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q6S-ck-FHP">
+                                            <rect key="frame" x="0.0" y="26.333333333333314" width="19.666666666666668" height="29.333333333333329"/>
+                                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="25"/>
+                                            <color key="textColor" name="indigo-600"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="6W2-Eo-FAv">
+                                    <rect key="frame" x="320.66666666666663" y="0.0" width="61.666666666666686" height="55.666666666666664"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Weight" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dBi-Ya-zIh">
+                                            <rect key="frame" x="0.0" y="0.0" width="61.666666666666664" height="23.333333333333332"/>
+                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                            <color key="textColor" name="gray-900"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="--" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AZx-hG-GN3">
+                                            <rect key="frame" x="0.0" y="26.333333333333314" width="19.666666666666668" height="29.333333333333329"/>
+                                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="25"/>
+                                            <color key="textColor" name="indigo-600"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="cpU-6W-Vxz">
+                                    <rect key="frame" x="433.33333333333337" y="0.0" width="98.333333333333371" height="55.666666666666664"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="BMI Result" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OlV-hQ-31M">
+                                            <rect key="frame" x="0.0" y="0.0" width="98.333333333333329" height="23.333333333333332"/>
+                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="20"/>
+                                            <color key="textColor" name="gray-900"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="--" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUx-OA-6w6">
+                                            <rect key="frame" x="0.0" y="26.333333333333314" width="19.666666666666668" height="29.333333333333329"/>
+                                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="25"/>
+                                            <color key="textColor" name="indigo-600"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="nIn-Xt-Dzh" firstAttribute="leading" secondItem="XDw-QJ-Sf1" secondAttribute="leading" constant="60" id="6uV-CQ-NjG"/>
+                        <constraint firstAttribute="trailing" secondItem="xiR-n5-LZL" secondAttribute="trailing" constant="60" id="Fr2-GD-NUd"/>
+                        <constraint firstItem="xiR-n5-LZL" firstAttribute="centerY" secondItem="XDw-QJ-Sf1" secondAttribute="centerY" id="bTM-vx-jVm"/>
+                        <constraint firstAttribute="height" constant="110" id="bZ8-0E-nQw"/>
+                        <constraint firstItem="nIn-Xt-Dzh" firstAttribute="centerY" secondItem="XDw-QJ-Sf1" secondAttribute="centerY" id="wec-eW-d0J"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dk7-BO-Fwn">
+                    <rect key="frame" x="0.0" y="220" width="1240" height="8"/>
+                    <color key="backgroundColor" name="indigo-600"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="8" id="GXg-7x-4F6"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="XDw-QJ-Sf1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="41V-0l-mU4"/>
+                <constraint firstItem="dk7-BO-Fwn" firstAttribute="top" secondItem="XDw-QJ-Sf1" secondAttribute="bottom" id="BDc-FV-2Bm"/>
+                <constraint firstItem="aZQ-5W-9aR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="LgF-3D-ExC"/>
+                <constraint firstAttribute="trailing" secondItem="aZQ-5W-9aR" secondAttribute="trailing" id="VBW-vQ-9zg"/>
+                <constraint firstAttribute="trailing" secondItem="XDw-QJ-Sf1" secondAttribute="trailing" id="Wm1-aC-0za"/>
+                <constraint firstAttribute="trailing" secondItem="dk7-BO-Fwn" secondAttribute="trailing" id="a4q-8l-xSu"/>
+                <constraint firstItem="dk7-BO-Fwn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fmY-li-3Jw"/>
+                <constraint firstItem="aZQ-5W-9aR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="tUa-bL-x0j"/>
+                <constraint firstItem="XDw-QJ-Sf1" firstAttribute="top" secondItem="aZQ-5W-9aR" secondAttribute="bottom" id="vba-7f-icf"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="308" y="68"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

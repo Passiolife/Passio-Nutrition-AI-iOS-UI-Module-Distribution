@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Regular.ttf">
+            <string>Inter-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CustomPickerCell" rowHeight="36" id="KGk-i7-Jjw" customClass="CustomPickerCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5cW-uC-NbV">
+                        <rect key="frame" x="12" y="4" width="296" height="28"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UNn-of-TWw">
+                                <rect key="frame" x="0.0" y="2" width="24" height="24"/>
+                                <color key="tintColor" name="gray-700"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="aiT-BH-G8O"/>
+                                    <constraint firstAttribute="width" constant="24" id="rra-Qn-xhI"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gne-tv-p2S">
+                                <rect key="frame" x="32" y="0.5" width="264" height="27"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="dmE-C8-6h9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                <color key="textColor" name="gray-900"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="0.047987375827814573" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="5cW-uC-NbV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="J2n-QS-5mB"/>
+                    <constraint firstAttribute="trailing" secondItem="5cW-uC-NbV" secondAttribute="trailing" constant="12" id="OTZ-wa-qYW"/>
+                    <constraint firstItem="5cW-uC-NbV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="lvE-xh-KL9"/>
+                    <constraint firstItem="5cW-uC-NbV" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ony-ES-ngr"/>
+                    <constraint firstAttribute="bottom" secondItem="5cW-uC-NbV" secondAttribute="bottom" constant="4" id="zxP-Ee-Qj6"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="pickerImageView" destination="UNn-of-TWw" id="nc7-b8-3tT"/>
+                <outlet property="pickerName" destination="Gne-tv-p2S" id="sw4-Za-em8"/>
+            </connections>
+            <point key="canvasLocation" x="-472.46376811594206" y="-235.04464285714283"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="gray-700">
+            <color red="0.21568627450980393" green="0.25490196078431371" blue="0.31764705882352939" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>

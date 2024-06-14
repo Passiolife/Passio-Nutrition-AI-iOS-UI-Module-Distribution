@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DailyNutritionWithDateCollectionViewCell" id="gTV-IL-0wX" customClass="DailyNutritionWithDateCollectionViewCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="615" height="267"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="615" height="267"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uVM-pq-1nU">
+                        <rect key="frame" x="0.0" y="0.0" width="615" height="238.33333333333334"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0cG-Cn-Mn2">
+                                <rect key="frame" x="16" y="16" width="145.33333333333334" height="25"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nutrition_icon" translatesAutoresizingMaskIntoConstraints="NO" id="kdI-c1-RJz">
+                                        <rect key="frame" x="0.0" y="0.66666666666666785" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="6DN-Rd-7sl"/>
+                                            <constraint firstAttribute="width" constant="24" id="IDM-9h-48S"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Nutrition" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zJ-Pi-10i">
+                                        <rect key="frame" x="31.999999999999993" y="2" width="113.33333333333331" height="21"/>
+                                        <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="18"/>
+                                        <color key="textColor" name="gray-900"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="EmF-sO-Oog"/>
+                                </constraints>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vc6-d6-bB0" customClass="DailyNutritionView" customModule="PassioNutritionUIModule">
+                                <rect key="frame" x="15" y="57.000000000000014" width="584" height="165.33333333333337"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="vc6-d6-bB0" secondAttribute="height" multiplier="364:103" id="aoV-CF-hFv"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2C-zl-ZkQ">
+                                <rect key="frame" x="575" y="16.666666666666668" width="24" height="24.000000000000004"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="E2m-QM-E4Z"/>
+                                    <constraint firstAttribute="height" constant="24" id="uy1-DQ-zC0"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="open_icon"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Q2C-zl-ZkQ" firstAttribute="centerY" secondItem="7zJ-Pi-10i" secondAttribute="centerY" id="DPZ-FN-P9Z"/>
+                            <constraint firstItem="0cG-Cn-Mn2" firstAttribute="leading" secondItem="uVM-pq-1nU" secondAttribute="leading" constant="16" id="IE5-Vu-ssB"/>
+                            <constraint firstItem="vc6-d6-bB0" firstAttribute="top" secondItem="0cG-Cn-Mn2" secondAttribute="bottom" constant="16" id="LB9-yI-Zp6"/>
+                            <constraint firstItem="0cG-Cn-Mn2" firstAttribute="top" secondItem="uVM-pq-1nU" secondAttribute="top" constant="16" id="asY-Vr-5t1"/>
+                            <constraint firstAttribute="bottom" secondItem="vc6-d6-bB0" secondAttribute="bottom" constant="16" id="ge0-F2-Xbn"/>
+                            <constraint firstAttribute="trailing" secondItem="vc6-d6-bB0" secondAttribute="trailing" constant="16" id="ivz-4y-xVv"/>
+                            <constraint firstItem="vc6-d6-bB0" firstAttribute="leading" secondItem="uVM-pq-1nU" secondAttribute="leading" constant="15" id="l3R-aK-ffb"/>
+                            <constraint firstAttribute="trailing" secondItem="Q2C-zl-ZkQ" secondAttribute="trailing" constant="16" id="lFt-SB-aWq"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="uVM-pq-1nU" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="6Hq-hu-lNV"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="uVM-pq-1nU" secondAttribute="bottom" id="Vae-qe-ZSS"/>
+                <constraint firstAttribute="trailing" secondItem="uVM-pq-1nU" secondAttribute="trailing" id="k6h-Wr-PVN"/>
+                <constraint firstItem="uVM-pq-1nU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="svD-Ua-MNR"/>
+            </constraints>
+            <size key="customSize" width="615" height="267"/>
+            <connections>
+                <outlet property="nutritionView" destination="vc6-d6-bB0" id="RSW-NE-i2o"/>
+            </connections>
+            <point key="canvasLocation" x="148.85496183206106" y="-46.83098591549296"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="nutrition_icon" width="20" height="20"/>
+        <image name="open_icon" width="20" height="20"/>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_72" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DateSelectorUIView" customModule="PassioNutritionUIModule">
+            <connections>
+                <outlet property="buttonOK" destination="V8v-r5-UQD" id="DaG-Rs-NTx"/>
+                <outlet property="buttonToday" destination="Nr0-W0-EOW" id="UFR-H9-f8m"/>
+                <outlet property="datePicker" destination="6Zh-kl-369" id="Nix-fp-qZb"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="yNu-c9-fkh">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="361"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j5h-1t-Vuq">
+                    <rect key="frame" x="0.0" y="59" width="430" height="268"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="fGH-1n-yyB">
+                            <rect key="frame" x="20" y="10" width="390" height="228"/>
+                            <subviews>
+                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="6Zh-kl-369">
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="148"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </datePicker>
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="hKR-J8-Cu8">
+                                    <rect key="frame" x="0.0" y="178" width="390" height="50"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nr0-W0-EOW">
+                                            <rect key="frame" x="0.0" y="0.0" width="179" height="50"/>
+                                            <color key="backgroundColor" name="indigo-100"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <state key="normal" title="Today">
+                                                <color key="titleColor" name="indigo-700"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                    <real key="value" value="1"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                    <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                    <real key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="todayAndDismiss:" destination="-1" eventType="touchUpInside" id="LHQ-Ef-rlG"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V8v-r5-UQD">
+                                            <rect key="frame" x="211" y="0.0" width="179" height="50"/>
+                                            <color key="backgroundColor" name="indigo-600"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="o5z-JU-d4n"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <state key="normal" title="OK">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                    <real key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="okAndDismiss:" destination="-1" eventType="touchUpInside" id="isz-Eg-a6X"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="hKR-J8-Cu8" secondAttribute="trailing" id="APH-nf-LEY"/>
+                                <constraint firstAttribute="trailing" secondItem="6Zh-kl-369" secondAttribute="trailing" id="Ufx-XR-w87"/>
+                                <constraint firstItem="hKR-J8-Cu8" firstAttribute="leading" secondItem="fGH-1n-yyB" secondAttribute="leading" id="WFJ-0p-jgj"/>
+                                <constraint firstItem="6Zh-kl-369" firstAttribute="leading" secondItem="fGH-1n-yyB" secondAttribute="leading" id="qpB-2F-qEm"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="fGH-1n-yyB" firstAttribute="leading" secondItem="j5h-1t-Vuq" secondAttribute="leading" constant="20" id="9yq-HF-M8B"/>
+                        <constraint firstAttribute="trailing" secondItem="fGH-1n-yyB" secondAttribute="trailing" constant="20" id="Lom-ro-uVu"/>
+                        <constraint firstItem="fGH-1n-yyB" firstAttribute="top" secondItem="j5h-1t-Vuq" secondAttribute="top" constant="10" id="Yhc-mg-3XP"/>
+                        <constraint firstAttribute="bottom" secondItem="fGH-1n-yyB" secondAttribute="bottom" constant="30" id="fNm-Jd-r3Z"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="WvL-hL-dRk"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="j5h-1t-Vuq" firstAttribute="leading" secondItem="WvL-hL-dRk" secondAttribute="leading" id="4JC-91-7YG"/>
+                <constraint firstItem="j5h-1t-Vuq" firstAttribute="trailing" secondItem="WvL-hL-dRk" secondAttribute="trailing" id="Y0E-6I-yGl"/>
+                <constraint firstItem="j5h-1t-Vuq" firstAttribute="top" secondItem="WvL-hL-dRk" secondAttribute="top" id="hjZ-b4-4xh"/>
+                <constraint firstItem="j5h-1t-Vuq" firstAttribute="bottom" secondItem="WvL-hL-dRk" secondAttribute="bottom" id="vaV-Ml-AHU"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="283" y="-40"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="indigo-100">
+            <color red="0.8784313725490196" green="0.90588235294117647" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="indigo-700">
+            <color red="0.2627450980392157" green="0.2196078431372549" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

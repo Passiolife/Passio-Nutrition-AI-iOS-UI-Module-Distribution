@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="QuickAddCollectionViewCell" id="gTV-IL-0wX" customClass="QuickAddCollectionViewCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="105"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="300" height="105"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZN0-fK-wM0">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="105"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hJk-6L-T3Z">
+                                <rect key="frame" x="10" y="36.666666666666664" width="280" height="31.999999999999993"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q3j-7R-PrH">
+                                        <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="32" id="2zi-f1-UUZ"/>
+                                            <constraint firstAttribute="height" constant="32" id="9YK-uv-PuE"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chicken Caesar Salad" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OK6-CY-JIB">
+                                        <rect key="frame" x="40" y="9" width="202" height="14"/>
+                                        <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="12"/>
+                                        <color key="textColor" name="gray-900"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wxf-mQ-cNX">
+                                        <rect key="frame" x="250" y="1" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="EgV-le-IIa"/>
+                                            <constraint firstAttribute="height" constant="30" id="REu-A3-c7V"/>
+                                        </constraints>
+                                        <color key="tintColor" name="gray-400"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="plus" catalog="system"/>
+                                        <connections>
+                                            <action selector="onQuickAddSuggestion:" destination="gTV-IL-0wX" eventType="touchUpInside" id="vTZ-ts-yfc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" name="indigo-50"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="hJk-6L-T3Z" secondAttribute="trailing" constant="10" id="EKK-uj-hHk"/>
+                            <constraint firstItem="hJk-6L-T3Z" firstAttribute="leading" secondItem="ZN0-fK-wM0" secondAttribute="leading" constant="10" id="J4K-MV-lkm"/>
+                            <constraint firstItem="hJk-6L-T3Z" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ZN0-fK-wM0" secondAttribute="top" constant="5" id="hMJ-Ve-1u9"/>
+                            <constraint firstItem="hJk-6L-T3Z" firstAttribute="centerY" secondItem="ZN0-fK-wM0" secondAttribute="centerY" id="y0D-5C-awg"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                <real key="value" value="6"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="ZN0-fK-wM0" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ABE-LV-oQb"/>
+                <constraint firstItem="ZN0-fK-wM0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="RmY-zk-yLD"/>
+                <constraint firstAttribute="trailing" secondItem="ZN0-fK-wM0" secondAttribute="trailing" id="bnD-wu-NCh"/>
+                <constraint firstAttribute="bottom" secondItem="ZN0-fK-wM0" secondAttribute="bottom" id="hLR-RN-jOH"/>
+            </constraints>
+            <size key="customSize" width="300" height="105"/>
+            <connections>
+                <outlet property="imageView" destination="Q3j-7R-PrH" id="gas-nd-KLY"/>
+                <outlet property="shadowView" destination="ZN0-fK-wM0" id="Him-74-Jhb"/>
+                <outlet property="suggestionNameLabel" destination="OK6-CY-JIB" id="Qgn-lY-KTN"/>
+            </connections>
+            <point key="canvasLocation" x="-812" y="-275"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <namedColor name="gray-400">
+            <color red="0.61176470588235299" green="0.63921568627450975" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-50">
+            <color red="0.93333333333333335" green="0.94901960784313721" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

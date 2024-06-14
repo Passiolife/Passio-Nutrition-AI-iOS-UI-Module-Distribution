@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MealPlanSectionHeaderCell" id="gTV-IL-0wX" customClass="MealPlanSectionHeaderCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="494" height="333"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="494" height="333"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8tb-BP-KqO">
+                        <rect key="frame" x="0.0" y="0.0" width="494" height="56"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="beO-7O-UCY">
+                                <rect key="frame" x="0.0" y="55" width="494" height="1"/>
+                                <color key="backgroundColor" name="gray-200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Usf-eV-Twd"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WKk-jo-bUs">
+                                <rect key="frame" x="10" y="13.666666666666664" width="474" height="29"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A86-Vb-hI5">
+                                        <rect key="frame" x="0.0" y="0.0" width="349" height="29"/>
+                                        <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="16"/>
+                                        <color key="textColor" name="gray-900"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O3X-jW-pys">
+                                        <rect key="frame" x="369" y="0.0" width="105" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="105" id="O4M-FD-1uw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Log Entire Meal">
+                                            <color key="titleColor" name="indigo-600"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onClickLogEntireMeal" destination="gTV-IL-0wX" eventType="touchUpInside" id="dXc-kZ-Qgp"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="beO-7O-UCY" secondAttribute="bottom" id="7XO-Rc-cWG"/>
+                            <constraint firstAttribute="trailing" secondItem="WKk-jo-bUs" secondAttribute="trailing" constant="10" id="CQE-l3-Myh"/>
+                            <constraint firstItem="WKk-jo-bUs" firstAttribute="leading" secondItem="8tb-BP-KqO" secondAttribute="leading" constant="10" id="CVx-SP-Wgz"/>
+                            <constraint firstItem="beO-7O-UCY" firstAttribute="leading" secondItem="8tb-BP-KqO" secondAttribute="leading" id="L8Z-fr-Qd7"/>
+                            <constraint firstAttribute="trailing" secondItem="beO-7O-UCY" secondAttribute="trailing" id="Odm-Dj-SeY"/>
+                            <constraint firstItem="WKk-jo-bUs" firstAttribute="centerY" secondItem="8tb-BP-KqO" secondAttribute="centerY" id="eH8-Xz-KDL"/>
+                            <constraint firstAttribute="height" constant="56" id="jKj-ws-kJT"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="8tb-BP-KqO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fOb-76-KEi"/>
+                <constraint firstItem="8tb-BP-KqO" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="hH3-lT-dht"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8tb-BP-KqO" secondAttribute="bottom" id="sF5-dt-AMh"/>
+                <constraint firstAttribute="trailing" secondItem="8tb-BP-KqO" secondAttribute="trailing" id="xlh-MX-Ssx"/>
+            </constraints>
+            <size key="customSize" width="494" height="333"/>
+            <connections>
+                <outlet property="labelMealTime" destination="A86-Vb-hI5" id="1X7-RU-Nd0"/>
+                <outlet property="logEntireMealButton" destination="O3X-jW-pys" id="Epp-7B-jgu"/>
+                <outlet property="sepratorView" destination="beO-7O-UCY" id="wMV-eG-36g"/>
+            </connections>
+            <point key="canvasLocation" x="410.68702290076334" y="119.36619718309859"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <namedColor name="gray-200">
+            <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

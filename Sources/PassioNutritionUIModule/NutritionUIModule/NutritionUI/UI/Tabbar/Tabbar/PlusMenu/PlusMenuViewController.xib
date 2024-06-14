@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_72" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlusMenuViewController" customModule="PassioNutritionUIModule">
+            <connections>
+                <outlet property="bottomConstraint" destination="7xm-aY-QlU" id="nfi-MW-Kjh"/>
+                <outlet property="dismissButton" destination="pyQ-Ml-qjJ" id="2AN-x3-Ati"/>
+                <outlet property="menuTableView" destination="IgB-jw-XJZ" id="Rnw-52-RTI"/>
+                <outlet property="tableVwHeightConstraint" destination="fQh-lz-7nF" id="0yo-vt-2fx"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="IgB-jw-XJZ">
+                    <rect key="frame" x="115" y="148" width="200" height="620"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="620" id="fQh-lz-7nF"/>
+                        <constraint firstAttribute="width" constant="200" id="plU-zR-kNS"/>
+                    </constraints>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pyQ-Ml-qjJ">
+                    <rect key="frame" x="183" y="798" width="64" height="64"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="64" id="V1K-gC-sWJ"/>
+                        <constraint firstAttribute="height" constant="64" id="g65-aX-Gdd"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="plus"/>
+                    <connections>
+                        <action selector="onCloseMenu:" destination="-1" eventType="touchUpInside" id="1Vd-nN-oGg"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" name="gray-500-bg"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="pyQ-Ml-qjJ" secondAttribute="bottom" constant="70" id="7xm-aY-QlU"/>
+                <constraint firstItem="IgB-jw-XJZ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="UCc-Lh-09e"/>
+                <constraint firstItem="pyQ-Ml-qjJ" firstAttribute="top" secondItem="IgB-jw-XJZ" secondAttribute="bottom" constant="30" id="aX6-Fk-yMP"/>
+                <constraint firstItem="pyQ-Ml-qjJ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tjs-zp-tYr"/>
+            </constraints>
+            <point key="canvasLocation" x="-91" y="-5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="plus" width="52" height="52"/>
+        <namedColor name="gray-500-bg">
+            <color red="0.41960784313725491" green="0.44705882352941179" blue="0.50196078431372548" alpha="0.75" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>

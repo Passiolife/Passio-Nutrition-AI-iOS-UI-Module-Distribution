@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-Regular.ttf">
+            <string>Inter-Regular</string>
+        </array>
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UserPreferencesCell" rowHeight="999" id="KGk-i7-Jjw" customClass="UserPreferencesCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="999"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="390" height="999"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jFZ-X9-VKs">
+                        <rect key="frame" x="16" y="16" width="358" height="328"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Personal Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQE-dT-wRk">
+                                <rect key="frame" x="15" y="16" width="328" height="21"/>
+                                <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="18"/>
+                                <color key="textColor" name="gray-900"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="WAA-ms-Npu">
+                                <rect key="frame" x="15" y="57" width="328" height="256"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7q1-dC-hcG">
+                                        <rect key="frame" x="0.0" y="0.0" width="328" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5b-eU-Qzl">
+                                                <rect key="frame" x="0.0" y="0.0" width="130" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KgH-1j-CI8">
+                                                <rect key="frame" x="138" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="Dzt-Pc-yc0"/>
+                                                    <constraint firstAttribute="width" constant="190" id="mjl-DX-mWR"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zr3-D9-N8F">
+                                        <rect key="frame" x="0.0" y="54" width="328" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HlP-gH-B8K">
+                                                <rect key="frame" x="0.0" y="0.0" width="130" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="59N-w6-dlA">
+                                                <rect key="frame" x="138" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="Nvj-yH-4aa"/>
+                                                    <constraint firstAttribute="width" constant="190" id="b0X-wb-g8h"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="j0a-AN-q5O">
+                                        <rect key="frame" x="0.0" y="108" width="328" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hOz-hC-IJc">
+                                                <rect key="frame" x="0.0" y="0.0" width="130" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IRA-Eh-Jdm">
+                                                <rect key="frame" x="138" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="dd9-OB-tlC"/>
+                                                    <constraint firstAttribute="width" constant="190" id="egP-Ui-aYj"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="AkN-yh-l6q">
+                                        <rect key="frame" x="0.0" y="162" width="328" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Height" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GiA-FT-daE">
+                                                <rect key="frame" x="0.0" y="0.0" width="130" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Eh-Yd-hSq">
+                                                <rect key="frame" x="138" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="190" id="9tF-mQ-f2a"/>
+                                                    <constraint firstAttribute="height" constant="40" id="OfC-Xj-yc6"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="NdA-WD-zoO">
+                                        <rect key="frame" x="0.0" y="216" width="328" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weight" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucs-Q7-nwy">
+                                                <rect key="frame" x="0.0" y="0.0" width="130" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ozD-Oh-HsS">
+                                                <rect key="frame" x="138" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="JBw-JM-mgs"/>
+                                                    <constraint firstAttribute="width" constant="190" id="fqt-Cd-ueY"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qFd-sI-mKa">
+                                <rect key="frame" x="153" y="219" width="190" height="40"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ubj-vi-2BI">
+                                <rect key="frame" x="153" y="165" width="190" height="40"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.98263438647945989" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Ubj-vi-2BI" firstAttribute="height" secondItem="IRA-Eh-Jdm" secondAttribute="height" id="1a5-lN-wPD"/>
+                            <constraint firstItem="WAA-ms-Npu" firstAttribute="leading" secondItem="jFZ-X9-VKs" secondAttribute="leading" constant="15" id="6TN-cN-1gt"/>
+                            <constraint firstItem="qFd-sI-mKa" firstAttribute="bottom" secondItem="0Eh-Yd-hSq" secondAttribute="bottom" id="AJH-uS-CTV"/>
+                            <constraint firstItem="Ubj-vi-2BI" firstAttribute="width" secondItem="IRA-Eh-Jdm" secondAttribute="width" id="Ac0-QV-e5Z"/>
+                            <constraint firstItem="qFd-sI-mKa" firstAttribute="trailing" secondItem="0Eh-Yd-hSq" secondAttribute="trailing" id="BFQ-2T-VOj"/>
+                            <constraint firstItem="uQE-dT-wRk" firstAttribute="leading" secondItem="jFZ-X9-VKs" secondAttribute="leading" constant="15" id="Cc6-G9-laR"/>
+                            <constraint firstItem="uQE-dT-wRk" firstAttribute="top" secondItem="jFZ-X9-VKs" secondAttribute="top" constant="16" id="Fbi-Dq-Mhc"/>
+                            <constraint firstAttribute="trailing" secondItem="WAA-ms-Npu" secondAttribute="trailing" constant="15" id="TxY-Hn-VIu"/>
+                            <constraint firstItem="Ubj-vi-2BI" firstAttribute="centerX" secondItem="IRA-Eh-Jdm" secondAttribute="centerX" id="ZaC-To-9cy"/>
+                            <constraint firstAttribute="trailing" secondItem="uQE-dT-wRk" secondAttribute="trailing" constant="15" id="ect-uo-Hy5"/>
+                            <constraint firstItem="WAA-ms-Npu" firstAttribute="top" secondItem="uQE-dT-wRk" secondAttribute="bottom" constant="20" id="f7b-1j-eR1"/>
+                            <constraint firstAttribute="bottom" secondItem="WAA-ms-Npu" secondAttribute="bottom" constant="15" id="gqZ-g5-foz"/>
+                            <constraint firstItem="qFd-sI-mKa" firstAttribute="leading" secondItem="0Eh-Yd-hSq" secondAttribute="leading" id="iUh-fu-Own"/>
+                            <constraint firstItem="qFd-sI-mKa" firstAttribute="top" secondItem="0Eh-Yd-hSq" secondAttribute="top" id="nRi-Zg-DUg"/>
+                            <constraint firstItem="Ubj-vi-2BI" firstAttribute="centerY" secondItem="IRA-Eh-Jdm" secondAttribute="centerY" id="odh-DX-mgn"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2gg-CW-nvk">
+                        <rect key="frame" x="16" y="360" width="358" height="329"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nutrition Goals" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PTS-9r-2FW">
+                                <rect key="frame" x="16" y="16" width="326" height="21"/>
+                                <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="18"/>
+                                <color key="textColor" name="gray-900"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="n0j-qR-evz">
+                                <rect key="frame" x="16" y="57" width="326" height="256"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vLt-yY-H36">
+                                        <rect key="frame" x="0.0" y="0.0" width="326" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Target Weight" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKa-LV-3q4">
+                                                <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M9U-dh-sTc">
+                                                <rect key="frame" x="136" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="190" id="D3e-Pn-ctT"/>
+                                                    <constraint firstAttribute="height" constant="40" id="ggF-BL-97e"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="io4-a4-ZFM">
+                                        <rect key="frame" x="0.0" y="54" width="326" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity Level" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OqD-Ch-aV2">
+                                                <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kiB-Xr-ZKy">
+                                                <rect key="frame" x="136" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="KiM-9c-4qY"/>
+                                                    <constraint firstAttribute="width" constant="190" id="uRR-i4-0ak"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gjo-oD-uy7">
+                                        <rect key="frame" x="0.0" y="108" width="326" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calorie Deficit" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCQ-3h-3In">
+                                                <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hII-9Q-LQ8">
+                                                <rect key="frame" x="136" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="VKI-u4-SBv"/>
+                                                    <constraint firstAttribute="width" constant="190" id="bef-mY-N6n"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4TR-WK-Z4V">
+                                        <rect key="frame" x="0.0" y="162" width="326" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="9" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Diet" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odm-Wa-NV7">
+                                                <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C75-AD-xRv">
+                                                <rect key="frame" x="136" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="190" id="2lC-vZ-VaL"/>
+                                                    <constraint firstAttribute="height" constant="40" id="8IK-kr-nX8"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="HHO-aP-iyP">
+                                        <rect key="frame" x="0.0" y="216" width="326" height="40"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" tag="9" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Water Level" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CvJ-je-WqP">
+                                                <rect key="frame" x="0.0" y="0.0" width="128" height="40"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
+                                                <color key="textColor" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" tag="14" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GtX-TV-CTz">
+                                                <rect key="frame" x="136" y="0.0" width="190" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="7gP-6S-pZK"/>
+                                                    <constraint firstAttribute="width" constant="190" id="ekp-RW-3mi"/>
+                                                </constraints>
+                                                <color key="textColor" name="gray-900"/>
+                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="6"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" red="0.41960784309999999" green="0.44705882349999998" blue="0.50196078430000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fTt-4E-YOO">
+                                <rect key="frame" x="152" y="165" width="190" height="40"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
+                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pH9-Vt-SwR">
+                                <rect key="frame" x="152" y="219" width="190" height="40"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
+                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c40-MZ-Joc">
+                                <rect key="frame" x="152" y="111" width="190" height="40"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="c40-MZ-Joc" firstAttribute="bottom" secondItem="kiB-Xr-ZKy" secondAttribute="bottom" id="4h9-mX-H5S"/>
+                            <constraint firstItem="pH9-Vt-SwR" firstAttribute="top" secondItem="C75-AD-xRv" secondAttribute="top" id="6zr-Ht-XZj"/>
+                            <constraint firstItem="PTS-9r-2FW" firstAttribute="leading" secondItem="2gg-CW-nvk" secondAttribute="leading" constant="16" id="HBx-NL-SSo"/>
+                            <constraint firstItem="fTt-4E-YOO" firstAttribute="leading" secondItem="hII-9Q-LQ8" secondAttribute="leading" id="Ofx-oM-3LC"/>
+                            <constraint firstItem="pH9-Vt-SwR" firstAttribute="bottom" secondItem="C75-AD-xRv" secondAttribute="bottom" id="RLD-y7-lt8"/>
+                            <constraint firstItem="fTt-4E-YOO" firstAttribute="top" secondItem="hII-9Q-LQ8" secondAttribute="top" id="TF8-u3-h0H"/>
+                            <constraint firstItem="c40-MZ-Joc" firstAttribute="trailing" secondItem="kiB-Xr-ZKy" secondAttribute="trailing" id="UBe-oW-n2f"/>
+                            <constraint firstItem="n0j-qR-evz" firstAttribute="top" secondItem="PTS-9r-2FW" secondAttribute="bottom" constant="20" id="d7b-vO-Qc4"/>
+                            <constraint firstItem="c40-MZ-Joc" firstAttribute="leading" secondItem="kiB-Xr-ZKy" secondAttribute="leading" id="f9l-uk-OWV"/>
+                            <constraint firstAttribute="trailing" secondItem="n0j-qR-evz" secondAttribute="trailing" constant="16" id="ffk-4P-qjq"/>
+                            <constraint firstItem="PTS-9r-2FW" firstAttribute="top" secondItem="2gg-CW-nvk" secondAttribute="top" constant="16" id="iEF-p2-jyH"/>
+                            <constraint firstAttribute="trailing" secondItem="PTS-9r-2FW" secondAttribute="trailing" constant="16" id="ioX-bu-8zO"/>
+                            <constraint firstItem="fTt-4E-YOO" firstAttribute="trailing" secondItem="hII-9Q-LQ8" secondAttribute="trailing" id="lcW-bL-CaG"/>
+                            <constraint firstItem="pH9-Vt-SwR" firstAttribute="trailing" secondItem="C75-AD-xRv" secondAttribute="trailing" id="mfS-Zr-dfO"/>
+                            <constraint firstItem="n0j-qR-evz" firstAttribute="leading" secondItem="2gg-CW-nvk" secondAttribute="leading" constant="16" id="pje-rz-sGa"/>
+                            <constraint firstAttribute="bottom" secondItem="n0j-qR-evz" secondAttribute="bottom" constant="16" id="pjl-aK-5et"/>
+                            <constraint firstItem="fTt-4E-YOO" firstAttribute="bottom" secondItem="hII-9Q-LQ8" secondAttribute="bottom" id="pyw-9Q-bqt"/>
+                            <constraint firstItem="pH9-Vt-SwR" firstAttribute="leading" secondItem="C75-AD-xRv" secondAttribute="leading" id="wpE-Sj-WoM"/>
+                            <constraint firstItem="c40-MZ-Joc" firstAttribute="top" secondItem="kiB-Xr-ZKy" secondAttribute="top" id="yGZ-oL-kad"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="jFZ-X9-VKs" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="6Mf-QE-703"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2gg-CW-nvk" secondAttribute="bottom" id="DVZ-8n-VFh"/>
+                    <constraint firstItem="2gg-CW-nvk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="KyT-Rj-xLR"/>
+                    <constraint firstAttribute="trailing" secondItem="jFZ-X9-VKs" secondAttribute="trailing" constant="16" id="LpS-Re-ODv"/>
+                    <constraint firstAttribute="trailing" secondItem="2gg-CW-nvk" secondAttribute="trailing" constant="16" id="i9F-w4-Smo"/>
+                    <constraint firstItem="2gg-CW-nvk" firstAttribute="top" secondItem="jFZ-X9-VKs" secondAttribute="bottom" constant="16" id="iJw-Lp-dr3"/>
+                    <constraint firstItem="jFZ-X9-VKs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="meE-MU-YEl"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="activityLevelButton" destination="c40-MZ-Joc" id="16V-MH-aqd"/>
+                <outlet property="activityLvlTextField" destination="kiB-Xr-ZKy" id="tvx-v8-p1A"/>
+                <outlet property="ageTextField" destination="59N-w6-dlA" id="44R-cP-38I"/>
+                <outlet property="calorieDeficitButton" destination="fTt-4E-YOO" id="qKd-s6-ZLV"/>
+                <outlet property="calorieDeficitTextField" destination="hII-9Q-LQ8" id="ZdQ-5P-hnG"/>
+                <outlet property="containerView1" destination="jFZ-X9-VKs" id="a2J-BA-0Ex"/>
+                <outlet property="containerView2" destination="2gg-CW-nvk" id="0Zu-J0-ZQj"/>
+                <outlet property="dietButton" destination="pH9-Vt-SwR" id="8Hj-8w-BO9"/>
+                <outlet property="dietTextField" destination="C75-AD-xRv" id="67O-eB-51z"/>
+                <outlet property="genderButton" destination="Ubj-vi-2BI" id="O6I-Xh-7PL"/>
+                <outlet property="genderTextField" destination="IRA-Eh-Jdm" id="PXB-9S-4JM"/>
+                <outlet property="heightButton" destination="qFd-sI-mKa" id="jHZ-sO-rWy"/>
+                <outlet property="heightTextField" destination="0Eh-Yd-hSq" id="w6t-uh-yyK"/>
+                <outlet property="nameTextField" destination="KgH-1j-CI8" id="b46-Ij-izX"/>
+                <outlet property="waterLevelTextField" destination="GtX-TV-CTz" id="yVd-ju-QlV"/>
+                <outlet property="weightGoalTextField" destination="M9U-dh-sTc" id="OzJ-Iy-REj"/>
+                <outlet property="weightTextField" destination="ozD-Oh-HsS" id="arF-TT-5br"/>
+                <outletCollection property="userPreferencesTextFields" destination="KgH-1j-CI8" collectionClass="NSMutableArray" id="ucs-eh-rZ0"/>
+                <outletCollection property="userPreferencesTextFields" destination="ozD-Oh-HsS" collectionClass="NSMutableArray" id="oiZ-pg-TmQ"/>
+                <outletCollection property="userPreferencesTextFields" destination="0Eh-Yd-hSq" collectionClass="NSMutableArray" id="VCa-vx-4zr"/>
+                <outletCollection property="userPreferencesTextFields" destination="59N-w6-dlA" collectionClass="NSMutableArray" id="UUM-V2-GUc"/>
+                <outletCollection property="userPreferencesTextFields" destination="C75-AD-xRv" collectionClass="NSMutableArray" id="Qs4-8f-mqg"/>
+                <outletCollection property="userPreferencesTextFields" destination="hII-9Q-LQ8" collectionClass="NSMutableArray" id="7uR-YQ-uFI"/>
+                <outletCollection property="userPreferencesTextFields" destination="IRA-Eh-Jdm" collectionClass="NSMutableArray" id="zzf-Fm-rYB"/>
+                <outletCollection property="userPreferencesTextFields" destination="M9U-dh-sTc" collectionClass="NSMutableArray" id="4BP-NY-SI6"/>
+                <outletCollection property="userPreferencesTextFields" destination="kiB-Xr-ZKy" collectionClass="NSMutableArray" id="6AO-rY-wfl"/>
+                <outletCollection property="userPreferencesTextFields" destination="GtX-TV-CTz" collectionClass="NSMutableArray" id="yzJ-Qy-zaT"/>
+            </connections>
+            <point key="canvasLocation" x="-235.51401869158877" y="238.12095032397409"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>

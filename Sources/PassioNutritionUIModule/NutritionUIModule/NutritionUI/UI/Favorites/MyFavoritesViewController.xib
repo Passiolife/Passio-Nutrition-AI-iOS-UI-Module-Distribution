@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyFavoritesViewController" customModule="PassioNutritionUIModule">
+            <connections>
+                <outlet property="activityIndicator" destination="hsU-cD-Xv7" id="ULR-mJ-nz0"/>
+                <outlet property="closeButton" destination="YTi-Dn-IS3" id="rwk-dV-hMs"/>
+                <outlet property="tableView" destination="x4t-Nn-lLv" id="Zea-YO-C3c"/>
+                <outlet property="view" destination="iN0-l3-epB" id="5ig-jd-qdz"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x4t-Nn-lLv">
+                    <rect key="frame" x="0.0" y="48" width="414" height="814"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="hsU-cD-Xv7">
+                    <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                    <color key="color" name="CustomBase"/>
+                </activityIndicatorView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YTi-Dn-IS3">
+                    <rect key="frame" x="0.0" y="48" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="9g5-2u-0e4"/>
+                        <constraint firstAttribute="height" constant="50" id="BUS-IS-2lY"/>
+                        <constraint firstAttribute="width" constant="50" id="Gih-G0-kEW"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="jgJ-Pc-kYx"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="cancel_circle"/>
+                    <connections>
+                        <action selector="dissmiss:" destination="-1" eventType="touchUpInside" id="oL5-gw-MP9"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" name="gray-50"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="x4t-Nn-lLv" secondAttribute="bottom" id="GX6-Mg-HDK"/>
+                <constraint firstItem="x4t-Nn-lLv" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="TJM-wR-Qyw"/>
+                <constraint firstItem="YTi-Dn-IS3" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="YKW-53-IjX"/>
+                <constraint firstItem="YTi-Dn-IS3" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="fJC-4I-Y7Q"/>
+                <constraint firstItem="hsU-cD-Xv7" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="kEV-hw-KWb"/>
+                <constraint firstItem="x4t-Nn-lLv" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="nb8-IJ-Foe"/>
+                <constraint firstItem="hsU-cD-Xv7" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="rxy-6w-3LQ"/>
+                <constraint firstItem="x4t-Nn-lLv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="zfc-zy-Kqt"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="145.98214285714286"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cancel_circle" width="24" height="24"/>
+        <namedColor name="CustomBase">
+            <color red="0.0" green="0.25490196078431371" blue="0.67450980392156867" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-50">
+            <color red="0.97647058823529409" green="0.98039215686274506" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Regular.ttf">
+            <string>Inter-Regular</string>
+        </array>
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MacroProgressBarChartView" customModule="PassioNutritionUIModule">
+            <connections>
+                <outlet property="chartView" destination="I02-DP-yIx" id="mm9-Ue-rKt"/>
+                <outlet property="range1Label" destination="gVr-fK-S1F" id="jcs-38-dYE"/>
+                <outlet property="range2Label" destination="WYI-LA-3fm" id="THa-G4-u0L"/>
+                <outlet property="range3Label" destination="VLh-Wl-p0i" id="mjL-3I-EU2"/>
+                <outlet property="shadowView" destination="70x-eb-Psv" id="UsQ-hX-ZPj"/>
+                <outlet property="titleLabel" destination="sf3-Sl-ThJ" id="RLR-DE-d5S"/>
+                <outlet property="xAxisStackView" destination="V9W-ul-ACj" id="Hsz-1H-x60"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="202"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="70x-eb-Psv">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="202"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sf3-Sl-ThJ">
+                            <rect key="frame" x="16" y="16" width="65.666666666666671" height="21"/>
+                            <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="18"/>
+                            <color key="textColor" name="gray-900"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I02-DP-yIx" customClass="CustomBarChartView" customModule="PassioNutritionUIModule">
+                            <rect key="frame" x="55" y="62" width="322" height="100"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLh-Wl-p0i">
+                            <rect key="frame" x="16" y="55" width="27" height="14"/>
+                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYI-LA-3fm">
+                            <rect key="frame" x="16" y="105" width="27" height="14"/>
+                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1200" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVr-fK-S1F">
+                            <rect key="frame" x="16" y="155" width="27" height="14"/>
+                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="V9W-ul-ACj">
+                            <rect key="frame" x="55" y="165" width="322" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="DYN-5l-EEE"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="V9W-ul-ACj" firstAttribute="top" secondItem="I02-DP-yIx" secondAttribute="bottom" constant="3" id="0Ao-tG-vIt"/>
+                        <constraint firstItem="V9W-ul-ACj" firstAttribute="trailing" secondItem="I02-DP-yIx" secondAttribute="trailing" id="0HU-RC-zkd"/>
+                        <constraint firstAttribute="bottom" secondItem="I02-DP-yIx" secondAttribute="bottom" constant="40" id="0Ul-Bg-Y3j"/>
+                        <constraint firstItem="I02-DP-yIx" firstAttribute="leading" secondItem="VLh-Wl-p0i" secondAttribute="trailing" constant="12" id="205-L3-J4o"/>
+                        <constraint firstItem="I02-DP-yIx" firstAttribute="leading" secondItem="gVr-fK-S1F" secondAttribute="trailing" constant="12" id="2tb-PR-qiz"/>
+                        <constraint firstItem="I02-DP-yIx" firstAttribute="leading" secondItem="70x-eb-Psv" secondAttribute="leading" constant="55" id="GcL-Xv-209"/>
+                        <constraint firstItem="gVr-fK-S1F" firstAttribute="centerY" secondItem="I02-DP-yIx" secondAttribute="bottom" id="KEi-te-hr2"/>
+                        <constraint firstItem="VLh-Wl-p0i" firstAttribute="centerY" secondItem="I02-DP-yIx" secondAttribute="top" id="PKx-2O-2hJ"/>
+                        <constraint firstItem="I02-DP-yIx" firstAttribute="top" secondItem="sf3-Sl-ThJ" secondAttribute="bottom" constant="25" id="RRH-Mu-QYH"/>
+                        <constraint firstItem="WYI-LA-3fm" firstAttribute="centerY" secondItem="I02-DP-yIx" secondAttribute="centerY" id="X0d-Eb-CQ8"/>
+                        <constraint firstItem="I02-DP-yIx" firstAttribute="leading" secondItem="WYI-LA-3fm" secondAttribute="trailing" constant="12" id="Yrn-tF-rlK"/>
+                        <constraint firstItem="sf3-Sl-ThJ" firstAttribute="top" secondItem="70x-eb-Psv" secondAttribute="top" constant="16" id="hqf-dA-51s"/>
+                        <constraint firstItem="V9W-ul-ACj" firstAttribute="leading" secondItem="I02-DP-yIx" secondAttribute="leading" id="icg-LE-lef"/>
+                        <constraint firstItem="sf3-Sl-ThJ" firstAttribute="leading" secondItem="70x-eb-Psv" secondAttribute="leading" constant="16" id="j3K-Ux-hYD"/>
+                        <constraint firstAttribute="trailing" secondItem="I02-DP-yIx" secondAttribute="trailing" constant="16" id="qRH-PA-E30"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="70x-eb-Psv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="G9P-wQ-bPk"/>
+                <constraint firstAttribute="trailing" secondItem="70x-eb-Psv" secondAttribute="trailing" id="exh-N9-Qre"/>
+                <constraint firstAttribute="bottom" secondItem="70x-eb-Psv" secondAttribute="bottom" id="g92-p6-Tna"/>
+                <constraint firstItem="70x-eb-Psv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ulh-51-gng"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="75.572519083969468" y="19.718309859154932"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

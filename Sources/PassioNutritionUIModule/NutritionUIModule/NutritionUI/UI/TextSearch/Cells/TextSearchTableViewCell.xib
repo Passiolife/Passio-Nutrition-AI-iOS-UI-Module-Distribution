@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TextSearchViewController" customModule="N_AI_SDK_2_3_15"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TextSearchTableViewCell" rowHeight="54" id="KGk-i7-Jjw" customClass="TextSearchTableViewCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="310" height="106"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="310" height="106"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ckw-OI-nfk">
+                        <rect key="frame" x="4" y="4" width="302" height="98"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vtz-eO-flW">
+                        <rect key="frame" x="16" y="38" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" priority="750" constant="30" id="FOO-s6-6zu"/>
+                            <constraint firstAttribute="width" constant="30" id="uC6-nw-wE9"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="Pumpkin Seeds" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="qRp-xu-Zhg">
+                        <rect key="frame" x="55.5" y="43" width="208.5" height="20.5"/>
+                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="plus_circle" translatesAutoresizingMaskIntoConstraints="NO" id="h8P-Sp-r2K">
+                        <rect key="frame" x="270" y="38" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="GDq-1Q-1BP"/>
+                            <constraint firstAttribute="width" constant="30" id="baJ-nn-LBP"/>
+                        </constraints>
+                    </imageView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="4i9-v1-Z44">
+                        <rect key="frame" x="12.5" y="34.5" width="37" height="37"/>
+                        <color key="color" name="CustomBase"/>
+                    </activityIndicatorView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Ckw-OI-nfk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="4" id="4jK-Ig-ara"/>
+                    <constraint firstItem="vtz-eO-flW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BR3-RV-4wB"/>
+                    <constraint firstItem="4i9-v1-Z44" firstAttribute="centerY" secondItem="vtz-eO-flW" secondAttribute="centerY" id="Bg5-5c-hGe"/>
+                    <constraint firstItem="h8P-Sp-r2K" firstAttribute="leading" secondItem="qRp-xu-Zhg" secondAttribute="trailing" constant="6" id="KGl-uQ-XUe"/>
+                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="vtz-eO-flW" secondAttribute="bottom" constant="4" id="MJM-eL-fTB"/>
+                    <constraint firstItem="Ckw-OI-nfk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="R17-hO-I8S"/>
+                    <constraint firstAttribute="trailing" secondItem="h8P-Sp-r2K" secondAttribute="trailing" constant="10" id="RTU-Nf-jEu"/>
+                    <constraint firstItem="h8P-Sp-r2K" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Suw-b5-yXl"/>
+                    <constraint firstItem="vtz-eO-flW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Ucx-nG-lTa"/>
+                    <constraint firstAttribute="trailing" secondItem="Ckw-OI-nfk" secondAttribute="trailing" constant="4" id="fxE-6g-Az1"/>
+                    <constraint firstAttribute="bottom" secondItem="Ckw-OI-nfk" secondAttribute="bottom" constant="4" id="hQO-Gh-TNy"/>
+                    <constraint firstItem="qRp-xu-Zhg" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iuJ-VM-te8"/>
+                    <constraint firstItem="vtz-eO-flW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="kC1-hd-NgF"/>
+                    <constraint firstItem="4i9-v1-Z44" firstAttribute="centerX" secondItem="vtz-eO-flW" secondAttribute="centerX" id="kjL-Te-SjM"/>
+                    <constraint firstItem="qRp-xu-Zhg" firstAttribute="leading" secondItem="4i9-v1-Z44" secondAttribute="trailing" constant="6" id="yHN-0d-qfZ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="activityIndicator" destination="4i9-v1-Z44" id="S60-dd-HX4"/>
+                <outlet property="imageFood" destination="vtz-eO-flW" id="UFB-6r-IWj"/>
+                <outlet property="imagePlus" destination="h8P-Sp-r2K" id="dZy-JH-TFA"/>
+                <outlet property="insetBackground" destination="Ckw-OI-nfk" id="ov8-FA-SQ7"/>
+                <outlet property="nameLabel" destination="qRp-xu-Zhg" id="c5L-NJ-SFt"/>
+            </connections>
+            <point key="canvasLocation" x="-136" y="-74"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="plus_circle" width="24" height="24"/>
+        <namedColor name="CustomBase">
+            <color red="0.0" green="0.25490196078431371" blue="0.67450980392156867" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>
