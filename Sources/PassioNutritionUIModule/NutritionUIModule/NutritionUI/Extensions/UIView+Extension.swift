@@ -140,10 +140,10 @@ public extension UIView {
         }
     }
 
-    class func fromNib(named: String? = nil) -> Self {
+    class func fromNib(named: String? = nil, bundle: Bundle = .main) -> Self {
         let name = named ?? "\(Self.self)"
         guard
-            let nib = Bundle.main.loadNibNamed(name, owner: nil, options: nil)
+            let nib =  bundle.loadNibNamed(name, owner: nil, options: nil)
         else { fatalError("missing expected nib named: \(name)") }
         guard
             /// we're using `first` here because compact map chokes compiler on
@@ -262,18 +262,28 @@ public extension UIView {
     }
 
     func fitToSelf(childView: UIView) {
-
         childView.translatesAutoresizingMaskIntoConstraints = false
         let bindings = ["childView": childView]
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat : "H:|[childView]|",
+                                                      options : [],
+                                                      metrics : nil,
+                                                      views : bindings))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat : "V:|[childView]|",
+                                                      options : [],
+                                                      metrics : nil,
+                                                      views : bindings))
+    }
 
-        self.addConstraints( NSLayoutConstraint.constraints( withVisualFormat : "H:|[childView]|",
-                                                             options : [],
-                                                             metrics : nil,
-                                                             views : bindings ))
-        self.addConstraints( NSLayoutConstraint.constraints( withVisualFormat : "V:|[childView]|",
-                                                             options : [],
-                                                             metrics : nil,
-                                                             views : bindings ))
+    func addConstraints(to view: UIView,
+                        attribute: NSLayoutConstraint.Attribute,
+                        constant: CGFloat) {
+        addConstraint(NSLayoutConstraint(item: view,
+                                         attribute: attribute,
+                                         relatedBy: .equal,
+                                         toItem: self,
+                                         attribute: attribute,
+                                         multiplier: 1,
+                                         constant: constant))
     }
 }
 

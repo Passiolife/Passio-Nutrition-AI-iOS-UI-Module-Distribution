@@ -10,13 +10,12 @@ import UIKit
 final class ThumbnailImageCollectionCell: UICollectionViewCell {
 
     @IBOutlet weak var foodImageView: UIImageView!
+    @IBOutlet weak var deleteButton: UIButton!
 
     private let colorShadowLayer = CALayer()
 
-    var isFewColors = false
-    var isSelectedWallColor = false
     var isFirstLayoutTime = true
-    var distanceFromCenter: Double = 0
+    var onDelete: ((Int) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,7 +42,7 @@ final class ThumbnailImageCollectionCell: UICollectionViewCell {
 
         DispatchQueue.main.async { [self] in
             CALayer.performWithoutAnimation {
-                colorShadowLayer.frame = foodImageView.frame
+                colorShadowLayer.frame = foodImageView.bounds
                 colorShadowLayer.shadowPath = .init(
                     roundedRect: foodImageView.bounds,
                     cornerWidth: 8,
@@ -55,7 +54,12 @@ final class ThumbnailImageCollectionCell: UICollectionViewCell {
         foodImageView.setNeedsLayout()
     }
 
-    func configure(with image: UIImage) {
+    @IBAction func onDeleteImage(_ sender: UIButton) {
+        onDelete?(sender.tag)
+    }
+
+    func configure(with image: UIImage, index: Int) {
         foodImageView.image = image
+        deleteButton.tag = index
     }
 }

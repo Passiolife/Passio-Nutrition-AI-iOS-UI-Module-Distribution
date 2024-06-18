@@ -2,18 +2,22 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TakePhotosViewController" customModule="PassioNutritionUIModule">
             <connections>
                 <outlet property="activityIndicatorStackView" destination="vnn-6F-o6U" id="2Xb-pX-56G"/>
                 <outlet property="captureButton" destination="5kM-7K-XUz" id="AY7-oC-RNs"/>
-                <outlet property="foodImageCollectionView" destination="4g7-16-8L9" id="tRV-fj-Mrm"/>
+                <outlet property="imageCollectionView" destination="dqo-py-PGq" id="mpC-Cy-yX5"/>
                 <outlet property="scanFrameImageView" destination="54z-kR-LOQ" id="iMJ-PV-Xpp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -91,27 +95,27 @@
                     </constraints>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vnn-6F-o6U">
-                    <rect key="frame" x="132.66666666666669" y="434.33333333333331" width="164.66666666666669" height="63.666666666666686"/>
+                    <rect key="frame" x="132.66666666666669" y="442.66666666666669" width="164.66666666666669" height="46.666666666666686"/>
                     <subviews>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="1Ev-wq-zMF">
-                            <rect key="frame" x="64" y="0.0" width="37" height="37"/>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="1Ev-wq-zMF">
+                            <rect key="frame" x="72.333333333333343" y="0.0" width="20" height="20"/>
                             <color key="color" name="indigo-600"/>
                         </activityIndicatorView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Getting PreviewLayer..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lkg-YV-VvV">
-                            <rect key="frame" x="0.0" y="45" width="164.66666666666666" height="18.666666666666671"/>
+                            <rect key="frame" x="0.0" y="28" width="164.66666666666666" height="18.666666666666671"/>
                             <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                 </stackView>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="4g7-16-8L9" customClass="InfiniteCollectionView" customModule="PassioNutritionUIModule">
-                    <rect key="frame" x="0.0" y="647" width="430" height="100"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="dqo-py-PGq">
+                    <rect key="frame" x="16" y="659" width="398" height="88"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="100" id="lrT-VQ-CmE"/>
+                        <constraint firstAttribute="height" constant="88" id="ivX-Vt-VFe"/>
                     </constraints>
-                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BCt-zM-amH" customClass="CarouselCollectionFlowLayout" customModule="PassioNutritionUIModule">
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zb2-CE-1MK">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -122,24 +126,24 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="indigo-100"/>
             <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="dqo-py-PGq" secondAttribute="trailing" constant="16" id="2K2-4J-MsX"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Eih-Q5-tL6" secondAttribute="trailing" constant="16" id="2gB-hZ-zlb"/>
+                <constraint firstItem="5kM-7K-XUz" firstAttribute="top" secondItem="dqo-py-PGq" secondAttribute="bottom" constant="32" id="8Iy-ep-b7c"/>
+                <constraint firstItem="dqo-py-PGq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="GUO-pR-cKQ"/>
                 <constraint firstItem="vnn-6F-o6U" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="GaE-oE-7w3"/>
                 <constraint firstItem="Cax-nm-UDu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="IqD-kg-nAs"/>
                 <constraint firstItem="5kM-7K-XUz" firstAttribute="leading" secondItem="Cax-nm-UDu" secondAttribute="trailing" constant="16" id="Mwc-Kg-Xzc"/>
                 <constraint firstAttribute="bottom" secondItem="5kM-7K-XUz" secondAttribute="bottom" constant="75" id="NBb-Ul-Ped"/>
                 <constraint firstItem="Eih-Q5-tL6" firstAttribute="leading" secondItem="5kM-7K-XUz" secondAttribute="trailing" constant="16" id="O4q-Pm-nps"/>
                 <constraint firstItem="5kM-7K-XUz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="U8D-mA-2nZ"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4g7-16-8L9" secondAttribute="trailing" id="bA2-wg-Ink"/>
-                <constraint firstItem="5kM-7K-XUz" firstAttribute="top" secondItem="4g7-16-8L9" secondAttribute="bottom" constant="32" id="bi0-3a-4eQ"/>
                 <constraint firstItem="54z-kR-LOQ" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.966921" id="fWC-GS-ipV"/>
                 <constraint firstItem="Cax-nm-UDu" firstAttribute="centerY" secondItem="5kM-7K-XUz" secondAttribute="centerY" id="gYC-4g-qEw"/>
-                <constraint firstItem="4g7-16-8L9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="mBZ-Ft-rcp"/>
                 <constraint firstItem="Eih-Q5-tL6" firstAttribute="centerY" secondItem="5kM-7K-XUz" secondAttribute="centerY" id="rHk-8s-gRo"/>
                 <constraint firstItem="54z-kR-LOQ" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" constant="-80" id="wWY-Iq-SY4"/>
                 <constraint firstItem="vnn-6F-o6U" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="xSK-AQ-KCa"/>
                 <constraint firstItem="54z-kR-LOQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="yla-33-kqV"/>
             </constraints>
-            <point key="canvasLocation" x="-131" y="-25"/>
+            <point key="canvasLocation" x="-131.16279069767441" y="-25.107296137339059"/>
         </view>
     </objects>
     <resources>

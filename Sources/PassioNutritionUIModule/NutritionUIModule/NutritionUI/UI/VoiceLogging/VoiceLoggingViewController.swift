@@ -26,7 +26,7 @@ class VoiceLoggingViewController: InstantiableViewController {
     private var speechRecognizer = SpeechRecognizer()
     private var isRecording = false
     private var isRecognitionUnavailable = false
-    private var resultsLoggingView: ResultsLoggingView?
+    private var resultsLoggingView: ResultsLoggingView!
 
     var goToSearch: (() -> Void)?
 
@@ -125,14 +125,15 @@ class VoiceLoggingViewController: InstantiableViewController {
     private func loadResultLoggingView(recognitionData: [PassioSpeechRecognitionModel]) {
 
         DispatchQueue.main.async { [self] in
-            let nib = UINib.nibFromBundle(nibName: "ResultsLoggingView", bundle: .module)
-            resultsLoggingView = nib.instantiate(withOwner: self, options: nil).first as? ResultsLoggingView
-            if let resultsLoggingView {
-                resultsLoggingView.frame = view.bounds
-                resultsLoggingView.resultLoggingDelegate = self
-                resultsLoggingView.recognitionData = recognitionData
-                view.addSubview(resultsLoggingView)
-            }
+
+            resultsLoggingView = ResultsLoggingView.fromNib(bundle: .module)
+            resultsLoggingView.resultLoggingDelegate = self
+            resultsLoggingView.recognitionData = recognitionData
+            view.addSubview(resultsLoggingView)
+            resultsLoggingView.translatesAutoresizingMaskIntoConstraints = false
+            view.addConstraints(to: resultsLoggingView, attribute: .leading, constant: 0)
+            view.addConstraints(to: resultsLoggingView, attribute: .trailing, constant: 0)
+            view.addConstraints(to: resultsLoggingView, attribute: .bottom, constant: 0)
         }
     }
 

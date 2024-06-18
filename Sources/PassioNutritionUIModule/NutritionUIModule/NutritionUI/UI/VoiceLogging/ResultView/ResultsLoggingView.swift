@@ -20,27 +20,41 @@ struct FoodLog {
 
 class ResultsLoggingView: UIView {
 
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var searchManuallyStackView: UIStackView!
+    @IBOutlet weak var tryAgainButton: UIButton!
     @IBOutlet weak var searchManuallyButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var resultsLabel: UILabel!
-    @IBOutlet weak var loggingView: UIView!
     @IBOutlet weak var foodResultsTableView: UITableView!
     @IBOutlet weak var logSelectedButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     var recognitionData: [PassioSpeechRecognitionModel]? {
         didSet {
-            foodLogs = recognitionData?.map {
+            let uniqueData = recognitionData?.uniqued(on: { $0.advisorFoodInfo.recognisedName })
+            foodLogs = uniqueData?.map {
                 FoodLog(isSelected: true, foodData: $0)
             } ?? []
         }
     }
     var selectedIndexes: [Int] = []
+    var showCancelButton: Bool = false {
+        didSet {
+            cancelButton.isHidden = !showCancelButton
+            tryAgainButton.isHidden = showCancelButton
+            searchManuallyStackView.isHidden = showCancelButton
+        }
+    }
 
     private var foodLogs: [FoodLog] = [] {
         didSet {
             let isEnabled = foodLogs.filter { $0.isSelected }.count > 0
             logSelectedButton.isEnabled = isEnabled
             logSelectedButton.alpha = isEnabled ? 1 : 0.8
+            foodResultsTableView.reloadData()
+            tableViewHeightConstraint.constant = foodResultsTableView.contentSize.height >= 200 ? 200 : foodResultsTableView.contentSize.height
         }
     }
 
@@ -49,11 +63,13 @@ class ResultsLoggingView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        foodResultsTableView.estimatedRowHeight = 80.0
+        foodResultsTableView.rowHeight = UITableView.automaticDimension
         foodResultsTableView.register(nibName: "VoiceLoggingCell", bundle: .module)
         foodResultsTableView.dataSource = self
         foodResultsTableView.delegate = self
-        loggingView.roundMyCornerWith(radius: 16, upper: true, down: false)
-        loggingView.dropShadow(radius: 16,
+        contentView.roundMyCornerWith(radius: 16, upper: true, down: false)
+        contentView.dropShadow(radius: 16,
                                offset: CGSize(width: 0, height: -2),
                                color: .black.withAlphaComponent(0.10),
                                shadowRadius: 6,
@@ -61,6 +77,11 @@ class ResultsLoggingView: UIView {
 
         searchManuallyButton.titleLabel?.font = .inter(type: .bold, size: 14)
         resultsLabel.font = .inter(type: .bold, size: 20)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        foodResultsTableView.sizeToFit()
     }
 
     @IBAction func onClear(_ sender: UIButton) {

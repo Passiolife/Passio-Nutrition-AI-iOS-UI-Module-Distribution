@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xfp-CD-fXl">
-                        <rect key="frame" x="18.666666666666657" y="4" width="365" height="66"/>
+                        <rect key="frame" x="0.0" y="4" width="402" height="66"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tvY-NI-GsK">
                                 <rect key="frame" x="8" y="13" width="40" height="40"/>
@@ -32,16 +32,16 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="n8y-MA-t3i">
-                                <rect key="frame" x="56" y="8" width="269" height="50"/>
+                                <rect key="frame" x="56" y="8" width="306" height="50"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Kiwi Kiwi Kiwi Kiwi Kiwi Kiwi Kiwi Kiwi Kiwi Kiwi" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="87v-GD-TBw">
-                                        <rect key="frame" x="0.0" y="0.0" width="223" height="33.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="275.66666666666669" height="25"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                         <color key="textColor" name="gray-900"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="2 Slices | 313 cal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="09E-Vc-EAZ">
-                                        <rect key="frame" x="0.0" y="33.333333333333336" width="94.333333333333329" height="16.666666666666664"/>
+                                        <rect key="frame" x="0.0" y="25" width="94.333333333333329" height="25"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" name="gray-700"/>
                                         <nil key="highlightedColor"/>
@@ -49,7 +49,7 @@
                                 </subviews>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="T0w-M5-vpS">
-                                <rect key="frame" x="333" y="22" width="24" height="22.666666666666671"/>
+                                <rect key="frame" x="370" y="22" width="24" height="22.666666666666671"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" name="gray-300"/>
                                 <constraints>
@@ -81,9 +81,9 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="xfp-CD-fXl" secondAttribute="trailing" constant="18.5" id="CUP-yS-XhK"/>
+                    <constraint firstAttribute="trailing" secondItem="xfp-CD-fXl" secondAttribute="trailing" id="CUP-yS-XhK"/>
                     <constraint firstItem="xfp-CD-fXl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="Dsq-XT-jgI"/>
-                    <constraint firstItem="xfp-CD-fXl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="18.5" id="ifn-gm-qDm"/>
+                    <constraint firstItem="xfp-CD-fXl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ifn-gm-qDm"/>
                     <constraint firstAttribute="bottom" secondItem="xfp-CD-fXl" secondAttribute="bottom" constant="4" id="sC8-Cw-fqK"/>
                 </constraints>
             </tableViewCellContentView>

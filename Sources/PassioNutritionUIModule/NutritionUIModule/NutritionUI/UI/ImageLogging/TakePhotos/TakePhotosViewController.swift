@@ -14,7 +14,7 @@ class TakePhotosViewController: InstantiableViewController {
     @IBOutlet weak var scanFrameImageView: UIImageView!
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var activityIndicatorStackView: UIStackView!
-    @IBOutlet weak var foodImageCollectionView: InfiniteCollectionView!
+    @IBOutlet weak var imageCollectionView: UICollectionView!
     
     private var captureSession: AVCaptureSession!
     private var backCamera: AVCaptureDevice!
@@ -29,31 +29,23 @@ class TakePhotosViewController: InstantiableViewController {
             captureButton.alpha = capturedImages.count >= 7 ? 0.8 : 1
         }
     }
-    var thumbnailImages: [UIImage] = [UIImage()] {
+    var thumbnailImages: [UIImage] = [] {
         didSet {
-            foodImageCollectionView.reloadData()
+           reloadAndScroll(at: thumbnailImages.count - 1)
         }
     }
     private var resultLoggingView: ResultsLoggingView?
 
-    private let carouselCollectionFlowLayout = CarouselCollectionFlowLayout()
     let cellId = "ThumbnailImageCollectionCell"
-    var primarySelectedIndex: Int = 0
-    var hapticFeedbackOccured: Bool = true
-    var foodIndexChanged: Bool = false
-    var foodIndex: Int = -1 {
-        didSet {
-            foodIndexChanged = true
-            updatePrimaryCollection()
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         navigationController?.setNavigationBarHidden(true, animated: true)
         checkPermissions()
-        configure(for: foodImageCollectionView)
+        imageCollectionView.register(nibName: cellId)
+        imageCollectionView.dataSource = self
+        imageCollectionView.delegate = self
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -193,162 +185,170 @@ extension TakePhotosViewController {
     }
 }
 
+// MARK: - Images Carousel CollectionView Configuration
+extension TakePhotosViewController: UICollectionViewDataSource,
+                                    UICollectionViewDelegate,
+                                    UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        thumbnailImages.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueCell(cellClass: ThumbnailImageCollectionCell.self,
+                                              forIndexPath: indexPath)
+        cell.configure(with: thumbnailImages[indexPath.item], index: indexPath.item)
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        0
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        8
+    }
+}
+
 // MARK: - Carousel CollectionView Configuration
 extension TakePhotosViewController {
 
-    func configure(for collectionView: InfiniteCollectionView) {
+//    func configure(for collectionView: InfiniteCollectionView) {
+//
+//        collectionView.register(UINib(nibName: cellId, bundle: .module),
+//                                forCellWithReuseIdentifier: cellId)
+//        collectionView.infiniteDataSource = self
+//        collectionView.infiniteDelegate = self
+//        collectionView.delegate = self
+//        collectionView.isFinishedInitializing = { [weak self] in
+//            guard let self else { return }
+//            if thumbnailImages.count > 0 {
+//                thumbnailImages.removeAll()
+//            }
+//        }
+//        collectionView.reloadData()
+//    }
 
-        collectionView.register(UINib(nibName: cellId, bundle: .module),
-                                forCellWithReuseIdentifier: cellId)
-        collectionView.infiniteDataSource = self
-        collectionView.infiniteDelegate = self
-        collectionView.isFinishedInitializing = { [weak self] in
-            guard let self else { return }
-            if thumbnailImages.count > 0 {
-                thumbnailImages.removeAll()
-            }
-        }
-        collectionView.reloadData()
-    }
+    func reloadAndScroll(at index: Int) {
 
-    func updatePrimaryCollection() {
-
-        guard foodIndex != -1 else { return }
-
-        if foodImageCollectionView.isFewerItemLayout {
-            managePrimaryFewerColorCollection()
-            return
-        }
-        foodImageCollectionView.scrollToPaint(at: IndexPath(row: foodIndex, section: 0),
-                                              animated: false)
-    }
-
-    private func managePrimaryFewerColorCollection() {
-        primarySelectedIndex = foodIndex
-        foodImageCollectionView.fewItemsIndex = primarySelectedIndex
-        updateColorName(in: foodImageCollectionView, fewItemIndex: foodIndex)
-    }
-
-    func updatedPrimaryItem(index: Int?) {
-        let centerIndex = index ?? foodImageCollectionView.getCenterIndex()
-        print("Selected Item:- \(thumbnailImages[centerIndex])")
-    }
-
-    func updateColorName(in collectionView: InfiniteCollectionView,
-                         shouldUseZeroIndex: Bool = false,
-                         fewItemIndex: Int? = nil,
-                         isScrollViewStopped: Bool = false,
-                         isColorSelected: Bool = false) {
-
-        let groupIndex = collectionView.getCenterIndex(shouldUseZeroIndex: shouldUseZeroIndex,
-                                                       fewItemIndex: fewItemIndex)
-
-        if collectionView == foodImageCollectionView {
-            let item = thumbnailImages[groupIndex]
-            print("Item:- \(item)")
-        }
+        imageCollectionView.reloadData()
+//        let indexPath = IndexPath(item: index, section: 0)
+//        if index < thumbnailImages.count {
+////            if var rect = foodImageCollectionView.layoutAttributesForItem(at: IndexPath(item: index,
+////                                                                                        section: 0))?.frame {
+////                rect = CGRect(x: rect.minX + 80, y: rect.minY, width: rect.width, height: rect.height)
+////                foodImageCollectionView.scrollRectToVisible(rect, animated: true)
+////            }
+//            foodImageCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+//        }
     }
 }
 
 // MARK: - Carousel CollectionView DataSource & Delegate
-extension TakePhotosViewController: InfiniteCollectionViewDataSource, InfiniteCollectionViewDelegate {
-
-    func numberOfItems(_ collectionView: UICollectionView) -> Int {
-        if collectionView == foodImageCollectionView {
-            return thumbnailImages.count
-        }
-        return 0
-    }
-
-    func cellForItemAtIndexPath(_ collectionView: UICollectionView,
-                                dequeueIndexPath: IndexPath,
-                                usableIndexPath: IndexPath) -> UICollectionViewCell {
-
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId,
-                                                            for: dequeueIndexPath) as? ThumbnailImageCollectionCell else {
-            return UICollectionViewCell()
-        }
-
-        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.frame.size)
-        cell.distanceFromCenter = visibleRect.midX - cell.frame.midX
-
-        if collectionView == foodImageCollectionView,
-           let item = thumbnailImages[safe: usableIndexPath.item] {
-            cell.configure(with: item)
-        }
-        return cell
-    }
-
-    func navigationTapped(_ collectionView: UICollectionView, offset: Int) {
-
-        if collectionView == foodImageCollectionView,
-           let primaryCollectionView = collectionView as? InfiniteCollectionView {
-
-            if (1 ... 4).contains(primaryCollectionView.numberOfItems(inSection: 0)) {
-
-                primaryCollectionView.fewItemsIndex = offset
-                primarySelectedIndex = offset
-                updateColorName(in: primaryCollectionView, fewItemIndex: offset)
-                updatedPrimaryItem(index: offset)
-
-            } else {
-                if offset == 0 {
-                    updatedPrimaryItem(index: nil)
-                } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
-                        updateColorName(in: primaryCollectionView)
-                    }
-                }
-            }
-        }
-    }
-}
+//extension TakePhotosViewController: InfiniteCollectionViewDataSource, InfiniteCollectionViewDelegate {
+//
+//    func numberOfItems(_ collectionView: UICollectionView) -> Int {
+//        if collectionView == foodImageCollectionView {
+//            return thumbnailImages.count
+//        }
+//        return 0
+//    }
+//
+//    func cellForItemAtIndexPath(_ collectionView: UICollectionView,
+//                                dequeueIndexPath: IndexPath,
+//                                usableIndexPath: IndexPath) -> UICollectionViewCell {
+//
+//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId,
+//                                                            for: dequeueIndexPath) as? ThumbnailImageCollectionCell else {
+//            return UICollectionViewCell()
+//        }
+//
+////        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.frame.size)
+////        cell.distanceFromCenter = visibleRect.midX - cell.frame.midX
+//
+//        if collectionView == foodImageCollectionView,
+//           let item = thumbnailImages[safe: usableIndexPath.item] {
+//            cell.configure(with: item, index: usableIndexPath.item)
+//        }
+//        return cell
+//    }
+//
+//    func navigationTapped(_ collectionView: UICollectionView, offset: Int) {
+//
+//        if collectionView == foodImageCollectionView,
+//           let primaryCollectionView = collectionView as? InfiniteCollectionView {
+//
+//            if (1 ... 4).contains(primaryCollectionView.numberOfItems(inSection: 0)) {
+//
+//                primaryCollectionView.fewItemsIndex = offset
+//                primarySelectedIndex = offset
+//                updateImage(in: primaryCollectionView, fewItemIndex: offset)
+//                updatedPrimaryItem(index: offset)
+//
+//            } else {
+//                if offset == 0 {
+//                    updatedPrimaryItem(index: nil)
+//                } else {
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+//                        updateImage(in: primaryCollectionView)
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 // MARK: - ScrollView Delegate methods
-extension TakePhotosViewController: UICollectionViewDelegate {
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
-        guard let collectionView = scrollView as? InfiniteCollectionView else {
-            return
-        }
-        if scrollView.isDragging {
-            handleHapticFeedback(for: collectionView)
-        }
-
-        for cell in collectionView.visibleCells.compactMap({ $0 as? ThumbnailImageCollectionCell }) {
-            let visibleRect = CGRect(origin: collectionView.contentOffset,
-                                     size: collectionView.frame.size)
-            cell.distanceFromCenter = visibleRect.midX - cell.frame.midX
-        }
-
-        if collectionView.firstScrollTime {
-            collectionView.firstScrollTime = false
-        } else {
-            if scrollView.isDragging {
-                updateColorName(in: collectionView)
-            }
-        }
-    }
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-
-    }
-}
+//extension TakePhotosViewController: UICollectionViewDelegate {
+//
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        guard let collectionView = scrollView as? InfiniteCollectionView else {
+//            return
+//        }
+//        if scrollView.isDragging {
+//            handleHapticFeedback(for: collectionView)
+//        }
+//    }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        scrollViewStopScrolling(scrollView)
+//    }
+//
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if !decelerate {
+//            scrollViewStopScrolling(scrollView)
+//        }
+//    }
+//
+//    private func scrollViewStopScrolling(_ scrollView: UIScrollView) {
+//        guard let collectionView = scrollView as? InfiniteCollectionView else {
+//            return
+//        }
+//        let useZeroIndex = (0...4).contains(thumbnailImages.count) ? true : false
+//        updateImage(in: collectionView, shouldUseZeroIndex: useZeroIndex)
+//    }
+//}
 
 // MARK: - Handle Haptic Feedback
 extension TakePhotosViewController {
 
-    func handleHapticFeedback(for collectionView: InfiniteCollectionView) {
-        let index = collectionView.getCenterIndex()
-        if index == 0,
-           !hapticFeedbackOccured {
-            hapticFeedbackOccured = true
-            hapticFeedback()
-        } else if index != 0 {
-            hapticFeedbackOccured = false
-        }
-    }
+//    func handleHapticFeedback(for collectionView: InfiniteCollectionView) {
+//        let index = collectionView.getCenterIndex()
+//        if index == 0,
+//           !hapticFeedbackOccured {
+//            hapticFeedbackOccured = true
+//            hapticFeedback()
+//        } else if index != 0 {
+//            hapticFeedbackOccured = false
+//        }
+//    }
 
     private func hapticFeedback() {
         let generator = UIImpactFeedbackGenerator(style: .medium)
