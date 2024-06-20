@@ -226,7 +226,7 @@ extension HomeTabBarController: PlusMenuDelegate {
 
     func onScanSelected() {
         let vc = NutritionUICoordinator.getScanningViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func onSearchSelected() {
@@ -235,13 +235,13 @@ extension HomeTabBarController: PlusMenuDelegate {
         vc.isAdvancedSearch = true
         vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
-        self.present(vc, animated: true)
+        present(vc, animated: true)
     }
 
     func onFavouritesSelected() {
         let vc = MyFavoritesViewController()
         vc.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func onMyFoodsSelected() {

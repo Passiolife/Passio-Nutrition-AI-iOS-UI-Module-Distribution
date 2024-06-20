@@ -8,23 +8,23 @@
 
 import UIKit
 
-public extension UINavigationController {
-    
+extension UINavigationController: UIGestureRecognizerDelegate {
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // To keep default swipe to back behavior
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
     func updateStatusBarColor(color: UIColor) {
-        if #available(iOS 13, *) {
-            if let statusBar = self.view.viewWithTag(-1) {
-                statusBar.backgroundColor = color
-            }else{
-                let statusBar = UIView(frame: (UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.windowScene?.statusBarManager?.statusBarFrame)!)
-                statusBar.tag = -1
-                statusBar.backgroundColor = color
-                view.addSubview(statusBar)
-            }
+        if let statusBar = self.view.viewWithTag(-1) {
+            statusBar.backgroundColor = color
         } else {
-            let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
-            if statusBar.responds(to: #selector(setter: UIView.backgroundColor)) {
-                statusBar.backgroundColor = UIColor.clear
-            }
+            let statusBar = UIView(frame: (UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.windowScene?.statusBarManager?.statusBarFrame)!)
+            statusBar.tag = -1
+            statusBar.backgroundColor = color
+            view.addSubview(statusBar)
         }
     }
     
@@ -50,5 +50,10 @@ public extension UINavigationController {
         } else {
             completion()
         }
+    }
+
+    // To keep default swipe to back behavior
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
     }
 }

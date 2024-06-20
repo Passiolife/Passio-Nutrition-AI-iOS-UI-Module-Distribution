@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-class SelectPhotosViewController: InstantiableViewController {
+class SelectPhotosViewController: InstantiableViewController, ImageLoggingService {
 
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var activityIndicatorStackView: UIStackView!
@@ -85,39 +85,9 @@ class SelectPhotosViewController: InstantiableViewController {
         present(picker, animated: true)
     }
 
-    private func fetchFoodData() {
-
-        var recognitionData: [PassioSpeechRecognitionModel] = []
-        let dispatchGroup = DispatchGroup()
-
-        selectedImages.forEach { image in
-
-            dispatchGroup.enter()
-
-            PassioNutritionAI.shared.recognizeImageRemote(image: image) { [weak self] (passioAdvisorFoodInfo) in
-                guard let self else { return }
-                passioAdvisorFoodInfo.forEach {
-                    let model = PassioSpeechRecognitionModel(action: .none,
-                                                             meal: PassioMealTime.currentMealTime(),
-                                                             date: nil,
-                                                             extractedIngridient: $0)
-                    recognitionData.append(model)
-                }
-                dispatchGroup.leave()
-            }
-        }
-
-        dispatchGroup.notify(queue: .main) { [self] in
-            activityIndicatorView.stopAnimating()
-            activityIndicatorStackView.isHidden = true
-            loadResultLoggingView(recognitionData: recognitionData)
-        }
-    }
-
     private func loadResultLoggingView(recognitionData: [PassioSpeechRecognitionModel]) {
 
         DispatchQueue.main.async { [self] in
-
             let resultsLoggingView = ResultsLoggingView.fromNib(bundle: .module)
             resultsLoggingView.resultLoggingDelegate = self
             resultsLoggingView.showCancelButton = true
@@ -160,6 +130,8 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
             }
         }
 
+        if results.count == 0 { return }
+
         let dispatchGroup = DispatchGroup()
 
         results.forEach { phPickerResult in
@@ -180,16 +152,32 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
             }
         }
 
+        // Show selected images
         dispatchGroup.notify(queue: .main) { [weak self] in
-
             guard let self else { return }
-
             activityIndicatorStackView.isHidden = false
             activityIndicatorView.startAnimating()
             selectedImageCollectionView.reloadData()
 
+            // Fetch FoodData for selected images
             DispatchQueue.global(qos: .userInteractive).async {
-                self.fetchFoodData()
+                self.fetchFoodData(for: self.selectedImages) { [weak self] recognitionModel in
+                    guard let self else { return }
+                    activityIndicatorView.stopAnimating()
+                    activityIndicatorStackView.isHidden = true
+
+                    if recognitionModel.count == 0 {
+                        showCustomAlert(title: CustomAlert.AlertTitle(titleText: "The system is unable to recognize images.",
+                                                                      rightButtonTitle: "Select Photos",
+                                                                      leftButtonTitle: "Cancel"),
+                                        font: CustomAlert.AlertFont(titleFont: .inter(type: .medium, size: 18),
+                                                                    rightButtonFont: .inter(type: .medium, size: 16),
+                                                                    leftButtonFont: .inter(type: .medium, size: 16)),
+                                        delegate: self)
+                    } else {
+                        loadResultLoggingView(recognitionData: recognitionModel)
+                    }
+                }
             }
         }
     }
@@ -209,4 +197,18 @@ extension SelectPhotosViewController: ResultsLoggingDelegate {
     }
 
     func onSearchManuallyTapped() { }
+}
+
+// MARK: - PHPickerViewControllerDelegate
+extension SelectPhotosViewController: CustomAlertDelegate {
+
+    func onRightButtonTapped() {
+        selectedImages.removeAll()
+        selectedImageCollectionView.reloadData()
+        showPhotos()
+    }
+
+    func onleftButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
 }

@@ -10,53 +10,15 @@ import UIKit
 
 public extension UIViewController {
 
-    func configureNavBarWithImage(named: String = "header_bg", withColor: UIColor = .white ) {
-        if let navBar = self.navigationController?.navigationBar {
-            let textAttributes = [NSAttributedString.Key.foregroundColor: withColor]
-            navBar.backgroundColor = .passioBackgroundWhite
-            navBar.titleTextAttributes = textAttributes
-            navBar.tintColor = withColor
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back".localized,
-                                                               style: .plain,
-                                                               target: nil,
-                                                               action: nil)
-        }
-    }
-
-    func configureCameraNavBar(withColor: UIColor = .white) {
-        if let navBar = self.navigationController?.navigationBar {
-            let textAttributes = [NSAttributedString.Key.foregroundColor: withColor]
-            navBar.backgroundColor = .passioBackgroundWhite
-            navBar.titleTextAttributes = textAttributes
-            navBar.tintColor = withColor
-            navBar.isTranslucent = true
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back".localized,
-                                                               style: .plain,
-                                                               target: nil,
-                                                               action: nil)
-        }
-    }
-
-    func configureWhiteBarNoImage() {
-        if let navBar = self.navigationController?.navigationBar {
-            let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            navBar.titleTextAttributes = textAttributes
-            navBar.tintColor = .black
-            navBar.isTranslucent = true
-            navBar.barStyle = .default
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back".localized,
-                                                               style: .plain,
-                                                               target: nil,
-                                                               action: nil)
-        }
-    }
-
     func setupBackButton() {
-        let barButton = UIBarButtonItem(image: UIImage.imageFromBundle(named: "back_arrow"),
-                                        style: .plain,
-                                        target: self,
-                                        action: #selector(back))
-        self.navigationItem.leftBarButtonItem = barButton
+
+        // setupInteractivePopGestureRecognizer()
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage.imageFromBundle(named: "back_arrow"), for: .normal)
+        backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
+        backButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
+        let backButtonItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = backButtonItem
     }
 
     func hideKeyboardWhenTappedAround() {
@@ -73,35 +35,37 @@ public extension UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
-    //    open override func awakeAfter(using coder: NSCoder) -> Any? {
-    //        self.setupBackButton() // This will help us to remove text from back button
-    //        return super.awakeAfter(using: coder)
-    //    }
-    //
-    func setGradientBackground() {
-        let layer0 = CAGradientLayer()
-        layer0.colors = [UIColor(red: 0, green: 0.706, blue: 0.776, alpha: 1).cgColor,
-                         UIColor(red: 0.008, green: 0.059, blue: 0.522, alpha: 1).cgColor]
-        layer0.locations = [0, 1]
-        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
-        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: 1, d: 0, tx: 0, ty: 0))
-        layer0.frame = CGRect(x: 0,
-                              y: 0,
-                              width: ScreenSize.width,
-                              height: ScreenSize.height)
-        layer0.position = view.center
-        view.layer.insertSublayer(layer0, at: 0)
-    }
+//    open override func awakeAfter(using coder: NSCoder) -> Any? {
+//        navigationItem.backButtonDisplayMode = .minimal // This will help us to remove text from back button
+//        return super.awakeAfter(using: coder)
+//    }
+
+    /// Customize Navigation bar
+//    func customizeNavigationBar(tintColor: UIColor = .gray400,
+//                                titleColor: UIColor = .gray900,
+//                                withBackButton: Bool = true) {
+//
+//        guard let navBar = self.navigationController?.navigationBar else { return }
+//        navBar.setBackgroundImage(nil, for: .default)
+//        navBar.shadowImage = UIImage()
+//        navBar.tintColor = tintColor
+//
+//        let appearance = UINavigationBarAppearance()
+//        appearance.configureWithTransparentBackground()
+//        appearance.titleTextAttributes = [.font: UIFont.inter(type: .bold, size: 23),
+//                                          .foregroundColor: titleColor]
+//        navBar.standardAppearance = appearance
+//        navBar.scrollEdgeAppearance = appearance
+//        navBar.tintColor = tintColor
+//        addEmptyleftButon()
+//        if !withBackButton {
+//            navigationItem.hidesBackButton = true
+//        }
+//    }
 
     var topBarHeight: CGFloat {
         return (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0.0) +
         (self.navigationController?.navigationBar.frame.height ?? 0.0)
-    }
-
-    func navigateTo(vc: UIViewController, hideTabBar: Bool = true) {
-        vc.hidesBottomBarWhenPushed = hideTabBar ? true : false
-        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func presentVC(vc: UIViewController, isAnimated: Bool = true) {
@@ -176,6 +140,22 @@ public extension UIViewController {
         alert.addAction(UIAlertAction(title: Localized.cancel,
                                       style: .cancel))
         present(alert, animated: true, completion: nil)
+    }
+
+    internal func showCustomAlert(with views: CustomAlert = CustomAlert(),
+                                  title: CustomAlert.AlertTitle,
+                                  font: CustomAlert.AlertFont,
+                                  delegate: CustomAlertDelegate?) {
+        let customAlertVC = CustomAlertViewController(nibName: "CustomAlertViewController",
+                                                      bundle: .module)
+        customAlertVC.loadViewIfNeeded()
+        customAlertVC.configureAlert(views: views)
+        customAlertVC.configureAlert(title: title)
+        customAlertVC.configureAlert(font: font)
+        customAlertVC.delegate = delegate
+        customAlertVC.modalTransitionStyle = .crossDissolve
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        navigationController?.present(customAlertVC, animated: true)
     }
 
     func showAlertForError(alertTitle: String,
@@ -327,3 +307,20 @@ public extension UIViewController {
         ]
     }
 }
+
+//public protocol InteractivePopGestureRecognizerDelegate: UIGestureRecognizerDelegate {
+//    func setupInteractivePopGestureRecognizer()
+//}
+//
+//extension InteractivePopGestureRecognizerDelegate where Self: UIViewController {
+//    public func setupInteractivePopGestureRecognizer() {
+//        navigationController?.interactivePopGestureRecognizer?.delegate = self
+//    }
+//}
+//
+//extension UIViewController: InteractivePopGestureRecognizerDelegate {
+//    // Ensure the gesture recognizer works alongside the custom back button
+//    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return navigationController?.viewControllers.count ?? 0 > 1
+//    }
+//}

@@ -21,11 +21,7 @@
                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rKh-6z-c9S">
                         <rect key="frame" x="10" y="10" width="80" height="80"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Ak-a3-Coc">
-                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Fm-6f-1ah">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Fm-6f-1ah">
                                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
@@ -57,15 +53,11 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="gBd-Fg-pbf" secondAttribute="trailing" constant="-4" id="2gf-qa-2Ic"/>
                             <constraint firstAttribute="width" constant="80" id="5lu-La-Glt"/>
-                            <constraint firstItem="2Ak-a3-Coc" firstAttribute="trailing" secondItem="7Fm-6f-1ah" secondAttribute="trailing" id="6it-UH-32b"/>
                             <constraint firstAttribute="bottom" secondItem="7Fm-6f-1ah" secondAttribute="bottom" id="EJg-9K-jTk"/>
                             <constraint firstAttribute="height" constant="80" id="GVe-I4-DIT"/>
                             <constraint firstAttribute="trailing" secondItem="7Fm-6f-1ah" secondAttribute="trailing" id="KEd-Hw-m4N"/>
-                            <constraint firstItem="2Ak-a3-Coc" firstAttribute="leading" secondItem="7Fm-6f-1ah" secondAttribute="leading" id="YJj-5W-olr"/>
-                            <constraint firstItem="2Ak-a3-Coc" firstAttribute="bottom" secondItem="7Fm-6f-1ah" secondAttribute="bottom" id="gCC-dN-fnd"/>
                             <constraint firstItem="7Fm-6f-1ah" firstAttribute="top" secondItem="rKh-6z-c9S" secondAttribute="top" id="h34-b1-H2I"/>
                             <constraint firstItem="7Fm-6f-1ah" firstAttribute="leading" secondItem="rKh-6z-c9S" secondAttribute="leading" id="iYP-C8-xty"/>
-                            <constraint firstItem="2Ak-a3-Coc" firstAttribute="top" secondItem="7Fm-6f-1ah" secondAttribute="top" id="rYV-PW-soY"/>
                             <constraint firstItem="gBd-Fg-pbf" firstAttribute="top" secondItem="rKh-6z-c9S" secondAttribute="top" constant="-4" id="vrW-vQ-JMR"/>
                         </constraints>
                     </view>
@@ -79,15 +71,14 @@
             <connections>
                 <outlet property="deleteButton" destination="gBd-Fg-pbf" id="0JP-N0-Duh"/>
                 <outlet property="foodImageView" destination="7Fm-6f-1ah" id="w0z-2U-pwE"/>
-                <outlet property="mainView" destination="2Ak-a3-Coc" id="lno-gi-8tu"/>
             </connections>
-            <point key="canvasLocation" x="301.44927536231887" y="385.71428571428572"/>
+            <point key="canvasLocation" x="-123" y="360"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

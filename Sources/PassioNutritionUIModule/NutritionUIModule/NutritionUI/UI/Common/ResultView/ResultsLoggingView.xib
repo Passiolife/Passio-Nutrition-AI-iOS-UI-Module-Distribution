@@ -209,7 +209,7 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="l0T-Sj-mjk" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="HS6-dT-Q9m"/>
                 <constraint firstAttribute="bottom" secondItem="l0T-Sj-mjk" secondAttribute="bottom" id="HkV-18-y9f"/>
@@ -229,7 +229,7 @@
                 <outlet property="tableViewHeightConstraint" destination="Pex-x8-1wO" id="8ZI-YZ-Ywz"/>
                 <outlet property="tryAgainButton" destination="PBT-Fw-Jt6" id="Dyi-CM-ald"/>
             </connections>
-            <point key="canvasLocation" x="167" y="-29"/>
+            <point key="canvasLocation" x="-42" y="-12"/>
         </view>
     </objects>
     <resources>

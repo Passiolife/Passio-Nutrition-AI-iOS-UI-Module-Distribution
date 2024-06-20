@@ -121,8 +121,8 @@ class ResultsLoggingView: UIView {
 
                     var foodRecord = FoodRecordV3(foodItem: foodItem)
 
-                    if foodRecord.setSelectedUnit(unit: advisorFoodInfo.portionSize.separateStringAndNumber.1 ?? "") {
-                        let quantity = advisorFoodInfo.portionSize.separateStringAndNumber.0 ?? "0"
+                    if foodRecord.setSelectedUnit(unit: advisorFoodInfo.portionSize.separateStringUsingSpace.1 ?? "") {
+                        let quantity = advisorFoodInfo.portionSize.separateStringUsingSpace.0 ?? "0"
                         foodRecord.setSelectedQuantity(quantity: Double(quantity) ?? 0)
                     } else {
                         if foodRecord.setSelectedUnit(unit: "gram") {

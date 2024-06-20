@@ -71,7 +71,6 @@ public extension UIView {
     }
 
     func roundMyCornerWith(radius: CGFloat, upper: Bool, down: Bool ) {
-        //  self.frame = self.frame.insetBy(dx: withInset, dy: withInset)
         self.layer.cornerRadius = 0
         self.layer.cornerRadius = radius
         self.layer.masksToBounds = true
@@ -82,11 +81,6 @@ public extension UIView {
         if down {
             self.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
-
-        //        if upper == down , !upper{
-        //            self.layer.cornerRadius = 0
-        //        }
-
         self.clipsToBounds = true
     }
 
@@ -204,15 +198,16 @@ public extension UIView {
                     shadowOpacity: Float,
                     useShadowPath: Bool = false) {
 
-        layer.masksToBounds = false
         layer.cornerRadius = radius
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = shadowOpacity
         layer.shadowColor = color.cgColor
         layer.shadowOffset = offset
         if useShadowPath {
-            layer.shadowPath = UIBezierPath(rect: layer.bounds).cgPath
+            layer.shadowPath = UIBezierPath(roundedRect: bounds,
+                                            cornerRadius: layer.cornerRadius).cgPath
         }
+        layer.masksToBounds = false
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
     }
@@ -254,10 +249,10 @@ public extension UIView {
     func showHideView(with animation: UIView.AnimationOptions = .transitionCrossDissolve,
                       duration: TimeInterval = 0.3,
                       isHidden: Bool) {
-        alpha = isHidden ? 0 : 1
+        alpha = isHidden ? 1 : 0
         self.isHidden = isHidden
         UIView.animate(withDuration: duration, delay: 0, options: animation) {
-            self.alpha = !isHidden ? 0 : 1
+            self.alpha = self.isHidden ? 0 : 1
         }
     }
 
@@ -284,6 +279,20 @@ public extension UIView {
                                          attribute: attribute,
                                          multiplier: 1,
                                          constant: constant))
+    }
+}
+
+public extension UIButton {
+
+    func enableDisableButton(with animation: UIView.AnimationOptions = .transitionCrossDissolve,
+                             duration: TimeInterval = 0.3,
+                             opacity: CGFloat = 0.8,
+                             isEnabled: Bool) {
+        alpha = isEnabled ? opacity : 1
+        self.isEnabled = isEnabled
+        UIView.animate(withDuration: duration, delay: 0, options: animation) {
+            self.alpha = self.isEnabled ? 1 : opacity
+        }
     }
 }
 

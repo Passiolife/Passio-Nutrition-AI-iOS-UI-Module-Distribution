@@ -165,20 +165,13 @@ public actor SpeechRecognizer: ObservableObject {
             // Fallback on earlier versions
         }
         request.contextualStrings = ["merguez"]    // Unusual food names, <100; https://developer.apple.com/documentation/speech/sfspeechrecognitionrequest/1649391-contextualstrings
-        if #available(iOS 13, *) {
-            // Require on-device recognition so that the application is not
-            // vulnerable to network and Apple-imposed network-service
-            // limitations: https://developer.apple.com/documentation/speech/recognizing_speech_in_live_audio#4263698
-            if let recognizer = recognizer {
-                if recognizer.supportsOnDeviceRecognition {  // https://developer.apple.com/documentation/speech/sfspeechrecognizer/3152604-supportsondevicerecognition
-                    // Beware https://forums.developer.apple.com/forums/thread/739006
-                    request.requiresOnDeviceRecognition = true  // https://developer.apple.com/documentation/speech/sfspeechrecognitionrequest/3152603-requiresondevicerecognition
-                } else {
-                    print("On-device recognition is not supported on this device/OS.")
-                }
+        if let recognizer = recognizer {
+            if recognizer.supportsOnDeviceRecognition {  // https://developer.apple.com/documentation/speech/sfspeechrecognizer/3152604-supportsondevicerecognition
+                // Beware https://forums.developer.apple.com/forums/thread/739006
+                request.requiresOnDeviceRecognition = true  // https://developer.apple.com/documentation/speech/sfspeechrecognitionrequest/3152603-requiresondevicerecognition
+            } else {
+                print("On-device recognition is not supported on this device/OS.")
             }
-        } else {
-            print("iOS does not provide this feature")
         }
 
         inputNode.installTap(onBus: inputBus,
