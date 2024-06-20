@@ -105,6 +105,18 @@ public extension String {
     var toMutableAttributedString: NSMutableAttributedString {
         NSMutableAttributedString(string: self)
     }
+
+    var separateStringUsingSpace: (String?, String?) {
+        let parts = components(separatedBy: " ") // "1 bowl"
+        // Ensure the parts array has the expected components
+        if parts.count == 2 {
+            let number = parts[0] // "1"
+            let item = parts[1]   // "bowl"
+            return (number, item)
+        } else {
+            return (nil, nil)
+        }
+    }
 }
 
 extension NSMutableAttributedString {

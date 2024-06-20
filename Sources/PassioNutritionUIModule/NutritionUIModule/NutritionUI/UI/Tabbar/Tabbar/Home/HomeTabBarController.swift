@@ -71,11 +71,6 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
 
         UserManager.shared.configure()
 
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.isTranslucent = false
-        navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.updateStatusBarColor(color: .white)
-
         addTabBarControllers()
         configureUI()
         configureNavBar()
@@ -84,7 +79,9 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         title = tabs[selectedIndex].naviagationTitle
+        configureNavBar()
     }
 
     override func viewDidLayoutSubviews() {
@@ -181,7 +178,12 @@ extension HomeTabBarController {
     }
 
     private func configureNavBar() {
-        
+
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.isTranslucent = false
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.updateStatusBarColor(color: .white)
+
         setupBackButton()
 
         let button = UIButton()
