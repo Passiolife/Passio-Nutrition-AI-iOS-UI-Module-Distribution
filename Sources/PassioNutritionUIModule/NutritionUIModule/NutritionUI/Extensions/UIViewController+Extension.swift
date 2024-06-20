@@ -173,7 +173,8 @@ public extension UIViewController {
 
     func showAlertWith(titleKey: String,
                        messageKey: String? = nil,
-                       view: UIViewController) {
+                       view: UIViewController,
+                       actionHandler: ((UIAlertAction) -> Void)? = nil) {
         let title = titleKey.localized
         var message: String?
         if let msg = messageKey {
@@ -182,7 +183,7 @@ public extension UIViewController {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
-        let action = UIAlertAction(title: Localized.Ok, style: .cancel)
+        let action = UIAlertAction(title: Localized.Ok, style: .cancel, handler: actionHandler)
         alert.addAction(action)
         view.present(alert, animated: true)
     }

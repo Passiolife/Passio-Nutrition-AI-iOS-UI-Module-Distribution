@@ -9,8 +9,8 @@ import UIKit
 import AVFoundation
 import Combine
 
-protocol TakePhotosDelegate: AnyObject {
-    func onNextTapped(images: [UIImage])
+protocol UsePhotosDelegate: AnyObject {
+    func onSelecting(images: [UIImage])
 }
 
 class TakePhotosViewController: InstantiableViewController, ImageLoggingService {
@@ -25,7 +25,7 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     
     private let cellId = "ThumbnailImageCollectionCell"
     private var captureSession: AVCaptureSession!
-    private var backCamera: AVCaptureDevice!
+    private var backCamera: AVCaptureDevice?
     private var backInput: AVCaptureInput!
     private var cameraPreviewLayer: AVCaptureVideoPreviewLayer!
     private let photoOutput = AVCapturePhotoOutput()
@@ -47,7 +47,7 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     }
 
     var isStandAlone = true
-    weak var delegate: TakePhotosDelegate?
+    weak var delegate: UsePhotosDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +75,10 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
         if isStandAlone {
             fetchFoodData()
         } else {
-            delegate?.onNextTapped(images: capturedImages)
+            navigationController?.popViewController(animated: true) { [weak self] in
+                guard let self else { return }
+                delegate?.onSelecting(images: capturedImages)
+            }
         }
     }
 
@@ -151,11 +154,16 @@ extension TakePhotosViewController {
                                                 position: .back) {
             backCamera = device
         } else {
-            //handle this appropriately for production purposes
-            showAlertWith(titleKey: "Back camera not found", view: self)
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                showAlertWith(titleKey: "Back camera not found", view: self) { _ in
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
         }
+
         // Create AVCaptureDeviceInput object from AVCaptureDevice
-        guard let bInput = try? AVCaptureDeviceInput(device: backCamera) else {
+        guard let backCamera, let bInput = try? AVCaptureDeviceInput(device: backCamera) else {
             print("could not create input device from back camera")
             return
         }

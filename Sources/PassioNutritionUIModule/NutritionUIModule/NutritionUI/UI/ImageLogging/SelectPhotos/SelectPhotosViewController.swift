@@ -16,6 +16,9 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
 
     private var selectedImages: [UIImage] = []
 
+    var isStandAlone = true
+    weak var delegate: UsePhotosDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -81,8 +84,32 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
         configuration.selectionLimit = 7
         configuration.filter = .images
         let picker = PHPickerViewController(configuration: configuration)
+        picker.isModalInPresentation = true
         picker.delegate = self
         present(picker, animated: true)
+    }
+
+    // Fetch FoodData for selected images
+    private func fetchFoodData() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            self.fetchFoodData(for: self.selectedImages) { [weak self] recognitionModel in
+                guard let self else { return }
+                activityIndicatorView.stopAnimating()
+                activityIndicatorStackView.isHidden = true
+
+                if recognitionModel.count == 0 {
+                    showCustomAlert(title: CustomAlert.AlertTitle(titleText: "The system is unable to recognize images.",
+                                                                  rightButtonTitle: "Select Photos",
+                                                                  leftButtonTitle: "Cancel"),
+                                    font: CustomAlert.AlertFont(titleFont: .inter(type: .medium, size: 18),
+                                                                rightButtonFont: .inter(type: .medium, size: 16),
+                                                                leftButtonFont: .inter(type: .medium, size: 16)),
+                                    delegate: self)
+                } else {
+                    loadResultLoggingView(recognitionData: recognitionModel)
+                }
+            }
+        }
     }
 
     private func loadResultLoggingView(recognitionData: [PassioSpeechRecognitionModel]) {
@@ -130,7 +157,10 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
             }
         }
 
-        if results.count == 0 { return }
+        if results.count == 0 {
+            navigationController?.popViewController(animated: true)
+            return
+        }
 
         let dispatchGroup = DispatchGroup()
 
@@ -155,28 +185,15 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
         // Show selected images
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self else { return }
-            activityIndicatorStackView.isHidden = false
-            activityIndicatorView.startAnimating()
-            selectedImageCollectionView.reloadData()
-
-            // Fetch FoodData for selected images
-            DispatchQueue.global(qos: .userInteractive).async {
-                self.fetchFoodData(for: self.selectedImages) { [weak self] recognitionModel in
+            if isStandAlone {
+                activityIndicatorStackView.isHidden = false
+                activityIndicatorView.startAnimating()
+                selectedImageCollectionView.reloadData()
+                fetchFoodData()
+            } else {
+                navigationController?.popViewController(animated: true) { [weak self] in
                     guard let self else { return }
-                    activityIndicatorView.stopAnimating()
-                    activityIndicatorStackView.isHidden = true
-
-                    if recognitionModel.count == 0 {
-                        showCustomAlert(title: CustomAlert.AlertTitle(titleText: "The system is unable to recognize images.",
-                                                                      rightButtonTitle: "Select Photos",
-                                                                      leftButtonTitle: "Cancel"),
-                                        font: CustomAlert.AlertFont(titleFont: .inter(type: .medium, size: 18),
-                                                                    rightButtonFont: .inter(type: .medium, size: 16),
-                                                                    leftButtonFont: .inter(type: .medium, size: 16)),
-                                        delegate: self)
-                    } else {
-                        loadResultLoggingView(recognitionData: recognitionModel)
-                    }
+                    delegate?.onSelecting(images: selectedImages)
                 }
             }
         }
