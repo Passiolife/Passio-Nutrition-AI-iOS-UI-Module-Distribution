@@ -247,7 +247,7 @@ extension HomeTabBarController: PlusMenuDelegate {
     }
 
     func onMyFoodsSelected() {
-        let vc = CreateFoodViewController()
+        let vc = MyFoodsSelectionViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 

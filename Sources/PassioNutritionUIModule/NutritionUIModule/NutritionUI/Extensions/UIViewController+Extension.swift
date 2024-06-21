@@ -12,7 +12,6 @@ public extension UIViewController {
 
     func setupBackButton() {
 
-        // setupInteractivePopGestureRecognizer()
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage.imageFromBundle(named: "back_arrow"), for: .normal)
         backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
