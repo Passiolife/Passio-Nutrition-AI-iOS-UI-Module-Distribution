@@ -9,7 +9,6 @@ import UIKit
 
 public protocol PageViewDelegate: AnyObject {
     func pageController(_ controller: PageViewController, didChangePage page: Int)
-    func pageControllerDidScroll(offset: CGFloat, currentPage: Int)
 }
 
 public final class PageViewController: UIPageViewController {
@@ -34,7 +33,6 @@ public final class PageViewController: UIPageViewController {
         // Find the scroll view and set its delegate
         for view in view.subviews {
             if let scrollView = view as? UIScrollView {
-                // scrollView.delegate = self
                 scrollView.delaysContentTouches = false
                 break
             }
@@ -145,37 +143,6 @@ extension PageViewController: UIPageViewControllerDataSource, UIPageViewControll
                                    transitionCompleted completed: Bool) {
         let current = pageViewController.viewControllers![0]
         currentPage = viewControllerList.firstIndex(of: current)!
-    }
-}
-
-// MARK: - UIScrollViewDelegate
-extension PageViewController: UIScrollViewDelegate {
-
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
-        let screenWidth = ScreenSize.width
-        let offset = scrollView.contentOffset.x - screenWidth
-        pageDelegate?.pageControllerDidScroll(offset: offset, currentPage: currentPage)
-    }
-
-    // UIScrollViewDelegate method called when dragging ends
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            // Scrolling stopped
-            scrollViewDidFinishScrolling(scrollView)
-        }
-    }
-
-    // UIScrollViewDelegate method called when scrolling animation ends
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        // Scrolling stopped
-        scrollViewDidFinishScrolling(scrollView)
-    }
-
-    // Custom method to handle the end of scrolling
-    func scrollViewDidFinishScrolling(_ scrollView: UIScrollView) {
-        pageDelegate?.pageControllerDidScroll(offset: currentPage == 0 ? 0 : ScreenSize.width/2,
-                                              currentPage: currentPage)
     }
 }
 

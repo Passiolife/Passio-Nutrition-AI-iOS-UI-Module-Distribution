@@ -59,13 +59,6 @@ class MyFoodsSelectionViewController: InstantiableViewController {
 // MARK: - PageViewDelegate
 extension MyFoodsSelectionViewController: PageViewDelegate {
 
-    func pageControllerDidScroll(offset: CGFloat, currentPage: Int) {
-//        let indicatorWidth = ScreenSize.width/2
-//        if currentPage == 1 && offset < indicatorWidth { return }
-//        if offset > indicatorWidth { return }
-        // indicatorLeadingConstraint.constant = offset
-    }
-
     func pageController(_ controller: PageViewController, didChangePage page: Int) {
         pageCollectionView.selectedCellIndexPath = IndexPath(item: page, section: 0)
         pageCollectionView.reloadData()
@@ -77,13 +70,6 @@ extension MyFoodsSelectionViewController: PageViewDelegate {
 
         pageViewController.setPage(selectedIndex, animated: true)
         indicatorLeadingConstraint.constant = selectedIndex == 0 ? 0 : ScreenSize.width/2
-//        UIView.animate(withDuration: 0.12,
-//                       delay: 0,
-//                       options: .beginFromCurrentState,
-//                       animations: { [self] in
-//            indicatorLeadingConstraint.constant = selectedIndex == 0 ? 0 : ScreenSize.width/2
-//            view.layoutIfNeeded()
-//        })
     }
 }
 
