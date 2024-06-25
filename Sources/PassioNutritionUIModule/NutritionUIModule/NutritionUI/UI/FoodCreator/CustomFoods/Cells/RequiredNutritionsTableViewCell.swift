@@ -52,11 +52,11 @@ final class RequiredNutritionsTableViewCell: UITableViewCell {
 // MARK: - Cell Helper
 extension RequiredNutritionsTableViewCell {
 
-    func configureCell(with nutritionData: NutritionFactsDataSet, isFromFoodScanner: Bool) {
+    func configureCell(with nutritionData: NutritionFactsDataSet, isCreateNewFood: Bool) {
 
         foodDataSet = nutritionData
 
-        if !isFromFoodScanner { return }
+        if isCreateNewFood { return }
 
         servingSizeTextField.text = (nutritionData.nutritionFacts?.servingSizeQuantity.roundDigits(afterDecimal: 2).clean ?? "")
         unitsTextField.text = (nutritionData.nutritionFacts?.servingSizeUnitName ?? "")
@@ -75,30 +75,33 @@ extension RequiredNutritionsTableViewCell {
 
         var errors = [String]()
 
-        if foodDataSet?.nutritionFacts?.servingSizeQuantity ?? 0 == 0 {
+        if let servings = Double(servingSizeTextField.text ?? ""),
+           servings == 0 {
             errors.append("Serving Size")
         }
-        if (foodDataSet?.nutritionFacts?.servingSizeUnitName ?? "").trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            errors.append("Serving Unit")
+        if let unit = unitsTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), unit == "" {
+            errors.append("serving unit")
         }
-        if foodDataSet?.nutritionFacts?.servingSizeGram ?? 0 == 0 {
-            errors.append("Weight")
+        if let weightString = weightTextField.text?.replacingOccurrences(of: " g", with: ""),
+           let weight = Double(weightString), weight == 0 {
+            errors.append("weight")
         }
+
         if let calorieString = caloriesTextField.text?.replacingOccurrences(of: " kcal", with: ""),
            let _ = Double(calorieString) { } else {
-               errors.append("Calories")
+               errors.append("calories")
            }
         if let carbString = carbsTextField.text?.replacingOccurrences(of: " g", with: ""),
            let _ = Double(carbString) { } else {
-               errors.append("Carbs")
+               errors.append("carbs")
            }
         if let proteinString = proteinTextField.text?.replacingOccurrences(of: " g", with: ""),
            let _ = Double(proteinString) { } else {
-               errors.append("Protein")
+               errors.append("protein")
            }
         if let fatString = fatTextField.text?.replacingOccurrences(of: " g", with: ""),
            let _ = Double(fatString) { } else {
-               errors.append("Fat")
+               errors.append("fat")
            }
 
         if errors.count > 0 {

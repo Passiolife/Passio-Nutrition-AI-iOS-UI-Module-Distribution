@@ -17,6 +17,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateFoodViewController" customModule="PassioNutritionUIModule">
             <connections>
+                <outlet property="activityIndicatorView" destination="yfu-QF-uXA" id="2ON-EU-ify"/>
                 <outlet property="createFoodTableView" destination="9td-EA-rKm" id="7zY-3S-hCH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -79,6 +80,10 @@
                         </button>
                     </subviews>
                 </stackView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="yfu-QF-uXA">
+                    <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                    <color key="color" name="indigo-600"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="gray-50"/>
@@ -89,6 +94,8 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9td-EA-rKm" secondAttribute="trailing" id="kZt-rS-K0W"/>
                 <constraint firstItem="FRP-aV-Fhj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="o4b-tV-f3P"/>
                 <constraint firstItem="FRP-aV-Fhj" firstAttribute="top" secondItem="9td-EA-rKm" secondAttribute="bottom" constant="40" id="o6h-Ve-CIS"/>
+                <constraint firstItem="yfu-QF-uXA" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="oic-s7-obD"/>
+                <constraint firstItem="yfu-QF-uXA" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="rgZ-4L-1ps"/>
                 <constraint firstItem="9td-EA-rKm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="uay-GU-F2s"/>
             </constraints>
             <point key="canvasLocation" x="-185" y="-35"/>

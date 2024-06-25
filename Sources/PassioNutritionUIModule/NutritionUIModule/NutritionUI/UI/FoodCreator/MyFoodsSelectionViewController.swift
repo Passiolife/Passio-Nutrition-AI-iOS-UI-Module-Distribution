@@ -45,10 +45,11 @@ class MyFoodsSelectionViewController: InstantiableViewController {
         pageCollectionView.titles = ["Custom Foods", "Recipes"]
         pageCollectionView.pageCollectionDelegate = self
 
-        let createFoodsVC = CreateFoodViewController(nibName: "CreateFoodViewController", bundle: .module)
+        let customFoodsVC = CustomFoodsViewController(nibName: "CustomFoodsViewController", bundle: .module)
         let recipesVC = RecipesViewController(nibName: "RecipesViewController", bundle: .module)
-        viewControllers = [createFoodsVC, recipesVC]
+        viewControllers = [customFoodsVC, recipesVC]
         pageViewController.pageDelegate = self
+        pageViewController.isSwipeGestureEnabled(false)
         pageViewController.setup(viewControllers)
 
         indicatorLeadingConstraint.constant = 0
@@ -69,7 +70,16 @@ extension MyFoodsSelectionViewController: PageViewDelegate {
     private func setTabBarIndex(_ selectedIndex : Int) {
 
         pageViewController.setPage(selectedIndex, animated: true)
-        indicatorLeadingConstraint.constant = selectedIndex == 0 ? 0 : ScreenSize.width/2
+        UIView.animate(
+            withDuration: 0.17,
+            delay: 0,
+            options: .curveEaseInOut,
+            animations: {
+                self.indicatorLeadingConstraint.constant = selectedIndex == 0 ? 0 : ScreenSize.width/2
+                self.view.layoutIfNeeded()
+            },
+            completion: nil
+        )
     }
 }
 

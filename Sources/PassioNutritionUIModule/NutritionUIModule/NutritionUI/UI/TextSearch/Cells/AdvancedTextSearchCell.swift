@@ -27,9 +27,14 @@ class AdvancedTextSearchCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
         insetBackground.roundMyCornerWith(radius: 8)
         foodImgView.roundMyCorner()
-        insetBackground.dropShadow()
+        insetBackground.dropShadow(radius: 8,
+                                   offset: .init(width: 0, height: 1),
+                                   color: .black.withAlphaComponent(0.10),
+                                   shadowRadius: 3,
+                                   shadowOpacity: 1)
     }
 
     @IBAction func onQuickAddFood(_ sender: UIButton) {

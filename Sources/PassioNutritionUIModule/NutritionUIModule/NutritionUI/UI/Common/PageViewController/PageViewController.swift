@@ -42,6 +42,14 @@ public final class PageViewController: UIPageViewController {
         setup(viewControllerList)
     }
 
+    func isSwipeGestureEnabled(_ isScrollEnabled: Bool = true) {
+        for view in view.subviews {
+            if let subView = view as? UIScrollView {
+                subView.isScrollEnabled = isScrollEnabled
+            }
+        }
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

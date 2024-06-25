@@ -21,6 +21,8 @@ final class FoodDetailsTableViewCell: UITableViewCell {
     var onCreateFoodImage: ((UIImagePickerController.SourceType) -> Void)?
     var onBarcode: (() -> Void)?
 
+    var isCreateNewFood = true
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -48,17 +50,26 @@ extension FoodDetailsTableViewCell {
     struct FoodDetails {
         let name: String
         let brand: String?
-        let barcode: String
+        let barcode: String?
         let image: UIImage
+    }
+
+    func configureCell(with record: FoodRecordV3) {
+        isCreateNewFood = false
+        nameTextField.text = record.name
+        brandTextField.text = record.details
+        barcodeTextField.text = record.barcode
+        PassioInternalConnector.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
+            DispatchQueue.main.async {
+                self?.createFoodImageView.image = image
+            }
+        }
     }
 
     var isFoodDetailsValid: (Bool, String?) {
         var errors = [String]()
         if let name = nameTextField.text, name != "" { } else {
-            errors.append("Name")
-        }
-        if let barcode = barcodeTextField.text, barcode != "" { } else {
-            errors.append("Barcode")
+            errors.append("name")
         }
         if errors.count > 0 {
             return (false, "Please enter valid \(errors.joined(separator: ", ")).")

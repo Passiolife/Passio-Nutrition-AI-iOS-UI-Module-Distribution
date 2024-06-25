@@ -49,9 +49,22 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5y-np-J4T">
-                                <rect key="frame" x="16" y="97" width="100" height="100"/>
+                                <rect key="frame" x="16" y="97" width="100" height="124.33333333333331"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="86a-Xi-fO5">
+                                <rect key="frame" x="32.666666666666657" y="205" width="67" height="16.333333333333343"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Edit Image">
+                                        <attributes>
+                                            <color key="NSColor" red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="14" name="Inter-Regular"/>
+                                            <integer key="NSUnderline" value="1"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="fFD-nT-coS">
                                 <rect key="frame" x="132" y="40" width="213" height="214"/>
                                 <subviews>
@@ -172,6 +185,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="KPD-k5-zqb" firstAttribute="top" secondItem="6at-1S-AYu" secondAttribute="top" id="0lM-lv-ytt"/>
+                            <constraint firstItem="g5y-np-J4T" firstAttribute="bottom" secondItem="86a-Xi-fO5" secondAttribute="bottom" id="2Is-Sj-2BI"/>
                             <constraint firstItem="g5y-np-J4T" firstAttribute="leading" secondItem="54D-Mi-3Sk" secondAttribute="leading" id="3Wb-KP-wge"/>
                             <constraint firstItem="KPD-k5-zqb" firstAttribute="trailing" secondItem="6at-1S-AYu" secondAttribute="trailing" id="9bT-J6-2TH"/>
                             <constraint firstItem="Gmv-Xb-k1D" firstAttribute="leading" secondItem="Vri-SI-3fq" secondAttribute="leading" constant="16" id="B6a-E3-TtS"/>
@@ -182,12 +196,13 @@
                             <constraint firstItem="KPD-k5-zqb" firstAttribute="leading" secondItem="6at-1S-AYu" secondAttribute="leading" id="QNT-CK-hwW"/>
                             <constraint firstItem="fFD-nT-coS" firstAttribute="top" secondItem="Vri-SI-3fq" secondAttribute="top" constant="40" id="QRE-i8-BJ9"/>
                             <constraint firstItem="fFD-nT-coS" firstAttribute="leading" secondItem="54D-Mi-3Sk" secondAttribute="trailing" constant="16" id="SG3-VK-yor"/>
-                            <constraint firstItem="g5y-np-J4T" firstAttribute="bottom" secondItem="54D-Mi-3Sk" secondAttribute="bottom" id="Tml-mI-x6m"/>
+                            <constraint firstItem="86a-Xi-fO5" firstAttribute="centerX" secondItem="g5y-np-J4T" secondAttribute="centerX" id="gye-lm-Sls"/>
                             <constraint firstItem="54D-Mi-3Sk" firstAttribute="centerY" secondItem="fFD-nT-coS" secondAttribute="centerY" id="hvz-Nv-8BR"/>
                             <constraint firstAttribute="trailing" secondItem="fFD-nT-coS" secondAttribute="trailing" constant="16" id="mZT-QH-pUy"/>
                             <constraint firstItem="g5y-np-J4T" firstAttribute="trailing" secondItem="54D-Mi-3Sk" secondAttribute="trailing" id="sHa-hI-w8M"/>
                             <constraint firstItem="54D-Mi-3Sk" firstAttribute="leading" secondItem="Vri-SI-3fq" secondAttribute="leading" constant="16" id="sJI-jp-x42"/>
                             <constraint firstAttribute="bottom" secondItem="fFD-nT-coS" secondAttribute="bottom" constant="16" id="v33-7A-g24"/>
+                            <constraint firstItem="86a-Xi-fO5" firstAttribute="top" secondItem="54D-Mi-3Sk" secondAttribute="bottom" constant="8" id="yO5-Dx-9GP"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">

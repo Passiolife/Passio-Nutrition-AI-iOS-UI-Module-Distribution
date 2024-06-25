@@ -202,7 +202,7 @@ public struct FoodRecordV3: Codable, Equatable {
         return true
     }
     
-    mutating func updateServingSizeAndUnitsForRecipe(){
+    mutating func updateServingSizeAndUnitsForRecipe() {
         let totalWeight = ingredients.map {$0.computedWeight.value}.reduce(0, +)
         
         servingUnits = [
@@ -213,7 +213,7 @@ public struct FoodRecordV3: Codable, Equatable {
         servingSizes = [PassioServingSize(quantity: selectedQuantity, unitName: selectedUnit)]
     }
 
-    private mutating func calculateQuantityForIngredients() {
+    mutating func calculateQuantityForIngredients() {
 
         let totalWeight = ingredients.map { $0.computedWeight.value }.reduce(0, +)
         let ratioMultiply = computedWeight.value/totalWeight
@@ -308,8 +308,34 @@ public struct FoodRecordV3: Codable, Equatable {
         }
         return PassioNutrients(ingredientsData: ingredientNutrients, weight: currentWeight)
     }
-    
-    
+
+    var getNutritionFacts: PassioNutritionFacts {
+
+        let nutritionFacts = PassioNutritionFacts()
+
+        nutritionFacts.servingSizeQuantity = selectedQuantity
+        nutritionFacts.servingSizeUnitName = selectedUnit
+        nutritionFacts.servingSizeGram = computedWeight.value
+        nutritionFacts.calories = totalCalories
+        nutritionFacts.carbs = totalCarbs
+        nutritionFacts.protein = totalProteins
+        nutritionFacts.fat = totalFat
+
+        let nutrients = getNutrients()
+        nutritionFacts.saturatedFat = nutrients.satFat()?.value
+        nutritionFacts.transFat = nutrients.transFat()?.value
+        nutritionFacts.cholesterol = nutrients.cholesterol()?.value
+        nutritionFacts.sodium = nutrients.sodium()?.value
+        nutritionFacts.dietaryFiber = nutrients.fibers()?.value
+        nutritionFacts.totalSugars = nutrients.sugars()?.value
+        nutritionFacts.addedSugar = nutrients.sugarsAdded()?.value
+        nutritionFacts.vitaminD = nutrients.vitaminD()?.value
+        nutritionFacts.calcium = nutrients.calcium()?.value
+        nutritionFacts.iron = nutrients.iron()?.value
+        nutritionFacts.potassium = nutrients.potassium()?.value
+        
+        return nutritionFacts
+    }
 }
 
 // MARK: - Helper
@@ -330,9 +356,28 @@ extension FoodRecordV3 {
         var calStr = "0"
         let cal = totalCalories
         if 0 < cal, cal < 1e6 {
-            calStr = String(Int(cal))
+            calStr = String(cal.roundDigits(afterDecimal: 2))
         }
-        return calStr + " " + Localized.calUnit.capitalizingFirst()
+        return calStr + " " + "kcal"
+    }
+
+    var getCarbs: String {
+        "\(totalCarbs.roundDigits(afterDecimal: 2))"
+    }
+
+    var getProtein: String {
+        "\(totalProteins.roundDigits(afterDecimal: 2))"
+    }
+
+    var getFat: String {
+        "\(totalFat.roundDigits(afterDecimal: 2))"
+    }
+
+    var getNutritionSummary: (cal: String,
+                              carbs: String,
+                              pro: String,
+                              fat: String) {
+        (cal: getCalories, carbs: getCarbs, pro: getProtein, fat: getFat)
     }
 
     public var getJSONDict: [String: Any] {

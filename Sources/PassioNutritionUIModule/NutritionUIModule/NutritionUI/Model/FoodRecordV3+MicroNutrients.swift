@@ -114,6 +114,10 @@ extension FoodRecordV3 {
     var chromium: Double {
         ingredients.map {$0.nutrients.chromium()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 0)
     }
+
+    var addedSugar: Double {
+        ingredients.map {$0.nutrients.sugarsAdded()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 0)
+    }
 }
 
 // MARK: - MicroNutirents Model
