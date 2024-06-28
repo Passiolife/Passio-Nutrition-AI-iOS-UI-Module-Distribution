@@ -13,32 +13,39 @@ protocol DateSelectorUIViewDelegate: AnyObject {
     func removeDateSelector(remove: Bool)
 }
 
-final class DateSelectorViewController: UIViewController{
-    
+final class DateSelectorViewController: UIViewController {
+
     weak var delegate: DateSelectorUIViewDelegate?
     var dateSelector: DateSelectorUIView!
     var dateForPicker: Date?
-    
+
     enum SelectorDirections {
         case down, upWards
     }
-    
+
     override func viewDidLoad() {
-        self.view.backgroundColor = .gray500
-        self.showDateSelector()
+        super.viewDidLoad()
+
+        view.backgroundColor = .gray500
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        showDateSelector()
+    }
+
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
         self.animateDateSelector(directions: .upWards)
     }
-    
+
     func showDateSelector() {
         if dateSelector == nil {
-            let screenSize = UIScreen.main.bounds.size
-            let frameStart = CGRect(x: 0, y: -screenSize.width, width: screenSize.width, height: screenSize.width)
+            let screenWidth = ScreenSize.width
+            let frameStart = CGRect(x: 0, y: -screenWidth, width: screenWidth, height: screenWidth)
             dateSelector = DateSelectorUIView.init(frame: frameStart, date: Date())
             dateSelector.dateForPicker = dateForPicker ?? Date()
-            
+
             dateSelector?.frame = frameStart
             dateSelector?.delegate = self.delegate
             self.dateSelector?.roundMyCornerWith(radius: 20)
@@ -48,29 +55,29 @@ final class DateSelectorViewController: UIViewController{
             animateDateSelector(directions: .upWards)
         }
     }
-    
+
     func animateDateSelector(directions: SelectorDirections) {
-        let screenSize = UIScreen.main.bounds.size
-        var frameEnd: CGRect
-        switch directions {
-        case .down:
-            frameEnd = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.width)
-        case .upWards:
-            frameEnd = CGRect(x: 0, y: -screenSize.width, width: screenSize.width, height: screenSize.width)
-        }
-        UIView.animate(withDuration: 0.5) {
+
+        let screenWidth = ScreenSize.width
+        let y = directions == .down ? 0 : -screenWidth
+        let frameEnd = CGRect(x: 0, y: y, width: screenWidth, height: screenWidth)
+        
+        UIView.animate(withDuration: 0.41,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
             self.dateSelector?.frame = frameEnd
-        } completion: { _ in
-            if directions == .upWards{
+        },
+                       completion: { _ in
+            if directions == .upWards {
                 self.dateSelector = nil
                 super.dismiss(animated: false)
             }
-        }
+        })
     }
 }
 
-
-
+// MARK: - DateSelectorUIView
 final class DateSelectorUIView: ViewFromXIB {
 
     @IBOutlet weak var containerView: UIView!
@@ -86,9 +93,14 @@ final class DateSelectorUIView: ViewFromXIB {
         dateForPicker = date
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
-//        containerView.roundMyCornerWith(radius: 17, upper: false, down: true)
+        // containerView.roundMyCornerWith(radius: 17, upper: false, down: true)
     }
 
     override func layoutSubviews() {
@@ -101,8 +113,6 @@ final class DateSelectorUIView: ViewFromXIB {
         datePicker.overrideUserInterfaceStyle = .dark
         datePicker.addTarget(self, action: #selector(reportValue), for: .valueChanged)
         datePicker.maximumDate = Date()
-//        buttonOK?.setTitle(Localized.Ok, for: .normal)
-//        buttonToday?.setTitle(Localized.today, for: .normal)
     }
 
     @IBAction func okAndDismiss(_ sender: UIButton) {
@@ -117,15 +127,10 @@ final class DateSelectorUIView: ViewFromXIB {
     }
 
     @objc private func reportValue() {
-//        delegate?.dateFromPicker(date: datePicker.date)
+        // delegate?.dateFromPicker(date: datePicker.date)
     }
 
     @objc private func removeMe() {
         delegate?.removeDateSelector(remove: true)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
     }
 }

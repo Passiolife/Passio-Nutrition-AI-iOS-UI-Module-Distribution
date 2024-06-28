@@ -75,6 +75,10 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         configureUI()
         configureNavBar()
         MealPlanManager.shared.getMealPlans()
+
+        DispatchQueue.global(qos: .background).async {
+            FileManager.default.clearTempDirectory()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

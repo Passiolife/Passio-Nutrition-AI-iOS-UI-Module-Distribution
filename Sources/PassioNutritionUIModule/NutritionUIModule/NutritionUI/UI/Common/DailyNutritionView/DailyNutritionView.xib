@@ -23,14 +23,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DailyNutritionView" customModule="PassioNutritionUIModule">
             <connections>
+                <outlet property="calorieLabel" destination="Hty-0D-T0r" id="g48-xp-sPg"/>
                 <outlet property="caloriesProgressView" destination="di0-Uu-kLZ" id="70i-2V-TL6"/>
+                <outlet property="carbsLabel" destination="JcE-jC-ZeN" id="FyZ-Ey-rJ4"/>
                 <outlet property="carbsProgressView" destination="Nx6-Q9-Bvt" id="rTt-b6-SA3"/>
                 <outlet property="currentCaloriesLabel" destination="LA6-DA-hXs" id="aJf-cH-aSm"/>
                 <outlet property="currentCarbsLabel" destination="cE5-dE-JWR" id="one-LC-7Zx"/>
                 <outlet property="currentFatLabel" destination="aI3-wU-VjX" id="q4i-Gl-ghJ"/>
                 <outlet property="currentProteinLabel" destination="eig-HJ-MPP" id="2h3-bk-NMf"/>
+                <outlet property="fatLabel" destination="iWo-sB-xOC" id="KdU-RW-qIt"/>
                 <outlet property="fatProgressView" destination="2B6-cH-x4Y" id="719-RC-w6a"/>
                 <outlet property="proteinProgressView" destination="KYp-8V-nuo" id="7jT-MK-jiO"/>
+                <outlet property="proteinlabel" destination="Kuj-36-eGy" id="c10-Eb-a7L"/>
                 <outlet property="totalCaloriesLabel" destination="1UV-RS-uSv" id="56n-zJ-Eg3"/>
                 <outlet property="totalCarbsLabel" destination="g9x-Mj-d1O" id="mP5-ha-TPX"/>
                 <outlet property="totalFatLabel" destination="Ux8-AQ-ZKr" id="vTZ-4h-xJE"/>

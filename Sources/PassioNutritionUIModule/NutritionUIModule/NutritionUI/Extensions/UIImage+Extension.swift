@@ -392,7 +392,7 @@ public extension UIImageView {
 
         if id.contains("userFood") {
             connector.fetchUserFoodImage(with: id) { foodImage in
-                completion(foodImage)
+                completion(foodImage ?? UIImage())
             }
         } else {
             loadPassioIconBy(passioID: passioID,

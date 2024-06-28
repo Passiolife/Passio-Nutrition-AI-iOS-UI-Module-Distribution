@@ -10,6 +10,10 @@ import UIKit
 
 final class RequiredNutritionsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var weightLabel: UILabel!
+    @IBOutlet weak var weightButton: UIButton!
+    @IBOutlet weak var unitButton: UIButton!
+    @IBOutlet weak var weightStackView: UIStackView!
     @IBOutlet weak var backgroundShadowView: UIView!
     @IBOutlet weak var servingSizeTextField : UITextField!
     @IBOutlet weak var unitsTextField : UITextField!
@@ -22,18 +26,31 @@ final class RequiredNutritionsTableViewCell: UITableViewCell {
     var foodDataSet: NutritionFactsDataSet?
     weak var foodDataSetDelegate: FoodDataSetCellDelegate?
 
+    private let units = ["Serving",
+                         "Piece",
+                         "Cup",
+                         "Oz",
+                         "gram",
+                         "ml",
+                         "Small",
+                         "Medium",
+                         "Large",
+                         "Handful",
+                         "Scoop",
+                         "Tbsp",
+                         "Tsp",
+                         "Slice",
+                         "Can",
+                         "Bottle",
+                         "Bar",
+                         "Packet"]
+    private let weights = ["ml", "g"]
+    private let g = "g"
+    private let ml = "ml"
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        // Shadow
-        DispatchQueue.main.async {
-            self.backgroundShadowView.dropShadow(radius: 8,
-                                                 offset: CGSize(width: 0, height: 1),
-                                                 color: .black.withAlphaComponent(0.10),
-                                                 shadowRadius: 3,
-                                                 shadowOpacity: 1,
-                                                 useShadowPath: true)
-        }
         // Configure TextField
         [servingSizeTextField,
          unitsTextField,
@@ -46,25 +63,89 @@ final class RequiredNutritionsTableViewCell: UITableViewCell {
             $0.configureTextField(leftPadding: 13, radius: 6, borderColor: .gray300)
             $0.addOkButtonToToolbar(target: self, action: #selector(onOkTapped), forEvent: .touchUpInside)
         }
+        weightButton.semanticContentAttribute = .forceRightToLeft
+        configureUnitPickerMenu()
+        configureWeightPickerMenu()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        DispatchQueue.main.async { [self] in
+            let path = UIBezierPath(roundedRect: backgroundShadowView.bounds, cornerRadius: 8)
+            backgroundShadowView.dropShadow(radius: 8,
+                                            offset: CGSize(width: 0, height: 1),
+                                            color: .black.withAlphaComponent(0.06),
+                                            shadowRadius: 2,
+                                            shadowOpacity: 1,
+                                            useShadowPath: true,
+                                            shadowPath: path.cgPath)
+        }
     }
 }
 
 // MARK: - Cell Helper
 extension RequiredNutritionsTableViewCell {
 
-    func configureCell(with nutritionData: NutritionFactsDataSet, isCreateNewFood: Bool) {
+    func configureCell(with nutritionData: NutritionFactsDataSet,
+                       isCreateNewFood: Bool,
+                       isFromNutritionFacts: Bool) {
 
         foodDataSet = nutritionData
 
-        if isCreateNewFood { return }
+        if isCreateNewFood && !isFromNutritionFacts { return }
 
         servingSizeTextField.text = (nutritionData.nutritionFacts?.servingSizeQuantity.roundDigits(afterDecimal: 2).clean ?? "")
         unitsTextField.text = (nutritionData.nutritionFacts?.servingSizeUnitName ?? "")
+        setWeightStackView(unit: unitsTextField.text)
         weightTextField.text = (nutritionData.nutritionFacts?.servingSizeGram?.roundDigits(afterDecimal: 2).clean ?? "?") + " g"
         caloriesTextField.text = nutritionData.calories?.stringValue
         carbsTextField.text = nutritionData.carbs?.stringValue
         proteinTextField.text = nutritionData.protein?.stringValue
         fatTextField.text = nutritionData.fat?.stringValue
+    }
+
+    private func setWeightStackView(unit: String? = "") {
+        let isGramsOrMl = unit == "gram" || unit == ml
+        weightStackView.isHidden = isGramsOrMl
+        weightButton.isHidden = isGramsOrMl
+        weightLabel.isHidden = isGramsOrMl
+        weightTextField.text = isGramsOrMl ? "" : weightTextField.text
+    }
+
+    private func configureUnitPickerMenu() {
+        let actionClosure = { [weak self] (action: UIAction) in
+            guard let self else { return }
+            guard units.firstIndex(where: { $0 == action.title }) != nil else {
+                return
+            }
+            unitsTextField.text = action.title
+            setWeightStackView(unit: action.title)
+            foodDataSet?.updatedNutritionFacts?.servingSizeGram = nil
+            updateDataset()
+        }
+        let menuChildren = units.map { unit in
+            UIAction(title: unit, handler: actionClosure)
+        }
+        unitButton.menu = UIMenu(title: "", children: menuChildren)
+        unitButton.showsMenuAsPrimaryAction = true
+    }
+
+    private func configureWeightPickerMenu() {
+        let actionClosure = { [weak self] (action: UIAction) in
+            guard let self else { return }
+            guard weights.firstIndex(where: { $0 == action.title }) != nil else {
+                return
+            }
+            weightLabel.text = action.title
+            setWeight()
+            updateDataset()
+        }
+        let menuChildren = weights.map { unit in
+            UIAction(title: unit, handler: actionClosure)
+        }
+        weightButton.menu = UIMenu(title: "", children: menuChildren)
+        weightButton.showsMenuAsPrimaryAction = true
     }
 
     @objc private func onOkTapped() {
@@ -82,24 +163,25 @@ extension RequiredNutritionsTableViewCell {
         if let unit = unitsTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), unit == "" {
             errors.append("serving unit")
         }
-        if let weightString = weightTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let weightString = weightTextField.getText(replacing: "\(weightLabel.text ?? g)"),
            let weight = Double(weightString), weight == 0 {
-            errors.append("weight")
+            if unitsTextField.text != g && unitsTextField.text != ml {
+                errors.append("weight")
+            }
         }
-
-        if let calorieString = caloriesTextField.text?.replacingOccurrences(of: " kcal", with: ""),
+        if let calorieString = caloriesTextField.getText(replacing: "kcal"),
            let _ = Double(calorieString) { } else {
                errors.append("calories")
            }
-        if let carbString = carbsTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let carbString = carbsTextField.getText(replacing: g),
            let _ = Double(carbString) { } else {
                errors.append("carbs")
            }
-        if let proteinString = proteinTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let proteinString = proteinTextField.getText(replacing: g),
            let _ = Double(proteinString) { } else {
                errors.append("protein")
            }
-        if let fatString = fatTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let fatString = fatTextField.getText(replacing: g),
            let _ = Double(fatString) { } else {
                errors.append("fat")
            }
@@ -111,34 +193,44 @@ extension RequiredNutritionsTableViewCell {
         }
     }
 
-    private func updateDataset() {
+    private func updateDataset(currentTextField: UITextField? = nil) {
 
         if let servings = Double(servingSizeTextField.text ?? "") {
             foodDataSet?.updatedNutritionFacts?.servingSizeQuantity = servings
         }
-        if let unit = unitsTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+        if let unit = unitsTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), unit != "" {
             foodDataSet?.updatedNutritionFacts?.servingSizeUnitName = unit
         }
         if let calories = Double((caloriesTextField.text ?? "").replacingOccurrences(of: " kcal", with: "")) {
             foodDataSet?.updatedNutritionFacts?.calories = calories
         }
-        if let carbString = carbsTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let carbString = carbsTextField.getText(replacing: g),
            let carbs = Double(carbString) {
             foodDataSet?.updatedNutritionFacts?.carbs = carbs
         }
-        if let weightString = weightTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let weightString = weightTextField.getText(replacing: "\(weightLabel.text ?? g)"),
            let weight = Double(weightString) {
             foodDataSet?.updatedNutritionFacts?.servingSizeGram = weight
+        } else if let currentTextField = currentTextField, currentTextField == weightTextField {
+            foodDataSet?.updatedNutritionFacts?.servingSizeGram = Double(servingSizeTextField.text ?? "")
         }
-        if let proteinString = proteinTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let proteinString = proteinTextField.getText(replacing: g),
            let protein = Double(proteinString) {
             foodDataSet?.updatedNutritionFacts?.protein = protein
         }
-        if let fatString = fatTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let fatString = fatTextField.getText(replacing: g),
            let fats = Double(fatString) {
-            foodDataSet?.updatedNutritionFacts?.fat = fats
+                foodDataSet?.updatedNutritionFacts?.fat = fats
         }
         foodDataSetDelegate?.updateFoodDataSet(with: foodDataSet)
+    }
+
+    private func setWeight() {
+        let weightValue = weightTextField.text?.separateStringUsingSpace.0 ?? ""
+        weightTextField.text = weightValue
+        let weightType = weightLabel.text ?? g == ml ? ml : g
+        let servingSizeGram = (foodDataSet?.nutritionFacts?.servingSizeGram.roundDigits(afterDecimal: 2)?.clean ?? "") + " \(weightType)"
+        weightTextField.text = (weightTextField.text ?? "") == "" ? servingSizeGram : "\(self.weightTextField.text ?? "") \(weightType)"
     }
 }
 
@@ -170,8 +262,10 @@ extension RequiredNutritionsTableViewCell: UITextFieldDelegate {
 
         case weightTextField:
             let weightText = weightTextField.text ?? ""
-            let servingSizeGram = (foodDataSet?.nutritionFacts?.servingSizeGram.roundDigits(afterDecimal: 2)?.clean ?? "") + " g"
-            weightTextField.text = weightText == "" ? servingSizeGram : "\(self.weightTextField.text ?? "") g"
+            let weightType = weightLabel.text ?? g == ml ? ml : g
+            let servingSizeGram = (foodDataSet?.nutritionFacts?.servingSizeGram.roundDigits(afterDecimal: 2)?.clean ?? "") + " \(weightType)"
+            weightLabel.text = weightType
+            weightTextField.text = weightText == "" ? servingSizeGram : "\(self.weightTextField.text ?? "") \(weightType)"
 
         case caloriesTextField:
             let caloriesText = caloriesTextField.text ?? ""
@@ -179,20 +273,20 @@ extension RequiredNutritionsTableViewCell: UITextFieldDelegate {
 
         case carbsTextField:
             let carbsText = carbsTextField.text ?? ""
-            carbsTextField.text = carbsText == "" ? foodDataSet?.carbs?.stringValue : "\(carbsText) g"
+            carbsTextField.text = carbsText == "" ? foodDataSet?.carbs?.stringValue : "\(carbsText) \(g)"
 
         case proteinTextField:
             let proteinText = proteinTextField.text ?? ""
-            proteinTextField.text = proteinText == "" ? foodDataSet?.protein?.stringValue : "\(proteinText) g"
+            proteinTextField.text = proteinText == "" ? foodDataSet?.protein?.stringValue : "\(proteinText) \(g)"
 
         case fatTextField:
             let fatText = fatTextField.text ?? ""
-            fatTextField.text = fatText == "" ? foodDataSet?.fat?.stringValue : "\(fatText) g"
+            fatTextField.text = fatText == "" ? foodDataSet?.fat?.stringValue : "\(fatText) \(g)"
 
         default:
             break
         }
 
-        updateDataset()
+        updateDataset(currentTextField: textField)
     }
 }

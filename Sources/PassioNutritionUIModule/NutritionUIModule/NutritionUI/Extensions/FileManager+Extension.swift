@@ -62,4 +62,18 @@ extension FileManager {
         }
         return false
     }
+
+    func clearTempDirectory() {
+        do {
+            let tempFiles = try contentsOfDirectory(at: temporaryDirectory,
+                                                    includingPropertiesForKeys: nil,
+                                                    options: [])
+            for file in tempFiles {
+                try removeItem(at: file)
+            }
+            // print("Temp directory cleared.")
+        } catch {
+            // print("Could not clear temp directory: \(error)")
+        }
+    }
 }

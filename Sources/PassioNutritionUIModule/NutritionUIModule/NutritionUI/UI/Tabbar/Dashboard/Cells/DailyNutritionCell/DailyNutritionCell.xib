@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -25,7 +24,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpi-De-gFH">
-                        <rect key="frame" x="16" y="16" width="343" height="169.5"/>
+                        <rect key="frame" x="16" y="16" width="343" height="161"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zOA-87-CwX">
                                 <rect key="frame" x="16" y="16" width="311" height="25"/>
@@ -37,7 +36,7 @@
                                             <constraint firstAttribute="height" constant="24" id="hsX-r2-h6s"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Nutrition" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ues-nc-II5">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Nutrition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ues-nc-II5">
                                         <rect key="frame" x="32" y="2" width="279" height="21"/>
                                         <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="18"/>
                                         <color key="textColor" name="gray-900"/>
@@ -49,27 +48,22 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DgP-wr-GAc" customClass="DailyNutritionView" customModule="PassioNutritionUIModule">
-                                <rect key="frame" x="15" y="65" width="312" height="88.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <rect key="frame" x="16" y="57" width="311" height="88"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="DgP-wr-GAc" secondAttribute="height" multiplier="364:103" id="cVC-tY-kwl"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
-                                        <real key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="DgP-wr-GAc" secondAttribute="bottom" constant="16" id="J9j-zZ-Oll"/>
                             <constraint firstAttribute="trailing" secondItem="DgP-wr-GAc" secondAttribute="trailing" constant="16" id="XVL-Nk-kWo"/>
                             <constraint firstItem="zOA-87-CwX" firstAttribute="leading" secondItem="wpi-De-gFH" secondAttribute="leading" constant="16" id="aW2-Eh-prd"/>
                             <constraint firstAttribute="trailing" secondItem="zOA-87-CwX" secondAttribute="trailing" constant="16" id="iKx-XE-PKg"/>
-                            <constraint firstItem="DgP-wr-GAc" firstAttribute="top" secondItem="zOA-87-CwX" secondAttribute="bottom" constant="24" id="pcF-9k-IRa"/>
+                            <constraint firstItem="DgP-wr-GAc" firstAttribute="top" secondItem="zOA-87-CwX" secondAttribute="bottom" constant="16" id="pcF-9k-IRa"/>
                             <constraint firstItem="zOA-87-CwX" firstAttribute="top" secondItem="wpi-De-gFH" secondAttribute="top" constant="16" id="r8V-Hn-SVv"/>
-                            <constraint firstItem="DgP-wr-GAc" firstAttribute="leading" secondItem="wpi-De-gFH" secondAttribute="leading" constant="15" id="t7T-M9-flX"/>
+                            <constraint firstItem="DgP-wr-GAc" firstAttribute="leading" secondItem="wpi-De-gFH" secondAttribute="leading" constant="16" id="t7T-M9-flX"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
@@ -92,7 +86,7 @@
                 <outlet property="nutritionView" destination="DgP-wr-GAc" id="hXM-Zm-nnF"/>
                 <outlet property="shadowView" destination="wpi-De-gFH" id="BUh-Kw-7CJ"/>
             </connections>
-            <point key="canvasLocation" x="97.826086956521749" y="-4.3526785714285712"/>
+            <point key="canvasLocation" x="-167" y="-57"/>
         </tableViewCell>
     </objects>
     <resources>
@@ -100,8 +94,5 @@
         <namedColor name="gray-900">
             <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

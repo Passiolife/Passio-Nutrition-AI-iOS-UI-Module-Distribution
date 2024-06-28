@@ -79,13 +79,15 @@ final class OtherNutritionsTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        DispatchQueue.main.async {
-            self.backgroundShadowView.dropShadow(radius: 8,
-                                                 offset: CGSize(width: 0, height: 1),
-                                                 color: .black.withAlphaComponent(0.10),
-                                                 shadowRadius: 3,
-                                                 shadowOpacity: 1,
-                                                 useShadowPath: true)
+        DispatchQueue.main.async { [self] in
+            let path = UIBezierPath(roundedRect: backgroundShadowView.bounds, cornerRadius: 8)
+            backgroundShadowView.dropShadow(radius: 8,
+                                            offset: CGSize(width: 0, height: 1),
+                                            color: .black.withAlphaComponent(0.06),
+                                            shadowRadius: 2,
+                                            shadowOpacity: 1,
+                                            useShadowPath: true,
+                                            shadowPath: path.cgPath)
         }
     }
 

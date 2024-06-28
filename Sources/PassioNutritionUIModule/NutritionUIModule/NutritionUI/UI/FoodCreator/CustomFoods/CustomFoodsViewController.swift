@@ -1,6 +1,6 @@
 //
 //  CustomFoodsViewController.swift
-//  
+//
 //
 //  Created by Nikunj Prajapati on 24/06/24.
 //
@@ -15,7 +15,7 @@ class CustomFoodsViewController: InstantiableViewController {
     private let connector = PassioInternalConnector.shared
     var customFoods: [FoodRecordV3] = [] {
         didSet {
-            customFoodsTableView.reloadWithAnimations(withDuration: 0.21)
+            customFoodsTableView.reloadData()
         }
     }
 
@@ -33,7 +33,6 @@ class CustomFoodsViewController: InstantiableViewController {
     }
 
     @IBAction func onCreateNewFood(_ sender: UIButton) {
-
         let createFoodVC = CreateFoodViewController(nibName: "CreateFoodViewController", bundle: .module)
         navigationController?.pushViewController(createFoodVC, animated: true)
     }
@@ -66,6 +65,7 @@ extension CustomFoodsViewController {
 
     private func navigateToEdit(with record: FoodRecordV3) {
         let createFoodVC = CreateFoodViewController(nibName: "CreateFoodViewController", bundle: .module)
+        createFoodVC.loadViewIfNeeded()
         createFoodVC.isCreateNewFood = false
         createFoodVC.foodRecord = record
         navigationController?.pushViewController(createFoodVC, animated: true)
@@ -78,7 +78,7 @@ extension CustomFoodsViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         customFoods.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueCell(cellClass: AdvancedTextSearchCell.self, forIndexPath: indexPath)
@@ -103,17 +103,17 @@ extension CustomFoodsViewController: UITableViewDataSource, UITableViewDelegate 
         }
         editItem.backgroundColor = .indigo600
 
-        let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) {  (_, _, _) in
+        let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) { (_, _, _) in
+            self.connector.deleteUserFoodImage(with: self.customFoods[indexPath.row].iconId)
             self.connector.deleteUserFood(record: self.customFoods[indexPath.row])
             DispatchQueue.main.async { [self] in
                 if customFoods.indices.contains(indexPath.row) {
                     customFoods.remove(at: indexPath.row)
                 }
-                customFoodsTableView.reloadWithAnimations(withDuration: 0.21)
             }
         }
 
-        let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem,editItem])
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem, editItem])
         return swipeActions
     }
 }

@@ -72,7 +72,7 @@
                                                 <color key="textColor" name="gray-500"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="erq-pR-HR0">
+                                            <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="erq-pR-HR0">
                                                 <rect key="frame" x="129" y="0.66666666666665719" width="200" height="42"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -94,7 +94,7 @@
                                                 <color key="textColor" name="gray-500"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="drD-6k-8CT">
+                                            <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Value" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="drD-6k-8CT">
                                                 <rect key="frame" x="129" y="0.66666666666668561" width="200" height="42"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -197,13 +197,46 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WvJ-lN-w68">
+                                <rect key="frame" x="145" y="110.33333333333331" width="200" height="42"/>
+                                <color key="tintColor" name="gray-400"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="6" maxY="0.0"/>
+                                <state key="normal" image="chevron.down" catalog="system"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lbj-sa-U5u">
+                                <rect key="frame" x="319" y="169.33333333333334" width="26" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="26" id="FMp-sa-bJs"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                <color key="tintColor" name="gray-400"/>
+                                <state key="normal" image="chevron.down" catalog="system">
+                                    <color key="titleColor" name="gray-400"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="918-Tc-LyA">
+                                <rect key="frame" x="319" y="169.33333333333334" width="0.0" height="42"/>
+                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                <color key="textColor" name="gray-500"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="EvP-Mh-dhd" secondAttribute="trailing" constant="16" id="1Ic-gh-2lG"/>
                             <constraint firstItem="EvP-Mh-dhd" firstAttribute="leading" secondItem="1Ae-jL-RMA" secondAttribute="leading" constant="16" id="9uM-NN-nGV"/>
+                            <constraint firstItem="lbj-sa-U5u" firstAttribute="trailing" secondItem="drD-6k-8CT" secondAttribute="trailing" id="BS8-Jt-Gf7"/>
+                            <constraint firstItem="WvJ-lN-w68" firstAttribute="trailing" secondItem="erq-pR-HR0" secondAttribute="trailing" id="CAP-nA-tVv"/>
+                            <constraint firstItem="918-Tc-LyA" firstAttribute="bottom" secondItem="lbj-sa-U5u" secondAttribute="bottom" id="CaQ-hg-rwB"/>
                             <constraint firstAttribute="trailing" secondItem="t97-RE-gBy" secondAttribute="trailing" constant="16" id="GJB-Au-vp5"/>
+                            <constraint firstItem="918-Tc-LyA" firstAttribute="top" secondItem="lbj-sa-U5u" secondAttribute="top" id="HHF-9m-MPL"/>
+                            <constraint firstItem="918-Tc-LyA" firstAttribute="trailing" secondItem="lbj-sa-U5u" secondAttribute="leading" id="SSK-eT-xQC"/>
+                            <constraint firstItem="WvJ-lN-w68" firstAttribute="leading" secondItem="erq-pR-HR0" secondAttribute="leading" id="SYS-ar-sdT"/>
+                            <constraint firstItem="WvJ-lN-w68" firstAttribute="bottom" secondItem="erq-pR-HR0" secondAttribute="bottom" id="YsU-1r-kZs"/>
                             <constraint firstItem="t97-RE-gBy" firstAttribute="leading" secondItem="1Ae-jL-RMA" secondAttribute="leading" constant="16" id="ZOY-AA-qc1"/>
+                            <constraint firstItem="lbj-sa-U5u" firstAttribute="top" secondItem="drD-6k-8CT" secondAttribute="top" id="bJc-gf-AqO"/>
+                            <constraint firstItem="WvJ-lN-w68" firstAttribute="top" secondItem="erq-pR-HR0" secondAttribute="top" id="ebE-2w-PUM"/>
+                            <constraint firstItem="lbj-sa-U5u" firstAttribute="bottom" secondItem="drD-6k-8CT" secondAttribute="bottom" id="nTe-nv-H0K"/>
                             <constraint firstAttribute="bottom" secondItem="EvP-Mh-dhd" secondAttribute="bottom" constant="16" id="wph-aL-beW"/>
                             <constraint firstItem="EvP-Mh-dhd" firstAttribute="top" secondItem="t97-RE-gBy" secondAttribute="bottom" constant="16" id="xOY-r3-93i"/>
                             <constraint firstItem="t97-RE-gBy" firstAttribute="top" secondItem="1Ae-jL-RMA" secondAttribute="top" constant="16" id="xrw-am-E4o"/>
@@ -225,13 +258,21 @@
                 <outlet property="fatTextField" destination="Dpi-0O-kWR" id="5qn-TZ-LAj"/>
                 <outlet property="proteinTextField" destination="CTr-tz-bUi" id="ROd-Og-o4R"/>
                 <outlet property="servingSizeTextField" destination="EMD-T4-qZz" id="gkm-Pq-RRO"/>
+                <outlet property="unitButton" destination="WvJ-lN-w68" id="tOg-0U-oiT"/>
                 <outlet property="unitsTextField" destination="erq-pR-HR0" id="e3n-Tn-e0q"/>
+                <outlet property="weightButton" destination="lbj-sa-U5u" id="i6a-lP-x8f"/>
+                <outlet property="weightLabel" destination="918-Tc-LyA" id="xR4-fM-5L4"/>
+                <outlet property="weightStackView" destination="YUr-Bj-nGJ" id="tPm-NC-gnG"/>
                 <outlet property="weightTextField" destination="drD-6k-8CT" id="rtz-nn-PEp"/>
             </connections>
-            <point key="canvasLocation" x="91" y="-6"/>
+            <point key="canvasLocation" x="90.839694656488547" y="-6.3380281690140849"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="chevron.down" catalog="system" width="128" height="70"/>
+        <namedColor name="gray-400">
+            <color red="0.61176470588235299" green="0.63921568627450975" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
         <namedColor name="gray-500">
             <color red="0.41960784313725491" green="0.44705882352941179" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

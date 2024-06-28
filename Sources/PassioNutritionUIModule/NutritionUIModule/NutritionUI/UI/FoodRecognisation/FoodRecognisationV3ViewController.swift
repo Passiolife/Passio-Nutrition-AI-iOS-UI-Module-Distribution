@@ -436,7 +436,7 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
         pauseDetection()
 
         let createFoodVC = CreateFoodViewController()
-        createFoodVC.isCreateNewFood = false
+        createFoodVC.isFromNutritionFacts = true
         createFoodVC.foodDataSet = dataset
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in

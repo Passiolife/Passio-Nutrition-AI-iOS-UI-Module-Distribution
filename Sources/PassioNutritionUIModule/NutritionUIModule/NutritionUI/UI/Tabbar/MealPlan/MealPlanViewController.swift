@@ -345,7 +345,6 @@ extension MealPlanViewController: MealPlanDietSelectionDelegate, CustomPickerSel
 
 class MealPlanSectionDecorationView: UICollectionReusableView {
 
-    // MARK: MAIN
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
@@ -355,14 +354,13 @@ class MealPlanSectionDecorationView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: FUNCTIONS
-    func setUpViews(){
-        self.backgroundColor = .white//UIColor(red: 244/255, green: 243/255, blue: 245/255, alpha: 1)
+    func setUpViews() {
+        self.backgroundColor = .white
         self.layer.cornerRadius = 8
         self.clipsToBounds = true
-        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
-        self.layer.shadowOffset = CGSize(width: 0.5, height: 1)
-        self.layer.shadowOpacity = 0.3
+        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.06).cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
+        self.layer.shadowOpacity = 1
         self.layer.masksToBounds = false
     }
 }

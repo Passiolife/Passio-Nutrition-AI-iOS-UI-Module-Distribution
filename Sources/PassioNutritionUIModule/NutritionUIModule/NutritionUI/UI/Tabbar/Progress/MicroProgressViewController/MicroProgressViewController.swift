@@ -6,10 +6,9 @@
 //  Copyright © 2024 Passio Inc. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
-class MicroProgressViewController: UIViewController{
+class MicroProgressViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateButton: UIButton!
@@ -28,85 +27,75 @@ class MicroProgressViewController: UIViewController{
         return button
     }()
 
-
-
+    let cells: [CellType] = [.nutrition,.calender]
     let connector = PassioInternalConnector.shared
     var dateSelector: DateSelectorViewController?
 
-    enum CellType: Int{
-        case nutrition,calender,waterweight
-    }
-
-    let cells: [CellType] = [.nutrition,.calender]
-
-    var selectedDate: Date = Date(){
+    private var selectedDate: Date = Date() {
         didSet {
-            self.setDateTitle()
-            self.getRecords(for: selectedDate)
-            if self.selectedDate.isToday{
-                self.nextDateButton.isEnabled = false
-            }else{
-                self.nextDateButton.isEnabled = true
-            }
+            setDateTitle()
+            getRecords(for: selectedDate)
+            nextDateButton.isEnabled = selectedDate.isToday ? false : true
         }
     }
-
     private var microNutrients = [MicroNutirents]() {
         didSet {
-            self.tableView.reloadData()
+            tableView.reloadData()
         }
     }
 
+    enum CellType: Int {
+        case nutrition, calender, waterweight
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.selectedDate = Date()
-        self.registerCell()
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-        self.onClickIIcon()
+
+        selectedDate = Date()
+        registerCell()
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        onClickIIcon()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.setDateTitle()
-        self.getRecords(for: selectedDate)
-        self.tableView.reloadData()
+
+        setDateTitle()
+        getRecords(for: selectedDate)
+        tableView.reloadData()
     }
 
-    func registerCell(){
+    func registerCell() {
         tableView.register(nibName: "MicroNutrientsInfoCell")
-        self.tableView.tableFooterView = footerButton
+        tableView.tableFooterView = footerButton
     }
 
-    func setupTableView(){
-
+    @IBAction func onClickIIcon() {
+        iButton.isHidden = true
+        informationCardContainerView.isHidden = false
     }
 
-    @IBAction func onClickIIcon(){
-        self.iButton.isHidden = true
-        self.informationCardContainerView.isHidden = false
+    @IBAction func onClickCross() {
+        iButton.isHidden = false
+        informationCardContainerView.isHidden = true
     }
 
-    @IBAction func onClickCross(){
-        self.iButton.isHidden = false
-        self.informationCardContainerView.isHidden = true
-    }
-
-    @objc func onClickSeeMore(){
+    @objc func onClickSeeMore() {
         footerButton.isSelected = !footerButton.isSelected
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
-
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
-        let nextDate = Calendar.current.date(byAdding: .day, value: sender.tag == 1 ? 1 : -1, to: selectedDate)!
-        self.selectedDate = nextDate
+        let nextDate = Calendar.current.date(byAdding: .day,
+                                             value: sender.tag == 1 ? 1 : -1,
+                                             to: selectedDate)!
+        selectedDate = nextDate
     }
 
-    func setDateTitle(){
-        if selectedDate.isToday{
+    func setDateTitle() {
+        if selectedDate.isToday {
             dateButton.setTitle("Today".localized, for: .normal)
-        }else{
+        } else {
             let dateFormatterPrint = DateFormatter()
             dateFormatterPrint.dateFormat = "MMMM dd, yyyy"
             let newTitle = dateFormatterPrint.string(for: selectedDate)
@@ -114,26 +103,22 @@ class MicroProgressViewController: UIViewController{
         }
     }
 
-
-}
-
-// MARK: - Daylog -
-extension MicroProgressViewController{
-    func getRecords(for date: Date?){
+    func getRecords(for date: Date?) {
         guard let date = date else { return }
-        connector.fetchDayRecords(date: date) {[weak self] (foodRecords) in
-            guard let `self` = self else { return }
-            self.microNutrients = MicroNutirents.getMicroNutrientsFromFood(records: foodRecords)
+        connector.fetchDayRecords(date: date) { [weak self] (foodRecords) in
+            guard let self else { return }
+            microNutrients = MicroNutirents.getMicroNutrientsFromFood(records: foodRecords)
         }
     }
 }
 
-extension MicroProgressViewController: UITableViewDelegate, UITableViewDataSource{
+// MARK: - UITableViewDataSource & UITableViewDelegate
+extension MicroProgressViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let visibleRowNumbers = 10
-        //Saturated Fat,Trans Fat,Cholesterol,Sodium,Dietary Fiber,Total Sugars,Vitamin D,Calcium,Iron,Potassium
-        if microNutrients.count > visibleRowNumbers{
-            return self.footerButton.isSelected ? microNutrients.count : visibleRowNumbers
+        if microNutrients.count > visibleRowNumbers {
+            return footerButton.isSelected ? microNutrients.count : visibleRowNumbers
         }
         return microNutrients.count
     }
@@ -150,8 +135,7 @@ extension MicroProgressViewController: UITableViewDelegate, UITableViewDataSourc
 }
 
 // MARK: - DateSelection
-extension MicroProgressViewController: DateSelectorUIViewDelegate{
-
+extension MicroProgressViewController: DateSelectorUIViewDelegate {
 
     @IBAction func showDateSelector(_ sender: Any) {
         dateSelector = DateSelectorViewController()
@@ -160,14 +144,11 @@ extension MicroProgressViewController: DateSelectorUIViewDelegate{
         self.parent?.present(dateSelector!, animated: false)
     }
 
-
     func removeDateSelector(remove: Bool) {
         dateSelector?.dismiss(animated: false)
     }
 
     func dateFromPicker(date: Date) {
-        self.selectedDate = date
+        selectedDate = date
     }
-
 }
-

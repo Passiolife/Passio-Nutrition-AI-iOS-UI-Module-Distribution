@@ -12,5 +12,4 @@ enum CellMealPlan: String, CaseIterable {
     case MealPlanFoodCell,
          MealPlanSectionHeaderCell,
          MealPlanDietTypeCell
-    
 }

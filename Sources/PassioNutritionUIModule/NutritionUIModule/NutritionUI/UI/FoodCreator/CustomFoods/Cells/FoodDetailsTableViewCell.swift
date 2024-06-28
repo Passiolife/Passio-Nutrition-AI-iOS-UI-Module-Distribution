@@ -28,14 +28,20 @@ final class FoodDetailsTableViewCell: UITableViewCell {
 
         configureTextFields()
         configureImageViewWithMenu()
+    }
 
-        DispatchQueue.main.async {
-            self.backgroundShadowView.dropShadow(radius: 8,
-                                                 offset: CGSize(width: 0, height: 1),
-                                                 color: .black.withAlphaComponent(0.10),
-                                                 shadowRadius: 3,
-                                                 shadowOpacity: 1,
-                                                 useShadowPath: true)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        DispatchQueue.main.async { [self] in
+            let path = UIBezierPath(roundedRect: backgroundShadowView.bounds, cornerRadius: 8)
+            backgroundShadowView.dropShadow(radius: 8,
+                                            offset: CGSize(width: 0, height: 1),
+                                            color: .black.withAlphaComponent(0.06),
+                                            shadowRadius: 2,
+                                            shadowOpacity: 1,
+                                            useShadowPath: true,
+                                            shadowPath: path.cgPath)
         }
     }
 
@@ -60,8 +66,19 @@ extension FoodDetailsTableViewCell {
         brandTextField.text = record.details
         barcodeTextField.text = record.barcode
         PassioInternalConnector.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
-            DispatchQueue.main.async {
-                self?.createFoodImageView.image = image
+            if let image {
+                DispatchQueue.main.async {
+                    self?.createFoodImageView.image = image
+                }
+            } else {
+                self?.createFoodImageView.setFoodImage(id: record.iconId,
+                                                 passioID: record.iconId,
+                                                 entityType: record.entityType,
+                                                 connector: PassioInternalConnector.shared) { image in
+                    DispatchQueue.main.async {
+                        self?.createFoodImageView.image = image
+                    }
+                }
             }
         }
     }

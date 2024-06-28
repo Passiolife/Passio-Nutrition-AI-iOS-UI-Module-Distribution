@@ -43,7 +43,15 @@ final class QuickAddSuggestionViewController: CustomModalViewController {
         quickSuggestionsLabel.font = UIFont.inter(type: .bold, size: 20)
         registerCellsAndTableDelegates()
         shouldShowMiniOnly = false
-        containerView.dropShadow()
+
+        let path = UIBezierPath(roundedRect: containerView.bounds, cornerRadius: 16)
+        containerView.dropShadow(radius: 16,
+                                 offset: CGSize(width: 0, height: -4),
+                                 color: .black.withAlphaComponent(0.1),
+                                 shadowRadius: 8,
+                                 shadowOpacity: 1,
+                                 useShadowPath: true,
+                                 shadowPath: path.cgPath)
     }
 
     func compressPopup() {

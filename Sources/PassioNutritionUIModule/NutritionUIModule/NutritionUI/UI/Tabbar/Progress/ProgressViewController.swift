@@ -56,9 +56,7 @@ class ProgressViewController: UIViewController {
 // MARK: - PageViewDelegate
 extension ProgressViewController: PageViewDelegate {
 
-    func pageControllerDidScroll(offset: CGFloat, currentPage: Int) {
-        
-    }
+    func pageControllerDidScroll(offset: CGFloat, currentPage: Int) { }
 
     private func setupPageViewController() {
         pageMaster.pageDelegate = self

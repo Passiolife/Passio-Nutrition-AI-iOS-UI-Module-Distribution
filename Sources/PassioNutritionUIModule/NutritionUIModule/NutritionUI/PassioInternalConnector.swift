@@ -31,7 +31,7 @@ public protocol PassioConnector: AnyObject {
     // User Food Image
     func updateUserFoodImage(with id: String, image: UIImage)
     func deleteUserFoodImage(with id: String)
-    func fetchUserFoodImage(with id: String, completion: @escaping (UIImage) -> Void)
+    func fetchUserFoodImage(with id: String, completion: @escaping (UIImage?) -> Void)
 
     // Favorites
     func updateFavorite(foodRecord: FoodRecordV3)
@@ -205,9 +205,9 @@ extension PassioInternalConnector: PassioConnector {
         connector.deleteUserFoodImage(with: id)
     }
 
-    public func fetchUserFoodImage(with id: String, completion: @escaping (UIImage) -> Void) {
+    public func fetchUserFoodImage(with id: String, completion: @escaping (UIImage?) -> Void) {
         guard let connector = passioExternalConnector else {
-            completion(UIImage())
+            completion(nil)
             return
         }
         connector.fetchUserFoodImage(with: id) { foodImage in
