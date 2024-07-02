@@ -238,7 +238,6 @@ extension HomeTabBarController: PlusMenuDelegate {
     func onSearchSelected() {
         let vc = TextSearchViewController()
         vc.dismmissToMyLog = true
-        vc.isAdvancedSearch = true
         vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
         present(vc, animated: true)

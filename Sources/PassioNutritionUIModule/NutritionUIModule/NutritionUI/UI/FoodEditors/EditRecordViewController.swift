@@ -157,7 +157,6 @@ extension EditRecordViewController: FoodEditorDelegate {
 
         let tsVC = TextSearchViewController()
         tsVC.modalPresentationStyle = .fullScreen
-        tsVC.isAdvancedSearch = true
         tsVC.advancedSearchDelegate = self
         self.present(tsVC, animated: true)
         replaceFood = isFoodReplace

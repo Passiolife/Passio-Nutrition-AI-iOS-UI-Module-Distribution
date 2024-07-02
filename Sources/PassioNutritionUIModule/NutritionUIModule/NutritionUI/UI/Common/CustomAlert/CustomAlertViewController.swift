@@ -36,6 +36,18 @@ struct CustomAlert {
         var rightButtonFont: UIFont = .inter(type: .medium, size: 16)
         var leftButtonFont: UIFont = .inter(type: .medium, size: 16)
     }
+
+    struct AlertColor {
+        var headingColor: UIColor = .gray900
+        var titleColor: UIColor = .gray900
+        var textFieldColor: UIColor = .gray900
+        var rightButtonColor: UIColor = .white
+        var leftButtonColor: UIColor = .indigo600
+        var borderColor: UIColor = .indigo600
+        var isBorderEnabled: Bool = true
+        var isLeftBorder: Bool = true
+        var isRightBorder: Bool = false
+    }
 }
 
 class CustomAlertViewController: InstantiableViewController {
@@ -54,7 +66,6 @@ class CustomAlertViewController: InstantiableViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .white.withAlphaComponent(0.5)
-        alertTextField.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -78,6 +89,12 @@ class CustomAlertViewController: InstantiableViewController {
         alertTextField.isHidden = views.alertTextField
         rightButton.isHidden = views.rightButton
         leftButton.isHidden = views.leftButton
+
+        if !alertTextField.isHidden {
+            alertTextField.delegate = self
+            rightButton.alpha = 0.5
+            rightButton.isEnabled = false
+        }
     }
 
     func configureAlert(title: CustomAlert.AlertTitle = CustomAlert.AlertTitle()) {
@@ -98,6 +115,22 @@ class CustomAlertViewController: InstantiableViewController {
         )
         rightButton.titleLabel?.font = font.rightButtonFont
         leftButton.titleLabel?.font = font.leftButtonFont
+    }
+
+    func configureAlert(color: CustomAlert.AlertColor = CustomAlert.AlertColor()) {
+        headingLabel.textColor = color.headingColor
+        titleLabel.textColor = color.titleColor
+        alertTextField.textColor = color.textFieldColor
+        rightButton.setTitleColor(color.rightButtonColor, for: .normal)
+        leftButton.setTitleColor(color.leftButtonColor, for: .normal)
+
+        if color.isBorderEnabled, color.isRightBorder {
+            rightButton.backgroundColor = .white
+            rightButton.applyBorder(width: 2, color: .systemRed)
+            leftButton.applyBorder(width: 0, color: .clear)
+            leftButton.backgroundColor = .indigo600
+            leftButton.setTitleColor(.white, for: .normal)
+        }
     }
 
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -124,6 +157,20 @@ class CustomAlertViewController: InstantiableViewController {
         dismiss(animated: true) { [weak self] in
             self?.delegate?.onleftButtonTapped()
         }
+    }
+
+    @IBAction func onTextFieldValueChanged(_ sender: UITextField) {
+
+        let textFieldValue = sender.text ?? ""
+        let isTextFieldEnabled = textFieldValue.count > 0 && textFieldValue != ""
+
+        UIView.animate(withDuration: 0.21,
+                       delay: 0,
+                       options: .showHideTransitionViews,
+                       animations: {
+            self.rightButton.alpha = isTextFieldEnabled ? 1 : 0.5
+            self.rightButton.isEnabled = isTextFieldEnabled
+        })
     }
 }
 

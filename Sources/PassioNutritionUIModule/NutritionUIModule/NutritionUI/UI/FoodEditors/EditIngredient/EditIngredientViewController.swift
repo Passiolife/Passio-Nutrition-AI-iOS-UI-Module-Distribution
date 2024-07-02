@@ -69,7 +69,6 @@ extension EditIngredientViewController: IngredientEditorViewDelegate {
         let tsVC = TextSearchViewController()
         tsVC.modalPresentationStyle = .fullScreen
         tsVC.advancedSearchDelegate = self
-        tsVC.isAdvancedSearch = true
         self.present(tsVC, animated: true)
     }
 

@@ -11,9 +11,17 @@ class EditRecipeViewController: InstantiableViewController {
 
     @IBOutlet weak var editRecipeTableView: UITableView!
 
+    private enum EditRecipeCell {
+        case recipeDetails, servingSize, addIngredient, ingredients
+    }
+    private let editRecipeSections: [EditRecipeCell] = [.recipeDetails,
+                                                        .servingSize,
+                                                        .addIngredient,
+                                                        .ingredients]
+
     var recipe: FoodRecordV3? {
         didSet {
-            print("recipe:- \(recipe)")
+            print("recipe:- \(recipe as Any)")
             editRecipeTableView.reloadData()
         }
     }
@@ -32,6 +40,21 @@ class EditRecipeViewController: InstantiableViewController {
 
     @IBAction func onCancel(_ sender: UIButton) {
 
+        let message = "Are you sure you want to cancel recipe creation? All your progress will be lost."
+        showCustomAlert(with: CustomAlert(headingLabel: false,
+                                          titleLabel: true,
+                                          alertTextField: true,
+                                          rightButton: false,
+                                          leftButton: false),
+                        title: CustomAlert.AlertTitle(headingText: message,
+                                                      rightButtonTitle: "Yes",
+                                                      leftButtonTitle: "No"),
+                        font: CustomAlert.AlertFont(headingFont: .inter(type: .medium, size: 16)),
+                        color: CustomAlert.AlertColor(headingColor: .gray900,
+                                                      rightButtonColor: .systemRed,
+                                                      borderColor: .systemRed,
+                                                      isRightBorder: true),
+                        delegate: self)
     }
 
     @IBAction func onSave(_ sender: UIButton) {
@@ -46,17 +69,43 @@ extension EditRecipeViewController {
 
         title = "Edit Recipe"
         editRecipeTableView.dataSource = self
+        editRecipeTableView.register(nibName: RecipeDetailsCell.className)
     }
 }
 
 // MARK: - UITableViewDataSource
 extension EditRecipeViewController: UITableViewDataSource {
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        editRecipeSections.count
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        switch editRecipeSections[section] {
+        case .recipeDetails, .servingSize, .addIngredient: 1
+        case .ingredients: (recipe?.ingredients.count ?? 1) == 1 ? 0 : (recipe?.ingredients.count ?? 1)
+        }
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+
+        switch editRecipeSections[indexPath.section] {
+        case .recipeDetails:
+            let cell = tableView.dequeueCell(cellClass: RecipeDetailsCell.self, forIndexPath: indexPath)
+            return cell
+        case .servingSize: return UITableViewCell()
+        case .addIngredient: return UITableViewCell()
+        case .ingredients: return UITableViewCell()
+        }
     }
+}
+
+// MARK: - CustomAlert Delegate
+extension EditRecipeViewController: CustomAlertDelegate {
+
+    func onRightButtonTapped(textValue: String?) {
+        navigationController?.popViewController(animated: true)
+    }
+
+    func onleftButtonTapped() { }
 }

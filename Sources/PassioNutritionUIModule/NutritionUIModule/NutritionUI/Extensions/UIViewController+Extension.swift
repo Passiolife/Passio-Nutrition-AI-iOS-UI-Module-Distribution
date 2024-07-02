@@ -144,6 +144,7 @@ public extension UIViewController {
     internal func showCustomAlert(with views: CustomAlert = CustomAlert(),
                                   title: CustomAlert.AlertTitle,
                                   font: CustomAlert.AlertFont,
+                                  color: CustomAlert.AlertColor = CustomAlert.AlertColor(),
                                   delegate: CustomAlertDelegate?) {
         let customAlertVC = CustomAlertViewController(nibName: CustomAlertViewController.className,
                                                       bundle: .module)
@@ -151,6 +152,7 @@ public extension UIViewController {
         customAlertVC.configureAlert(views: views)
         customAlertVC.configureAlert(title: title)
         customAlertVC.configureAlert(font: font)
+        customAlertVC.configureAlert(color: color)
         customAlertVC.delegate = delegate
         customAlertVC.modalTransitionStyle = .crossDissolve
         customAlertVC.modalPresentationStyle = .overFullScreen

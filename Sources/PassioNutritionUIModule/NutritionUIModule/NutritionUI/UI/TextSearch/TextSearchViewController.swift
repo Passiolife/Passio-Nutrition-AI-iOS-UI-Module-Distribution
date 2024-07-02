@@ -16,7 +16,7 @@ final class TextSearchViewController: InstantiableViewController {
     private var advancedTextSearchView: AdvancedTextSearchView!
 
     var dismmissToMyLog = false
-    var isAdvancedSearch = false
+    var isCreateRecipe = false
 
     weak var advancedSearchDelegate: AdvancedTextSearchViewDelegate?
 
@@ -32,6 +32,7 @@ final class TextSearchViewController: InstantiableViewController {
 
         advancedTextSearchView.delegate = self
         advancedTextSearchView.frame = view.bounds
+        advancedTextSearchView.isCreateRecipe = isCreateRecipe
         view.addSubview(advancedTextSearchView)
     }
 }
@@ -40,16 +41,23 @@ final class TextSearchViewController: InstantiableViewController {
 extension TextSearchViewController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFood(record: FoodRecordV3?) {
-        advancedSearchDelegate?.userSelectedFood(record: record)
+
         if dismmissToMyLog || navigationController == nil {
-            dismiss(animated: true)
+            dismiss(animated: true) { [weak self] in
+                self?.advancedSearchDelegate?.userSelectedFood(record: record)
+            }
+        } else {
+            advancedSearchDelegate?.userSelectedFood(record: record)
         }
     }
 
     func userSelectedFoodItem(item: PassioFoodItem?) {
-        advancedSearchDelegate?.userSelectedFoodItem(item: item)
         if dismmissToMyLog || navigationController == nil {
-            dismiss(animated: true)
+            dismiss(animated: true) { [weak self] in
+                self?.advancedSearchDelegate?.userSelectedFoodItem(item: item)
+            }
+        } else {
+            advancedSearchDelegate?.userSelectedFoodItem(item: item)
         }
     }
 }

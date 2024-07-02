@@ -20,15 +20,6 @@ class RecipesViewController: InstantiableViewController {
             recipesTableView.reloadData()
         }
     }
-    private var ingredients: [PassioFoodItem] = [] {
-        didSet {
-            if ingredients.count == 1 {
-                createRecipe()
-            } else {
-
-            }
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,16 +81,12 @@ extension RecipesViewController {
         showMessage(msg: "Added to Log")
     }
 
-    private func createRecipe() {
-
-        if let item = ingredients.first {
-            recipe = FoodRecordV3(foodItem: item,
-                                  barcode: "",
-                                  scannedWeight: nil,
-                                  entityType: .recipe,
-                                  confidence: nil)
-            navigateToEditRecipe()
-        }
+    private func createRecipe(item: PassioFoodItem) {
+        recipe = FoodRecordV3(foodItem: item,
+                              barcode: "",
+                              scannedWeight: nil,
+                              entityType: .recipe,
+                              confidence: nil)
     }
 
     private func navigateToEditRecipe() {
@@ -118,6 +105,7 @@ extension RecipesViewController: CustomAlertDelegate {
         recipeName = textValue ?? ""
 
         let plusMenuVC = PlusMenuViewController()
+        plusMenuVC.menuData = [.scan, .search, .voiceLogging]
         plusMenuVC.delegate = self
         plusMenuVC.modalTransitionStyle = .crossDissolve
         plusMenuVC.modalPresentationStyle = .overFullScreen
@@ -179,7 +167,7 @@ extension RecipesViewController: PlusMenuDelegate {
     func onSearchSelected() {
         let vc = TextSearchViewController()
         vc.dismmissToMyLog = true
-        vc.isAdvancedSearch = true
+        vc.isCreateRecipe = true
         vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
         present(vc, animated: true)
@@ -207,7 +195,12 @@ extension RecipesViewController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFoodItem(item: PassioFoodItem?) {
         if let item {
-            ingredients.append(item)
+            if recipe == nil {
+                createRecipe(item: item)
+            } else if var recipe {
+                recipe.addIngredient(record: FoodRecordV3(foodItem: item))
+            }
+            navigateToEditRecipe()
         }
     }
 

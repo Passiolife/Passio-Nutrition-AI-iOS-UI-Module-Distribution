@@ -369,7 +369,6 @@ extension DiaryViewController: GoToManualSearchDelegate {
                 vc.dismmissToMyLog = true
                 vc.modalPresentationStyle = .fullScreen
                 vc.advancedSearchDelegate = self
-                vc.isAdvancedSearch = true
                 self.present(vc, animated: true)
             }
         }

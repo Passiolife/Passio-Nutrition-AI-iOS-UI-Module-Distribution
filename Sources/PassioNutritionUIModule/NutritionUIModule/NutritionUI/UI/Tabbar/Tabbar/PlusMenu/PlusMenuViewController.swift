@@ -67,14 +67,7 @@ final class PlusMenuViewController: InstantiableViewController {
         }
     }
 
-    private var menuData: [Rows] = [.myFoods,
-                                    .favourite,
-                                    .voiceLogging,
-                                    .useImage,
-                                    .search,
-                                    .scan,
-                                    .takePhotos,
-                                    .selectPhotos]
+
     private let allRows: [Rows] = [.myFoods,
                                    .favourite,
                                    .voiceLogging,
@@ -83,6 +76,14 @@ final class PlusMenuViewController: InstantiableViewController {
                                    .scan,
                                    .takePhotos,
                                    .selectPhotos]
+    var menuData: [Rows] = [.myFoods,
+                            .favourite,
+                            .voiceLogging,
+                            .useImage,
+                            .search,
+                            .scan,
+                            .takePhotos,
+                            .selectPhotos]
     var bottomCountedValue: CGFloat = 70.0
 
     weak var delegate: PlusMenuDelegate?
@@ -182,9 +183,7 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(_ tableView: UITableView,
-                   willDisplay cell: UITableViewCell,
-                   forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         viewWillLayoutSubviews()
     }
 }

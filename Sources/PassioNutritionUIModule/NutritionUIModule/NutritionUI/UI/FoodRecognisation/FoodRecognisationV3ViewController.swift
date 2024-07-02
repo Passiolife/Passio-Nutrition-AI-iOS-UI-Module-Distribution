@@ -346,7 +346,6 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
     func didTapOnAddManual() {
         let vc = TextSearchViewController()
         vc.dismmissToMyLog = true
-        vc.isAdvancedSearch = true
         vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
         present(vc, animated: true)

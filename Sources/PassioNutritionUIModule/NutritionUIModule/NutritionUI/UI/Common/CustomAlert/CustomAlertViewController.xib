@@ -68,6 +68,9 @@
                                     <color key="textColor" name="gray-900"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="onTextFieldValueChanged:" destination="-1" eventType="editingChanged" id="L9r-HP-a5i"/>
+                                    </connections>
                                 </textField>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Qg5-7W-wLl">
                                     <rect key="frame" x="0.0" y="48.666666666666629" width="329" height="50"/>

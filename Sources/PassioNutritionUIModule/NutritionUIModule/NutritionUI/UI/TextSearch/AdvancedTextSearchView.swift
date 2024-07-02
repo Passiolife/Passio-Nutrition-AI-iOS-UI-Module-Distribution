@@ -31,6 +31,7 @@ final class AdvancedTextSearchView: UIView {
     private var searchTimer: Timer?
     private var previousSearch = ""
 
+    var isCreateRecipe = false
     weak var delegate: AdvancedTextSearchViewDelegate?
 
     enum SearchState: Equatable {
@@ -389,6 +390,7 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueCell(cellClass: AdvancedTextSearchCell.self, forIndexPath: indexPath)
             if let foodResult = alternateSearches?.results[safe: indexPath.row] {
                 cell.setup(foodResult: foodResult)
+                cell.plusButton.isHidden = isCreateRecipe
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
                     getFoodRecord(foodData: foodResult, record: nil) { foodRecord in
@@ -404,7 +406,7 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
             if let favorites = favorites?[safe: indexPath.row] {
 
                 cell.setup(foodRecord: favorites, isFromSearch: true, isFavorite: true)
-
+                cell.plusButton.isHidden = isCreateRecipe
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
                     getFoodRecord(foodData: nil, record: favorites) { foodRecord in
@@ -420,7 +422,7 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
             if let userFoods = userFoods?[safe: indexPath.row] {
 
                 cell.setup(foodRecord: userFoods, isFromSearch: true)
-
+                cell.plusButton.isHidden = isCreateRecipe
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
                     getFoodRecord(foodData: nil, record: userFoods) { foodRecord in
