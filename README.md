@@ -26,7 +26,7 @@
 		                                                withViewController: vc
 		                                                passioConfiguration: passioConfig)
 
-## 2. Add PassioNutritionUIModule source code directly to your Xcode Project (Only use this way when you want to fully custmoize UI module)
+## 2. Add PassioNutritionUIModule source code directly to your Xcode Project (Only use this way when you want to fully customize UI module)
 
 1. Download source code from the Repo
 2. Navigate to Passio-Nutrition-AI-iOS-UI-Module-Distribution-main -> Sources -> PassioNutritionUIModule and copy paste PassioNutritionUIModule to your Xcode Project.
