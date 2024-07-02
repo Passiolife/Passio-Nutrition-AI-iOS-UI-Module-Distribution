@@ -9,7 +9,7 @@ import Foundation
 
 extension FileManager {
 
-    func getRecords<T: Codable>(for url: URL) -> [T] {
+    public func getRecords<T: Codable>(for url: URL) -> [T] {
         var records = [T]()
         do {
             let directoryContents = try contentsOfDirectory(at: url, includingPropertiesForKeys: nil)
@@ -32,7 +32,7 @@ extension FileManager {
         }
     }
 
-    func updateRecordLocally(url: URL, record: Encodable) -> Bool {
+    public func updateRecordLocally(url: URL, record: Encodable) -> Bool {
         do {
             let encodedData = try? JSONEncoder().encode(record)
             if fileExists(atPath: url.path) {
@@ -50,7 +50,7 @@ extension FileManager {
     }
 
     @discardableResult
-    func deleteRecordLocally(url: URL) -> Bool {
+    public func deleteRecordLocally(url: URL) -> Bool {
         if fileExists(atPath: url.path) {
             do {
                 try removeItem(atPath: url.path)
@@ -61,5 +61,37 @@ extension FileManager {
             }
         }
         return false
+    }
+
+    func clearTempDirectory() {
+        do {
+            let tempFiles = try contentsOfDirectory(at: temporaryDirectory,
+                                                    includingPropertiesForKeys: nil,
+                                                    options: [])
+            for file in tempFiles {
+                try removeItem(at: file)
+            }
+            // print("Temp directory cleared.")
+        } catch {
+            // print("Could not clear temp directory: \(error)")
+        }
+    }
+
+    public func createDirectory(with folder: String) -> URL? {
+
+        // Create Folder
+        guard let appSupportDir = try? url(for: .applicationSupportDirectory,
+                                           in: .userDomainMask,
+                                           appropriateFor: nil,
+                                           create: true) else {
+            return nil
+        }
+        let dirURL = appSupportDir.appendingPathComponent(folder, isDirectory: true)
+        do {
+            try createDirectory(atPath: dirURL.path, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("Unable to create directory at \(dirURL)")
+        }
+        return dirURL
     }
 }

@@ -24,12 +24,20 @@ final class DailyNutritionCell: UITableViewCell {
     var nutritionData: NutritionDataModal? {
         didSet {
             guard let data = nutritionData else { return }
-            self.nutritionView.setup(data: data)
+            nutritionView.setup(data: data)
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.shadowView.dropShadow()
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        let path = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 8)
+        shadowView.dropShadow(radius: 8,
+                              offset: CGSize(width: 0, height: 1),
+                              color: .black.withAlphaComponent(0.06),
+                              shadowRadius: 2,
+                              shadowOpacity: 1,
+                              useShadowPath: true,
+                              shadowPath: path.cgPath)
     }
 }

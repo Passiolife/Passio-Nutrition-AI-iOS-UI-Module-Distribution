@@ -1,6 +1,6 @@
 //
-//  HomeTab.swift
-//  Nutritaion-ai
+//  HomeTabBar.swift
+//  Nutrition-ai
 //
 //  Created by Mind on 12/02/24.
 //
@@ -29,10 +29,7 @@ final class HomeTabBar: UITabBar {
         super.layoutSubviews()
 
         plusButton.center = CGPoint(x: frame.width / 2, y: -5)
-        self.layer.shadowOffset = CGSize(width: 0, height: 1)
-        self.layer.shadowRadius = 2
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.6
+        setShadow()
     }
 
     @objc func middleButtonAction(sender: UIButton) {
@@ -42,5 +39,25 @@ final class HomeTabBar: UITabBar {
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }
         return plusButton.frame.contains(point) ? self.plusButton : super.hitTest(point, with: event)
+    }
+
+    private func setShadow() {
+        let plusButtonShadowPath = UIBezierPath(roundedRect: plusButton.imageView?.frame ?? .zero,
+                                                cornerRadius: plusButton.frame.width/2)
+        plusButton.dropShadow(radius: plusButton.frame.width/2,
+                              offset: .init(width: 0, height: 1),
+                              color: .black,
+                              shadowRadius: 2,
+                              shadowOpacity: 0.21,
+                              useShadowPath: true,
+                              shadowPath: plusButtonShadowPath.cgPath)
+        let tabBarShadowPath = UIBezierPath(rect: bounds)
+        dropShadow(radius: 0,
+                   offset: .init(width: 0, height: 20),
+                   color: .black,
+                   shadowRadius: 25,
+                   shadowOpacity: 0.25,
+                   useShadowPath: true,
+                   shadowPath: tabBarShadowPath.cgPath)
     }
 }

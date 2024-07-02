@@ -36,7 +36,7 @@ final class CalendarCell: UITableViewCell {
     }
     var selectedDate: Date? = nil {
         didSet {
-            self.calendarView.select(nil, scrollToDate: false)
+            calendarView.select(nil, scrollToDate: false)
         }
     }
 
@@ -44,8 +44,21 @@ final class CalendarCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
         calendarView.scope = .week
-        shadowView.dropShadow()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        let path = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 8)
+        shadowView.dropShadow(radius: 8,
+                              offset: CGSize(width: 0, height: 1),
+                              color: .black.withAlphaComponent(0.06),
+                              shadowRadius: 2,
+                              shadowOpacity: 1,
+                              useShadowPath: true,
+                              shadowPath: path.cgPath)
     }
 }
 

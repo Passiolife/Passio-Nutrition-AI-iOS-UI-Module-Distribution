@@ -21,19 +21,27 @@ final class FoodDetailsTableViewCell: UITableViewCell {
     var onCreateFoodImage: ((UIImagePickerController.SourceType) -> Void)?
     var onBarcode: (() -> Void)?
 
+    var isCreateNewFood = true
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         configureTextFields()
         configureImageViewWithMenu()
+    }
 
-        DispatchQueue.main.async {
-            self.backgroundShadowView.dropShadow(radius: 8,
-                                                 offset: CGSize(width: 0, height: 1),
-                                                 color: .black.withAlphaComponent(0.10),
-                                                 shadowRadius: 3,
-                                                 shadowOpacity: 1,
-                                                 useShadowPath: true)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        DispatchQueue.main.async { [self] in
+            let path = UIBezierPath(roundedRect: backgroundShadowView.bounds, cornerRadius: 8)
+            backgroundShadowView.dropShadow(radius: 8,
+                                            offset: CGSize(width: 0, height: 1),
+                                            color: .black.withAlphaComponent(0.06),
+                                            shadowRadius: 2,
+                                            shadowOpacity: 1,
+                                            useShadowPath: true,
+                                            shadowPath: path.cgPath)
         }
     }
 
@@ -48,17 +56,37 @@ extension FoodDetailsTableViewCell {
     struct FoodDetails {
         let name: String
         let brand: String?
-        let barcode: String
+        let barcode: String?
         let image: UIImage
+    }
+
+    func configureCell(with record: FoodRecordV3) {
+        isCreateNewFood = false
+        nameTextField.text = record.name
+        brandTextField.text = record.details
+        barcodeTextField.text = record.barcode
+        PassioInternalConnector.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
+            if let image {
+                DispatchQueue.main.async {
+                    self?.createFoodImageView.image = image
+                }
+            } else {
+                self?.createFoodImageView.setFoodImage(id: record.iconId,
+                                                 passioID: record.iconId,
+                                                 entityType: record.entityType,
+                                                 connector: PassioInternalConnector.shared) { image in
+                    DispatchQueue.main.async {
+                        self?.createFoodImageView.image = image
+                    }
+                }
+            }
+        }
     }
 
     var isFoodDetailsValid: (Bool, String?) {
         var errors = [String]()
         if let name = nameTextField.text, name != "" { } else {
-            errors.append("Name")
-        }
-        if let barcode = barcodeTextField.text, barcode != "" { } else {
-            errors.append("Barcode")
+            errors.append("name")
         }
         if errors.count > 0 {
             return (false, "Please enter valid \(errors.joined(separator: ", ")).")

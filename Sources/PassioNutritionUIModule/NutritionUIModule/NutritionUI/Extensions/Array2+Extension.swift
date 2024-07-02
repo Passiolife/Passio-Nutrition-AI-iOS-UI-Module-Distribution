@@ -6,7 +6,7 @@
 //  Copyright © 2024 Passio Inc. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension Array where Element: Hashable {
 
@@ -25,6 +25,13 @@ extension Array where Element: Hashable {
             }
         }
         return arrayOrdered
+    }
+}
+
+extension Array where Element == UITextField {
+
+    var isValidTextFields: Bool {
+        allSatisfy { $0.text != "" && $0.text != nil }
     }
 }
 

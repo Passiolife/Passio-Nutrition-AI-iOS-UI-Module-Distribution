@@ -89,6 +89,11 @@
                         <constraint firstItem="sf3-Sl-ThJ" firstAttribute="leading" secondItem="70x-eb-Psv" secondAttribute="leading" constant="16" id="j3K-Ux-hYD"/>
                         <constraint firstAttribute="trailing" secondItem="I02-DP-yIx" secondAttribute="trailing" constant="16" id="qRH-PA-E30"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                            <real key="value" value="16"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

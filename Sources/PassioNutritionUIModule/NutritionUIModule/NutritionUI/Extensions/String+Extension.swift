@@ -117,6 +117,14 @@ public extension String {
             return (nil, nil)
         }
     }
+
+    func setAttributedString(font: UIFont, textColor: UIColor) -> NSAttributedString {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: textColor
+        ]
+        return NSAttributedString(string: self, attributes: attributes)
+    }
 }
 
 extension NSMutableAttributedString {

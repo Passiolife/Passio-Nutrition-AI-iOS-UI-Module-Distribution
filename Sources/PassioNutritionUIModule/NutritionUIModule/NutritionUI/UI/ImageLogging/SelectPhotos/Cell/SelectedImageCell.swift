@@ -2,7 +2,7 @@
 //  SelectedImageCell.swift
 //  
 //
-//  Created by mac-0002 on 17/06/24.
+//  Created by Nikunj Prajapati on 17/06/24.
 //
 
 import UIKit

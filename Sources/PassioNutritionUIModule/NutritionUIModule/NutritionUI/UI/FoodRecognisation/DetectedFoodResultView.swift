@@ -35,14 +35,12 @@ class DetectedFoodResultView: CustomModalViewController {
     @IBOutlet weak var manualStackView : UIStackView!
     @IBOutlet weak var buttonEdit      : UIButton!
     @IBOutlet weak var buttonLog       : UIButton!
-    @IBOutlet weak var quickLogButton: UIButton!
     
     private let passioSDK = PassioNutritionAI.shared
     private let connector = PassioInternalConnector.shared
 
     weak var delegate: DetectedFoodResultViewDelegate?
 
-    // MANAGING STATES
     private var currentDataSet: (any FoodRecognitionDataSet)? = nil {
         didSet {
             updateUI()
@@ -126,7 +124,6 @@ class DetectedFoodResultView: CustomModalViewController {
         labelFoodDetails.text = "Place your food within the frame."
         labelFoodDetails.isHidden = false
         buttonLog.isHidden = true
-        quickLogButton.isHidden = true
         buttonEdit.isHidden = true
         setDragabble(isDraggable: false)
         manualStackView.isHidden = true
@@ -136,7 +133,6 @@ class DetectedFoodResultView: CustomModalViewController {
     private func setupNoLoderView() {
         spinnerView.stop()
         buttonLog.isHidden = false
-        quickLogButton.isHidden = false
         buttonEdit.isHidden = false
         imageFoodIcon.isHidden = false
         labelFoodDetails.isHidden = true
@@ -148,7 +144,8 @@ class DetectedFoodResultView: CustomModalViewController {
             guard let self else { return }
             if let foodItem = passioFoodItem {
                 showFoodData(name: foodItem.name,
-                             imageID: foodItem.iconId)
+                             imageID: foodItem.iconId,
+                             entityType: .barcode)
             } else if let barcodeFoodRecord = dataset.foodRecord { // Fetch from local if available
                 showFoodData(name: barcodeFoodRecord.name,
                              imageID: barcodeFoodRecord.iconId,
@@ -196,7 +193,6 @@ class DetectedFoodResultView: CustomModalViewController {
     private func setupNameAndImage(name: String,
                                    passioID: String,
                                    entityType: PassioIDEntityType = .item) {
-        quickLogButton.isHidden = false
         labelFoodName.text = name.capitalized
         imageFoodIcon.setFoodImage(id: passioID,
                                    passioID: passioID,
@@ -271,10 +267,6 @@ extension DetectedFoodResultView {
     }
 
     @IBAction func buttonLogTapped(_ sender: UIButton) {
-        delegate?.didTapOnLog(dataset: currentDataSet)
-    }
-
-    @IBAction func onQuickAddFood(_ sender: UIButton) {
         delegate?.didTapOnLog(dataset: currentDataSet)
     }
 }

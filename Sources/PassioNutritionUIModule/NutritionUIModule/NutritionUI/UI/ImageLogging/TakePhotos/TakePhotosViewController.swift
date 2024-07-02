@@ -438,9 +438,7 @@ extension TakePhotosViewController: ResultsLoggingDelegate {
     }
 
     func onLogSelectedTapped() {
-        navigationController?.popViewController(animated: true) { [weak self] in
-            self?.showMessage(msg: "Log Added", y: 80)
-        }
+        NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
     }
 
     func onSearchManuallyTapped() {}
@@ -449,7 +447,7 @@ extension TakePhotosViewController: ResultsLoggingDelegate {
 // MARK: - ResultLogging Delegate
 extension TakePhotosViewController: CustomAlertDelegate {
 
-    func onRightButtonTapped() {
+    func onRightButtonTapped(textValue: String?) {
         capturedImages.removeAll()
         thumbnailImages.removeAll()
     }

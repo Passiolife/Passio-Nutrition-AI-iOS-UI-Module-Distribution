@@ -35,16 +35,11 @@ class FoodEditorView: UIView {
     @IBOutlet weak var buttonCancel: UIButton!
     @IBOutlet weak var buttonSave: UIButton!
 
-    let passioSDK = PassioNutritionAI.shared
     let connector = PassioInternalConnector.shared
     let rowsBeforeIngrediants = 4
-    let rowForAlternatives =  0
-    let rowForInvisible = 0
-    let secondsForFlashCheckMark = 1.5
 
     weak var delegate: FoodEditorDelegate?
-    
-    // state
+
     var saveToConnector: Bool = true
     var isEditingFavorite = false
     var invisibleList = [PassioID]()
@@ -110,7 +105,8 @@ class FoodEditorView: UIView {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.userProfile = UserManager.shared.user ?? UserProfileModel()
+
+        userProfile = UserManager.shared.user ?? UserProfileModel()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.allowsSelection = true

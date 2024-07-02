@@ -6,7 +6,6 @@
 //  Copyright © 2024 Passio Inc. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class ProgressViewController: UIViewController {
@@ -17,14 +16,14 @@ class ProgressViewController: UIViewController {
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     @IBOutlet private weak var pageFrameView : UIView! {
         willSet {
-            self.addChild(pageMaster)
+            addChild(pageMaster)
             newValue.addSubview(pageMaster.view)
             newValue.fitToSelf(childView: pageMaster.view)
             pageMaster.didMove(toParent: self)
         }
     }
-    private let pageMaster = PageMaster([])
-    private var viewControllerList : [UIViewController] = []
+    private let pageMaster = PageViewController([])
+    private var viewControllerList: [UIViewController] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,25 +49,29 @@ class ProgressViewController: UIViewController {
     }
 
     @IBAction func setTab(_ sender: UIButton) {
-        self.setTabBarIndex(sender.tag)
+        setTabBarIndex(sender.tag)
     }
 }
 
-extension ProgressViewController: PageMasterDelegate {
+// MARK: - PageViewDelegate
+extension ProgressViewController: PageViewDelegate {
+
+    func pageControllerDidScroll(offset: CGFloat, currentPage: Int) { }
 
     private func setupPageViewController() {
         pageMaster.pageDelegate = self
         pageMaster.setup(viewControllerList)
     }
 
-    func pageMaster(_ master: PageMaster, didChangePage page: Int) {
+    func pageController(_ controller: PageViewController, didChangePage page: Int) {
         setTabBarIndex(page)
     }
 
     private func setTabBarIndex(_ selectedIndex : Int) {
 
-        pageMaster.setPage(selectedIndex,animated: true)
-        let buttons = [macrosButton,microButton].compactMap({$0})
+        pageMaster.setPage(selectedIndex, animated: true)
+
+        let buttons = [macrosButton, microButton].compactMap{ $0 }
         for button in buttons {
             button.isSelected = button.tag == selectedIndex
             button.titleLabel?.font = button.tag == selectedIndex ?

@@ -108,14 +108,10 @@ public extension UIImage {
     /// - Parameter dimension: width or length of the image output.
     /// - Parameter resizeFramework: Technique for image resizing: UIKit / CoreImage / CoreGraphics / ImageIO / Accelerate.
     /// - Returns: Resized image.
-
     func resizeWithScaleAspectFitMode(to dimension: CGFloat, resizeFramework: ResizeFramework = .coreGraphics) -> UIImage? {
-
         if max(size.width, size.height) <= dimension { return self }
-
         var newSize: CGSize!
         let aspectRatio = size.width/size.height
-
         if aspectRatio > 1 {
             // Landscape image
             newSize = CGSize(width: dimension, height: dimension / aspectRatio)
@@ -123,7 +119,6 @@ public extension UIImage {
             // Portrait image
             newSize = CGSize(width: dimension * aspectRatio, height: dimension)
         }
-
         return resize(to: newSize, with: resizeFramework)
     }
 
@@ -366,25 +361,23 @@ public extension UIImage {
     }
 
     func resizeImgKeepingAspectRatio(to targetSize: CGSize) -> UIImage {
-
         // Determine the scale factor that preserves aspect ratio
         let widthRatio = targetSize.width / size.width
         let heightRatio = targetSize.height / size.height
-
         let scaleFactor = min(widthRatio, heightRatio)
-
         // Compute the new image size that preserves aspect ratio
         let scaledImageSize = CGSize(width: size.width * scaleFactor,
                                      height: size.height * scaleFactor)
-
         // Draw and return the resized UIImage
         let renderer = UIGraphicsImageRenderer(size: scaledImageSize)
-
         let scaledImage = renderer.image { _ in
             draw(in: CGRect(origin: .zero, size: scaledImageSize))
         }
-
         return scaledImage
+    }
+
+    var get180pImage: UIImage {
+        resizeImgKeepingAspectRatio(to: .init(width: 180, height: 180))
     }
 }
 
@@ -399,7 +392,7 @@ public extension UIImageView {
 
         if id.contains("userFood") {
             connector.fetchUserFoodImage(with: id) { foodImage in
-                completion(foodImage)
+                completion(foodImage ?? UIImage())
             }
         } else {
             loadPassioIconBy(passioID: passioID,

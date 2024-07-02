@@ -321,57 +321,40 @@
                                             </view>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ttj-kH-WFA">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                                <color key="backgroundColor" name="Blue0D1"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="ttj-kH-WFA" secondAttribute="height" multiplier="1:1" id="Dbg-C5-7sk"/>
                                                     <constraint firstAttribute="height" constant="40" id="aDb-Nh-9XS"/>
                                                 </constraints>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="NXK-6A-gfD">
-                                                <rect key="frame" x="56" y="3.6666666666666856" width="257" height="32.666666666666664"/>
+                                                <rect key="frame" x="56" y="3.6666666666666856" width="289" height="32.666666666666664"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Long name Long Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZwY-iH-Twv">
-                                                        <rect key="frame" x="0.0" y="0.0" width="257" height="16.333333333333332"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="289" height="16.333333333333332"/>
                                                         <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Long name Long Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sCc-n3-H1u">
-                                                        <rect key="frame" x="0.0" y="16.333333333333314" width="257" height="16.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="16.333333333333314" width="289" height="16.333333333333329"/>
                                                         <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
                                                         <color key="textColor" name="gray-500-bg"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                             </stackView>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pjR-yn-itV">
-                                                <rect key="frame" x="321" y="9" width="24" height="22"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="22" id="QOW-r4-1Pj"/>
-                                                    <constraint firstAttribute="width" constant="24" id="svz-S2-TPu"/>
-                                                </constraints>
-                                                <color key="tintColor" name="gray-400"/>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" image="plus" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="semibold"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="onQuickAddFood:" destination="G1a-Tp-o6k" eventType="touchUpInside" id="gVz-h3-cZl"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="NXK-6A-gfD" secondAttribute="trailing" constant="16" id="2Lv-Hg-RFC"/>
                                             <constraint firstAttribute="bottom" secondItem="q2P-5s-pd4" secondAttribute="bottom" id="71g-Fd-q1E"/>
                                             <constraint firstItem="NXK-6A-gfD" firstAttribute="leading" secondItem="q2P-5s-pd4" secondAttribute="trailing" constant="16" id="KZt-0T-YJa"/>
                                             <constraint firstItem="q2P-5s-pd4" firstAttribute="top" secondItem="FSv-T8-b55" secondAttribute="top" id="Ob2-Aq-nOh"/>
                                             <constraint firstAttribute="bottom" secondItem="ttj-kH-WFA" secondAttribute="bottom" id="WzU-1M-8FC"/>
                                             <constraint firstItem="ttj-kH-WFA" firstAttribute="top" secondItem="FSv-T8-b55" secondAttribute="top" id="e9r-Et-osh"/>
-                                            <constraint firstItem="pjR-yn-itV" firstAttribute="leading" secondItem="NXK-6A-gfD" secondAttribute="trailing" constant="8" id="iwL-tF-GtC"/>
                                             <constraint firstItem="q2P-5s-pd4" firstAttribute="leading" secondItem="FSv-T8-b55" secondAttribute="leading" id="kZK-bJ-sZo"/>
-                                            <constraint firstItem="pjR-yn-itV" firstAttribute="centerY" secondItem="NXK-6A-gfD" secondAttribute="centerY" id="khl-XM-UdA"/>
                                             <constraint firstItem="ttj-kH-WFA" firstAttribute="leading" secondItem="FSv-T8-b55" secondAttribute="leading" id="ooG-le-GS6"/>
-                                            <constraint firstAttribute="trailing" secondItem="pjR-yn-itV" secondAttribute="trailing" constant="16" id="rYG-95-NWG"/>
                                             <constraint firstItem="NXK-6A-gfD" firstAttribute="centerY" secondItem="FSv-T8-b55" secondAttribute="centerY" id="sZQ-1t-pmE"/>
                                         </constraints>
                                     </view>
@@ -420,7 +403,6 @@
                         <outlet property="labelFoodName" destination="ZwY-iH-Twv" id="fkk-wA-AN8"/>
                         <outlet property="labelTrayInfo" destination="olJ-In-TMj" id="ame-Le-Zlv"/>
                         <outlet property="manualStackView" destination="aXv-CN-A9z" id="wOK-iW-3jH"/>
-                        <outlet property="quickLogButton" destination="pjR-yn-itV" id="mbi-xr-UES"/>
                         <outlet property="spinnerView" destination="q2P-5s-pd4" id="itD-W9-gnU"/>
                         <outlet property="tblViewAlternatives" destination="KVd-jr-Dwl" id="XIs-0z-JKu"/>
                         <outlet property="viewDragMain" destination="DGH-Zq-hRN" id="qXT-Ff-EAa"/>
@@ -1278,7 +1260,7 @@
                                 </connections>
                             </slider>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="27D-Md-c7X">
-                                <rect key="frame" x="16" y="311" width="361" height="210"/>
+                                <rect key="frame" x="16" y="270" width="361" height="292.33333333333326"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7bp-6H-DSk">
                                         <rect key="frame" x="160.66666666666666" y="16" width="40" height="40"/>
@@ -1293,27 +1275,28 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="crv-aq-jep">
-                                        <rect key="frame" x="16" y="72" width="329" height="122"/>
+                                        <rect key="frame" x="16" y="72.000000000000014" width="329" height="204.33333333333337"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pNN-oZ-9IT">
-                                                <rect key="frame" x="0.0" y="0.0" width="329" height="56"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="329" height="72.333333333333329"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barcode In System" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctv-VI-D81">
                                                         <rect key="frame" x="0.0" y="0.0" width="329" height="23.333333333333332"/>
                                                         <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="20"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" name="gray-900"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This barcode matches an existing item in our database. Would you like to view the existing item?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncE-aG-Heg">
-                                                        <rect key="frame" x="0.0" y="23.333333333333311" width="329" height="32.666666666666657"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncE-aG-Heg">
+                                                        <rect key="frame" x="0.0" y="23.333333333333314" width="329" height="49"/>
+                                                        <string key="text">This barcode matches an existing item in our database. You can use the data from the database, or continue with creating a custom food.</string>
                                                         <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" name="gray-900"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="A1E-Or-UEQ">
-                                                <rect key="frame" x="0.0" y="72" width="329" height="50"/>
+                                                <rect key="frame" x="0.0" y="88.333333333333314" width="329" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZTw-7b-RHC">
                                                         <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="50"/>
@@ -1346,7 +1329,7 @@
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="View">
+                                                        <state key="normal" title="View Existing Item">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
@@ -1360,6 +1343,26 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LyU-KM-afR">
+                                                <rect key="frame" x="0.0" y="154.33333333333331" width="329" height="50"/>
+                                                <color key="backgroundColor" name="indigo-600"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="Ji4-MH-LhR"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Create Custom Food Anyway">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="onCreateCustomFoodAnyway:" destination="6ah-eF-xqb" eventType="touchUpInside" id="5FR-hQ-CTF"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -1413,8 +1416,11 @@
                         <outlet property="backgroundView" destination="5Rw-ed-MpI" id="rhq-xN-pvP"/>
                         <outlet property="barcodeDetectedStackView" destination="guV-KN-kKt" id="Qla-ew-r9T"/>
                         <outlet property="barcodeInSystemView" destination="27D-Md-c7X" id="YCL-Xc-r9H"/>
+                        <outlet property="barcodeMatchesLabel" destination="ncE-aG-Heg" id="WsT-mT-riU"/>
                         <outlet property="barcodeStackVwBottomConstraint" destination="i8c-nI-2se" id="ZX8-L2-jLD"/>
+                        <outlet property="barcodeSystemLabel" destination="ctv-VI-D81" id="Yqa-QG-oZM"/>
                         <outlet property="barcodeTextField" destination="L9g-JY-iSm" id="AZy-H1-8wS"/>
+                        <outlet property="createCustomFoodButton" destination="LyU-KM-afR" id="T9F-ow-aSp"/>
                         <outlet property="previewView" destination="cIK-I0-eoT" id="t0q-XN-Rdr"/>
                         <outlet property="scanGuideView" destination="AFK-be-MHq" id="a0w-Sa-APo"/>
                     </connections>
@@ -1433,18 +1439,11 @@
         <image name="green-check" width="40" height="40"/>
         <image name="nutritionFacts" width="40.333332061767578" height="40"/>
         <image name="packageFoods" width="40" height="40"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
         <image name="scan_frame" width="384" height="424"/>
         <image name="scope" catalog="system" width="128" height="124"/>
         <image name="wholeFoods" width="40" height="40"/>
-        <namedColor name="Blue0D1">
-            <color red="0.050980392156862744" green="0.11764705882352941" blue="0.72549019607843135" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="gray-200">
             <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
-        <namedColor name="gray-400">
-            <color red="0.61176470588235299" green="0.63921568627450975" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="gray-500-bg">
             <color red="0.41960784313725491" green="0.44705882352941179" blue="0.50196078431372548" alpha="0.75" colorSpace="custom" customColorSpace="displayP3"/>

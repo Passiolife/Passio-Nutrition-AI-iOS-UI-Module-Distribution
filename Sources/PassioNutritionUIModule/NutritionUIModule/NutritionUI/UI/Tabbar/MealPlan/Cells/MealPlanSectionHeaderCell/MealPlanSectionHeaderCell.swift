@@ -17,19 +17,18 @@ class MealPlanSectionHeaderCell: UICollectionViewCell {
     @IBOutlet weak var labelMealTime: UILabel!
     @IBOutlet weak var sepratorView: UIView!
     @IBOutlet weak var logEntireMealButton: UIButton!
-    
+
     weak var delegate: MealPlanSectionHeaderCellDelegate?
     var mealLabel: MealLabel = .snack
-    
-    func setup(hasChild: Bool){
+
+    func setup(hasChild: Bool) {
         sepratorView.isHidden = true
         if hasChild {
             sepratorView.isHidden = false
         }
     }
-    
-    @IBAction func onClickLogEntireMeal(){
+
+    @IBAction func onClickLogEntireMeal() {
         self.delegate?.onClickLog(mealLabel: self.mealLabel)
     }
-    
 }

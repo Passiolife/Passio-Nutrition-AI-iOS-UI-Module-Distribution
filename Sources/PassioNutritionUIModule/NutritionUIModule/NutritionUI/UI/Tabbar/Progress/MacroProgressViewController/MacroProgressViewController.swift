@@ -6,7 +6,6 @@
 //  Copyright © 2024 Passio Inc. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class MacroProgressViewController: UIViewController {
@@ -19,8 +18,8 @@ class MacroProgressViewController: UIViewController {
 
     private var selectedDate: Date = Date() {
         didSet {
-            self.configureDateUI()
-            self.getDayLogsFrom()
+            configureDateUI()
+            getDayLogsFrom()
         }
     }
     private var currentScope: Scope = .week
@@ -33,6 +32,37 @@ class MacroProgressViewController: UIViewController {
         super.viewDidLoad()
         self.selectedDate = Date()
         self.setupUI()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let segmentPath = UIBezierPath(roundedRect: segmentControl.bounds, cornerRadius: 8)
+        segmentControl.dropShadow(radius: 8,
+                                  offset: CGSize(width: 0, height: 1),
+                                  color: .black.withAlphaComponent(0.06),
+                                  shadowRadius: 2,
+                                  shadowOpacity: 1,
+                                  useShadowPath: true,
+                                  shadowPath: segmentPath.cgPath)
+
+        let caloriePath = UIBezierPath(roundedRect: caloryBarChart.shadowView.bounds, cornerRadius: 16)
+        caloryBarChart.dropShadow(radius: 16,
+                                  offset: CGSize(width: 0, height: 2),
+                                  color: .black.withAlphaComponent(0.10),
+                                  shadowRadius: 8,
+                                  shadowOpacity: 1,
+                                  useShadowPath: true,
+                                  shadowPath: caloriePath.cgPath)
+
+        let macroPath = UIBezierPath(roundedRect: macroBarChart.shadowView.bounds, cornerRadius: 16)
+        macroBarChart.dropShadow(radius: 16,
+                                  offset: CGSize(width: 0, height: 2),
+                                  color: .black.withAlphaComponent(0.10),
+                                  shadowRadius: 8,
+                                  shadowOpacity: 1,
+                                  useShadowPath: true,
+                                  shadowPath: macroPath.cgPath)
     }
 
     func setupUI() {
@@ -109,10 +139,7 @@ extension MacroProgressViewController {
 
         let max = (data.map({$0.0}).max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)
-        self.caloryBarChart.shadowView.dropShadow(radius: 15)
-        self.caloryBarChart.setupChart(datasource: data.map({$0.0}), maximum: max, dates: dates)
-        self.macroBarChart.shadowView.dropShadow(radius: 15)
-        self.macroBarChart.setupChart(datasource: data.map({$0.1}), maximum: max, dates: dates)
-
+        caloryBarChart.setupChart(datasource: data.map({ $0.0 }), maximum: max, dates: dates)
+        macroBarChart.setupChart(datasource: data.map({ $0.1 }), maximum: max, dates: dates)
     }
 }

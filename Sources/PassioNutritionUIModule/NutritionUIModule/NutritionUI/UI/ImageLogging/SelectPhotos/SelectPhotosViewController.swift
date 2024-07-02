@@ -208,9 +208,7 @@ extension SelectPhotosViewController: ResultsLoggingDelegate {
     }
 
     func onLogSelectedTapped() {
-        navigationController?.popViewController(animated: true) { [weak self] in
-            self?.showMessage(msg: "Log Added", y: 80)
-        }
+        NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
     }
 
     func onSearchManuallyTapped() { }
@@ -219,7 +217,7 @@ extension SelectPhotosViewController: ResultsLoggingDelegate {
 // MARK: - PHPickerViewControllerDelegate
 extension SelectPhotosViewController: CustomAlertDelegate {
 
-    func onRightButtonTapped() {
+    func onRightButtonTapped(textValue: String?) {
         selectedImages.removeAll()
         selectedImageCollectionView.reloadData()
         showPhotos()

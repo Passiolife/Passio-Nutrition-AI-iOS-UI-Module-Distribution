@@ -191,12 +191,22 @@ public extension UIView {
         layer.rasterizationScale = UIScreen.main.scale
     }
 
+    /// Use this function to draw shadow. Using this function you can avoid shadow performance issue and related warnings in view debugger.
+    /// - Parameters:
+    ///   - radius: View's cornerRadius
+    ///   - offset: Shadow's offset
+    ///   - color: Shadow's color
+    ///   - shadowRadius: Shadow's radius (blur)
+    ///   - shadowOpacity: Shadow's opacity
+    ///   - useShadowPath: Set to true to avoid performance issue
+    ///   - shadowPath: Shadow's path
     func dropShadow(radius: CGFloat,
                     offset: CGSize,
                     color: UIColor,
                     shadowRadius: CGFloat,
                     shadowOpacity: Float,
-                    useShadowPath: Bool = false) {
+                    useShadowPath: Bool = false,
+                    shadowPath: CGPath? = nil) {
 
         layer.cornerRadius = radius
         layer.shadowRadius = shadowRadius
@@ -204,8 +214,8 @@ public extension UIView {
         layer.shadowColor = color.cgColor
         layer.shadowOffset = offset
         if useShadowPath {
-            layer.shadowPath = UIBezierPath(roundedRect: bounds,
-                                            cornerRadius: layer.cornerRadius).cgPath
+            layer.shadowPath = shadowPath ?? UIBezierPath(roundedRect: bounds,
+                                                          cornerRadius: layer.cornerRadius).cgPath
         }
         layer.masksToBounds = false
         layer.shouldRasterize = true

@@ -31,12 +31,17 @@ public protocol PassioConnector: AnyObject {
     // User Food Image
     func updateUserFoodImage(with id: String, image: UIImage)
     func deleteUserFoodImage(with id: String)
-    func fetchUserFoodImage(with id: String, completion: @escaping (UIImage) -> Void)
+    func fetchUserFoodImage(with id: String, completion: @escaping (UIImage?) -> Void)
 
     // Favorites
     func updateFavorite(foodRecord: FoodRecordV3)
     func deleteFavorite(foodRecord: FoodRecordV3)
     func fetchFavorites(completion: @escaping ([FoodRecordV3]) -> Void)
+
+    // Recipes
+    func updateRecipe(record: FoodRecordV3)
+    func deleteRecipe(record: FoodRecordV3)
+    func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void)
 
     // Photos
     var passioKeyForSDK: String { get }
@@ -205,9 +210,9 @@ extension PassioInternalConnector: PassioConnector {
         connector.deleteUserFoodImage(with: id)
     }
 
-    public func fetchUserFoodImage(with id: String, completion: @escaping (UIImage) -> Void) {
+    public func fetchUserFoodImage(with id: String, completion: @escaping (UIImage?) -> Void) {
         guard let connector = passioExternalConnector else {
-            completion(UIImage())
+            completion(nil)
             return
         }
         connector.fetchUserFoodImage(with: id) { foodImage in
@@ -241,6 +246,26 @@ extension PassioInternalConnector: PassioConnector {
                 self.cacheFavorites = favorites
                 completion(favorites)
             }
+        }
+    }
+
+    public func updateRecipe(record: FoodRecordV3) {
+        guard let connector = passioExternalConnector else { return }
+        connector.updateRecipe(record: record)
+    }
+
+    public func deleteRecipe(record: FoodRecordV3) {
+        guard let connector = passioExternalConnector else { return }
+        connector.deleteRecipe(record: record)
+    }
+
+    public func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void) {
+        guard let connector = passioExternalConnector else {
+            completion([])
+            return
+        }
+        connector.fetchRecipes { recipes in
+            completion(recipes)
         }
     }
 }

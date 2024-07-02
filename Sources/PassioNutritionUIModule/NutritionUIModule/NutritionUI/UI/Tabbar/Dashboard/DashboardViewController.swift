@@ -14,28 +14,22 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var dateButton: UIButton!
     @IBOutlet weak var nextDateButton: UIButton!
 
-    private let connector = PassioInternalConnector.shared
     private lazy var calendarScope: FSCalendarScope = .week
+    private let connector = PassioInternalConnector.shared
+    private let cells: [CellType] = [.nutrition, .calender]
     private var dateSelector: DateSelectorViewController?
-
-    var dayLog: DayLog?
-
-    enum CellType: Int {
-        case nutrition,calender
-    }
-    let cells: [CellType] = [.nutrition, .calender]
-
-    var selectedDate: Date = Date() {
+    private var dayLog: DayLog?
+    private var selectedDate: Date = Date() {
         didSet {
             setTitle()
             getRecords(for: selectedDate)
             softReloadCalenderCell()
-            if selectedDate.isToday {
-                nextDateButton.isEnabled = false
-            } else {
-                nextDateButton.isEnabled = true
-            }
+            nextDateButton.isEnabled = selectedDate.isToday ? false : true
         }
+    }
+
+    private enum CellType: Int {
+        case nutrition, calender
     }
 
     override func viewDidLoad() {
@@ -47,7 +41,7 @@ class DashboardViewController: UIViewController {
     }
 
     override func viewWillLayoutSubviews() {
-        // super.viewWillLayoutSubviews()
+        super.viewWillLayoutSubviews()
 
         setTitle()
         tableView.reloadData()
@@ -63,11 +57,12 @@ class DashboardViewController: UIViewController {
     func registerCell() {
         tableView.register(nibName: "DailyNutritionCell")
         tableView.register(nibName: "CalendarCell")
-        tableView.register(nibName: "WaterWeightCell")
     }
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
-        let nextDate = Calendar.current.date(byAdding: .day, value: sender.tag == 1 ? 1 : -1, to: selectedDate)!
+        let nextDate = Calendar.current.date(byAdding: .day,
+                                             value: sender.tag == 1 ? 1 : -1,
+                                             to: selectedDate)!
         selectedDate = nextDate
     }
 
@@ -160,6 +155,6 @@ extension DashboardViewController: DateSelectorUIViewDelegate {
     }
 
     func dateFromPicker(date: Date) {
-        self.selectedDate = date
+        selectedDate = date
     }
 }

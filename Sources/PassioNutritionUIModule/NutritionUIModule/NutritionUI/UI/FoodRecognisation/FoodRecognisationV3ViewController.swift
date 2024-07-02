@@ -346,7 +346,6 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
     func didTapOnAddManual() {
         let vc = TextSearchViewController()
         vc.dismmissToMyLog = true
-        vc.isAdvancedSearch = true
         vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
         present(vc, animated: true)
@@ -436,7 +435,7 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
         pauseDetection()
 
         let createFoodVC = CreateFoodViewController()
-        createFoodVC.isFromFoodScanner = true
+        createFoodVC.isFromNutritionFacts = true
         createFoodVC.foodDataSet = dataset
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in

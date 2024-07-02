@@ -57,19 +57,28 @@ final class EditRecordViewController: UIViewController {
     }
 
     func setupRightNavigationButton() {
-        let image = isEditingRecord || isEditingFavorite ? "delete_icon" : "swap_arrow"
-        let action: Selector = isEditingRecord || isEditingFavorite ? #selector(onClickDelete) : #selector(swapFood)
+        let image = isEditingRecord || isEditingFavorite ? "edit_icon" : "swap_arrow"
+        let action: Selector = isEditingRecord || isEditingFavorite ? #selector(onNavigateToCreateFood) : #selector(swapFood)
         let rightButton = UIBarButtonItem(image: UIImage.imageFromBundle(named: image),
                                           style: .plain,
                                           target: self,
                                           action: action)
+        rightButton.tintColor = .gray400
         navigationItem.rightBarButtonItem = rightButton
     }
 
-    @objc func onClickDelete() {
+    @objc func onNavigateToCreateFood() {
         guard let foodRecord = foodRecord else { return }
-        delegateDelete?.deleteFromEdit(foodRecord: foodRecord)
-        navigationController?.popViewController(animated: true)
+        if foodRecord.entityType == .recipe {
+            // Navigate to Recipe editor
+        } else {
+            let createFoodVC = CreateFoodViewController(nibName: "CreateFoodViewController", bundle: .module)
+            createFoodVC.loadViewIfNeeded()
+            createFoodVC.isCreateNewFood = false
+            createFoodVC.isFromFoodEdit = true
+            createFoodVC.foodRecord = foodRecord
+            navigationController?.pushViewController(createFoodVC, animated: true)
+        }
     }
 
     @objc func swapFood() {
@@ -148,7 +157,6 @@ extension EditRecordViewController: FoodEditorDelegate {
 
         let tsVC = TextSearchViewController()
         tsVC.modalPresentationStyle = .fullScreen
-        tsVC.isAdvancedSearch = true
         tsVC.advancedSearchDelegate = self
         self.present(tsVC, animated: true)
         replaceFood = isFoodReplace

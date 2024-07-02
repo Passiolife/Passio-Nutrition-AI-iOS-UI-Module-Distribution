@@ -75,6 +75,10 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         configureUI()
         configureNavBar()
         MealPlanManager.shared.getMealPlans()
+
+        DispatchQueue.global(qos: .background).async {
+            FileManager.default.clearTempDirectory()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -234,7 +238,6 @@ extension HomeTabBarController: PlusMenuDelegate {
     func onSearchSelected() {
         let vc = TextSearchViewController()
         vc.dismmissToMyLog = true
-        vc.isAdvancedSearch = true
         vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
         present(vc, animated: true)
@@ -247,7 +250,7 @@ extension HomeTabBarController: PlusMenuDelegate {
     }
 
     func onMyFoodsSelected() {
-        let vc = CreateFoodViewController()
+        let vc = MyFoodsSelectionViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 

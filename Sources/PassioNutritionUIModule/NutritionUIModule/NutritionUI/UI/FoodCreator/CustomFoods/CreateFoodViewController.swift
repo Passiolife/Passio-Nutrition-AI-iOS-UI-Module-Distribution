@@ -17,6 +17,7 @@ protocol FoodDataSetCellDelegate: AnyObject {
 
 final class CreateFoodViewController: InstantiableViewController {
 
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var createFoodTableView: UITableView!
 
     private let createFoodSections: [CreateFoodSection] = [.foodDetail,
@@ -29,15 +30,23 @@ final class CreateFoodViewController: InstantiableViewController {
         case otherNutritions
     }
     var foodDataSet: NutritionFactsDataSet?
-    var isFromFoodScanner = false
+    var foodRecord: FoodRecordV3? {
+        didSet {
+            DispatchQueue.main.async {
+                self.createFoodTableView.reloadData()
+            }
+        }
+    }
+    var isCreateNewFood = true
+    var isFromFoodEdit = false
+    var isFromNutritionFacts = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Create Your Food"
+        title = "Food Creator"
         setupBackButton()
         configureTableView()
-        connector.deleteAllUserFood()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -45,6 +54,7 @@ final class CreateFoodViewController: InstantiableViewController {
     }
 
     private func configureTableView() {
+
         createFoodTableView.dataSource = self
         createFoodTableView.register(nibName: "FoodDetailsTableViewCell")
         createFoodTableView.register(nibName: "RequiredNutritionsTableViewCell")
@@ -82,11 +92,14 @@ final class CreateFoodViewController: InstantiableViewController {
     }
 
     @IBAction func onSave(_ sender: UIButton) {
-        
+
         view.endEditing(true)
+        activityIndicatorView.isHidden = false
+        activityIndicatorView.startAnimating()
 
         guard let getFoodDetailCell,
               let getRequiredNutritionsCell else {
+            activityIndicatorView.isHidden = true
             return
         }
 
@@ -96,20 +109,25 @@ final class CreateFoodViewController: InstantiableViewController {
 
         if isFoodDetailsValid.0 && isRequiredNutritionsValid.0 {
 
-            if let foodItem = getFoodDataSet.updatedNutritionFacts?.fromNutritionFacts(foodName: foodDetails.name,
-                                                                                       brand: foodDetails.brand ?? "") {
+            if isCreateNewFood || isFromFoodEdit {
+                createNewFoodRecord(foodDetails: foodDetails)
+                activityIndicatorView.isHidden = true
+                if isCreateNewFood {
+                    navigationController?.popViewController(animated: true)
+                } else if isFromFoodEdit {
+                    NutritionUICoordinator.navigateToDairyAfterAction(
+                        navigationController: self.navigationController
+                    )
+                    let vc = MyFoodsSelectionViewController()
+                    navigationController?.pushViewController(vc, animated: true)
+                }
 
-                var record = FoodRecordV3(foodItem: foodItem,
-                                          barcode: foodDetails.barcode,
-                                          entityType: .item)
-                let userFoodImgId = "userFood.\(record.iconId)"
-                record.iconId = userFoodImgId
-                connector.updateUserFood(record: record, isNew: true)
-                connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image)
-                navigateToEditViewContorller(record)
+            } else {
+                editFoodRecord(foodDetails: foodDetails)
             }
 
         } else {
+            activityIndicatorView.isHidden = true
             let errorMsg = (isFoodDetailsValid.1 ?? "") + "\n" + (isRequiredNutritionsValid.1 ?? "")
             showAlertWith(titleKey: errorMsg, view: parent ?? self)
         }
@@ -118,6 +136,45 @@ final class CreateFoodViewController: InstantiableViewController {
 
 // MARK: - Helper methods
 extension CreateFoodViewController {
+
+    private func createNewFoodRecord(foodDetails: FoodDetailsTableViewCell.FoodDetails) {
+        if let foodItem = getFoodDataSet.updatedNutritionFacts?.fromNutritionFacts(foodName: foodDetails.name,
+                                                                                   brand: foodDetails.brand ?? "") {
+
+            var record = FoodRecordV3(foodItem: foodItem,
+                                      barcode: foodDetails.barcode ?? "",
+                                      entityType: .item)
+            record.iconId = "userFood.\(record.iconId)"
+            connector.updateUserFood(record: record, isNew: true)
+            connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image.get180pImage)
+        }
+    }
+
+    private func editFoodRecord(foodDetails: FoodDetailsTableViewCell.FoodDetails) {
+
+        guard var record = foodRecord else { return }
+        
+        record.name = foodDetails.name
+        record.details = foodDetails.brand ?? ""
+        record.barcode = foodDetails.barcode ?? ""
+        
+        if let foodItem = foodDataSet?.updatedNutritionFacts?.fromNutritionFacts(foodName: foodDetails.name,
+                                                                                 brand: foodDetails.brand ?? "") {
+            record.servingSizes = foodItem.amount.servingSizes
+            record.servingUnits = foodItem.amount.servingUnits
+            _ = record.setSelectedUnit(unit: foodItem.amount.selectedUnit)
+            record.setSelectedQuantity(quantity: foodItem.amount.selectedQuantity)
+            record.ingredients = foodItem.ingredients.map { FoodRecordIngredient(ingredient: $0) }
+            record.calculateQuantityForIngredients()
+            _ = record.setFoodRecordServing(unit: record.selectedUnit,
+                                            quantity: record.selectedQuantity)
+        }
+        
+        connector.updateUserFood(record: record, isNew: true)
+        connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image.get180pImage)
+        activityIndicatorView.isHidden = true
+        navigationController?.popViewController(animated: true)
+    }
 
     private func navigateToEditViewContorller(_ record: FoodRecordV3) {
         let editVC = EditRecordViewController()
@@ -134,12 +191,7 @@ extension CreateFoodViewController {
         let barcodeRecogniserVC = foodRecognisationStoryboard.instantiateViewController(
             withIdentifier: "BarcodeRecogniserViewController"
         ) as! BarcodeRecogniserViewController
-
-        barcodeRecogniserVC.barcodeValue = { [weak self] barcode in
-            guard let self, let getFoodDetailCell else { return }
-            getFoodDetailCell.barcodeTextField.text = barcode
-        }
-
+        barcodeRecogniserVC.delegate = self
         navigationController?.pushViewController(barcodeRecogniserVC, animated: true)
     }
 
@@ -152,7 +204,11 @@ extension CreateFoodViewController {
     }
 
     private var getFoodDataSet: NutritionFactsDataSet {
-        foodDataSet ?? NutritionFactsDataSet(nutritionFacts: PassioNutritionFacts())
+        if isCreateNewFood {
+            foodDataSet ?? NutritionFactsDataSet(nutritionFacts: PassioNutritionFacts())
+        } else {
+            NutritionFactsDataSet(nutritionFacts: foodRecord?.getNutritionFacts ?? PassioNutritionFacts())
+        }
     }
 
     private var getFoodDetailCell: FoodDetailsTableViewCell? {
@@ -175,7 +231,7 @@ extension CreateFoodViewController {
     }
 }
 
-// MARK: - UITableView DataSource
+// MARK: - UITableViewDataSource
 extension CreateFoodViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -194,6 +250,9 @@ extension CreateFoodViewController: UITableViewDataSource {
 
         case .foodDetail:
             let cell = tableView.dequeueCell(cellClass: FoodDetailsTableViewCell.self, forIndexPath: indexPath)
+            if !isCreateNewFood, let foodRecord = self.foodRecord {
+                cell.configureCell(with: foodRecord)
+            }
             cell.onBarcode = { [weak self] in
                 self?.navigateToBarcodeViewController()
             }
@@ -203,13 +262,17 @@ extension CreateFoodViewController: UITableViewDataSource {
             return cell
 
         case .requiredNutritions:
-            let cell = tableView.dequeueCell(cellClass: RequiredNutritionsTableViewCell.self, forIndexPath: indexPath)
-            cell.configureCell(with: getFoodDataSet, isFromFoodScanner: self.isFromFoodScanner)
+            let cell = tableView.dequeueCell(cellClass: RequiredNutritionsTableViewCell.self,
+                                             forIndexPath: indexPath)
+            cell.configureCell(with: getFoodDataSet,
+                               isCreateNewFood: isCreateNewFood,
+                               isFromNutritionFacts: isFromNutritionFacts)
             cell.foodDataSetDelegate = self
             return cell
 
         case .otherNutritions:
-            let cell = tableView.dequeueCell(cellClass: OtherNutritionsTableViewCell.self, forIndexPath: indexPath)
+            let cell = tableView.dequeueCell(cellClass: OtherNutritionsTableViewCell.self,
+                                             forIndexPath: indexPath)
             cell.configureCell(with: getFoodDataSet)
             cell.foodDataSetDelegate = self
             cell.reloadCell = { [weak self] in
@@ -220,7 +283,7 @@ extension CreateFoodViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITableView DataSource
+// MARK: - FoodDataSetCell Delegate
 extension CreateFoodViewController: FoodDataSetCellDelegate {
 
     func updateFoodDataSet(with newData: NutritionFactsDataSet?) {
@@ -234,6 +297,26 @@ extension CreateFoodViewController: FoodDataSetCellDelegate {
         }
         if let getOtherNutritionsTableViewCell {
             getOtherNutritionsTableViewCell.foodDataSet = updatedData
+        }
+    }
+}
+
+// MARK: - BarcodeRecogniser Delegate
+extension CreateFoodViewController: BarcodeRecogniserDelegate {
+
+    func onBarcodeDetected(barcode: String?, record: FoodRecordV3?, isUserFoodBarcode: Bool) {
+
+        isCreateNewFood = isUserFoodBarcode
+
+        if let getFoodDetailCell, let barcode {
+            getFoodDetailCell.barcodeTextField.text = barcode
+        }
+        if var record {
+            record.barcode = barcode ?? ""
+            var passioID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
+            passioID = PassioIDEntityType.barcode.rawValue + passioID
+            record.iconId = "userFood.\(passioID)"
+            foodRecord = record
         }
     }
 }

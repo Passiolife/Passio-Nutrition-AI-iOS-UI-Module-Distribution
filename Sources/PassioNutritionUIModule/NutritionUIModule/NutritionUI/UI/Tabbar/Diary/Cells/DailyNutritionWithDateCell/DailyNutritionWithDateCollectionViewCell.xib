@@ -60,26 +60,15 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2C-zl-ZkQ">
-                                <rect key="frame" x="575" y="16.666666666666668" width="24" height="24.000000000000004"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="E2m-QM-E4Z"/>
-                                    <constraint firstAttribute="height" constant="24" id="uy1-DQ-zC0"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="open_icon"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Q2C-zl-ZkQ" firstAttribute="centerY" secondItem="7zJ-Pi-10i" secondAttribute="centerY" id="DPZ-FN-P9Z"/>
                             <constraint firstItem="0cG-Cn-Mn2" firstAttribute="leading" secondItem="uVM-pq-1nU" secondAttribute="leading" constant="16" id="IE5-Vu-ssB"/>
                             <constraint firstItem="vc6-d6-bB0" firstAttribute="top" secondItem="0cG-Cn-Mn2" secondAttribute="bottom" constant="16" id="LB9-yI-Zp6"/>
                             <constraint firstItem="0cG-Cn-Mn2" firstAttribute="top" secondItem="uVM-pq-1nU" secondAttribute="top" constant="16" id="asY-Vr-5t1"/>
                             <constraint firstAttribute="bottom" secondItem="vc6-d6-bB0" secondAttribute="bottom" constant="16" id="ge0-F2-Xbn"/>
                             <constraint firstAttribute="trailing" secondItem="vc6-d6-bB0" secondAttribute="trailing" constant="16" id="ivz-4y-xVv"/>
                             <constraint firstItem="vc6-d6-bB0" firstAttribute="leading" secondItem="uVM-pq-1nU" secondAttribute="leading" constant="15" id="l3R-aK-ffb"/>
-                            <constraint firstAttribute="trailing" secondItem="Q2C-zl-ZkQ" secondAttribute="trailing" constant="16" id="lFt-SB-aWq"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
@@ -105,7 +94,6 @@
     </objects>
     <resources>
         <image name="nutrition_icon" width="20" height="20"/>
-        <image name="open_icon" width="20" height="20"/>
         <namedColor name="gray-900">
             <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

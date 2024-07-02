@@ -369,7 +369,6 @@ extension DiaryViewController: GoToManualSearchDelegate {
                 vc.dismmissToMyLog = true
                 vc.modalPresentationStyle = .fullScreen
                 vc.advancedSearchDelegate = self
-                vc.isAdvancedSearch = true
                 self.present(vc, animated: true)
             }
         }
@@ -455,14 +454,13 @@ class SectionDecorationView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: FUNCTIONS
     func setUpViews() {
         self.backgroundColor = .white
         self.layer.cornerRadius = 8
         self.clipsToBounds = true
-        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
-        self.layer.shadowOffset = CGSize(width: 0.5, height: 1)
-        self.layer.shadowOpacity = 0.3
+        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.06).cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
+        self.layer.shadowOpacity = 1
         self.layer.masksToBounds = false
     }
 }
