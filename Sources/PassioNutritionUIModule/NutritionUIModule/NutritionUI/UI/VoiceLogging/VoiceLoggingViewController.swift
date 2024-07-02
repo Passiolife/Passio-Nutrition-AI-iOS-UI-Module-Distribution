@@ -157,9 +157,7 @@ extension VoiceLoggingViewController: ResultsLoggingDelegate {
     }
 
     func onLogSelectedTapped() {
-        navigationController?.popViewController(animated: true) { [weak self] in
-            self?.showMessage(msg: "Log Added")
-        }
+        NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
     }
 
     func onSearchManuallyTapped() {

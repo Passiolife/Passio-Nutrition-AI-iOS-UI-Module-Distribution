@@ -145,7 +145,7 @@ public extension UIViewController {
                                   title: CustomAlert.AlertTitle,
                                   font: CustomAlert.AlertFont,
                                   delegate: CustomAlertDelegate?) {
-        let customAlertVC = CustomAlertViewController(nibName: "CustomAlertViewController",
+        let customAlertVC = CustomAlertViewController(nibName: CustomAlertViewController.className,
                                                       bundle: .module)
         customAlertVC.loadViewIfNeeded()
         customAlertVC.configureAlert(views: views)

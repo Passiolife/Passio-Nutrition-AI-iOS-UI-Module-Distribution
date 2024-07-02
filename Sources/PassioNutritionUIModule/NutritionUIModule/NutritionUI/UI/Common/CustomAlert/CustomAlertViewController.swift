@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CustomAlertDelegate: AnyObject {
-    func onRightButtonTapped()
+    func onRightButtonTapped(textValue: String?)
     func onleftButtonTapped()
 }
 
@@ -46,24 +46,30 @@ class CustomAlertViewController: InstantiableViewController {
     @IBOutlet weak var alertTextField: UITextField!
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var leftButton: UIButton!
-
+    @IBOutlet weak var viewYConstraint: NSLayoutConstraint!
+    
     weak var delegate: CustomAlertDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .white.withAlphaComponent(0.5)
+        alertTextField.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        let path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 8)
         contentView.dropShadow(radius: 8,
                                offset: .init(width: 1, height: 1),
                                color: .black.withAlphaComponent(0.3),
                                shadowRadius: 4,
                                shadowOpacity: 1,
-                               useShadowPath: true)
+                               useShadowPath: true,
+                               shadowPath: path.cgPath)
     }
 
     func configureAlert(views: CustomAlert = CustomAlert()) {
@@ -85,14 +91,32 @@ class CustomAlertViewController: InstantiableViewController {
     func configureAlert(font: CustomAlert.AlertFont = CustomAlert.AlertFont()) {
         headingLabel.font = font.headingFont
         titleLabel.font = font.titleFont
-        // alertTextField.attributedPlaceholder = font.textFieldPlaceholderFont
+        alertTextField.attributedPlaceholder = "Enter a name".setAttributedString(
+            font: .inter(type: .regular,
+                         size: 16),
+            textColor: .gray500
+        )
         rightButton.titleLabel?.font = font.rightButtonFont
         leftButton.titleLabel?.font = font.leftButtonFont
     }
 
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        UIView.animate(withDuration: 0.21) {
+            self.viewYConstraint.constant = -100
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        UIView.animate(withDuration: 0.21) {
+            self.viewYConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+
     @IBAction func onRightButton(_ sender: UIButton) {
         dismiss(animated: true) { [weak self] in
-            self?.delegate?.onRightButtonTapped()
+            self?.delegate?.onRightButtonTapped(textValue: self?.alertTextField.text)
         }
     }
 
@@ -100,5 +124,18 @@ class CustomAlertViewController: InstantiableViewController {
         dismiss(animated: true) { [weak self] in
             self?.delegate?.onleftButtonTapped()
         }
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension CustomAlertViewController: UITextFieldDelegate {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        alertTextField.resignFirstResponder()
+        UIView.animate(withDuration: 0.21) {
+            self.viewYConstraint.constant = 0
+            self.view.layoutIfNeeded()
+        }
+        return true
     }
 }

@@ -33,7 +33,7 @@ class CustomFoodsViewController: InstantiableViewController {
     }
 
     @IBAction func onCreateNewFood(_ sender: UIButton) {
-        let createFoodVC = CreateFoodViewController(nibName: "CreateFoodViewController", bundle: .module)
+        let createFoodVC = CreateFoodViewController(nibName: CreateFoodViewController.className, bundle: .module)
         navigationController?.pushViewController(createFoodVC, animated: true)
     }
 }
@@ -43,7 +43,7 @@ extension CustomFoodsViewController {
 
     private func configureUI() {
 
-        customFoodsTableView.register(nibName: "AdvancedTextSearchCell")
+        customFoodsTableView.register(nibName: AdvancedTextSearchCell.className)
         customFoodsTableView.dataSource = self
         customFoodsTableView.delegate = self
     }
@@ -64,7 +64,8 @@ extension CustomFoodsViewController {
     }
 
     private func navigateToEdit(with record: FoodRecordV3) {
-        let createFoodVC = CreateFoodViewController(nibName: "CreateFoodViewController", bundle: .module)
+        let createFoodVC = CreateFoodViewController(nibName: CreateFoodViewController.className,
+                                                    bundle: .module)
         createFoodVC.loadViewIfNeeded()
         createFoodVC.isCreateNewFood = false
         createFoodVC.foodRecord = record
