@@ -23,7 +23,7 @@ final class CalendarCell: UITableViewCell {
     @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var adherenceImgaeView: UIImageView!
-    
+
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = DateFormatString.yyyy_MM_dd
@@ -46,19 +46,18 @@ final class CalendarCell: UITableViewCell {
         super.awakeFromNib()
 
         calendarView.scope = .week
+        shadowView.dropShadow(radius: 8,
+                              offset: CGSize(width: 0, height: 1),
+                              color: .black.withAlphaComponent(0.06),
+                              shadowRadius: 2,
+                              shadowOpacity: 1)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let path = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 8)
-        shadowView.dropShadow(radius: 8,
-                              offset: CGSize(width: 0, height: 1),
-                              color: .black.withAlphaComponent(0.06),
-                              shadowRadius: 2,
-                              shadowOpacity: 1,
-                              useShadowPath: true,
-                              shadowPath: path.cgPath)
+        shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds,
+                                                   cornerRadius: 8).cgPath
     }
 }
 
@@ -66,6 +65,7 @@ final class CalendarCell: UITableViewCell {
 extension CalendarCell {
 
     func configure(currentDate: Date?, calendarScope: FSCalendarScope) {
+
         let (startdate, enddate) = getCurrentDates()
         getDayLogsFrom(fromDate: startdate, toDate: enddate)
         customizeCalenderView(currentDate: currentDate, scope: calendarScope)
@@ -103,7 +103,8 @@ extension CalendarCell {
     }
 
     private func getDayLogsFrom(fromDate: Date, toDate: Date) {
-        PassioInternalConnector.shared.fetchDayLogFor(fromDate: fromDate, toDate: toDate) { [weak self] (dayLogs) in
+        PassioInternalConnector.shared.fetchDayLogFor(fromDate: fromDate,
+                                                      toDate: toDate) { [weak self] (dayLogs) in
             guard let self = self else { return }
             self.calendarActivityIndicator.startAnimating()
             DispatchQueue.main.async {
@@ -129,7 +130,7 @@ extension CalendarCell {
         calendarView.appearance.weekdayFont          = .inter(type: .medium, size: 14)
         calendarView.appearance.weekdayTextColor     = .gray700
         calendarView.appearance.titleFont            = .inter(type: .semiBold, size: 12)
-        calendarView.appearance.selectionColor       =  .indigo600
+        calendarView.appearance.selectionColor       =  .primaryColor
         calendarView.appearance.titleSelectionColor  = .white
         calendarView.appearance.titleDefaultColor  = .gray700
         calendarView.collectionViewLayout.sectionInsets = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
@@ -226,7 +227,4 @@ extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     func maximumDate(for calendar: FSCalendar) -> Date {
         Date()
     }
-    
-    
-    
 }

@@ -22,8 +22,19 @@ final class DailyNutritionGoalsCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        containerView.dropShadow()
+        
+        containerView.dropShadow(radius: 8,
+                                 offset: CGSize(width: 0, height: 1),
+                                 color: .black.withAlphaComponent(0.06),
+                                 shadowRadius: 2,
+                                 shadowOpacity: 1)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds,
+                                                      cornerRadius: 8).cgPath
     }
 
     func updateProfile(userProfile: UserProfileModel) {

@@ -116,6 +116,9 @@ class FoodEditorView: UIView {
         buttonSave?.setTitle(title, for: .normal)
         buttonCancel?.roundMyCornerWith(radius: 8)
         buttonSave?.roundMyCornerWith(radius: 8)
+        buttonSave.backgroundColor = .primaryColor
+        buttonCancel.setTitleColor(.primaryColor, for: .normal)
+        buttonCancel.applyBorder(width: 2, color: .primaryColor)
         CellNameFoodEditor.allCases.forEach {
             tableView.register(nibName: $0.rawValue.capitalizingFirst())
         }
@@ -134,7 +137,7 @@ class FoodEditorView: UIView {
             customPickerViewController.pickerFrame = CGRect(x: frame.origin.x - 5,
                                                             y: frame.origin.y + 50,
                                                             width: frame.width + 10,
-                                                            height: 42.5 * Double(items.count))
+                                                            height: 36 * Double(items.count))
         }
         customPickerViewController.delegate = self
         customPickerViewController.modalTransitionStyle = .crossDissolve

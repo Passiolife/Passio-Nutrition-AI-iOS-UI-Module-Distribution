@@ -33,14 +33,22 @@ class FoodHeaderSimpleTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
         nutritionInfoButton.underline()
+        imageFood.roundMyCorner()
+        insetBackground.roundMyCornerWith(radius: 8)
+        insetBackground.dropShadow(radius: 8,
+                                   offset: CGSize(width: 0, height: 1),
+                                   color: .black.withAlphaComponent(0.06),
+                                   shadowRadius: 2,
+                                   shadowOpacity: 1)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        imageFood.roundMyCorner()
-        insetBackground.roundMyCornerWith(radius: 8)
-        insetBackground.dropShadow()
+
+        insetBackground.layer.shadowPath = UIBezierPath(roundedRect: insetBackground.bounds,
+                                                        cornerRadius: 8).cgPath
     }
 
     func setup(foodRecord: FoodRecordV3, isFavourite: Bool) {

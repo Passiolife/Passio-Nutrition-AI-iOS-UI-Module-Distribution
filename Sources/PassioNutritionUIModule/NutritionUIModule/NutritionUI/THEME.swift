@@ -11,15 +11,29 @@ import UIKit
 public struct Custom {
     public static let insetBackgroundRadius: CGFloat = 16.0
     public static let buttonCornerRadius: CGFloat = 8.0
-    public static let engineeringViews = false
-    public static let useFirebase = false
-    public static let useNutritionBrowser = false
-    public static let oneLineAlternative = false
-    public static let oneSizeAlternative = true
+//    public static let useFirebase = false
 }
 
 // MARK: - UIColor
 public extension UIColor { // customized colors
+
+    static let passioAppTheme = PassioThemeManager.shared.passioAppTheme
+
+    static var primaryColor: UIColor {
+        UIColor(hex: passioAppTheme.primaryColor) ?? .indigo600
+    }
+
+    static var secondaryTabColor: UIColor {
+        UIColor(hex: passioAppTheme.secondaryTabColor) ?? .gray300
+    }
+
+    static var navigationColor: UIColor {
+        UIColor(hex: passioAppTheme.navigationColor) ?? .white
+    }
+
+    static var statusBarColor: UIColor {
+        UIColor(hex: passioAppTheme.statusBarColor) ?? .white
+    }
 
     static var gray50: UIColor {
         colorFromBundle(named: "gray-50") ?? .blue

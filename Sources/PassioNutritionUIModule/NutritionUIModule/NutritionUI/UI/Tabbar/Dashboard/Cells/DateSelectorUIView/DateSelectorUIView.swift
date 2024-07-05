@@ -43,12 +43,12 @@ final class DateSelectorViewController: UIViewController {
         if dateSelector == nil {
             let screenWidth = ScreenSize.width
             let frameStart = CGRect(x: 0, y: -screenWidth, width: screenWidth, height: screenWidth)
-            dateSelector = DateSelectorUIView.init(frame: frameStart, date: Date())
+            dateSelector = DateSelectorUIView(frame: frameStart, date: Date())
             dateSelector.dateForPicker = dateForPicker ?? Date()
 
             dateSelector?.frame = frameStart
             dateSelector?.delegate = self.delegate
-            self.dateSelector?.roundMyCornerWith(radius: 20)
+            dateSelector?.roundMyCornerWith(radius: 16)
             view.addSubview(dateSelector!)
             animateDateSelector(directions: .down)
         } else {
@@ -90,17 +90,17 @@ final class DateSelectorUIView: ViewFromXIB {
 
     public init(frame: CGRect, date: Date) {
         super.init(frame: frame)
+
         dateForPicker = date
+        buttonOK.backgroundColor = .primaryColor
+        buttonToday.backgroundColor = .white
+        buttonToday.setTitleColor(.primaryColor, for: .normal)
+        buttonToday.applyBorder(width: 2, color: .primaryColor)
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // containerView.roundMyCornerWith(radius: 17, upper: false, down: true)
     }
 
     override func layoutSubviews() {
@@ -111,7 +111,6 @@ final class DateSelectorUIView: ViewFromXIB {
         datePicker.setValue(UIColor.black, forKeyPath: "textColor")
         datePicker.setValue(false, forKeyPath: "highlightsToday")
         datePicker.overrideUserInterfaceStyle = .dark
-        datePicker.addTarget(self, action: #selector(reportValue), for: .valueChanged)
         datePicker.maximumDate = Date()
     }
 
@@ -124,10 +123,6 @@ final class DateSelectorUIView: ViewFromXIB {
         datePicker.setDate(Date(), animated: true)
         delegate?.dateFromPicker(date: Date())
         perform(#selector(removeMe), with: nil, afterDelay: 0.4)
-    }
-
-    @objc private func reportValue() {
-        // delegate?.dateFromPicker(date: datePicker.date)
     }
 
     @objc private func removeMe() {

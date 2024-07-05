@@ -22,8 +22,20 @@ final class TimestampTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
         insetBackgroundView.roundMyCornerWith(radius: 8)
-        insetBackgroundView.dropShadow()
+        insetBackgroundView.dropShadow(radius: 8,
+                                   offset: CGSize(width: 0, height: 1),
+                                   color: .black.withAlphaComponent(0.06),
+                                   shadowRadius: 2,
+                                   shadowOpacity: 1)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        insetBackgroundView.layer.shadowPath = UIBezierPath(roundedRect: insetBackgroundView.bounds,
+                                                        cornerRadius: 8).cgPath
     }
 
     func updateWithDate(_ date: Date) {

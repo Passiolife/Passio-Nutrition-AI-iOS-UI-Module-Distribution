@@ -10,6 +10,7 @@ import FSCalendar
 
 class DashboardViewController: UIViewController {
 
+    @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateButton: UIButton!
     @IBOutlet weak var nextDateButton: UIButton!
@@ -36,6 +37,9 @@ class DashboardViewController: UIViewController {
         super.viewDidLoad()
 
         selectedDate = Date()
+        dateView.backgroundColor = .navigationColor
+        dateButton.titleLabel?.font = .inter(type: .semiBold, size: 14)
+        dateButton.setTitleColor(.gray900, for: .normal)
         registerCell()
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
     }

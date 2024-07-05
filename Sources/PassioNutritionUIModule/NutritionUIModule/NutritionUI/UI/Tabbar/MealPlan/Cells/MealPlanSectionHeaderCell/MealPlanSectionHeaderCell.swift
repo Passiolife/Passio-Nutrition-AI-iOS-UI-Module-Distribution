@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol MealPlanSectionHeaderCellDelegate: NSObjectProtocol{
+protocol MealPlanSectionHeaderCellDelegate: AnyObject {
     func onClickLog(mealLabel: MealLabel)
 }
 
@@ -17,6 +17,12 @@ class MealPlanSectionHeaderCell: UICollectionViewCell {
     @IBOutlet weak var labelMealTime: UILabel!
     @IBOutlet weak var sepratorView: UIView!
     @IBOutlet weak var logEntireMealButton: UIButton!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        logEntireMealButton.setTitleColor(.primaryColor, for: .normal)
+    }
 
     weak var delegate: MealPlanSectionHeaderCellDelegate?
     var mealLabel: MealLabel = .snack

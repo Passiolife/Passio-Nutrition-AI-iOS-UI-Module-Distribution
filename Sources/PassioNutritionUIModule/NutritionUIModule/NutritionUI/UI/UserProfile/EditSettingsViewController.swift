@@ -48,6 +48,14 @@ class EditSettingsViewController: UIViewController {
         }
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        [unitContainerView, reminderContainerView].forEach {
+            $0.layer.shadowPath = UIBezierPath(roundedRect: $0.bounds, cornerRadius: 8).cgPath
+        }
+    }
+
     private func setupUI() {
         [unitTextfield,heightUnitTextfield].forEach { textField in
             textField?.configureTextField()
@@ -59,9 +67,13 @@ class EditSettingsViewController: UIViewController {
         unitButton.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
         heightUnitButtom.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
 
-        [unitContainerView,reminderContainerView].forEach({
-            $0?.dropShadow()
-        })
+        [unitContainerView, reminderContainerView].forEach{
+            $0?.dropShadow(radius: 8,
+                           offset: CGSize(width: 0, height: 1),
+                           color: .black.withAlphaComponent(0.06),
+                           shadowRadius: 2,
+                           shadowOpacity: 1)
+        }
 
         [reminderBreakfastSwitch,reminderDinnerSwitch,reminderLunchSwitch].forEach({
             $0?.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)

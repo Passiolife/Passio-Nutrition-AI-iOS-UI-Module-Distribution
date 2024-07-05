@@ -113,8 +113,6 @@ extension CustomFoodsViewController: UITableViewDataSource, UITableViewDelegate 
                 }
             }
         }
-
-        let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem, editItem])
-        return swipeActions
+        return UISwipeActionsConfiguration(actions: [deleteItem, editItem])
     }
 }

@@ -155,6 +155,7 @@
                     <tabBarItem key="tabBarItem" title="Home" image="Home" id="F7F-bi-kqN"/>
                     <connections>
                         <outlet property="dateButton" destination="xyk-nu-B0d" id="4Sh-vX-hOW"/>
+                        <outlet property="dateView" destination="g3l-7S-exm" id="a6f-3E-Lvc"/>
                         <outlet property="nextDateButton" destination="dcv-rp-GW6" id="zoQ-je-qfa"/>
                         <outlet property="tableView" destination="xP8-yu-9ZB" id="e5z-AL-sii"/>
                     </connections>

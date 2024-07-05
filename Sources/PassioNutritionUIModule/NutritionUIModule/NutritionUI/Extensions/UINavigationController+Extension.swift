@@ -17,11 +17,14 @@ extension UINavigationController: UIGestureRecognizerDelegate {
         interactivePopGestureRecognizer?.delegate = self
     }
 
-    func updateStatusBarColor(color: UIColor) {
+    func updateStatusBarColor(color: UIColor = .white) {
         if let statusBar = self.view.viewWithTag(-1) {
             statusBar.backgroundColor = color
         } else {
-            let statusBar = UIView(frame: (UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.windowScene?.statusBarManager?.statusBarFrame)!)
+            let frame = (UIApplication.shared.windows.filter {
+                $0.isKeyWindow
+            }.first?.windowScene?.statusBarManager?.statusBarFrame)!
+            let statusBar = UIView(frame: frame)
             statusBar.tag = -1
             statusBar.backgroundColor = color
             view.addSubview(statusBar)

@@ -27,13 +27,24 @@ class MealSelectionTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        selectionStyle = .none
+
         styleButton(breakfastButton, title: "Breakfast")
         styleButton(lunchButton, title: "Lunch")
         styleButton(dinnerButton, title: "Dinner")
         styleButton(snackButton, title: "Snack")
         insetBackgroundView.roundMyCornerWith(radius: 8)
-        insetBackgroundView.dropShadow()
+        insetBackgroundView.dropShadow(radius: 8,
+                                       offset: CGSize(width: 0, height: 1),
+                                       color: .black.withAlphaComponent(0.06),
+                                       shadowRadius: 2,
+                                       shadowOpacity: 1)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        insetBackgroundView.layer.shadowPath = UIBezierPath(roundedRect: insetBackgroundView.bounds,
+                                                            cornerRadius: 8).cgPath
     }
 
     func setMealSelection(_ mealLabel: MealLabel) {
@@ -79,8 +90,8 @@ class MealSelectionTableViewCell: UITableViewCell {
         ])
         button.setAttributedTitle(selectedAttributes, for: .highlighted)
         button.setAttributedTitle(selectedAttributes, for: .selected)
-        button.setBackgroundColor(.indigo600, for: .selected)
-        button.setBackgroundColor(.indigo600, for: .highlighted)
+        button.setBackgroundColor(.primaryColor, for: .selected)
+        button.setBackgroundColor(.primaryColor, for: .highlighted)
     }
 
     @IBAction func mealButtonPressed(_ sender: ColoredButton) {

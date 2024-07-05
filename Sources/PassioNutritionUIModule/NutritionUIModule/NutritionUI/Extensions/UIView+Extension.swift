@@ -164,74 +164,28 @@ public extension UIView {
     }
 
     func applyBorder(width: CGFloat, color: UIColor) {
-
         layer.borderColor = color.cgColor
         layer.borderWidth = width
     }
 
-    func dropShadow() {
-
-        layer.shadowRadius = 2
-        layer.shadowOpacity = 0.125
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = .init(width: 1, height: 1)
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-        layer.masksToBounds = false
-    }
-
-    func dropShadow(radius: CGFloat) {
-
-        layer.cornerRadius = radius
-        layer.shadowRadius = 2
-        layer.shadowOpacity = 0.125
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = .init(width: 1, height: 1)
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-    }
-
-    /// Use this function to draw shadow. Using this function you can avoid shadow performance issue and related warnings in view debugger.
+    /// Use this function to draw shadow
     /// - Parameters:
     ///   - radius: View's cornerRadius
     ///   - offset: Shadow's offset
     ///   - color: Shadow's color
     ///   - shadowRadius: Shadow's radius (blur)
     ///   - shadowOpacity: Shadow's opacity
-    ///   - useShadowPath: Set to true to avoid performance issue
-    ///   - shadowPath: Shadow's path
     func dropShadow(radius: CGFloat,
                     offset: CGSize,
                     color: UIColor,
                     shadowRadius: CGFloat,
-                    shadowOpacity: Float,
-                    useShadowPath: Bool = false,
-                    shadowPath: CGPath? = nil) {
+                    shadowOpacity: Float) {
 
         layer.cornerRadius = radius
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = shadowOpacity
         layer.shadowColor = color.cgColor
         layer.shadowOffset = offset
-        if useShadowPath {
-            layer.shadowPath = shadowPath ?? UIBezierPath(roundedRect: bounds,
-                                                          cornerRadius: layer.cornerRadius).cgPath
-        }
-        layer.masksToBounds = false
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-    }
-
-    func addShadowAndCornerRadius(shadowColor: UIColor = .black,
-                                  shadowOffset: CGSize = CGSize(width: 1, height: 1),
-                                  shadowOpacity: Float = 0.125,
-                                  shadowRadius: CGFloat = 2,
-                                  cornerRadius: CGFloat = 8) {
-        layer.shadowColor = shadowColor.cgColor
-        layer.shadowOffset = shadowOffset
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowRadius = shadowRadius
-        layer.cornerRadius = cornerRadius
         layer.masksToBounds = false
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale

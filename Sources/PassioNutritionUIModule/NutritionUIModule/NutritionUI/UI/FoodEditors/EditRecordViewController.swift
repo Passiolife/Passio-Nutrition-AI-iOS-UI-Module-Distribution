@@ -219,11 +219,11 @@ extension EditRecordViewController: AdvancedTextSearchViewDelegate {
                 foodEditorView?.foodRecord?.addIngredient(record: FoodRecordV3(foodItem: foodItem))
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] () in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] () in
             guard let `self` = self else { return }
             self.foodEditorView?.tableView.scrollToBottom()
         })
 
-        navigationController?.popViewController(animated: true)
+        // navigationController?.popViewController(animated: true)
     }
 }

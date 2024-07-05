@@ -34,34 +34,6 @@ public extension UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
-//    open override func awakeAfter(using coder: NSCoder) -> Any? {
-//        navigationItem.backButtonDisplayMode = .minimal // This will help us to remove text from back button
-//        return super.awakeAfter(using: coder)
-//    }
-
-    /// Customize Navigation bar
-//    func customizeNavigationBar(tintColor: UIColor = .gray400,
-//                                titleColor: UIColor = .gray900,
-//                                withBackButton: Bool = true) {
-//
-//        guard let navBar = self.navigationController?.navigationBar else { return }
-//        navBar.setBackgroundImage(nil, for: .default)
-//        navBar.shadowImage = UIImage()
-//        navBar.tintColor = tintColor
-//
-//        let appearance = UINavigationBarAppearance()
-//        appearance.configureWithTransparentBackground()
-//        appearance.titleTextAttributes = [.font: UIFont.inter(type: .bold, size: 23),
-//                                          .foregroundColor: titleColor]
-//        navBar.standardAppearance = appearance
-//        navBar.scrollEdgeAppearance = appearance
-//        navBar.tintColor = tintColor
-//        addEmptyleftButon()
-//        if !withBackButton {
-//            navigationItem.hidesBackButton = true
-//        }
-//    }
-
     var topBarHeight: CGFloat {
         return (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0.0) +
         (self.navigationController?.navigationBar.frame.height ?? 0.0)
@@ -309,20 +281,3 @@ public extension UIViewController {
         ]
     }
 }
-
-//public protocol InteractivePopGestureRecognizerDelegate: UIGestureRecognizerDelegate {
-//    func setupInteractivePopGestureRecognizer()
-//}
-//
-//extension InteractivePopGestureRecognizerDelegate where Self: UIViewController {
-//    public func setupInteractivePopGestureRecognizer() {
-//        navigationController?.interactivePopGestureRecognizer?.delegate = self
-//    }
-//}
-//
-//extension UIViewController: InteractivePopGestureRecognizerDelegate {
-//    // Ensure the gesture recognizer works alongside the custom back button
-//    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return navigationController?.viewControllers.count ?? 0 > 1
-//    }
-//}

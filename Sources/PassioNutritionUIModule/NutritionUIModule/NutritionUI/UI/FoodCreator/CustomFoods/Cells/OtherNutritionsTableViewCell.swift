@@ -74,21 +74,18 @@ final class OtherNutritionsTableViewCell: UITableViewCell {
             $0.addOkButtonToToolbar(target: self, action: #selector(onOkTapped), forEvent: .touchUpInside)
             $0.delegate = self
         }
+        backgroundShadowView.dropShadow(radius: 8,
+                                        offset: CGSize(width: 0, height: 1),
+                                        color: .black.withAlphaComponent(0.06),
+                                        shadowRadius: 2,
+                                        shadowOpacity: 1)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        DispatchQueue.main.async { [self] in
-            let path = UIBezierPath(roundedRect: backgroundShadowView.bounds, cornerRadius: 8)
-            backgroundShadowView.dropShadow(radius: 8,
-                                            offset: CGSize(width: 0, height: 1),
-                                            color: .black.withAlphaComponent(0.06),
-                                            shadowRadius: 2,
-                                            shadowOpacity: 1,
-                                            useShadowPath: true,
-                                            shadowPath: path.cgPath)
-        }
+        backgroundShadowView.layer.shadowPath = UIBezierPath(roundedRect: backgroundShadowView.bounds,
+                                                             cornerRadius: 8).cgPath
     }
 
     @IBAction func onDeleteNutrition(_ sender: UIButton) {

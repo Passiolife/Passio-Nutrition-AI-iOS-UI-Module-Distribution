@@ -92,6 +92,7 @@ final class PlusMenuViewController: InstantiableViewController {
         super.viewDidLoad()
 
         configureUI()
+        dismissButton.backgroundColor = .primaryColor
         menuTableView.isHidden = true
         menuTableView.clipsToBounds = true
         menuData = menuData.filter { $0 != .myFoods && $0 != .takePhotos && $0 != .selectPhotos }

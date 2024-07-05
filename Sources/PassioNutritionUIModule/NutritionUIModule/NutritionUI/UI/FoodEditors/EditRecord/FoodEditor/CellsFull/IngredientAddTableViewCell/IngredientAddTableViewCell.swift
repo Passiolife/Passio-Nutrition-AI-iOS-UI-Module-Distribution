@@ -16,19 +16,19 @@ class IngredientAddTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        insetBackground.roundMyCornerWith(radius: 8)
+        insetBackground.dropShadow(radius: 8,
+                                   offset: CGSize(width: 0, height: 1),
+                                   color: .black.withAlphaComponent(0.06),
+                                   shadowRadius: 2,
+                                   shadowOpacity: 1)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        insetBackground.roundMyCornerWith(radius: 8)
-        insetBackground.dropShadow()
-    }
 
+        insetBackground.layer.shadowPath = UIBezierPath(roundedRect: insetBackground.bounds,
+                                                        cornerRadius: 8).cgPath
+    }
 }

@@ -28,16 +28,20 @@ final class DailyNutritionCell: UITableViewCell {
         }
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
-        let path = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 8)
         shadowView.dropShadow(radius: 8,
                               offset: CGSize(width: 0, height: 1),
                               color: .black.withAlphaComponent(0.06),
                               shadowRadius: 2,
-                              shadowOpacity: 1,
-                              useShadowPath: true,
-                              shadowPath: path.cgPath)
+                              shadowOpacity: 1)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds,
+                                                   cornerRadius: 8).cgPath
     }
 }

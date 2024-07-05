@@ -10,8 +10,9 @@ import UIKit
 
 class ProgressViewController: UIViewController {
 
-    @IBOutlet weak var macrosButton : UIButton!
-    @IBOutlet weak var microButton  : UIButton!
+    @IBOutlet weak var progressSelectionView: UIView!
+    @IBOutlet weak var macrosButton: UIButton!
+    @IBOutlet weak var microButton : UIButton!
     @IBOutlet weak var segmentUnderlineView: UIView!
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
     @IBOutlet private weak var pageFrameView : UIView! {
@@ -22,12 +23,29 @@ class ProgressViewController: UIViewController {
             pageMaster.didMove(toParent: self)
         }
     }
+
     private let pageMaster = PageViewController([])
     private var viewControllerList: [UIViewController] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupUI()
+        setupPageViewController()
+    }
+
+    func setupUI() {
+        [macrosButton, microButton].forEach {
+            $0?.setTitleColor(.gray900, for: .normal)
+            $0?.setTitleColor(.primaryColor, for: .selected)
+        }
+        macrosButton.isSelected = true
+        microButton.isSelected = false
+        progressSelectionView.backgroundColor = .navigationColor
+        segmentUnderlineView.backgroundColor = .primaryColor
+    }
+
+    private func setupPageViewController() {
         let macroViewController = UIStoryboard(name: "Progress",
                                                bundle: PassioInternalConnector.shared.bundleForModule)
             .instantiateViewController(identifier: "MacroProgressViewController") as! MacroProgressViewController
@@ -35,36 +53,8 @@ class ProgressViewController: UIViewController {
                                                bundle: PassioInternalConnector.shared.bundleForModule)
             .instantiateViewController(identifier: "MicroProgressViewController") as! MicroProgressViewController
         viewControllerList = [macroViewController, microViewController]
-        setupUI()
-        setupPageViewController()
-    }
-
-    func setupUI() {
-        [macrosButton,microButton].forEach({
-            $0?.setTitleColor(.gray900, for: .normal)
-            $0?.setTitleColor(.indigo600, for: .selected)
-        })
-        macrosButton.isSelected = true
-        microButton.isSelected = false
-    }
-
-    @IBAction func setTab(_ sender: UIButton) {
-        setTabBarIndex(sender.tag)
-    }
-}
-
-// MARK: - PageViewDelegate
-extension ProgressViewController: PageViewDelegate {
-
-    func pageControllerDidScroll(offset: CGFloat, currentPage: Int) { }
-
-    private func setupPageViewController() {
         pageMaster.pageDelegate = self
         pageMaster.setup(viewControllerList)
-    }
-
-    func pageController(_ controller: PageViewController, didChangePage page: Int) {
-        setTabBarIndex(page)
     }
 
     private func setTabBarIndex(_ selectedIndex : Int) {
@@ -81,5 +71,19 @@ extension ProgressViewController: PageViewDelegate {
             self.leadingConstraint.constant = CGFloat(selectedIndex) * ScreenSize.width * 0.5
             self.segmentUnderlineView.layoutIfNeeded()
         }
+    }
+
+    @IBAction func setTab(_ sender: UIButton) {
+        setTabBarIndex(sender.tag)
+    }
+}
+
+// MARK: - PageViewDelegate
+extension ProgressViewController: PageViewDelegate {
+
+    func pageControllerDidScroll(offset: CGFloat, currentPage: Int) { }
+
+    func pageController(_ controller: PageViewController, didChangePage page: Int) {
+        setTabBarIndex(page)
     }
 }

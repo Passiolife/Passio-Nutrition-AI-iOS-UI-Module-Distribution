@@ -14,22 +14,33 @@ final class HomeTabBar: UITabBar {
     lazy var plusButton: UIButton! = {
         let middleButton = UIButton()
         middleButton.awakeFromNib()
-        middleButton.frame = CGRect(x: self.center.x - 24,
-                                    y: self.frame.origin.y - 24,
-                                    width: 64,
-                                    height: 64)
+        middleButton.frame = CGRect(x: self.center.x - 21,
+                                    y: self.frame.origin.y - 21,
+                                    width: 56,
+                                    height: 56)
 
-        middleButton.setImage(UIImage.imageFromBundle(named: "plus"), for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 23, weight: .medium)
+        middleButton.backgroundColor = .primaryColor
+        middleButton.tintColor = .white
+        middleButton.setImage(UIImage(systemName: "plus", withConfiguration: config), for: .normal)
         middleButton.addTarget(self, action: #selector(middleButtonAction), for: .touchUpInside)
         self.addSubview(middleButton)
         return middleButton
     }()
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        setShadow()
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        plusButton.center = CGPoint(x: frame.width / 2, y: -5)
-        setShadow()
+        plusButton.center = CGPoint(x: frame.width / 2, y: 0)
+        plusButton.layer.shadowPath = UIBezierPath(roundedRect: plusButton.bounds,
+                                                   cornerRadius: plusButton.frame.width/2).cgPath
+        self.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
     }
 
     @objc func middleButtonAction(sender: UIButton) {
@@ -42,22 +53,15 @@ final class HomeTabBar: UITabBar {
     }
 
     private func setShadow() {
-        let plusButtonShadowPath = UIBezierPath(roundedRect: plusButton.imageView?.frame ?? .zero,
-                                                cornerRadius: plusButton.frame.width/2)
         plusButton.dropShadow(radius: plusButton.frame.width/2,
                               offset: .init(width: 0, height: 1),
                               color: .black,
                               shadowRadius: 2,
-                              shadowOpacity: 0.21,
-                              useShadowPath: true,
-                              shadowPath: plusButtonShadowPath.cgPath)
-        let tabBarShadowPath = UIBezierPath(rect: bounds)
+                              shadowOpacity: 0.21)
         dropShadow(radius: 0,
                    offset: .init(width: 0, height: 20),
                    color: .black,
                    shadowRadius: 25,
-                   shadowOpacity: 0.25,
-                   useShadowPath: true,
-                   shadowPath: tabBarShadowPath.cgPath)
+                   shadowOpacity: 0.25)
     }
 }

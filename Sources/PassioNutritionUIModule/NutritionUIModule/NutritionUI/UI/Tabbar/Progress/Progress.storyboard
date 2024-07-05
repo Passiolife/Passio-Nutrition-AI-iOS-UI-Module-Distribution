@@ -338,6 +338,7 @@
                         <outlet property="macrosButton" destination="ELW-Pm-rdv" id="8vb-V6-SaJ"/>
                         <outlet property="microButton" destination="Edk-B2-AZA" id="Tfb-2F-RMv"/>
                         <outlet property="pageFrameView" destination="Zrr-UM-P4g" id="DAO-ZT-VRC"/>
+                        <outlet property="progressSelectionView" destination="6mE-Oq-ELU" id="3Qx-p4-v68"/>
                         <outlet property="segmentUnderlineView" destination="cZz-l7-8SL" id="o0z-i2-KjL"/>
                     </connections>
                 </viewController>

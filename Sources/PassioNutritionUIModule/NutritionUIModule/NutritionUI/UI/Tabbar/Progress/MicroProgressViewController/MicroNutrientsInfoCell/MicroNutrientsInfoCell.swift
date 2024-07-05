@@ -38,7 +38,7 @@ extension MicroNutrientsInfoCell {
             nutrientValueProgressView.progressTintColor = .red500
         } else {
             remainingValueLabel.textColor = .gray900
-            nutrientValueProgressView.progressTintColor = .indigo600
+            nutrientValueProgressView.progressTintColor = .primaryColor
         }
 
         progress = recommendedValue == 0 ? 0 : Float(value / recommendedValue)

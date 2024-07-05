@@ -113,21 +113,23 @@
                                             <constraint firstAttribute="height" constant="1" id="Cqr-fA-OyM"/>
                                         </constraints>
                                     </imageView>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GAf-M9-cbw">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="igj-WQ-tWq">
                                         <rect key="frame" x="0.0" y="41" width="393" height="718"/>
-                                        <color key="backgroundColor" name="gray-50"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vwc-RO-LnC">
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Rjx-vu-JiW">
                                             <size key="itemSize" width="128" height="128"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
+                                        <cells/>
                                     </collectionView>
                                 </subviews>
                             </stackView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ZzH-4H-six">
-                                <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
-                                <color key="color" name="CustomBase"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ZzH-4H-six">
+                                <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                                <color key="tintColor" name="indigo-600"/>
+                                <color key="color" name="indigo-600"/>
                             </activityIndicatorView>
                             <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P0m-z7-P4X" customClass="PassThroughView" customModule="PassioNutritionUIModule">
                                 <rect key="frame" x="0.0" y="318" width="393" height="500"/>
@@ -140,7 +142,7 @@
                             </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="36G-JY-ES4"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="gray-50"/>
                         <constraints>
                             <constraint firstItem="36G-JY-ES4" firstAttribute="bottom" secondItem="P0m-z7-P4X" secondAttribute="bottom" id="9tl-Nf-Lti"/>
                             <constraint firstItem="wok-X8-idK" firstAttribute="top" secondItem="36G-JY-ES4" secondAttribute="top" id="GiK-1c-iIs"/>
@@ -155,8 +157,9 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="ZzH-4H-six" id="4Xb-61-WU7"/>
-                        <outlet property="collectionView" destination="GAf-M9-cbw" id="Gih-Ag-td9"/>
+                        <outlet property="collectionView" destination="igj-WQ-tWq" id="sBj-Nq-nVr"/>
                         <outlet property="dateButton" destination="UbK-Dh-zMj" id="ShI-93-3x3"/>
+                        <outlet property="dateView" destination="vW2-hI-mXb" id="AGE-Vb-BHY"/>
                         <outlet property="nextDateButton" destination="uMs-lE-yo5" id="ClM-BP-5T7"/>
                         <outlet property="quickAddContainerView" destination="P0m-z7-P4X" id="A6p-AK-Ovn"/>
                     </connections>
@@ -287,9 +290,6 @@
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
         <image name="date_icon" width="20" height="20"/>
-        <namedColor name="CustomBase">
-            <color red="0.0" green="0.25490196078431371" blue="0.67450980392156867" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
         <namedColor name="gray-200">
             <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
@@ -298,6 +298,9 @@
         </namedColor>
         <namedColor name="gray-900">
             <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

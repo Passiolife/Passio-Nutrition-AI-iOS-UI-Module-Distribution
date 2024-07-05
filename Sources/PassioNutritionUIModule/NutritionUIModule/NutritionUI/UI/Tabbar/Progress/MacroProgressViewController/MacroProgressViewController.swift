@@ -30,46 +30,43 @@ class MacroProgressViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.selectedDate = Date()
-        self.setupUI()
+
+        setupUI()
+        segmentControl.dropShadow(radius: 8,
+                                  offset: CGSize(width: 0, height: 1),
+                                  color: .black.withAlphaComponent(0.06),
+                                  shadowRadius: 2,
+                                  shadowOpacity: 1)
+        caloryBarChart.dropShadow(radius: 16,
+                                  offset: CGSize(width: 0, height: 2),
+                                  color: .black.withAlphaComponent(0.10),
+                                  shadowRadius: 8,
+                                  shadowOpacity: 1)
+        macroBarChart.dropShadow(radius: 16,
+                                 offset: CGSize(width: 0, height: 2),
+                                 color: .black.withAlphaComponent(0.10),
+                                 shadowRadius: 8,
+                                 shadowOpacity: 1)
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let segmentPath = UIBezierPath(roundedRect: segmentControl.bounds, cornerRadius: 8)
-        segmentControl.dropShadow(radius: 8,
-                                  offset: CGSize(width: 0, height: 1),
-                                  color: .black.withAlphaComponent(0.06),
-                                  shadowRadius: 2,
-                                  shadowOpacity: 1,
-                                  useShadowPath: true,
-                                  shadowPath: segmentPath.cgPath)
-
-        let caloriePath = UIBezierPath(roundedRect: caloryBarChart.shadowView.bounds, cornerRadius: 16)
-        caloryBarChart.dropShadow(radius: 16,
-                                  offset: CGSize(width: 0, height: 2),
-                                  color: .black.withAlphaComponent(0.10),
-                                  shadowRadius: 8,
-                                  shadowOpacity: 1,
-                                  useShadowPath: true,
-                                  shadowPath: caloriePath.cgPath)
-
-        let macroPath = UIBezierPath(roundedRect: macroBarChart.shadowView.bounds, cornerRadius: 16)
-        macroBarChart.dropShadow(radius: 16,
-                                  offset: CGSize(width: 0, height: 2),
-                                  color: .black.withAlphaComponent(0.10),
-                                  shadowRadius: 8,
-                                  shadowOpacity: 1,
-                                  useShadowPath: true,
-                                  shadowPath: macroPath.cgPath)
+        segmentControl.layer.shadowPath = UIBezierPath(roundedRect: segmentControl.bounds,
+                                            cornerRadius: 8).cgPath
+        caloryBarChart.layer.shadowPath = UIBezierPath(roundedRect: caloryBarChart.shadowView.bounds,
+                                            cornerRadius: 16).cgPath
+        macroBarChart.layer.shadowPath = UIBezierPath(roundedRect: macroBarChart.shadowView.bounds,
+                                           cornerRadius: 16).cgPath
     }
 
     func setupUI() {
+        selectedDate = Date()
         segmentControl.defaultConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .gray700)
         segmentControl.selectedConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .white)
         caloryBarChart.title = "Calories"
         macroBarChart.title = "Macros"
+        segmentControl.selectedSegmentTintColor = .primaryColor
     }
 }
 
@@ -85,7 +82,8 @@ extension MacroProgressViewController {
 
     func configureDateUI() {
 
-        let (startDate, endDate) = currentScope == .week ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
+        let (startDate, endDate) = currentScope == .week
+        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
         nextDateButton.isEnabled = !(Date() > startDate.startOfToday && Date() < endDate)
         nextDateButton.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
 
@@ -113,9 +111,11 @@ extension MacroProgressViewController {
 
     private func getDayLogsFrom() {
 
-        let (fromDate, toDate) = currentScope == .week ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
+        let (fromDate, toDate) = currentScope == .week
+        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
 
-        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate, toDate: toDate) { [weak self] (dayLogs) in
+        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
+                                                            toDate: toDate) { [weak self] (dayLogs) in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
                 self.setupCharts(from: dayLogs)

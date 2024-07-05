@@ -18,6 +18,7 @@ protocol GoToManualSearchDelegate: AnyObject {
 
 class DiaryViewController: UIViewController {
 
+    @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var dateButton: UIButton!
@@ -43,7 +44,13 @@ class DiaryViewController: UIViewController {
         }
     }
 
-    enum Section {
+    private enum CellMyLogCollection: String, CaseIterable {
+        case FoodRecordCollectionViewCell,
+             DailyNutritionWithDateCollectionViewCell,
+             SectionOnOffCollectionViewCell
+    }
+
+    private enum Section {
         case dailyNutrition, bf, l, d, s
 
         var mealForSection: MealLabel {
@@ -62,12 +69,12 @@ class DiaryViewController: UIViewController {
         }
     }
 
-    var sections: [(Section,Bool)] = [
-        (.dailyNutrition,true),
-        (.bf,true),
-        (.l,true),
-        (.d,true),
-        (.s,true)
+    private var sections: [(Section, Bool)] = [
+        (.dailyNutrition, true),
+        (.bf, true),
+        (.l, true),
+        (.d, true),
+        (.s, true)
     ]
 
     var selectedMeal: MealLabel? {
@@ -88,6 +95,8 @@ class DiaryViewController: UIViewController {
         super.viewDidLoad()
 
         registerCellsAndTableDelegates()
+        dateView.backgroundColor = .navigationColor
+        dateButton.titleLabel?.font = .inter(type: .semiBold, size: 14)
 
         if let quickAddChild = children.first(where: {
             $0 is QuickAddSuggestionViewController
@@ -102,11 +111,6 @@ class DiaryViewController: UIViewController {
 
         refreshData()
         quickAddViewController?.compressPopup()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        setDayLogForSelectedDate()
     }
 
     func setTitle() {
@@ -157,8 +161,10 @@ class DiaryViewController: UIViewController {
     }
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
-        let nextDate = Calendar.current.date(byAdding: .day, value: sender.tag == 1 ? 1 : -1, to: selectedDate)!
-        self.selectedDate = nextDate
+        let nextDate = Calendar.current.date(byAdding: .day,
+                                             value: sender.tag == 1 ? 1 : -1,
+                                             to: selectedDate)!
+        selectedDate = nextDate
     }
 
     func refreshData() {
@@ -320,7 +326,7 @@ extension DiaryViewController: SwipeCollectionViewCellDelegate {
             guard let `self` = self else { return }
             self.navigateToEditor(foodRecord: record)
         }
-        editAction.backgroundColor = .indigo600
+        editAction.backgroundColor = .primaryColor
 
         return [deleteAction,editAction]
     }
@@ -405,7 +411,7 @@ extension DiaryViewController: QuickAddSuggestionViewDelegate {
     }
 
     func suggestionDidFetched(isHavingSuggestion: Bool) {
-        self.quickAddContainerView.isHidden = !isHavingSuggestion
+        quickAddContainerView.isHidden = !isHavingSuggestion
     }
 
     func didSelected(suggestion: SuggestedFoods) {

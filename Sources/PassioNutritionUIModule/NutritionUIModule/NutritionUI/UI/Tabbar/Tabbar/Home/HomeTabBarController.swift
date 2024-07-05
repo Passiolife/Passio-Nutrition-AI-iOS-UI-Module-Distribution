@@ -125,6 +125,8 @@ extension HomeTabBarController {
         var tabFrame = tabBar.frame
         tabFrame.size.height = height
         tabFrame.origin.y = view.frame.size.height - height
+        tabBar.tintColor = .primaryColor
+        tabBar.unselectedItemTintColor = .secondaryTabColor
         tabBar.frame = tabFrame
         tabBar.setNeedsLayout()
         tabBar.layoutIfNeeded()
@@ -171,7 +173,7 @@ extension HomeTabBarController {
 
         guard let parentView = self.navigationController?.view else { return }
         let frame = parentView.convert(sender.frame, from:sender.superview)
-        let countedY = parentView.frame.size.height - (64.0 + frame.origin.y)
+        let countedY = parentView.frame.size.height - (56.0 + frame.origin.y)
 
         let plusMenuVC = PlusMenuViewController()
         plusMenuVC.delegate = self
@@ -186,7 +188,7 @@ extension HomeTabBarController {
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.isTranslucent = false
         navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.updateStatusBarColor(color: .white)
+        navigationController?.updateStatusBarColor(color: .statusBarColor)
 
         setupBackButton()
 

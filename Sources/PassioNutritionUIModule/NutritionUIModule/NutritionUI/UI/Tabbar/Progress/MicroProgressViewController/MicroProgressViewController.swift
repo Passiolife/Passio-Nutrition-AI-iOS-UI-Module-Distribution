@@ -19,17 +19,16 @@ class MicroProgressViewController: UIViewController {
     lazy var footerButton: UIButton = {
         let button = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: ScreenSize.width, height: 40))
         button.setTitle("See more", for: .normal)
-        button.setTitleColor(.indigo600, for: .normal)
+        button.setTitleColor(.primaryColor, for: .normal)
         button.setTitle("See less", for: .selected)
-        button.setTitleColor(.indigo600, for: .selected)
+        button.setTitleColor(.primaryColor, for: .selected)
         button.titleLabel?.font = UIFont.inter(type: .medium, size: 15)
         button.addTarget(self, action: #selector(onClickSeeMore), for: .touchUpInside)
         return button
     }()
 
-    let cells: [CellType] = [.nutrition,.calender]
-    let connector = PassioInternalConnector.shared
-    var dateSelector: DateSelectorViewController?
+    private let connector = PassioInternalConnector.shared
+    private var dateSelector: DateSelectorViewController?
 
     private var selectedDate: Date = Date() {
         didSet {
@@ -66,7 +65,7 @@ class MicroProgressViewController: UIViewController {
     }
 
     func registerCell() {
-        tableView.register(nibName: "MicroNutrientsInfoCell")
+        tableView.register(nibName: MicroNutrientsInfoCell.className)
         tableView.tableFooterView = footerButton
     }
 
@@ -134,14 +133,14 @@ extension MicroProgressViewController: UITableViewDataSource, UITableViewDelegat
     }
 }
 
-// MARK: - DateSelection
+// MARK: - DateSelectorUIView Delegate
 extension MicroProgressViewController: DateSelectorUIViewDelegate {
 
     @IBAction func showDateSelector(_ sender: Any) {
         dateSelector = DateSelectorViewController()
         dateSelector?.delegate = self
         dateSelector?.modalPresentationStyle = .overFullScreen
-        self.parent?.present(dateSelector!, animated: false)
+        parent?.present(dateSelector!, animated: false)
     }
 
     func removeDateSelector(remove: Bool) {

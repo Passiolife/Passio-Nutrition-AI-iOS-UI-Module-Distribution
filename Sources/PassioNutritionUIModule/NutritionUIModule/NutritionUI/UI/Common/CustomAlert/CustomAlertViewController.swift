@@ -68,19 +68,18 @@ class CustomAlertViewController: InstantiableViewController {
         view.backgroundColor = .white.withAlphaComponent(0.5)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        contentView.dropShadow(radius: 8,
+                               offset: .init(width: 1, height: 1),
+                               color: .black.withAlphaComponent(0.3),
+                               shadowRadius: 4,
+                               shadowOpacity: 1)
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 8)
-        contentView.dropShadow(radius: 8,
-                               offset: .init(width: 1, height: 1),
-                               color: .black.withAlphaComponent(0.3),
-                               shadowRadius: 4,
-                               shadowOpacity: 1,
-                               useShadowPath: true,
-                               shadowPath: path.cgPath)
+        contentView.layer.shadowPath = UIBezierPath(roundedRect: contentView.bounds,
+                                                    cornerRadius: 8).cgPath
     }
 
     func configureAlert(views: CustomAlert = CustomAlert()) {

@@ -82,7 +82,7 @@ class IngredientEditorView: UIView {
             customPickerViewController.pickerFrame = CGRect(x: frame.origin.x - 5,
                                                             y: frame.origin.y + 50,
                                                             width: frame.width + 10,
-                                                            height: 42.5 * Double(items.count))
+                                                            height: 36 * Double(items.count))
         }
         customPickerViewController.delegate = self
         customPickerViewController.modalTransitionStyle = .crossDissolve

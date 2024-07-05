@@ -19,6 +19,12 @@ class MealPlanViewController: UIViewController {
     var selectedMealPlan: PassioMealPlan?
     var selectedDay: Int?
 
+    private enum CellMealPlan: String, CaseIterable {
+        case MealPlanFoodCell,
+             MealPlanSectionHeaderCell,
+             MealPlanDietTypeCell
+    }
+
     enum Section {
 
         case dietType, bf, l, d, s
@@ -82,7 +88,7 @@ class MealPlanViewController: UIViewController {
     func registerCellsAndTableDelegates() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 120, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 40, right: 0)
 
         let layout = UICollectionViewCompositionalLayout { [weak self] (sectionNumber, env) in
             if sectionNumber == 0 {
@@ -92,7 +98,7 @@ class MealPlanViewController: UIViewController {
         }
 
         layout.register(MealPlanSectionDecorationView.self, forDecorationViewOfKind: "MealPlanSectionDecorationView")
-        collectionView.setCollectionViewLayout(layout, animated: true )
+        collectionView.setCollectionViewLayout(layout, animated: true)
 
         CellMealPlan.allCases.forEach {
             collectionView.register(nibName: $0.rawValue.capitalizingFirst())
