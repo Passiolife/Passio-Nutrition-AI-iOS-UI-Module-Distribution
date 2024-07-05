@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 import Combine
+import PassioNutritionAISDK
 
 protocol UsePhotosDelegate: AnyObject {
     func onSelecting(images: [UIImage])

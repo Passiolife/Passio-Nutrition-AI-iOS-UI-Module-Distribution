@@ -7,6 +7,7 @@
 
 import UIKit
 import Lottie
+import PassioNutritionAISDK
 
 protocol VoiceLoggingDelegate: AnyObject {
     func goToSearch()

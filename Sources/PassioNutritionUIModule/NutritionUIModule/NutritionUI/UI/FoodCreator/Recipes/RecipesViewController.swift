@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PassioNutritionAISDK
 
 class RecipesViewController: InstantiableViewController {
 

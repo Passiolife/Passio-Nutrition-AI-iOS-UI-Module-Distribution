@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PassioNutritionAISDK
 
 protocol ResultsLoggingDelegate: AnyObject {
     func onTryAgainTapped()
