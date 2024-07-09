@@ -1114,7 +1114,12 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
+                        <outlet property="barcodeImageView" destination="HQw-Vv-12J" id="Yfx-Ma-OKm"/>
+                        <outlet property="drinkImageView" destination="QEo-0z-NyN" id="3sF-Gp-VzJ"/>
+                        <outlet property="nutritionFactsImageView" destination="eAb-LS-VQs" id="3C1-TM-IYW"/>
                         <outlet property="okButton" destination="FAx-hI-O74" id="BVf-dW-bbB"/>
+                        <outlet property="packageFoodsImageView" destination="w5H-Wz-knX" id="uxh-dl-Acq"/>
+                        <outlet property="wholeFoodsImageView" destination="J1E-Jg-Mfn" id="P4u-xG-tzI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wCO-cL-yBC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

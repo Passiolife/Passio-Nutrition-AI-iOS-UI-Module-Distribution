@@ -205,6 +205,7 @@ private extension FoodRecognitionV3ViewController {
                                           style: .plain,
                                           target: self,
                                           action: #selector(presentHint))
+        rightButton.tintColor = .gray400
         navigationItem.rightBarButtonItem = rightButton
     }
 
