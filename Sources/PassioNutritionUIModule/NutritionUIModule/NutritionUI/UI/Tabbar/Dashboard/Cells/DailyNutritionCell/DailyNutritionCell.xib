@@ -83,6 +83,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="nutritionIconImageView" destination="ubW-pU-WFJ" id="f74-sn-vFX"/>
                 <outlet property="nutritionView" destination="DgP-wr-GAc" id="hXM-Zm-nnF"/>
                 <outlet property="shadowView" destination="wpi-De-gFH" id="BUh-Kw-7CJ"/>
             </connections>
@@ -90,7 +91,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="nutrition_icon" width="20" height="20"/>
+        <image name="nutrition_icon" width="24" height="24"/>
         <namedColor name="gray-900">
             <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

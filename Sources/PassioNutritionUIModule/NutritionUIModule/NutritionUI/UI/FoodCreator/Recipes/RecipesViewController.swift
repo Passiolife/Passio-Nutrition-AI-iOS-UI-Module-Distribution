@@ -12,7 +12,8 @@ class RecipesViewController: InstantiableViewController {
 
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var recipesTableView: UITableView!
-
+    @IBOutlet weak var createNewRecipeButton: UIButton!
+    
     private let connector = PassioInternalConnector.shared
     private var recipeName = ""
     private var recipe: FoodRecordV3?
@@ -65,6 +66,8 @@ extension RecipesViewController {
         recipesTableView.register(nibName: AdvancedTextSearchCell.className)
         recipesTableView.dataSource = self
         recipesTableView.delegate = self
+        createNewRecipeButton.backgroundColor = .primaryColor
+        activityIndicatorView.color = .primaryColor
     }
 
     @objc private func fetchRecipes() {
@@ -145,7 +148,7 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
         let editItem = UIContextualAction(style: .normal, title: "Edit".localized) {  (_, _, _) in
             print("Recipes:- \(self.recipes[indexPath.row])")
         }
-        editItem.backgroundColor = .indigo600
+        editItem.backgroundColor = .primaryColor
 
         let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) { (_, _, _) in
             self.connector.deleteRecipe(record: self.recipes[indexPath.row])
@@ -160,7 +163,6 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
         return swipeActions
     }
 }
-
 
 // MARK: - PlusMenu Delegate
 extension RecipesViewController: PlusMenuDelegate {

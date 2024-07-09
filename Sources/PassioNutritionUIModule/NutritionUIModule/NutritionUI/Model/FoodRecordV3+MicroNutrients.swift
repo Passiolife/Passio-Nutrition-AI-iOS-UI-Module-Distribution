@@ -157,7 +157,7 @@ struct MicroNutirents {
 
         return [
             MicroNutirents(name: "Saturated Fat", value: saturatedFat, unit: Localized.gramUnit, recommendedValue: 20),
-            MicroNutirents(name: "Trans Fat", value: transFat, unit: Localized.gramUnit, recommendedValue: 0),
+            MicroNutirents(name: "Trans Fat", value: transFat, unit: Localized.gramUnit, recommendedValue: 2.2),
             MicroNutirents(name: "Cholesterol", value: cholesterol, unit: Localized.mgUnit, recommendedValue: 300),
             MicroNutirents(name: "Sodium", value: sodium, unit: Localized.mgUnit, recommendedValue: 2300),
             MicroNutirents(name: "Dietary Fiber", value: fiber, unit: Localized.gramUnit, recommendedValue: 28),

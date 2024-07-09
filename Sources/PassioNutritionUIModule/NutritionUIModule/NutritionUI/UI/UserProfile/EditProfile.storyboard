@@ -395,12 +395,14 @@
                     </view>
                     <connections>
                         <outlet property="caloriesValueTextField" destination="0Cb-Tt-rvu" id="CLx-tV-wZR"/>
+                        <outlet property="cancelButton" destination="fw4-HJ-iMx" id="yEa-cb-LvE"/>
                         <outlet property="carbsPercentTextField" destination="ANN-qZ-XOa" id="mbh-53-CUX"/>
                         <outlet property="carbsSlider" destination="sWX-JE-AHQ" id="Gun-E0-xBP"/>
                         <outlet property="carbsValueLabel" destination="jYl-vz-Dsc" id="Ccm-KB-XMb"/>
                         <outlet property="fatPercentTextField" destination="OL9-Gi-QzS" id="MqC-bR-K7D"/>
                         <outlet property="fatSlider" destination="fae-Oz-aIe" id="ksh-Ik-oCn"/>
                         <outlet property="fatValueLabel" destination="a3g-5w-TDV" id="qnF-oK-mfG"/>
+                        <outlet property="okButton" destination="PpH-dL-sdf" id="0fI-1i-46C"/>
                         <outlet property="proteinPercentTextField" destination="mfN-zD-3sc" id="GO0-E3-aFN"/>
                         <outlet property="proteinSlider" destination="L5I-0j-Z0E" id="YeJ-Rb-5X3"/>
                         <outlet property="proteinValueLabel" destination="nZG-IU-8va" id="fab-CL-6qv"/>

@@ -9,6 +9,7 @@ import UIKit
 
 class CustomFoodsViewController: InstantiableViewController {
 
+    @IBOutlet weak var createNewFoodButton: UIButton!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var customFoodsTableView: UITableView!
 
@@ -46,6 +47,7 @@ extension CustomFoodsViewController {
         customFoodsTableView.register(nibName: AdvancedTextSearchCell.className)
         customFoodsTableView.dataSource = self
         customFoodsTableView.delegate = self
+        createNewFoodButton.backgroundColor = .primaryColor
     }
 
     @objc private func fetchCustomFoods() {
@@ -102,7 +104,7 @@ extension CustomFoodsViewController: UITableViewDataSource, UITableViewDelegate 
         let editItem = UIContextualAction(style: .normal, title: "Edit".localized) {  (_, _, _) in
             self.navigateToEdit(with: self.customFoods[indexPath.row])
         }
-        editItem.backgroundColor = .indigo600
+        editItem.backgroundColor = .primaryColor
 
         let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) { (_, _, _) in
             self.connector.deleteUserFoodImage(with: self.customFoods[indexPath.row].iconId)

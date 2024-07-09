@@ -9,6 +9,8 @@ import UIKit
 
 class EditRecipeViewController: InstantiableViewController {
 
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var editRecipeTableView: UITableView!
 
     private enum EditRecipeCell {
@@ -70,6 +72,9 @@ extension EditRecipeViewController {
         title = "Edit Recipe"
         editRecipeTableView.dataSource = self
         editRecipeTableView.register(nibName: RecipeDetailsCell.className)
+        cancelButton.applyBorder(width: 2, color: .primaryColor)
+        cancelButton.setTitleColor(.primaryColor, for: .normal)
+        saveButton.backgroundColor = .primaryColor
     }
 }
 

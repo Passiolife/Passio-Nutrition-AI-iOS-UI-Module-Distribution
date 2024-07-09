@@ -1,18 +1,8 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "Book open@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "Book open@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "Book open.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

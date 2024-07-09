@@ -244,6 +244,15 @@ public extension UIView {
                                          multiplier: 1,
                                          constant: constant))
     }
+
+    func configureSearchBarTextField(tintColor: UIColor = .primaryColor,
+                                     textAttr: [NSAttributedString.Key : Any] = [
+                                        .foregroundColor: UIColor.gray900,
+                                        .font: UIFont.inter(type: .regular, size: 16)
+                                     ]) {
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = tintColor
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = textAttr
+    }
 }
 
 public extension UIButton {

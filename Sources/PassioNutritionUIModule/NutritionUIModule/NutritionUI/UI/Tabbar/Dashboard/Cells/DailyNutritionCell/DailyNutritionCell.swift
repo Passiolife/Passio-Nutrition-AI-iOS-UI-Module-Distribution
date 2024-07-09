@@ -18,6 +18,7 @@ struct NutritionDataModal {
 
 final class DailyNutritionCell: UITableViewCell {
 
+    @IBOutlet weak var nutritionIconImageView: UIImageView!
     @IBOutlet weak var nutritionView: DailyNutritionView!
     @IBOutlet weak var shadowView: UIView!
 
@@ -36,6 +37,7 @@ final class DailyNutritionCell: UITableViewCell {
                               color: .black.withAlphaComponent(0.06),
                               shadowRadius: 2,
                               shadowOpacity: 1)
+        nutritionIconImageView.tintColor = .primaryColor
     }
 
     override func layoutSubviews() {

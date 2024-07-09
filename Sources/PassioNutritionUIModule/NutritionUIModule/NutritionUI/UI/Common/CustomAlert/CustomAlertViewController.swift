@@ -42,8 +42,8 @@ struct CustomAlert {
         var titleColor: UIColor = .gray900
         var textFieldColor: UIColor = .gray900
         var rightButtonColor: UIColor = .white
-        var leftButtonColor: UIColor = .indigo600
-        var borderColor: UIColor = .indigo600
+        var leftButtonColor: UIColor = .primaryColor
+        var borderColor: UIColor = .primaryColor
         var isBorderEnabled: Bool = true
         var isLeftBorder: Bool = true
         var isRightBorder: Bool = false
@@ -122,12 +122,14 @@ class CustomAlertViewController: InstantiableViewController {
         alertTextField.textColor = color.textFieldColor
         rightButton.setTitleColor(color.rightButtonColor, for: .normal)
         leftButton.setTitleColor(color.leftButtonColor, for: .normal)
+        rightButton.backgroundColor = .primaryColor
+        leftButton.applyBorder(width: 2, color: .primaryColor)
 
         if color.isBorderEnabled, color.isRightBorder {
             rightButton.backgroundColor = .white
             rightButton.applyBorder(width: 2, color: .systemRed)
             leftButton.applyBorder(width: 0, color: .clear)
-            leftButton.backgroundColor = .indigo600
+            leftButton.backgroundColor = .primaryColor
             leftButton.setTitleColor(.white, for: .normal)
         }
     }

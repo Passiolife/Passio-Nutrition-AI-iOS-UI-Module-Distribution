@@ -76,8 +76,23 @@ class ResultsLoggingView: UIView {
                                shadowRadius: 6,
                                shadowOpacity: 1)
 
-        searchManuallyButton.titleLabel?.font = .inter(type: .bold, size: 14)
         resultsLabel.font = .inter(type: .bold, size: 20)
+        let title = "Clear".toMutableAttributedString
+        title.apply(attribute: [.foregroundColor: UIColor.primaryColor,
+                                .underlineColor: UIColor.primaryColor,
+                                .underlineStyle: NSUnderlineStyle.single.rawValue],
+                    subString: "Clear")
+        let str = "Not what you’re looking for? Search Manually".toMutableAttributedString
+        str.apply(attribute: [.foregroundColor: UIColor.primaryColor,
+                              .font: UIFont.inter(type: .bold, size: 14)], subString: "Search Manually")
+        searchManuallyButton.setAttributedTitle(str, for: .normal)
+        clearButton.setAttributedTitle(title, for: .normal)
+        cancelButton.applyBorder(width: 2, color: .primaryColor)
+        cancelButton.setTitleColor(.primaryColor, for: .normal)
+        logSelectedButton.backgroundColor = .primaryColor
+        tryAgainButton.tintColor = .primaryColor
+        tryAgainButton.setTitleColor(.primaryColor, for: .normal)
+        tryAgainButton.applyBorder(width: 2, color: .primaryColor)
     }
 
     override func layoutSubviews() {

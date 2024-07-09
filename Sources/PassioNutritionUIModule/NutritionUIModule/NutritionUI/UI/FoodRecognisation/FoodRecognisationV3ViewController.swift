@@ -20,6 +20,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var nutritionContentView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var zoomSlider: UISlider!
 
     private let passioSDK = PassioNutritionAI.shared
     private let connector = PassioInternalConnector.shared
@@ -113,6 +114,8 @@ final class FoodRecognitionV3ViewController: UIViewController {
         setupNavigation()
         foodResultVC?.delegate = self
         nutritionFactResultVC?.delegate = self
+        activityIndicator.color = .primaryColor
+        zoomSlider.minimumTrackTintColor = .primaryColor
     }
 
     override func viewWillAppear(_ animated: Bool) {

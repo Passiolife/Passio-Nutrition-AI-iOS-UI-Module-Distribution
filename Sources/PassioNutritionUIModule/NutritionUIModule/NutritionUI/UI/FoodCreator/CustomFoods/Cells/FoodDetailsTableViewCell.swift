@@ -10,6 +10,7 @@ import UIKit
 
 final class FoodDetailsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var editImageLabel: UILabel!
     @IBOutlet weak var createFoodImageView: UIImageView!
     @IBOutlet weak var backgroundShadowView: UIView!
     @IBOutlet weak var createFoodImageButton: UIButton!
@@ -26,6 +27,11 @@ final class FoodDetailsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        let str = "Edit Image".toMutableAttributedString
+        str.apply(attribute: [.foregroundColor: UIColor.primaryColor,
+                              .underlineColor: UIColor.primaryColor,
+                              .underlineStyle: NSUnderlineStyle.single.rawValue], subString: "Edit Image")
+        editImageLabel.attributedText = str
         configureTextFields()
         configureImageViewWithMenu()
         backgroundShadowView.dropShadow(radius: 8,

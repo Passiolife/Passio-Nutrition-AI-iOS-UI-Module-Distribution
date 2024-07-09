@@ -38,7 +38,7 @@
                                 <color key="textColor" name="gray-900"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CreateFood" translatesAutoresizingMaskIntoConstraints="NO" id="54D-Mi-3Sk">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="createFood" translatesAutoresizingMaskIntoConstraints="NO" id="54D-Mi-3Sk">
                                 <rect key="frame" x="16" y="97" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="ZI5-WM-xy1"/>
@@ -226,13 +226,14 @@
                 <outlet property="brandTextField" destination="Zus-zI-gi6" id="e75-dY-Ars"/>
                 <outlet property="createFoodImageButton" destination="g5y-np-J4T" id="gtX-WT-gne"/>
                 <outlet property="createFoodImageView" destination="54D-Mi-3Sk" id="Alb-ZV-yrO"/>
+                <outlet property="editImageLabel" destination="86a-Xi-fO5" id="83c-Kt-RYt"/>
                 <outlet property="nameTextField" destination="oba-Ac-zvY" id="EeR-Lu-fZv"/>
             </connections>
             <point key="canvasLocation" x="-211.4503816793893" y="3.5211267605633805"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="CreateFood" width="100" height="100"/>
+        <image name="createFood" width="100" height="100"/>
         <namedColor name="gray-300">
             <color red="0.81960784313725488" green="0.83529411764705885" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

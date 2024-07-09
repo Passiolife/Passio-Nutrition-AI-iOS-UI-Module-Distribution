@@ -48,7 +48,7 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="eiC-5L-gZY">
-                                <rect key="frame" x="56" y="22.333333333333332" width="319" height="58.666666666666671"/>
+                                <rect key="frame" x="56" y="32.333333333333343" width="319" height="38.666666666666657"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CtY-83-beX">
                                         <rect key="frame" x="0.0" y="0.0" width="12.666666666666666" height="18.666666666666668"/>
@@ -57,13 +57,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="REN-n4-wBT">
-                                        <rect key="frame" x="0.0" y="20.666666666666668" width="14" height="18.000000000000004"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ZT-fV-zNe">
-                                        <rect key="frame" x="0.0" y="40.666666666666671" width="14" height="18"/>
+                                        <rect key="frame" x="0.0" y="20.666666666666664" width="14" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -106,6 +100,11 @@
                             <constraint firstAttribute="trailing" secondItem="WMG-oE-lqt" secondAttribute="trailing" constant="8" id="uHV-eT-oJQ"/>
                             <constraint firstItem="H1m-1f-DHt" firstAttribute="bottom" secondItem="u3B-ek-5vW" secondAttribute="bottom" id="vJ0-Ta-5pb"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                <real key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <constraints>
@@ -125,7 +124,6 @@
                 <outlet property="foodTypeImageView" destination="H1m-1f-DHt" id="Aiv-jh-z1g"/>
                 <outlet property="insetBackground" destination="zuw-Nd-Rnx" id="8ex-ui-JW9"/>
                 <outlet property="plusButton" destination="WMG-oE-lqt" id="U9y-NM-bEP"/>
-                <outlet property="scoreLabel" destination="1ZT-fV-zNe" id="P8R-Fg-2f9"/>
             </connections>
             <point key="canvasLocation" x="-73" y="-202"/>
         </tableViewCell>

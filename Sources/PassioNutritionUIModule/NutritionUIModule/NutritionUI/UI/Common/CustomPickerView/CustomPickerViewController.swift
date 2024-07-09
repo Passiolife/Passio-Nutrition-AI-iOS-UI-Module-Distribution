@@ -78,6 +78,7 @@ extension CustomPickerViewController: UITableViewDataSource, UITableViewDelegate
         cell.pickerName.text = disableCapatlized ? title : title == "ml" ? title : title.capitalized
         cell.pickerImageView.image = element.image
         cell.pickerImageView.isHidden = element.image == nil
+        cell.pickerImageView.tintColor = .primaryColor
         return cell
     }
 

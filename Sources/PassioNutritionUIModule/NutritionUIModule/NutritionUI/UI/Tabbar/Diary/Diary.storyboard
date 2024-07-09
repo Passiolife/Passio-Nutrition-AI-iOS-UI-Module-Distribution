@@ -218,6 +218,11 @@
                                                             <constraint firstAttribute="width" constant="48" id="DPZ-Lf-ptB"/>
                                                             <constraint firstAttribute="height" constant="4" id="bsL-Fd-LMR"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="OVS-V8-1iL">
                                                         <rect key="frame" x="58.000000000000014" y="13.999999999999996" width="245.33333333333337" height="41.666666666666657"/>
@@ -289,7 +294,7 @@
     <resources>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
-        <image name="date_icon" width="20" height="20"/>
+        <image name="date_icon" width="24" height="24"/>
         <namedColor name="gray-200">
             <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

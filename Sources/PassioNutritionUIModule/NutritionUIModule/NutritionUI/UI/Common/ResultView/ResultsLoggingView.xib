@@ -91,18 +91,12 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="tiL-OE-hhM">
                                     <rect key="frame" x="0.0" y="215.66666666666669" width="361" height="29"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not what you’re looking for?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="stF-rv-Nsz">
-                                            <rect key="frame" x="0.0" y="0.0" width="223.66666666666666" height="29"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhE-s9-RDY">
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="29"/>
                                             <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
-                                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhE-s9-RDY">
-                                            <rect key="frame" x="228.66666666666663" y="0.0" width="132.33333333333337" height="29"/>
-                                            <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal" title="Search Manually">
-                                                <color key="titleColor" red="0.30980392159999998" green="0.27450980390000002" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <state key="normal" title="Not what you’re looking for? Search Manually">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
                                             <connections>
                                                 <action selector="onSearchManually:" destination="iN0-l3-epB" eventType="touchUpInside" id="9wf-2x-vQ8"/>
@@ -113,20 +107,14 @@
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="SdW-JF-a6q">
                                     <rect key="frame" x="0.0" y="268.66666666666669" width="361" height="50"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PBT-Fw-Jt6">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBT-Fw-Jt6">
                                             <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="50"/>
+                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
                                             <color key="tintColor" name="indigo-600"/>
                                             <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="-8" maxY="0.0"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal" image="mic.fill" catalog="system">
-                                                <attributedString key="attributedTitle">
-                                                    <fragment content="Try Again">
-                                                        <attributes>
-                                                            <color key="NSColor" name="indigo-600"/>
-                                                            <font key="NSFont" size="16" name="Inter-Medium"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
+                                            <state key="normal" title="Try Again" image="mic.fill" catalog="system">
+                                                <color key="titleColor" name="indigo-600"/>
                                             </state>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
@@ -143,22 +131,11 @@
                                                 <action selector="onTryAgain:" destination="iN0-l3-epB" eventType="touchUpInside" id="WBX-qG-msO"/>
                                             </connections>
                                         </button>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="szM-XN-zmb">
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szM-XN-zmb">
                                             <rect key="frame" x="180.66666666666666" y="0.0" width="0.0" height="50"/>
                                             <color key="tintColor" name="indigo-600"/>
-                                            <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="-8" maxY="0.0"/>
                                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal">
-                                                <attributedString key="attributedTitle">
-                                                    <fragment content="Cancel">
-                                                        <attributes>
-                                                            <color key="NSColor" red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <font key="NSFont" size="16" name="Inter-Medium"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                            </state>
+                                            <state key="normal" title="Cancel"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
                                                     <real key="value" value="4"/>
@@ -174,7 +151,7 @@
                                                 <action selector="onTryAgain:" destination="iN0-l3-epB" eventType="touchUpInside" id="n7a-9Z-ZdU"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqP-JW-STv">
+                                        <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqP-JW-STv">
                                             <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="50"/>
                                             <color key="backgroundColor" name="indigo-600"/>
                                             <constraints>
@@ -229,7 +206,7 @@
                 <outlet property="tableViewHeightConstraint" destination="Pex-x8-1wO" id="8ZI-YZ-Ywz"/>
                 <outlet property="tryAgainButton" destination="PBT-Fw-Jt6" id="Dyi-CM-ald"/>
             </connections>
-            <point key="canvasLocation" x="-42" y="-12"/>
+            <point key="canvasLocation" x="-196" y="-21"/>
         </view>
     </objects>
     <resources>

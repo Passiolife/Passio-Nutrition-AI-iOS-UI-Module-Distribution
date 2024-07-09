@@ -1,18 +1,8 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "icons@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "icons@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "threedots.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

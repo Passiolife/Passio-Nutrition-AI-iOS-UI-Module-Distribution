@@ -57,7 +57,7 @@ class EditSettingsViewController: UIViewController {
     }
 
     private func setupUI() {
-        [unitTextfield,heightUnitTextfield].forEach { textField in
+        [unitTextfield, heightUnitTextfield].forEach { textField in
             textField?.configureTextField()
             textField?.addImageInTextField(isLeftImg: false,
                                            image: UIImage(systemName: "chevron.down")?
@@ -75,12 +75,15 @@ class EditSettingsViewController: UIViewController {
                            shadowOpacity: 1)
         }
 
-        [reminderBreakfastSwitch,reminderDinnerSwitch,reminderLunchSwitch].forEach({
+        [reminderBreakfastSwitch, reminderDinnerSwitch, reminderLunchSwitch].forEach({
             $0?.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
         })
 
         title = "Settings"
         setupBackButton()
+        reminderBreakfastSwitch.onTintColor = .primaryColor
+        reminderLunchSwitch.onTintColor = .primaryColor
+        reminderDinnerSwitch.onTintColor = .primaryColor
     }
 
     private func setupProfile() {

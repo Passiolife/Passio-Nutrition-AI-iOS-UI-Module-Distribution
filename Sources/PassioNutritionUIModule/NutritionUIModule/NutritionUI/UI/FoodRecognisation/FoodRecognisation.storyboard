@@ -94,8 +94,9 @@
                                     <segue destination="G1a-Tp-o6k" kind="embed" id="0Lv-aa-hRr"/>
                                 </connections>
                             </containerView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="hDu-fn-wAi">
-                                <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="hDu-fn-wAi">
+                                <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                                <color key="color" name="indigo-600"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWt-si-RNn">
                                 <rect key="frame" x="337" y="71" width="40" height="40"/>
@@ -160,6 +161,7 @@
                         <outlet property="nutritionContentView" destination="8Pe-jm-fVd" id="pur-s1-fAg"/>
                         <outlet property="previewView" destination="LK3-IK-J1a" id="d3g-TG-3f7"/>
                         <outlet property="scanningView" destination="fRh-tC-Al6" id="e6r-wg-IEZ"/>
+                        <outlet property="zoomSlider" destination="TcB-od-pu9" id="y4g-Kv-vgl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -213,6 +215,11 @@
                                                             <constraint firstAttribute="width" constant="48" id="r1X-kW-PvF"/>
                                                             <constraint firstAttribute="height" constant="4" id="raJ-Lr-NPb"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pull tray up to see more options." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olJ-In-TMj">
                                                         <rect key="frame" x="79.000000000000014" y="20" width="203.33333333333337" height="15"/>
@@ -234,22 +241,16 @@
                                             <constraint firstAttribute="trailing" secondItem="Hkr-0h-Wjx" secondAttribute="trailing" id="sH3-4l-C2p"/>
                                         </constraints>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="-25" translatesAutoresizingMaskIntoConstraints="NO" id="aXv-CN-A9z">
-                                        <rect key="frame" x="16" y="339" width="361" height="29"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="-30" translatesAutoresizingMaskIntoConstraints="NO" id="aXv-CN-A9z">
+                                        <rect key="frame" x="16" y="335" width="361" height="29"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not what you’re looking for? " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CXi-0S-LWa">
-                                                <rect key="frame" x="0.0" y="0.0" width="251.33333333333334" height="29"/>
-                                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
-                                                <color key="textColor" name="gray-700"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9CI-X0-8i6">
-                                                <rect key="frame" x="226.33333333333337" y="0.0" width="134.66666666666663" height="29"/>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9CI-X0-8i6">
+                                                <rect key="frame" x="0.0" y="0.0" width="361" height="29"/>
                                                 <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
                                                 <color key="tintColor" name="indigo-600"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Search Manually">
-                                                    <color key="titleColor" name="indigo-600"/>
+                                                <state key="normal" title="Not what you’re looking for? Search Manually">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
                                                     <action selector="buttonSearchManuallyTapped:" destination="G1a-Tp-o6k" eventType="touchUpInside" id="2hG-xS-YvN"/>
@@ -361,14 +362,14 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="aXv-CN-A9z" firstAttribute="top" secondItem="OGI-Z8-AYL" secondAttribute="bottom" constant="16" id="6cC-Is-Abh"/>
+                                    <constraint firstItem="aXv-CN-A9z" firstAttribute="top" secondItem="OGI-Z8-AYL" secondAttribute="bottom" constant="12" id="6cC-Is-Abh"/>
                                     <constraint firstAttribute="bottom" secondItem="VM6-Le-GC4" secondAttribute="bottom" constant="20" id="88R-zS-kOg"/>
                                     <constraint firstAttribute="trailing" secondItem="DGH-Zq-hRN" secondAttribute="trailing" constant="16" id="9xS-xh-Lsu"/>
                                     <constraint firstItem="VM6-Le-GC4" firstAttribute="leading" secondItem="vbG-45-444" secondAttribute="leading" constant="16" id="VJ3-0D-ljV"/>
                                     <constraint firstAttribute="trailing" secondItem="aXv-CN-A9z" secondAttribute="trailing" constant="16" id="XqX-8e-Yit"/>
                                     <constraint firstItem="OGI-Z8-AYL" firstAttribute="top" secondItem="FSv-T8-b55" secondAttribute="bottom" constant="16" id="YrJ-fZ-fWY"/>
                                     <constraint firstItem="FSv-T8-b55" firstAttribute="leading" secondItem="vbG-45-444" secondAttribute="leading" constant="16" id="Z0u-jg-x42"/>
-                                    <constraint firstItem="VM6-Le-GC4" firstAttribute="top" secondItem="aXv-CN-A9z" secondAttribute="bottom" constant="8" id="Z6z-Rg-3Ga"/>
+                                    <constraint firstItem="VM6-Le-GC4" firstAttribute="top" secondItem="aXv-CN-A9z" secondAttribute="bottom" constant="12" id="Z6z-Rg-3Ga"/>
                                     <constraint firstAttribute="trailing" secondItem="OGI-Z8-AYL" secondAttribute="trailing" constant="16" id="aNg-lK-J9a"/>
                                     <constraint firstItem="DGH-Zq-hRN" firstAttribute="leading" secondItem="vbG-45-444" secondAttribute="leading" constant="16" id="cXm-UW-RIi"/>
                                     <constraint firstItem="FSv-T8-b55" firstAttribute="top" secondItem="DGH-Zq-hRN" secondAttribute="bottom" constant="16" id="iI2-WY-clD"/>
@@ -403,6 +404,7 @@
                         <outlet property="labelFoodName" destination="ZwY-iH-Twv" id="fkk-wA-AN8"/>
                         <outlet property="labelTrayInfo" destination="olJ-In-TMj" id="ame-Le-Zlv"/>
                         <outlet property="manualStackView" destination="aXv-CN-A9z" id="wOK-iW-3jH"/>
+                        <outlet property="searchManually" destination="9CI-X0-8i6" id="xxG-69-cch"/>
                         <outlet property="spinnerView" destination="q2P-5s-pd4" id="itD-W9-gnU"/>
                         <outlet property="tblViewAlternatives" destination="KVd-jr-Dwl" id="XIs-0z-JKu"/>
                         <outlet property="viewDragMain" destination="DGH-Zq-hRN" id="qXT-Ff-EAa"/>
@@ -1042,6 +1044,7 @@
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="barcode" translatesAutoresizingMaskIntoConstraints="NO" id="HQw-Vv-12J">
                                                                 <rect key="frame" x="16.666666666666686" y="0.0" width="32" height="32"/>
+                                                                <color key="tintColor" name="indigo-600"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="32" id="NG5-NM-LPY"/>
                                                                     <constraint firstAttribute="width" secondItem="HQw-Vv-12J" secondAttribute="height" id="y5k-Sx-UQd"/>
@@ -1110,6 +1113,9 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <connections>
+                        <outlet property="okButton" destination="FAx-hI-O74" id="BVf-dW-bbB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wCO-cL-yBC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1420,9 +1426,15 @@
                         <outlet property="barcodeStackVwBottomConstraint" destination="i8c-nI-2se" id="ZX8-L2-jLD"/>
                         <outlet property="barcodeSystemLabel" destination="ctv-VI-D81" id="Yqa-QG-oZM"/>
                         <outlet property="barcodeTextField" destination="L9g-JY-iSm" id="AZy-H1-8wS"/>
+                        <outlet property="cancelButton" destination="LQX-ko-xg7" id="BHw-o6-rYg"/>
+                        <outlet property="cancelSystemBarcodeButton" destination="ZTw-7b-RHC" id="jag-Hl-aEn"/>
+                        <outlet property="confirmBarcodeButton" destination="GC5-hU-d5y" id="6Is-mU-m1g"/>
+                        <outlet property="createCustomFoodAnywayButton" destination="LyU-KM-afR" id="wa0-op-OR1"/>
                         <outlet property="createCustomFoodButton" destination="LyU-KM-afR" id="T9F-ow-aSp"/>
                         <outlet property="previewView" destination="cIK-I0-eoT" id="t0q-XN-Rdr"/>
                         <outlet property="scanGuideView" destination="AFK-be-MHq" id="a0w-Sa-APo"/>
+                        <outlet property="viewExistingItemButton" destination="JT4-t4-def" id="P5R-8L-mqF"/>
+                        <outlet property="zoomSlider" destination="anq-wG-WtP" id="S1T-qc-uSA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NQb-Qv-Nkv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1432,12 +1444,12 @@
     </scenes>
     <resources>
         <image name="barcode" width="40" height="40"/>
-        <image name="barcode_detected" width="40" height="40"/>
+        <image name="barcode_detected" width="38" height="30"/>
         <image name="barcode_error" width="40" height="40"/>
-        <image name="drinks" width="40.333332061767578" height="40"/>
+        <image name="drinks" width="40" height="40"/>
         <image name="focus_off_icon" width="32" height="32"/>
         <image name="green-check" width="40" height="40"/>
-        <image name="nutritionFacts" width="40.333332061767578" height="40"/>
+        <image name="nutritionFacts" width="40" height="40"/>
         <image name="packageFoods" width="40" height="40"/>
         <image name="scan_frame" width="384" height="424"/>
         <image name="scope" catalog="system" width="128" height="124"/>

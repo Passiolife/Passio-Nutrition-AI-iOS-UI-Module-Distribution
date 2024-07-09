@@ -13,7 +13,6 @@ class MyFoodsSelectionViewController: InstantiableViewController {
     @IBOutlet weak var indicatorLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var indicatorWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var pageCollectionView: PageCollectionView!
-    @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var pageContainerView: UIView! {
         willSet {
             addChild(pageViewController)
@@ -54,6 +53,7 @@ class MyFoodsSelectionViewController: InstantiableViewController {
 
         indicatorLeadingConstraint.constant = 0
         indicatorWidthConstraint.constant = ScreenSize.width/2
+        indicatorView.backgroundColor = .primaryColor
     }
 }
 

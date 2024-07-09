@@ -1,18 +1,8 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "userRecipe@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "userRecipe@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "userRecipe.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

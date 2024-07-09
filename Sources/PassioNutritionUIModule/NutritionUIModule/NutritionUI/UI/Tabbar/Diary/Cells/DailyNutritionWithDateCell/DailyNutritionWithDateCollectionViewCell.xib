@@ -87,13 +87,14 @@
             </constraints>
             <size key="customSize" width="615" height="267"/>
             <connections>
+                <outlet property="nutritionIconImageView" destination="kdI-c1-RJz" id="jOu-Sl-TVD"/>
                 <outlet property="nutritionView" destination="vc6-d6-bB0" id="RSW-NE-i2o"/>
             </connections>
             <point key="canvasLocation" x="148.85496183206106" y="-46.83098591549296"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="nutrition_icon" width="20" height="20"/>
+        <image name="nutrition_icon" width="24" height="24"/>
         <namedColor name="gray-900">
             <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

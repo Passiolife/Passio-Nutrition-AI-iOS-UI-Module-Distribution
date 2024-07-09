@@ -18,6 +18,12 @@ protocol BarcodeRecogniserDelegate: AnyObject {
 
 final class BarcodeRecogniserViewController: UIViewController {
 
+    @IBOutlet weak var confirmBarcodeButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var createCustomFoodAnywayButton: UIButton!
+    @IBOutlet weak var viewExistingItemButton: UIButton!
+    @IBOutlet weak var cancelSystemBarcodeButton: UIButton!
+    @IBOutlet weak var zoomSlider: UISlider!
     @IBOutlet weak var createCustomFoodButton: UIButton!
     @IBOutlet weak var barcodeMatchesLabel: UILabel!
     @IBOutlet weak var barcodeSystemLabel: UILabel!
@@ -64,6 +70,15 @@ final class BarcodeRecogniserViewController: UIViewController {
                                                selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+
+        confirmBarcodeButton.backgroundColor = .primaryColor
+        cancelButton.setTitleColor(.primaryColor, for: .normal)
+        cancelButton.applyBorder(width: 2, color: .primaryColor)
+        createCustomFoodAnywayButton.backgroundColor = .primaryColor
+        viewExistingItemButton.backgroundColor = .primaryColor
+        cancelSystemBarcodeButton.setTitleColor(.primaryColor, for: .normal)
+        cancelSystemBarcodeButton.applyBorder(width: 2, color: .primaryColor)
+        zoomSlider.minimumTrackTintColor = .primaryColor
     }
 
     override func viewWillAppear(_ animated: Bool) {

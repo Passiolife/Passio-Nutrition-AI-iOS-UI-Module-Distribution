@@ -41,6 +41,6 @@ class VoiceLoggingCell: UITableViewCell {
         }
 
         checkImage.image = UIImage(systemName: foodLog.isSelected ? "circle.fill" : "circle")
-        checkImage.tintColor = foodLog.isSelected ? .indigo600 : .gray300
+        checkImage.tintColor = foodLog.isSelected ? .primaryColor : .gray300
     }
 }

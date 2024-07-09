@@ -252,10 +252,10 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="40"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZz-l7-8SL">
-                                        <rect key="frame" x="0.0" y="38" width="196.66666666666666" height="2"/>
+                                        <rect key="frame" x="0.0" y="37" width="196.66666666666666" height="3"/>
                                         <color key="backgroundColor" name="indigo-600"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="2" id="yHT-3K-mYC"/>
+                                            <constraint firstAttribute="height" constant="3" id="yHT-3K-mYC"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ho2-xU-FZ9">

@@ -28,6 +28,7 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
             self.showPhotos()
         }
         configureCollectionView()
+        activityIndicatorView.color = .primaryColor
     }
 
     override func viewWillDisappear(_ animated: Bool) {

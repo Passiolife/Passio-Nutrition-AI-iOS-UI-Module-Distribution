@@ -62,7 +62,7 @@ extension UITextField {
         let view = UIBarButtonItem.init(customView: okButton)
         kbToolBarView.items = [view]
         kbToolBarView.tintColor = .white
-        kbToolBarView.barTintColor = .indigo600
+        kbToolBarView.barTintColor = .primaryColor
         self.inputAccessoryView = kbToolBarView
     }
 

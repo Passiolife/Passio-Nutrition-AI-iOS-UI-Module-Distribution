@@ -11,7 +11,6 @@ import UIKit
 public struct Custom {
     public static let insetBackgroundRadius: CGFloat = 16.0
     public static let buttonCornerRadius: CGFloat = 8.0
-//    public static let useFirebase = false
 }
 
 // MARK: - UIColor

@@ -17,7 +17,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditRecipeViewController" customModule="PassioNutritionUIModule">
             <connections>
+                <outlet property="cancelButton" destination="Urp-i6-naC" id="MQj-7r-Tt8"/>
                 <outlet property="editRecipeTableView" destination="N9d-x3-Vi1" id="BT5-8m-rQf"/>
+                <outlet property="saveButton" destination="koa-3P-1in" id="xcq-Ev-CRW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

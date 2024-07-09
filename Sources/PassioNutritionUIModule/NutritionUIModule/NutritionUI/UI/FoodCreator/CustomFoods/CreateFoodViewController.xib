@@ -18,7 +18,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateFoodViewController" customModule="PassioNutritionUIModule">
             <connections>
                 <outlet property="activityIndicatorView" destination="yfu-QF-uXA" id="2ON-EU-ify"/>
+                <outlet property="cancelButton" destination="jer-F5-ybw" id="35a-as-8D8"/>
                 <outlet property="createFoodTableView" destination="9td-EA-rKm" id="7zY-3S-hCH"/>
+                <outlet property="saveButton" destination="4Rh-Sw-140" id="cxE-VB-z5l"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

@@ -17,7 +17,6 @@ class AdvancedTextSearchCell: UITableViewCell {
     @IBOutlet weak var foodTypeImageView: UIImageView!
     @IBOutlet weak var foodNameLabel: UILabel!
     @IBOutlet weak var brandNameLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var insetBackground: UIView!
     @IBOutlet weak var plusButton: UIButton!
@@ -28,13 +27,33 @@ class AdvancedTextSearchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        foodNameLabel.font = .inter(type: .semiBold, size: 14)
+        foodNameLabel.textColor = .gray900
+        brandNameLabel.font = .inter(type: .regular, size: 14)
+        brandNameLabel.textColor = .gray500
         insetBackground.roundMyCornerWith(radius: 8)
         foodImgView.roundMyCorner()
         insetBackground.dropShadow(radius: 8,
-                                   offset: .init(width: 0, height: 1),
-                                   color: .black.withAlphaComponent(0.10),
-                                   shadowRadius: 3,
-                                   shadowOpacity: 1)
+                              offset: CGSize(width: 0, height: 1),
+                              color: .black.withAlphaComponent(0.06),
+                              shadowRadius: 2,
+                              shadowOpacity: 1)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        DispatchQueue.main.async { [self] in
+            insetBackground.layer.shadowPath = UIBezierPath(roundedRect: insetBackground.bounds,
+                                                            cornerRadius: 8).cgPath
+        }
+    }
+
+    override func prepareForReuse() {
+        foodNameLabel.isHidden = false
+        brandNameLabel.isHidden = false
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
     }
 
     @IBAction func onQuickAddFood(_ sender: UIButton) {
@@ -44,10 +63,10 @@ class AdvancedTextSearchCell: UITableViewCell {
     func setup(state: AdvancedTextSearchView.SearchState) {
 
         brandNameLabel.isHidden = true
-        scoreLabel.isHidden = true
         foodTypeImageView.image = nil
 
         foodImgView.image = state.image
+        foodImgView.tintColor = .primaryColor
         foodNameLabel.text = state.message
 
         if state == .searching {
@@ -73,7 +92,6 @@ class AdvancedTextSearchCell: UITableViewCell {
 
         foodNameLabel.text = foodResult.foodName.capitalized
         brandNameLabel.text = foodResult.brandName.capitalized
-        scoreLabel.isHidden = true
         plusButton.isHidden = false
     }
 
@@ -99,15 +117,6 @@ class AdvancedTextSearchCell: UITableViewCell {
 
         foodNameLabel.text = foodRecord.name
         brandNameLabel.text = foodRecord.details
-        scoreLabel.isHidden = true
         plusButton.isHidden = false
-    }
-
-    override func prepareForReuse() {
-        foodNameLabel.isHidden = false
-        brandNameLabel.isHidden = false
-        scoreLabel.isHidden = true
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
     }
 }

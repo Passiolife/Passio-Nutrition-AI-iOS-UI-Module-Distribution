@@ -168,36 +168,10 @@ class FoodEditorView: UIView {
     @objc func addToFavorites() {
         guard let foodRecord = foodRecord else { return }
         var favorite = foodRecord
-        let alertFavorite = UIAlertController(title: "Name your favorite".localized,
-                                              message: nil, preferredStyle: .alert)
-        alertFavorite.addTextField { (textField) in
-            textField.placeholder = "My " + favorite.name.capitalizingFirst()
-            textField.clearButtonMode = .always
-        }
-        let save = UIAlertAction(title: "Save".localized, style: .default) { (_) in
-            let firstTextFied = alertFavorite.textFields![0] as UITextField
-
-            // favorite.isFavorite = true
-            if self.isEditingFavorite {
-                favorite.uuid = UUID().uuidString
-            }
-            favorite.createdAt = Date()
-            if let text = firstTextFied.text, !text.isEmpty {
-                favorite.name = text
-            } else {
-                favorite.name = "My " + favorite.name
-            }
-
-            //if self.saveToConnector {
-            self.connector.updateFavorite(foodRecord: favorite)
-            //}
-            self.delegate?.addFoodFavorites(foodRecord: favorite)
-            self.tableView.reloadData()
-        }
-        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel)
-        alertFavorite.addAction(save)
-        alertFavorite.addAction(cancel)
-        self.findViewController()?.present(alertFavorite, animated: true)
+        favorite.name = foodRecord.name.capitalized
+        connector.updateFavorite(foodRecord: favorite)
+        delegate?.addFoodFavorites(foodRecord: favorite)
+        tableView.reloadData()
     }
 
     @objc private func showNutritionInformation() {
@@ -425,7 +399,7 @@ extension FoodEditorView: UITextFieldDelegate {
         bottonOk.tag = textField.tag
         kbToolBarView.items = [kbSpacer, bottonOk, kbSpacer]
         kbToolBarView.tintColor = .white
-        kbToolBarView.barTintColor = .indigo600
+        kbToolBarView.barTintColor = .primaryColor
         textField.inputAccessoryView = kbToolBarView
         return true
     }

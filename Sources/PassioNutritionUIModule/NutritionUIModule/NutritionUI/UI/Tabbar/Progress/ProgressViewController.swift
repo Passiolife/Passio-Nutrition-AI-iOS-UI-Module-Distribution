@@ -41,6 +41,7 @@ class ProgressViewController: UIViewController {
         }
         macrosButton.isSelected = true
         microButton.isSelected = false
+        macrosButton.titleLabel?.font = .inter(type: .semiBold, size: 20)
         progressSelectionView.backgroundColor = .navigationColor
         segmentUnderlineView.backgroundColor = .primaryColor
     }

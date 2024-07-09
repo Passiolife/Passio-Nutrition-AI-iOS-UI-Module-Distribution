@@ -15,11 +15,13 @@ class PageCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        backgroundColor = .navigationColor
+        bgView.backgroundColor = .navigationColor
     }
 
     func configure(title: String, isSelected: Bool) {
         titleLabel.text = title
         titleLabel.font = isSelected ? .inter(type: .semiBold, size: 20) : .inter(type: .regular, size: 20)
-        titleLabel.textColor = isSelected ? .indigo600 : .gray900
+        titleLabel.textColor = isSelected ? .primaryColor : .gray900
     }
 }

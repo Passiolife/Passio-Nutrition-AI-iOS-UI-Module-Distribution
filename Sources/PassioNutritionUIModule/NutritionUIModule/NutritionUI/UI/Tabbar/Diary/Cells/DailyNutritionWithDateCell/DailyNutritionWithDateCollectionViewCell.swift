@@ -10,6 +10,7 @@ import UIKit
 
 class DailyNutritionWithDateCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var nutritionIconImageView: UIImageView!
     @IBOutlet weak var nutritionView: DailyNutritionView!
         
     var nutritionData: NutritionDataModal? {
@@ -17,5 +18,11 @@ class DailyNutritionWithDateCollectionViewCell: UICollectionViewCell {
             guard let data = nutritionData else { return }
             self.nutritionView.setup(data: data)
         }
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        nutritionIconImageView.tintColor = .primaryColor
     }
 }

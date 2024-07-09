@@ -37,6 +37,7 @@ class PageCollectionView: UICollectionView {
         register(nibName: "PageCollectionViewCell")
         dataSource = self
         delegate = self
+        backgroundColor = .navigationColor
     }
 }
 

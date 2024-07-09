@@ -16,6 +16,8 @@ class AlternateNamesSearchCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        labelFoodName.font = .inter(type: .semiBold, size: 12)
+        labelFoodName.textColor = .gray900
         viewBackground.roundMyCornerWith(radius: 8)
         viewBackground.dropShadow(radius: 8,
                                   offset: CGSize(width: 0, height: 1),
@@ -27,7 +29,9 @@ class AlternateNamesSearchCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        viewBackground.layer.shadowPath = UIBezierPath(roundedRect: viewBackground.bounds,
-                                                        cornerRadius: 8).cgPath
+        DispatchQueue.main.async { [self] in
+            viewBackground.layer.shadowPath = UIBezierPath(roundedRect: viewBackground.bounds,
+                                                           cornerRadius: 8).cgPath
+        }
     }
 }

@@ -30,6 +30,7 @@ final class AdvancedTextSearchView: UIView {
 
     private var searchTimer: Timer?
     private var previousSearch = ""
+    private var isFirstTime = true
 
     var isCreateRecipe = false
     weak var delegate: AdvancedTextSearchViewDelegate?
@@ -89,17 +90,20 @@ final class AdvancedTextSearchView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        configureTableView()
-        configureSearchBar()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)),
                                                name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
-        NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if isFirstTime {
+            isFirstTime = false
+            configureTableView()
+            configureSearchBar()
+        }
     }
 }
 
@@ -110,39 +114,37 @@ private extension AdvancedTextSearchView {
         searchTableView.delegate = self
         searchTableView.dataSource = self
         searchTableView.rowHeight = UITableView.automaticDimension
-        searchTableView.register(nibName: "AdvancedTextSearchCell")
-        searchTableView.register(nibName: "AlternateNamesCollCell")
-        searchTableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 50, right: 0)
+        searchTableView.register(nibName: AdvancedTextSearchCell.className)
+        searchTableView.register(nibName: AlternateNamesCollCell.className)
+        searchTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
     }
 
     func configureSearchBar() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.sizeToFit()
         searchController.searchBar.placeholder = "Type in food name".localized
         searchController.searchBar.delegate = self
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-            self.searchController.searchBar.becomeFirstResponder()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
+            searchController.searchBar.becomeFirstResponder()
         }
-
         let titleAttribures = [NSAttributedString.Key.foregroundColor: UIColor.black]
         UIBarButtonItem.appearance(whenContainedInInstancesOf:
                                     [UISearchBar.self]).setTitleTextAttributes(titleAttribures,
                                                                                for: .normal)
         searchController.searchBar.searchTextField.font = UIFont.inter(type: .regular, size: 14)
         searchController.searchBar.searchTextField.textColor = .black
-        searchController.searchBar.searchTextField.leftView?.tintColor = .indigo600
+        searchController.searchBar.searchTextField.leftView?.tintColor = .primaryColor
         searchController.searchBar.searchTextField.rightView?.tintColor = .gray400
         searchController.searchBar.searchTextField.backgroundColor = .white
         searchController.searchBar.keyboardAppearance = .dark
         searchController.searchBar.backgroundImage = UIImage()
-        let searchbar = searchController.searchBar
-        searchbar.frame = searchView.bounds
-        searchView.addSubview(searchbar)
+        searchController.searchBar.tintColor = .primaryColor
+        configureSearchBarTextField()
+        searchView.addSubview(searchController.searchBar)
     }
 
     func isSearchBarEmpty() -> Bool {
-        return searchController.searchBar.text?.isEmpty ?? true
+        searchController.searchBar.text?.isEmpty ?? true
     }
 
     func performSearch(term: String) {
@@ -486,7 +488,7 @@ extension AdvancedTextSearchView: UICollectionViewDataSource, UICollectionViewDe
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         let foodName = alternateSearches?.alternateNames[safe: indexPath.item] ?? ""
         let sizeForText = foodName.getFixedTwoLineStringWidth()
-        return CGSize(width: 80.0 + sizeForText, height: 60)
+        return CGSize(width: 80.0 + sizeForText, height: 48)
     }
 }
 

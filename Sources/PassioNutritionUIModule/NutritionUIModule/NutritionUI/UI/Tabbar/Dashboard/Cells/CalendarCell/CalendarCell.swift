@@ -15,6 +15,7 @@ protocol CalendarCellLogsDelegate: AnyObject {
 
 final class CalendarCell: UITableViewCell {
 
+    @IBOutlet weak var adherenceIconImageView: UIImageView!
     @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var nextDateButton: UIButton!
     @IBOutlet weak var calendarActivityIndicator: UIActivityIndicatorView!
@@ -45,6 +46,7 @@ final class CalendarCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        adherenceIconImageView.tintColor = .primaryColor
         calendarView.scope = .week
         shadowView.dropShadow(radius: 8,
                               offset: CGSize(width: 0, height: 1),
@@ -186,7 +188,7 @@ extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
                   appearance: FSCalendarAppearance,
                   fillDefaultColorFor date: Date) -> UIColor? {
         if let sd = selectedDate, sd.isSameDayAs(date) {
-            return .indigo600
+            return .primaryColor
         }
         if loggedRecordsDates.contains(dateFormatter.string(from: date)) {
             return .green100
@@ -200,7 +202,7 @@ extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     func calendar(_ calendar: FSCalendar,
                   appearance: FSCalendarAppearance,
                   borderDefaultColorFor date: Date) -> UIColor? {
-        return date.isToday ? .indigo600 : .clear
+        return date.isToday ? .primaryColor : .clear
     }
 
     func calendar(_ calendar: FSCalendar,

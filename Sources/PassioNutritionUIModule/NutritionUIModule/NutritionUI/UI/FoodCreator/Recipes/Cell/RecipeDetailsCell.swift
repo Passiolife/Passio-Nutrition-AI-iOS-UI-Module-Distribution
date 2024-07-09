@@ -9,6 +9,7 @@ import UIKit
 
 class RecipeDetailsCell: UITableViewCell {
 
+    @IBOutlet weak var editImageLabel: UILabel!
     @IBOutlet weak var backgroundShadowView: UIView!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var recipeNameTextField: UITextField!
@@ -24,6 +25,11 @@ class RecipeDetailsCell: UITableViewCell {
                                         color: .black.withAlphaComponent(0.06),
                                         shadowRadius: 2,
                                         shadowOpacity: 1)
+        let str = "Edit Image".toMutableAttributedString
+        str.apply(attribute: [.foregroundColor: UIColor.primaryColor,
+                              .underlineColor: UIColor.primaryColor,
+                              .underlineStyle: NSUnderlineStyle.single.rawValue], subString: "Edit Image")
+        editImageLabel.attributedText = str
     }
 
     override func layoutSubviews() {

@@ -22,6 +22,7 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     @IBOutlet weak var captureButton: UIButton!
     @IBOutlet weak var activityView: UIView!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var imageCollectionView: UICollectionView!
     
     private let cellId = "ThumbnailImageCollectionCell"
@@ -59,6 +60,10 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
         nextButton.enableDisableButton(with: .transitionCrossDissolve,
                                        duration: 0.17,
                                        isEnabled: thumbnailImages.count == 0 ? false : true)
+        activityIndicatorView.color = .primaryColor
+        nextButton.backgroundColor = .primaryColor
+        cancelButton.applyBorder(width: 2, color: .primaryColor)
+        cancelButton.setTitleColor(.primaryColor, for: .normal)
     }
 
     override func viewWillDisappear(_ animated: Bool) {

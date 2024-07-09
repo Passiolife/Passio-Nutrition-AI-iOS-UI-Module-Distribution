@@ -16,7 +16,7 @@ final class EditProfileViewController: UIViewController {
     @IBOutlet private weak var profileTableView: UITableView!
     @IBOutlet weak var saveButton: UIButton!
 
-    private let hemburgarMenuOptions : [HemburgarMenuOptions] = [.tutorials, .settings]
+    private let hemburgarMenuOptions : [HemburgarMenuOptions] = [.settings]
     private let connector = PassioInternalConnector.shared
     private let chevFrame = CGRect(x: 0, y: 0, width: 15, height: 8)
     private var userProfile: UserProfileModel!
@@ -109,6 +109,7 @@ extension EditProfileViewController {
         CellsProfile.allCases.forEach {
             profileTableView.register(nibName: $0.rawValue)
         }
+        saveButton.backgroundColor = .primaryColor
     }
 
     @IBAction func onSaveChanges(_ sender: UIButton) {

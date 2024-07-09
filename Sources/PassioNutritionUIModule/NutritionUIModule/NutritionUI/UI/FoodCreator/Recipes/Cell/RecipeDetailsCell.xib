@@ -137,6 +137,7 @@
             <viewLayoutGuide key="safeArea" id="Iii-Wj-chS"/>
             <connections>
                 <outlet property="backgroundShadowView" destination="2mC-TO-6a0" id="mxG-eS-hfw"/>
+                <outlet property="editImageLabel" destination="cUm-Gg-OEh" id="nA6-RD-ZXA"/>
                 <outlet property="recipeImageView" destination="6Rr-ih-iLU" id="Pau-L8-F7O"/>
                 <outlet property="recipeNameTextField" destination="LZG-9T-WqG" id="BHy-eY-A9M"/>
             </connections>

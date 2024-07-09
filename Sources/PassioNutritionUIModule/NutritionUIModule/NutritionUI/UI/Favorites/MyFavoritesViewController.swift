@@ -149,7 +149,7 @@ extension MyFavoritesViewController: UITableViewDelegate {
             editVC.delegateDelete = self
             self.navigationController?.pushViewController(editVC, animated: true)
         }
-        editItem.backgroundColor = .indigo600
+        editItem.backgroundColor = .primaryColor
 
         let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) {  (_, _, _) in
             let favorite = self.favorites.remove(at: indexPath.row)

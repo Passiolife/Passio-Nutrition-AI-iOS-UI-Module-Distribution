@@ -17,6 +17,7 @@ final class TextSearchViewController: InstantiableViewController {
 
     var dismmissToMyLog = false
     var isCreateRecipe = false
+    private var isFirstTime = true
 
     weak var advancedSearchDelegate: AdvancedTextSearchViewDelegate?
 
@@ -24,16 +25,20 @@ final class TextSearchViewController: InstantiableViewController {
         super.viewWillAppear(animated)
 
         let nib = UINib.nibFromBundle(nibName: "AdvancedTextSearchView")
-        advancedTextSearchView = nib.instantiate(withOwner: self, options: nil).first as? AdvancedTextSearchView
+        advancedTextSearchView = nib.instantiate(withOwner: self,
+                                                 options: nil).first as? AdvancedTextSearchView
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        advancedTextSearchView.delegate = self
-        advancedTextSearchView.frame = view.bounds
-        advancedTextSearchView.isCreateRecipe = isCreateRecipe
-        view.addSubview(advancedTextSearchView)
+        if isFirstTime {
+            isFirstTime = false
+            advancedTextSearchView.delegate = self
+            advancedTextSearchView.frame = view.bounds
+            advancedTextSearchView.isCreateRecipe = isCreateRecipe
+            view.addSubview(advancedTextSearchView)
+        }
     }
 }
 

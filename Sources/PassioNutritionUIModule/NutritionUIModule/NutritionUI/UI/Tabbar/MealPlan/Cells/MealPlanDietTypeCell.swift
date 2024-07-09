@@ -18,6 +18,7 @@ protocol MealPlanDietSelectionDelegate: AnyObject {
 
 class MealPlanDietTypeCell: UICollectionViewCell {
 
+    @IBOutlet weak var dietImageView: UIImageView!
     @IBOutlet weak var mealPlanNameLabel: UILabel!
     @IBOutlet weak var stackView: UIStackView!
 
@@ -38,6 +39,7 @@ class MealPlanDietTypeCell: UICollectionViewCell {
         super.awakeFromNib()
 
         setupStackView()
+        dietImageView.tintColor = .primaryColor
     }
 
     func setupStackView() {
@@ -68,7 +70,7 @@ class MealPlanDietTypeCell: UICollectionViewCell {
         })?.constant = CGFloat(((buttonWidth + buttonGap) * buttonCount) - buttonGap)
     }
 
-    @IBAction func mealPlanSelectionTapped(_ sender: UIButton){
+    @IBAction func mealPlanSelectionTapped(_ sender: UIButton) {
         delegate?.mealPlanSelectionTapped(sender)
     }
 

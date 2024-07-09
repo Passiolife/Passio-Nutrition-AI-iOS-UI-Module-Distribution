@@ -12,7 +12,6 @@ protocol PlusMenuDelegate: AnyObject {
     func onScanSelected()
     func onSearchSelected()
     func onFavouritesSelected()
-    func onRecipesSelected()
     func onMyFoodsSelected()
     func onVoiceLoggingSelected()
     func takePhotosSelected()
@@ -28,7 +27,6 @@ final class PlusMenuViewController: InstantiableViewController {
 
     enum Rows: String {
 
-        case recipe
         case favourite
         case search
         case scan
@@ -40,10 +38,9 @@ final class PlusMenuViewController: InstantiableViewController {
 
         var image: UIImage? {
             switch self {
-            case .recipe: UIImage.imageFromBundle(named: "Recipes")
-            case .favourite: UIImage.imageFromBundle(named: "Heart")
-            case .search: UIImage.imageFromBundle(named: "Search")
-            case .scan: UIImage.imageFromBundle(named: "Scan")
+            case .favourite: UIImage.imageFromBundle(named: "favorites")
+            case .search: UIImage.imageFromBundle(named: "search")
+            case .scan: UIImage.imageFromBundle(named: "foodScanner")
             case .myFoods: UIImage.imageFromBundle(named: "myFoods")
             case .voiceLogging: UIImage.imageFromBundle(named: "voiceLogging")
             case .takePhotos: UIImage.imageFromBundle(named: "takePhotos")
@@ -54,7 +51,6 @@ final class PlusMenuViewController: InstantiableViewController {
 
         var title: String? {
             switch self {
-            case .recipe: Localized.recipes
             case .favourite: Localized.favorites
             case .search: Localized.textSearch
             case .scan: Localized.foodScan
@@ -66,7 +62,6 @@ final class PlusMenuViewController: InstantiableViewController {
             }
         }
     }
-
 
     private let allRows: [Rows] = [.myFoods,
                                    .favourite,
@@ -151,6 +146,7 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueCell(cellClass: PlusMenuCell.self, forIndexPath: indexPath)
         let menu = menuData[indexPath.row]
         cell.menuImageView.image = menu.image
+        cell.menuImageView.tintColor = .primaryColor
         cell.menuNameLabel.text = menu.title
         return cell
     }
@@ -164,8 +160,6 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         switch menu {
         case .favourite:
             delegate?.onFavouritesSelected()
-        case .recipe:
-            delegate?.onRecipesSelected()
         case .scan:
             delegate?.onScanSelected()
         case .search:

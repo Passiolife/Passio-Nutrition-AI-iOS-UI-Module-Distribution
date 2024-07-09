@@ -17,6 +17,8 @@ protocol FoodDataSetCellDelegate: AnyObject {
 
 final class CreateFoodViewController: InstantiableViewController {
 
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var createFoodTableView: UITableView!
 
@@ -45,6 +47,9 @@ final class CreateFoodViewController: InstantiableViewController {
         super.viewDidLoad()
 
         title = "Food Creator"
+        cancelButton.setTitleColor(.primaryColor, for: .normal)
+        cancelButton.applyBorder(width: 2, color: .primaryColor)
+        saveButton.backgroundColor = .primaryColor
         setupBackButton()
         configureTableView()
     }

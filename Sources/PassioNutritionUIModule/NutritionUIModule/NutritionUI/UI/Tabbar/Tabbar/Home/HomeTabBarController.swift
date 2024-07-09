@@ -13,17 +13,15 @@ import PassioNutritionAISDK
 enum HemburgarMenuOptions: String {
 
     case profile = "My Profile"
-    case tutorials = "Tutorials"
     case settings = "Settings"
     case logout = "Log out"
 
     private var image: UIImage? {
         let name: String = {
             switch self {
-            case .profile: return "user_profile"
-            case .tutorials: return "Tutorials"
+            case .profile: return "userProfile"
             case .settings: return "settings"
-            case .logout  : return "logout"
+            case .logout  : return "logOut"
             }
         }()
         return UIImage.imageFromBundle(named: name)
@@ -56,7 +54,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
                 switch self {
                 case .home: return "Home"
                 case .diary: return "Book open"
-                case .mealPlan: return "meal plan"
+                case .mealPlan: return "diet"
                 case .progress  : return "Chart pie"
                 }
             }()

@@ -26,7 +26,7 @@ class IngredientEditorView: UIView {
 
     let passioSDK = PassioNutritionAI.shared
     let connector = PassioInternalConnector.shared
-
+    var cachedMaxForSlider = [Int: [String: Float]]()
     var indexOfIngredient = 0
 
     var foodRecordIngredient: FoodRecordIngredient? {
@@ -38,35 +38,25 @@ class IngredientEditorView: UIView {
             })
         }
     }
-
     var alternatives: [PassioAlternative]? {
-        // TODO: Fix PassioAlternative
-//        guard let foodItemData = foodItemData else {
-//            return nil
-//        }
-//        let tempAlternatives = (foodItemData.parents ?? []) +
-//        (foodItemData.children ?? []) +
-//        (foodItemData.siblings ?? [])
-//
-//        return tempAlternatives.isEmpty ? nil : tempAlternatives
         return nil
     }
 
     weak var delegate: IngredientEditorViewDelegate?
 
-    var cachedMaxForSlider = [Int: [String: Float]]()
-
-//    var userProfile = UserProfileModel()
-
     override func awakeFromNib() {
         super.awakeFromNib()
+
         tableView.dataSource = self
         tableView.allowsSelection = true
         CellNameFoodEditor.allCases.forEach {
             tableView.register(nibName: $0.rawValue.capitalizingFirst())
         }
         buttonCancel.setTitle( "Cancel", for: .normal)
+        buttonCancel.setTitleColor(.primaryColor, for: .normal)
+        buttonCancel.applyBorder(width: 2, color: .primaryColor)
         buttonSave.setTitle( "Save", for: .normal)
+        buttonSave.backgroundColor = .primaryColor
         buttonCancel.roundMyCornerWith(radius: Custom.buttonCornerRadius)
         buttonSave.roundMyCornerWith(radius: Custom.buttonCornerRadius)
     }
@@ -104,15 +94,11 @@ class IngredientEditorView: UIView {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension IngredientEditorView: UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView, 
-                   numberOfRowsInSection section: Int) -> Int {
-//        guard // let alternatives = alternatives,
-//            let _ =  foodRecordIngredient else {
-//            return 0
-//        }
-        return 2
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        2
     }
 
     func tableView(_ tableView: UITableView, 

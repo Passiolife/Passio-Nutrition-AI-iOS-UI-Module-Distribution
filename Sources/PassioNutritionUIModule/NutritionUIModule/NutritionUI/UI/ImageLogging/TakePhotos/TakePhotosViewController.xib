@@ -18,6 +18,7 @@
             <connections>
                 <outlet property="activityIndicatorView" destination="1Ev-wq-zMF" id="IGl-fc-0YW"/>
                 <outlet property="activityView" destination="Axl-vp-FFf" id="HPw-37-QqO"/>
+                <outlet property="cancelButton" destination="Cax-nm-UDu" id="Lwz-9s-7YB"/>
                 <outlet property="captureButton" destination="5kM-7K-XUz" id="AY7-oC-RNs"/>
                 <outlet property="imageCollectionView" destination="dqo-py-PGq" id="mpC-Cy-yX5"/>
                 <outlet property="messageLabel" destination="lkg-YV-VvV" id="vtO-FX-8AF"/>

@@ -35,7 +35,8 @@ class DetectedFoodResultView: CustomModalViewController {
     @IBOutlet weak var manualStackView : UIStackView!
     @IBOutlet weak var buttonEdit      : UIButton!
     @IBOutlet weak var buttonLog       : UIButton!
-    
+    @IBOutlet weak var searchManually: UIButton!
+
     private let passioSDK = PassioNutritionAI.shared
     private let connector = PassioInternalConnector.shared
 
@@ -55,6 +56,13 @@ class DetectedFoodResultView: CustomModalViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        buttonLog.backgroundColor = .primaryColor
+        buttonEdit.setTitleColor(.primaryColor, for: .normal)
+        let str = "Not what you’re looking for? Search Manually".toMutableAttributedString
+        str.apply(attribute: [.foregroundColor: UIColor.primaryColor], subString: "Search Manually")
+        searchManually.setAttributedTitle(str, for: .normal)
+        buttonEdit.applyBorder(width: 2, color: .primaryColor)
         registerNib()
         addTapGesture()
         imageFoodIcon.roundMyCorner()
@@ -77,7 +85,6 @@ class DetectedFoodResultView: CustomModalViewController {
 
         viewDragMain.isHidden = !isDraggable
         shouldShowMiniOnly = !isDraggable
-        // manualStackView.isHidden = !isDraggable
     }
 
     private func addTapGesture() {
@@ -119,7 +126,7 @@ class DetectedFoodResultView: CustomModalViewController {
 
     private func showLoadingView() {
         spinnerView.stop()
-        spinnerView.spin(color: .indigo600, lineWidth: 5)
+        spinnerView.spin(color: .primaryColor, lineWidth: 5)
         labelFoodName.text = "Scanning..."
         labelFoodDetails.text = "Place your food within the frame."
         labelFoodDetails.isHidden = false

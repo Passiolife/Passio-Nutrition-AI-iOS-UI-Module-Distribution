@@ -10,7 +10,14 @@ import UIKit
 
 class ScanningHintViewController: UIViewController {
 
+    @IBOutlet weak var okButton: UIButton!
     var didDismissed: (() -> Void)?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        okButton.backgroundColor = .primaryColor
+    }
 
     class func presentHint(presentigVC: UIViewController?, didDismissed: (() -> Void)?) {
 
@@ -25,7 +32,7 @@ class ScanningHintViewController: UIViewController {
     }
 
     @IBAction func onClickOkay() {
-        self.dismiss(animated: true) { [weak self] () in
+        dismiss(animated: true) { [weak self] () in
             self?.didDismissed?()
         }
     }
