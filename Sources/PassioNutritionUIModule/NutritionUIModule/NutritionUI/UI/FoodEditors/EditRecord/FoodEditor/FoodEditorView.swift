@@ -192,9 +192,6 @@ class FoodEditorView: UIView {
                 connector.deleteRecord(foodRecord: record)
                 record.createdAt = editedTimestamp ?? record.createdAt
             }
-            if record.entityType == .recipe {
-                connector.updateUserFood(record: record, isNew: true)
-            }
             connector.updateRecord(foodRecord: record, isNew: true)
         }
         delegate?.addFoodToLog(foodRecord: record, removeViews: true)
@@ -356,9 +353,6 @@ extension FoodEditorView: UITableViewDelegate {
         if indexPath.row == rowsBeforeIngrediants {
             addIngredients()
         } else if indexPath.row > rowsBeforeIngrediants, let foodRecord = foodRecord {
-            // let openFood = foodRecord.isOpenFood ? 1 : 0
-            // let index = indexPath.row - rowsBeforeIngrediants - 1 - openFood
-            // Fixed: Crash Due to -1 index (No need to check for open food, we're not showing open food msg now)
             let index = indexPath.row - rowsBeforeIngrediants - 1
             guard foodRecord.ingredients.count > index, index >= 0  else { return }
             let foodItem = foodRecord.ingredients[index]
@@ -388,6 +382,7 @@ extension FoodEditorView: UITableViewDelegate {
     }
 }
 
+// MARK: - UITextField Delegate
 extension FoodEditorView: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -468,10 +463,7 @@ extension FoodEditorView {
                                                        for: indexPath) as? IngredientAddTableViewCell else {
             return UITableViewCell()
         }
-        cell.titleLabel.text = "Add Ingredient  " // "Add ingredients to create a recipe".localized
         cell.buttonAddIngredients.addTarget(self, action: #selector(addIngredients), for: .touchUpInside)
-        cell.insetBackground.roundMyCornerWith(radius: Custom.insetBackgroundRadius)
-        cell.selectionStyle = .none
         return cell
     }
 
@@ -496,8 +488,8 @@ extension FoodEditorView {
         }
 
         let ingredient = foodRecord.ingredients[indexForIngredient]
-        cell.setup(ingredient: ingredient)
-        self.tag = indexPath.row
+        cell.setup(ingredient: ingredient,
+                   isLastCell: foodRecord.ingredients.count == indexForIngredient + 1)
         return cell
     }
 

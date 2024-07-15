@@ -9,14 +9,30 @@ import UIKit
 
 class RecipeDetailsCell: UITableViewCell {
 
+    @IBOutlet weak var recipeImageButton: UIButton!
     @IBOutlet weak var editImageLabel: UILabel!
     @IBOutlet weak var backgroundShadowView: UIView!
     @IBOutlet weak var recipeImageView: UIImageView!
     @IBOutlet weak var recipeNameTextField: UITextField!
-    
+
+    var onCreateFoodImage: ((UIImagePickerController.SourceType) -> Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        configureUI()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        backgroundShadowView.layer.shadowPath = UIBezierPath(roundedRect: backgroundShadowView.bounds,
+                                                             cornerRadius: 8).cgPath
+    }
+
+    private func configureUI() {
+
+        recipeNameTextField.delegate = self
         recipeNameTextField.configureTextField(leftPadding: 13,
                                                radius: 6,
                                                borderColor: .gray300)
@@ -28,22 +44,54 @@ class RecipeDetailsCell: UITableViewCell {
         let str = "Edit Image".toMutableAttributedString
         str.apply(attribute: [.foregroundColor: UIColor.primaryColor,
                               .underlineColor: UIColor.primaryColor,
-                              .underlineStyle: NSUnderlineStyle.single.rawValue], subString: "Edit Image")
+                              .underlineStyle: NSUnderlineStyle.single.rawValue],
+                  subString: "Edit Image")
         editImageLabel.attributedText = str
+        configureImageViewWithMenu()
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    private func configureImageViewWithMenu() {
 
-        backgroundShadowView.layer.shadowPath = UIBezierPath(roundedRect: backgroundShadowView.bounds,
-                                                             cornerRadius: 8).cgPath
+        recipeImageButton.showImagePickerMenu(
+            cameraAction: { [weak self] _ in
+                self?.onCreateFoodImage?(.camera)
+            },
+            photosAction: { [weak self] _ in
+                self?.onCreateFoodImage?(.photoLibrary)
+            }
+        )
     }
 
-    func configureCell(with image: UIImage) {
+    func configureCell(with record: FoodRecordV3, isCreate: Bool) {
 
+        recipeNameTextField.text = record.name
+
+        if !isCreate {
+            PassioInternalConnector.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
+                if let image {
+                    DispatchQueue.main.async {
+                        self?.recipeImageView.image = image
+                    }
+                } else {
+                    self?.recipeImageView.setFoodImage(id: record.iconId,
+                                                       passioID: record.iconId,
+                                                       entityType: record.entityType,
+                                                       connector: PassioInternalConnector.shared) { image in
+                        DispatchQueue.main.async {
+                            self?.recipeImageView.image = image
+                        }
+                    }
+                }
+            }
+        }
     }
+}
 
-    @IBAction func onRecipeImage(_ sender: UIButton) {
+// MARK: - UITextFieldDelegate
+extension RecipeDetailsCell: UITextFieldDelegate {
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

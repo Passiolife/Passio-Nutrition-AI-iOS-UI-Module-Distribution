@@ -45,24 +45,30 @@ final class TextSearchViewController: InstantiableViewController {
 // MARK: - AdvancedTextSearchView Delegate
 extension TextSearchViewController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFood(record: FoodRecordV3?) {
-
-        if dismmissToMyLog || navigationController == nil {
-            dismiss(animated: true) { [weak self] in
-                self?.advancedSearchDelegate?.userSelectedFood(record: record)
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
+        DispatchQueue.main.async {
+            if self.dismmissToMyLog || self.navigationController == nil {
+                self.dismiss(animated: true) {
+                    self.advancedSearchDelegate?.userSelectedFood(record: record,
+                                                                   isPlusAction: isPlusAction)
+                }
+            } else {
+                self.advancedSearchDelegate?.userSelectedFood(record: record,
+                                                         isPlusAction: isPlusAction)
             }
-        } else {
-            advancedSearchDelegate?.userSelectedFood(record: record)
         }
     }
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
-        if dismmissToMyLog || navigationController == nil {
-            dismiss(animated: true) { [weak self] in
-                self?.advancedSearchDelegate?.userSelectedFoodItem(item: item)
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
+        DispatchQueue.main.async {
+            if self.dismmissToMyLog || self.navigationController == nil {
+                self.dismiss(animated: true) { [weak self] in
+                    self?.advancedSearchDelegate?.userSelectedFoodItem(item: item,
+                                                                       isPlusAction: isPlusAction)
+                }
+            } else {
+                self.advancedSearchDelegate?.userSelectedFoodItem(item: item, isPlusAction: isPlusAction)
             }
-        } else {
-            advancedSearchDelegate?.userSelectedFoodItem(item: item)
         }
     }
 }

@@ -315,8 +315,10 @@ extension EditProfileViewController: UITableViewDataSource,UITableViewDelegate {
     }
 
     // MARK: Cells
-    private func getUserPreferencesCell(indexpath: IndexPath, profile: UserProfileModel?) -> UITableViewCell {
-        let cell = profileTableView.dequeueCell(cellClass: UserPreferencesCell.self, forIndexPath: indexpath)
+    private func getUserPreferencesCell(indexpath: IndexPath,
+                                        profile: UserProfileModel?) -> UITableViewCell {
+        let cell = profileTableView.dequeueCell(cellClass: UserPreferencesCell.self,
+                                                forIndexPath: indexpath)
         cell.configureCell(userProfile: userProfile)
         cell.userPreferencesTextFields.forEach {
             switch $0.tag {
@@ -333,23 +335,36 @@ extension EditProfileViewController: UITableViewDataSource,UITableViewDelegate {
                                        imageFrame: chevFrame)
             }
         }
-        cell.heightButton.addTarget(self, action: #selector(showHeightPickerView), for: .touchUpInside)
-        cell.activityLevelButton.addTarget(self, action: #selector(showActivityLevelPickerView), for: .touchUpInside)
-        cell.calorieDeficitButton.addTarget(self, action: #selector(showCalorieDeficitPickerView), for: .touchUpInside)
-        cell.genderButton.addTarget(self, action: #selector(showGenderPickerView), for: .touchUpInside)
-        cell.dietButton.addTarget(self, action: #selector(showDietPickerView), for: .touchUpInside)
+        cell.heightButton.addTarget(self,
+                                    action: #selector(showHeightPickerView),
+                                    for: .touchUpInside)
+        cell.activityLevelButton.addTarget(self,
+                                           action: #selector(showActivityLevelPickerView),
+                                           for: .touchUpInside)
+        cell.calorieDeficitButton.addTarget(self,
+                                            action: #selector(showCalorieDeficitPickerView),
+                                            for: .touchUpInside)
+        cell.genderButton.addTarget(self,
+                                    action: #selector(showGenderPickerView),
+                                    for: .touchUpInside)
+        cell.dietButton.addTarget(self,
+                                  action: #selector(showDietPickerView),
+                                  for: .touchUpInside)
         return cell
     }
 
     private func getCalculateBMICell(indexpath: IndexPath) -> UITableViewCell {
-        let cell = profileTableView.dequeueCell(cellClass: CalculatedBMICell.self, forIndexPath: indexpath)
+        let cell = profileTableView.dequeueCell(cellClass: CalculatedBMICell.self,
+                                                forIndexPath: indexpath)
         cell.setBMIValue(bmiValue: userProfile.bmi ?? 1.0,
                          bmiDescription: userProfile.bmiDescription)
         return cell
     }
 
-    private func getDailyNutritionGoalsCell(indexpath: IndexPath, profile: UserProfileModel?) -> UITableViewCell {
-        let cell = profileTableView.dequeueCell(cellClass: DailyNutritionGoalsCell.self, forIndexPath: indexpath)
+    private func getDailyNutritionGoalsCell(indexpath: IndexPath,
+                                            profile: UserProfileModel?) -> UITableViewCell {
+        let cell = profileTableView.dequeueCell(cellClass: DailyNutritionGoalsCell.self,
+                                                forIndexPath: indexpath)
         cell.updateProfile(userProfile: userProfile)
         return cell
     }
@@ -455,19 +470,26 @@ extension EditProfileViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         switch textField.tag {
         case 0: // Name
-            if let name = textField.text, !name.isEmpty {
+            if let name = textField.text,
+               !name.isEmpty {
                 userProfile.firstName = name
             }
         case 4: // Weight
-            if let _weight = textField.text, let dWeight = Double(_weight), dWeight > 0 {
+            if let _weight = textField.text,
+               let dWeight = Double(_weight),
+               dWeight > 0 {
                 userProfile.weight = userProfile.units == .imperial ? dWeight/Conversion.lbsToKg.rawValue : dWeight
             }
         case 10: // Goal Weight
-            if let _weight = textField.text, let dWeight = Double(_weight), dWeight > 0 {
+            if let _weight = textField.text,
+               let dWeight = Double(_weight),
+               dWeight > 0 {
                 userProfile.goalWeight = userProfile.units == .imperial ? dWeight/Conversion.lbsToKg.rawValue : dWeight
             }
         case 1: // Age
-            if let age = textField.text, let dAge = Int(age), dAge > 0 {
+            if let age = textField.text,
+               let dAge = Int(age),
+               dAge > 0 {
                 userProfile.age = dAge
             }
         case 14:
@@ -479,8 +501,14 @@ extension EditProfileViewController: UITextFieldDelegate {
         }
         recomCalorie = calculateRecommendedCalorie()
         profileTableView.reloadData()
-        UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseInOut, animations: {
-            self.profileTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0)
+        UIView.animate(withDuration: 0.35,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.profileTableView.contentInset = UIEdgeInsets(top: 0,
+                                                              left: 0,
+                                                              bottom: 55,
+                                                              right: 0)
         }, completion: nil)
     }
 }

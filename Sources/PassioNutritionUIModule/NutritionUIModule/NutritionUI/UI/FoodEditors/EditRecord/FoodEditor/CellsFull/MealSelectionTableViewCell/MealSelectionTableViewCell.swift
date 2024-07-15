@@ -14,16 +14,14 @@ protocol MealSelectionDelegate: AnyObject {
 
 class MealSelectionTableViewCell: UITableViewCell {
 
-    weak var delegate: MealSelectionDelegate?
-
-    private var selectedButton: ColoredButton?
-
     @IBOutlet weak var breakfastButton: ColoredButton!
     @IBOutlet weak var snackButton: ColoredButton!
     @IBOutlet weak var dinnerButton: ColoredButton!
     @IBOutlet weak var lunchButton: ColoredButton!
-
     @IBOutlet weak var insetBackgroundView: UIView!
+
+    private var selectedButton: ColoredButton?
+    weak var delegate: MealSelectionDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()

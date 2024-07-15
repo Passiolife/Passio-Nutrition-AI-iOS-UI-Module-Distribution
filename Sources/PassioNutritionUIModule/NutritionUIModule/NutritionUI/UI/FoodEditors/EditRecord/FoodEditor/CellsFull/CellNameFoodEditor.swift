@@ -17,10 +17,3 @@ enum CellNameFoodEditor: String, CaseIterable {
     ingredientAddTableViewCell,
     ingredientHeaderTableViewCell
 }
-//
-//
-//foodHeaderSimpleTableViewCell
-//amountSliderFullTableViewCell
-//mealSelectionTableViewCell
-//ingredientAddTableViewCell
-//ingredientHeaderTableViewCell

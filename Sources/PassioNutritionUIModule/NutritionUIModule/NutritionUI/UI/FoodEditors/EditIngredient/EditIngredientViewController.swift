@@ -97,7 +97,7 @@ extension EditIngredientViewController: IngredientEditorViewDelegate {
 
 extension EditIngredientViewController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFood(record: FoodRecordV3?) {
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else {
             navigationController?.popViewController(animated: true)
             return
@@ -107,7 +107,7 @@ extension EditIngredientViewController: AdvancedTextSearchViewDelegate {
         navigationController?.popViewController(animated: true)
     }
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
 
         guard let foodItem = item else {
             navigationController?.popViewController(animated: true)

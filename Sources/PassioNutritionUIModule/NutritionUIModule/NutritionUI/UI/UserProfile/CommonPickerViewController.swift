@@ -24,31 +24,35 @@ final class CommonPickerViewController: UIViewController {
     var data: [[String]] = [[]]
     var selectedIndexes: [Int]?
     weak var delegate: CommonPickerViewControllerDelegate?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
         picker.delegate = self
         picker.dataSource = self
         labelTitle.text = title ?? "NoTitle"
         buttonSave.setTitle(Localized.Ok, for: .normal)
+        buttonSave.backgroundColor = .primaryColor
+        buttonCancel.applyBorder(width: 2, color: .primaryColor)
+        buttonCancel.setTitleColor(.primaryColor, for: .normal)
         buttonCancel.setTitle(Localized.cancel, for: .normal)
         (selectedIndexes ?? []).enumerated().forEach { (index, value) in
-            self.picker.selectRow(value, inComponent: index, animated: true)
+            picker.selectRow(value, inComponent: index, animated: true)
         }
     }
 
     @IBAction func cancel(_ sender: UIButton) {
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
 
     @IBAction func save(_ sender: UIButton) {
         var arraySelectedValue:[Int] = []
-        for i in 0..<self.picker.numberOfComponents{
+        for i in 0..<self.picker.numberOfComponents {
             arraySelectedValue.append(picker.selectedRow(inComponent: i))
         }
-        
+
         delegate?.pickerSelected(result: arraySelectedValue)
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
 }
 

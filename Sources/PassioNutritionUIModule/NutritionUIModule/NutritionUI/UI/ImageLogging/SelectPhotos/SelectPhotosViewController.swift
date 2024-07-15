@@ -7,7 +7,7 @@
 
 import UIKit
 import PhotosUI
-import PassioNutritionAISDK
+import PassioNutritionUIModule
 
 class SelectPhotosViewController: InstantiableViewController, ImageLoggingService {
 

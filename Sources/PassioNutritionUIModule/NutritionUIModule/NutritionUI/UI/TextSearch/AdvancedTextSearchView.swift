@@ -12,8 +12,8 @@ import PassioNutritionAISDK
 #endif
 
 protocol AdvancedTextSearchViewDelegate: AnyObject {
-    func userSelectedFoodItem(item: PassioFoodItem?)
-    func userSelectedFood(record: FoodRecordV3?)
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool)
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool)
 }
 
 final class AdvancedTextSearchView: UIView {
@@ -102,7 +102,8 @@ final class AdvancedTextSearchView: UIView {
         if isFirstTime {
             isFirstTime = false
             configureTableView()
-            configureSearchBar()
+            setupSearchBar()
+            //configureSearchBar()
         }
     }
 }
@@ -141,6 +142,35 @@ private extension AdvancedTextSearchView {
         searchController.searchBar.tintColor = .primaryColor
         configureSearchBarTextField()
         searchView.addSubview(searchController.searchBar)
+    }
+
+    private func setupSearchBar() {
+
+        if let vc = findViewController() {
+            // Set up the search controller
+            searchController.searchResultsUpdater = self
+            searchController.obscuresBackgroundDuringPresentation = false
+            searchController.searchBar.placeholder = "Type in food name".localized
+            searchController.searchBar.delegate = self
+            let titleAttribures = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            UIBarButtonItem.appearance(whenContainedInInstancesOf:
+                                        [UISearchBar.self]).setTitleTextAttributes(titleAttribures,
+                                                                                   for: .normal)
+            searchController.searchBar.searchTextField.font = UIFont.inter(type: .regular, size: 14)
+            searchController.searchBar.searchTextField.textColor = .black
+            searchController.searchBar.searchTextField.leftView?.tintColor = .primaryColor
+            searchController.searchBar.searchTextField.rightView?.tintColor = .gray400
+            searchController.searchBar.searchTextField.backgroundColor = .white
+            searchController.searchBar.keyboardAppearance = .dark
+            searchController.searchBar.backgroundImage = UIImage()
+            searchController.searchBar.tintColor = .primaryColor
+            configureSearchBarTextField()
+            // Add the search controller to the navigation bar
+            vc.navigationItem.searchController = searchController
+            vc.navigationItem.hidesSearchBarWhenScrolling = false
+            // Ensure the search bar does not remain on the screen if the user navigates to another view controller
+            vc.definesPresentationContext = true
+        }
     }
 
     func isSearchBarEmpty() -> Bool {
@@ -187,7 +217,7 @@ private extension AdvancedTextSearchView {
             var foodRecord = foodRecord
             foodRecord.createdAt = Date()
             foodRecord.mealLabel = MealLabel(mealTime: .currentMealTime())
-            delegate?.userSelectedFood(record: foodRecord)
+            delegate?.userSelectedFood(record: foodRecord, isPlusAction: false)
         }
     }
 
@@ -209,11 +239,15 @@ private extension AdvancedTextSearchView {
 
     private func quickLogFood(record: FoodRecordV3?) {
         if var record {
-            record.createdAt = Date()
-            record.mealLabel = MealLabel.mealLabelBy()
-            connecter.updateRecord(foodRecord: record, isNew: true)
-            DispatchQueue.main.async {
-                self.findViewController()?.showMessage(msg: "Added to log", alignment: .center)
+            if isCreateRecipe {
+                delegate?.userSelectedFood(record: record, isPlusAction: true)
+            } else {
+                record.createdAt = Date()
+                record.mealLabel = MealLabel.mealLabelBy()
+                connecter.updateRecord(foodRecord: record, isNew: true)
+                DispatchQueue.main.async {
+                    self.findViewController()?.showMessage(msg: "Added to log", alignment: .center)
+                }
             }
         }
     }
@@ -289,9 +323,9 @@ private extension AdvancedTextSearchView {
         PassioNutritionAI.shared.fetchFoodItemFor(foodItem: result) { [weak self] (foodItem) in
             guard let self else { return }
             DispatchQueue.main.async {
-                self.searchController.resignFirstResponder()
-                self.searchController.isActive = false
-                self.delegate?.userSelectedFoodItem(item: foodItem)
+                // self.searchController.resignFirstResponder()
+                // self.searchController.isActive = false
+                self.delegate?.userSelectedFoodItem(item: foodItem, isPlusAction: false)
             }
         }
     }
@@ -392,7 +426,6 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueCell(cellClass: AdvancedTextSearchCell.self, forIndexPath: indexPath)
             if let foodResult = alternateSearches?.results[safe: indexPath.row] {
                 cell.setup(foodResult: foodResult)
-                cell.plusButton.isHidden = isCreateRecipe
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
                     getFoodRecord(foodData: foodResult, record: nil) { foodRecord in
@@ -408,7 +441,6 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
             if let favorites = favorites?[safe: indexPath.row] {
 
                 cell.setup(foodRecord: favorites, isFromSearch: true, isFavorite: true)
-                cell.plusButton.isHidden = isCreateRecipe
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
                     getFoodRecord(foodData: nil, record: favorites) { foodRecord in
@@ -424,7 +456,6 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
             if let userFoods = userFoods?[safe: indexPath.row] {
 
                 cell.setup(foodRecord: userFoods, isFromSearch: true)
-                cell.plusButton.isHidden = isCreateRecipe
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
                     getFoodRecord(foodData: nil, record: userFoods) { foodRecord in
@@ -508,6 +539,8 @@ extension AdvancedTextSearchView: UISearchBarDelegate {
 extension AdvancedTextSearchView: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
-        performSearch(term: searchController.searchBar.text!.lowercased())
+        DispatchQueue.main.async {
+            self.performSearch(term: searchController.searchBar.text!.lowercased())
+        }
     }
 }

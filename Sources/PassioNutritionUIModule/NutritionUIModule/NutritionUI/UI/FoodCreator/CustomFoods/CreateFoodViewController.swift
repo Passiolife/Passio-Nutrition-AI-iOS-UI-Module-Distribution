@@ -200,14 +200,6 @@ extension CreateFoodViewController {
         navigationController?.pushViewController(barcodeRecogniserVC, animated: true)
     }
 
-    private func getImagePickerAndSetupUI(withSourceType: UIImagePickerController.SourceType) {
-        view.endEditing(true)
-        let picker = UIImagePickerController()
-        picker.sourceType = withSourceType
-        picker.delegate = self
-        present(picker, animated: true, completion: nil)
-    }
-
     private var getFoodDataSet: NutritionFactsDataSet {
         if isCreateNewFood {
             foodDataSet ?? NutritionFactsDataSet(nutritionFacts: PassioNutritionFacts())
@@ -261,8 +253,9 @@ extension CreateFoodViewController: UITableViewDataSource {
             cell.onBarcode = { [weak self] in
                 self?.navigateToBarcodeViewController()
             }
-            cell.onCreateFoodImage = { [weak self] (imageSource) in
-                self?.getImagePickerAndSetupUI(withSourceType: imageSource)
+            cell.onCreateFoodImage = { [weak self] (sourceType) in
+                guard let self else { return }
+                self.presentImagePicker(withSourceType: sourceType, delegate: self)
             }
             return cell
 

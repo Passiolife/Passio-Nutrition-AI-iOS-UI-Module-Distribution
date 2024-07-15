@@ -174,6 +174,15 @@ public extension UIViewController {
         present(activityController, animated: true, completion: nil)
     }
 
+    func presentImagePicker(withSourceType: UIImagePickerController.SourceType,
+                            delegate: (any UIImagePickerControllerDelegate & UINavigationControllerDelegate)) {
+        view.endEditing(true)
+        let picker = UIImagePickerController()
+        picker.sourceType = withSourceType
+        picker.delegate = delegate
+        present(picker, animated: true, completion: nil)
+    }
+
     func getRectsForFrontView(fullRect: CGRect) -> [CGRect] {
 
         let topSpacing: CGFloat =  50 // fridgeRect.origin.y + 50

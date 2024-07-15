@@ -21,7 +21,6 @@ final class FoodDetailsTableViewCell: UITableViewCell {
 
     var onCreateFoodImage: ((UIImagePickerController.SourceType) -> Void)?
     var onBarcode: (() -> Void)?
-
     var isCreateNewFood = true
 
     override func awakeFromNib() {
@@ -129,14 +128,14 @@ extension FoodDetailsTableViewCell {
 
     private func configureImageViewWithMenu() {
 
-        let camera = UIAction(title: "Camera", image: UIImage(systemName: "camera")) { [weak self] _ in
-            self?.onCreateFoodImage?(.camera)
-        }
-        let photos = UIAction(title: "Photos", image: UIImage(systemName: "photo")) { [weak self] _ in
-            self?.onCreateFoodImage?(.photoLibrary)
-        }
-        createFoodImageButton.menu = UIMenu(title: "", children: [camera, photos])
-        createFoodImageButton.showsMenuAsPrimaryAction = true
+        createFoodImageButton.showImagePickerMenu(
+            cameraAction: { [weak self] _ in
+                self?.onCreateFoodImage?(.camera)
+            },
+            photosAction: { [weak self] _ in
+                self?.onCreateFoodImage?(.photoLibrary)
+            }
+        )
     }
 
     private func configureTextFieldUI(_ textField: UITextField) {

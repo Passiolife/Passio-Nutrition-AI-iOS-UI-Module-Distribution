@@ -222,7 +222,8 @@ extension HomeTabBarController {
 // MARK: - TabBar delegate
 extension HomeTabBarController {
 
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    func tabBarController(_ tabBarController: UITabBarController,
+                          didSelect viewController: UIViewController) {
         title = tabs[selectedIndex].naviagationTitle
     }
 }
@@ -236,11 +237,15 @@ extension HomeTabBarController: PlusMenuDelegate {
     }
 
     func onSearchSelected() {
+//        let vc = TextSearchViewController()
+//        vc.dismmissToMyLog = true
+//        vc.modalPresentationStyle = .fullScreen
+//        vc.advancedSearchDelegate = self
+//        present(vc, animated: true)
         let vc = TextSearchViewController()
         vc.dismmissToMyLog = true
-        vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
-        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func onFavouritesSelected() {
@@ -277,7 +282,7 @@ extension HomeTabBarController: PlusMenuDelegate {
 
 extension HomeTabBarController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFood(record: FoodRecordV3?) {
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
         let editVC = EditRecordViewController()
         editVC.foodRecord = foodRecord
@@ -286,7 +291,7 @@ extension HomeTabBarController: AdvancedTextSearchViewDelegate {
         })
     }
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
 
         let foodRecord = FoodRecordV3(foodItem: foodItem)

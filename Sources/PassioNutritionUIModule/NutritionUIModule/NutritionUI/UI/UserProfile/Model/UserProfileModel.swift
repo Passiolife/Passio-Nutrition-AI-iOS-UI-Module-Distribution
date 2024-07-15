@@ -309,8 +309,7 @@ enum ActivityLevel: String, Codable, CaseIterable {
     case active = "Active"
 }
 
-//
-public struct ReminderSettings: Codable, Equatable{
+public struct ReminderSettings: Codable, Equatable {
     var breakfast: Bool?
     var lunch: Bool?
     var dinner: Bool?
@@ -319,8 +318,10 @@ public struct ReminderSettings: Codable, Equatable{
 public enum WaterUnit: String, Codable, CaseIterable {
     case oz, ml
     
-    static func convertWaterMeasurement(value: Double, from: WaterUnit, to: WaterUnit) -> Double {
-        
+    static func convertWaterMeasurement(value: Double,
+                                        from: WaterUnit,
+                                        to: WaterUnit) -> Double {
+
         let mlPerOunce = 29.5735  // 1 fluid ounce is approximately 29.5735 ml
         
         switch (from, to) {
@@ -334,8 +335,6 @@ public enum WaterUnit: String, Codable, CaseIterable {
             return value
         }
     }
-    
-    
 }
 
 var calorieDeficitArray: [String] {

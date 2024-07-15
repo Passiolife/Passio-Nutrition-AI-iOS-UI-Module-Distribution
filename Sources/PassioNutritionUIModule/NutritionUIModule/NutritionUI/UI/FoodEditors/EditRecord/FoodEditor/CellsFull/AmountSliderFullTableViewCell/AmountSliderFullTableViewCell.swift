@@ -19,6 +19,10 @@ class AmountSliderFullTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        sliderAmount.isContinuous = false
+        textAmount.addOkButtonToToolbar(target: self,
+                                        action: #selector(endViewEditing),
+                                        forEvent: .touchUpInside)
         buttonUnits.roundMyCornerWith(radius: Custom.buttonCornerRadius)
         insetBackground.roundMyCornerWith(radius: 8)
         insetBackground.dropShadow(radius: 8,
@@ -45,7 +49,11 @@ class AmountSliderFullTableViewCell: UITableViewCell {
         self.textAmount.backgroundColor = .white
         labelAmount.text = unitName == "g" ? "" : "(" + weight + " " + "g".localized + ") "
         let newTitle = " " + unitName
-        labelAmount.textColor = .black
+        labelAmount.textColor = .gray900
         buttonUnits.setTitle(newTitle, for: .normal)
+    }
+
+    @objc private func endViewEditing() {
+        endEditing(true)
     }
 }

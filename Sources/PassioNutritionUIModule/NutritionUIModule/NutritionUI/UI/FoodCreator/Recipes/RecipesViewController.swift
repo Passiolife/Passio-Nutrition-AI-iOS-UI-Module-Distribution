@@ -6,7 +6,10 @@
 //
 
 import UIKit
+import PassioNutritionUIModule
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 class RecipesViewController: InstantiableViewController {
 
@@ -85,17 +88,41 @@ extension RecipesViewController {
         showMessage(msg: "Added to Log")
     }
 
-    private func createRecipe(item: PassioFoodItem) {
-        recipe = FoodRecordV3(foodItem: item,
-                              barcode: "",
-                              scannedWeight: nil,
-                              entityType: .recipe,
-                              confidence: nil)
+    private func createRecipe(from item: PassioFoodItem?, record: FoodRecordV3?) {
+        if let item {
+            var record = FoodRecordV3(foodItem: item,
+                                      barcode: "",
+                                      scannedWeight: nil,
+                                      entityType: .recipe,
+                                      confidence: nil)
+            record.name = recipeName
+            recipe = record
+        } else if var record {
+            record.name = recipeName
+            recipe = record
+        }
     }
 
-    private func navigateToEditRecipe() {
-        let editRecipeVC = EditRecipeViewController(nibName: EditRecipeViewController.className, bundle: .module)
+    private func handleRecipe(for record: FoodRecordV3, isPlusAction: Bool) {
+        if var recipe {
+            if isPlusAction {
+                recipe.addIngredient(record: record)
+                navigateToEditRecipe(recipe: recipe)
+            } else {
+                let editVC = EditIngredientViewController()
+                editVC.foodItemData = FoodRecordIngredient(foodRecord: record)
+                editVC.indexOfIngredient = 0
+                editVC.delegate = self
+                self.navigationController?.pushViewController(editVC, animated: true)
+            }
+        }
+    }
+
+    private func navigateToEditRecipe(recipe: FoodRecordV3, isCreate: Bool = false) {
+        let editRecipeVC = EditRecipeViewController(nibName: EditRecipeViewController.className,
+                                                    bundle: .module)
         editRecipeVC.loadViewIfNeeded()
+        editRecipeVC.isCreate = isCreate
         editRecipeVC.recipe = recipe
         navigationController?.pushViewController(editRecipeVC, animated: true)
     }
@@ -138,7 +165,7 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Recipes:- \(recipes[indexPath.row])")
+        navigateToEditRecipe(recipe: recipes[indexPath.row])
     }
 
     func tableView(_ tableView: UITableView,
@@ -146,7 +173,7 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
     UISwipeActionsConfiguration? {
 
         let editItem = UIContextualAction(style: .normal, title: "Edit".localized) {  (_, _, _) in
-            print("Recipes:- \(self.recipes[indexPath.row])")
+            self.navigateToEditRecipe(recipe: self.recipes[indexPath.row])
         }
         editItem.backgroundColor = .primaryColor
 
@@ -182,8 +209,6 @@ extension RecipesViewController: PlusMenuDelegate {
 
     func onFavouritesSelected() {}
 
-    func onRecipesSelected() {}
-
     func onMyFoodsSelected() {}
 
     func onVoiceLoggingSelected() {}
@@ -196,16 +221,37 @@ extension RecipesViewController: PlusMenuDelegate {
 // MARK: - AdvancedTextSearch ViewDelegate
 extension RecipesViewController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
+
         if let item {
             if recipe == nil {
-                createRecipe(item: item)
-            } else if var recipe {
-                recipe.addIngredient(record: FoodRecordV3(foodItem: item))
+                createRecipe(from: item, record: nil)
             }
-            navigateToEditRecipe()
+            handleRecipe(for: FoodRecordV3(foodItem: item), isPlusAction: isPlusAction)
         }
     }
 
-    func userSelectedFood(record: FoodRecordV3?) { }
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
+        if let record {
+            if recipe == nil {
+                createRecipe(from: nil, record: record)
+            }
+            handleRecipe(for: record, isPlusAction: isPlusAction)
+        }
+    }
+}
+
+// MARK: - IngredientEditorView Delegate
+extension RecipesViewController: IngredientEditorViewDelegate {
+
+    func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
+
+    }
+
+    func ingredientEditedCancel() {
+
+    }
+
+    func startNutritionBrowser(foodItemData: FoodRecordIngredient) { }
+    func replaceFoodUsingSearch() { }
 }

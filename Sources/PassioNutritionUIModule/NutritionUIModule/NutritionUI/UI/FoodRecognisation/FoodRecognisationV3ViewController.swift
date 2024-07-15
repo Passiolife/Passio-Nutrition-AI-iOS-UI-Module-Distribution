@@ -483,12 +483,12 @@ extension FoodRecognitionV3ViewController: FoodRecognisationPopUpDelegate {
 // MARK: - AdvancedTextSearchView Delegate
 extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFood(record: FoodRecordV3?) {
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
         navigateToEditViewContorller(foodRecord)
     }
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
         let foodRecord = FoodRecordV3(foodItem: foodItem)
         navigateToEditViewContorller(foodRecord)

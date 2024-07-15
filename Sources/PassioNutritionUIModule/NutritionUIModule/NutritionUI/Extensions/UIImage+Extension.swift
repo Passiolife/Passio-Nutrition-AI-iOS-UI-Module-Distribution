@@ -390,9 +390,10 @@ public extension UIImageView {
                       connector: PassioInternalConnector,
                       completion: @escaping (UIImage) -> Void) {
 
-        if id.contains("userFood") {
+        if id.contains("userFood") || id.contains("Recipe") {
             connector.fetchUserFoodImage(with: id) { foodImage in
-                completion(foodImage ?? UIImage())
+                completion(foodImage ??
+                           UIImage.imageFromBundle(named: id.contains("Recipe") ? "userRecipe" : "createFood") ?? UIImage())
             }
         } else {
             loadPassioIconBy(passioID: passioID,

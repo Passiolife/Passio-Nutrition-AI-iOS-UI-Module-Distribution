@@ -60,7 +60,8 @@ class FoodHeaderSimpleTableViewCell: UITableViewCell {
         labelName.text = foodHeader.labelName.capitalized
         labelShortName.text = foodRecord.details.capitalized
 
-        if labelName.text?.lowercased() == self.labelShortName.text?.lowercased() || foodRecord.entityType == .recipe{
+        if labelName.text?.lowercased() == self.labelShortName.text?.lowercased()
+            || foodRecord.entityType == .recipe {
             labelShortName.isHidden = true
         } else {
             labelShortName.isHidden = false

@@ -70,8 +70,7 @@ public extension UIView {
         self.clipsToBounds = true
     }
 
-    func roundMyCornerWith(radius: CGFloat, upper: Bool, down: Bool ) {
-        self.layer.cornerRadius = 0
+    func roundMyCornerWith(radius: CGFloat, upper: Bool, down: Bool) {
         self.layer.cornerRadius = radius
         self.layer.masksToBounds = true
         self.layer.maskedCorners = []
@@ -179,9 +178,17 @@ public extension UIView {
                     offset: CGSize,
                     color: UIColor,
                     shadowRadius: CGFloat,
-                    shadowOpacity: Float) {
+                    shadowOpacity: Float,
+                    istopBottomRadius: Bool = false,
+                    isUpperRadius: Bool = false,
+                    isDownRadius: Bool = false) {
 
-        layer.cornerRadius = radius
+        if istopBottomRadius {
+            roundMyCornerWith(radius: radius, upper: isUpperRadius, down: isDownRadius)
+        } else {
+            layer.cornerRadius = radius
+        }
+
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = shadowOpacity
         layer.shadowColor = color.cgColor
@@ -252,20 +259,6 @@ public extension UIView {
                                      ]) {
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = tintColor
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = textAttr
-    }
-}
-
-public extension UIButton {
-
-    func enableDisableButton(with animation: UIView.AnimationOptions = .transitionCrossDissolve,
-                             duration: TimeInterval = 0.3,
-                             opacity: CGFloat = 0.8,
-                             isEnabled: Bool) {
-        alpha = isEnabled ? opacity : 1
-        self.isEnabled = isEnabled
-        UIView.animate(withDuration: duration, delay: 0, options: animation) {
-            self.alpha = self.isEnabled ? 1 : opacity
-        }
     }
 }
 

@@ -434,13 +434,13 @@ extension DiaryViewController: QuickAddSuggestionViewDelegate {
 // MARK: - AdvancedTextSearchView Delegate
 extension DiaryViewController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFood(record: FoodRecordV3?) {
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
         connector.updateRecord(foodRecord: foodRecord, isNew: true)
         setDayLogFor(date: dayLog.date)
     }
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
         let foodRecord = FoodRecordV3(foodItem: foodItem)
         connector.updateRecord(foodRecord: foodRecord, isNew: true)

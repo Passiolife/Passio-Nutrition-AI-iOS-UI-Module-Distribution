@@ -99,8 +99,10 @@ extension EditRecordViewController: FoodEditorDelegate {
             if !isEditingRecord {
                 self.showMessage(msg: "Added to log")
             }
-            NutritionUICoordinator.navigateToDairyAfterAction(navigationController: self.navigationController,
-                                                               selectedDate: foodRecord.createdAt)
+            NutritionUICoordinator.navigateToDairyAfterAction(
+                navigationController: self.navigationController,
+                selectedDate: foodRecord.createdAt
+            )
         }
     }
 
@@ -183,7 +185,7 @@ extension EditRecordViewController: IngredientEditorViewDelegate {
 // MARK: - AdvancedTextSearchView Delegate
 extension EditRecordViewController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFood(record: FoodRecordV3?) {
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
 
         if let foodRecord = record {
             if replaceFood { // Replace Food
@@ -197,15 +199,15 @@ extension EditRecordViewController: AdvancedTextSearchViewDelegate {
                 foodEditorView?.foodRecord?.addIngredient(record: foodRecord)
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] () in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] () in
             guard let `self` = self else { return }
             self.foodEditorView?.tableView.scrollToBottom()
-        })
+        }
 
         navigationController?.popViewController(animated: true)
     }
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
 
         if let foodItem = item {
             if replaceFood { // Replace Food
@@ -219,11 +221,11 @@ extension EditRecordViewController: AdvancedTextSearchViewDelegate {
                 foodEditorView?.foodRecord?.addIngredient(record: FoodRecordV3(foodItem: foodItem))
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] () in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] () in
             guard let `self` = self else { return }
             self.foodEditorView?.tableView.scrollToBottom()
-        })
+        }
 
-        // navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }

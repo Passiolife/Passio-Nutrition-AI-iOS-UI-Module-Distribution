@@ -17,9 +17,9 @@ class IngredientAddTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        insetBackground.roundMyCornerWith(radius: 8)
+        insetBackground.roundMyCornerWith(radius: 8, upper: true, down: false)
         insetBackground.dropShadow(radius: 8,
-                                   offset: CGSize(width: 0, height: 1),
+                                   offset: CGSize(width: 0, height: -1),
                                    color: .black.withAlphaComponent(0.06),
                                    shadowRadius: 2,
                                    shadowOpacity: 1)
