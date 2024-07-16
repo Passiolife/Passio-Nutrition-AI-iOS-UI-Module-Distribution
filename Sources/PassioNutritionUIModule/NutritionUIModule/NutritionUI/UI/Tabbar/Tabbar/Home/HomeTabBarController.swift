@@ -176,9 +176,7 @@ extension HomeTabBarController {
         let plusMenuVC = PlusMenuViewController()
         plusMenuVC.delegate = self
         plusMenuVC.bottomCountedValue = countedY
-        plusMenuVC.modalTransitionStyle = .crossDissolve
-        plusMenuVC.modalPresentationStyle = .overFullScreen
-        self.navigationController?.present(plusMenuVC, animated: true)
+        presentVC(vc: plusMenuVC)
     }
 
     private func configureNavBar() {
@@ -237,13 +235,7 @@ extension HomeTabBarController: PlusMenuDelegate {
     }
 
     func onSearchSelected() {
-//        let vc = TextSearchViewController()
-//        vc.dismmissToMyLog = true
-//        vc.modalPresentationStyle = .fullScreen
-//        vc.advancedSearchDelegate = self
-//        present(vc, animated: true)
         let vc = TextSearchViewController()
-        vc.dismmissToMyLog = true
         vc.advancedSearchDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -276,8 +268,6 @@ extension HomeTabBarController: PlusMenuDelegate {
         let vc = SelectPhotosViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
-
-    func onRecipesSelected() { }
 }
 
 extension HomeTabBarController: AdvancedTextSearchViewDelegate {
@@ -293,7 +283,6 @@ extension HomeTabBarController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
-
         let foodRecord = FoodRecordV3(foodItem: foodItem)
         let editVC = EditRecordViewController()
         editVC.foodRecord = foodRecord

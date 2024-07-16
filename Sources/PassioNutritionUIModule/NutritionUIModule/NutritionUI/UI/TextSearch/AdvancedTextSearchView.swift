@@ -20,7 +20,6 @@ final class AdvancedTextSearchView: UIView {
 
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var tblViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var searchView: UIView!
 
     private let connecter = PassioInternalConnector.shared
     private let searchController = UISearchController(searchResultsController: nil)
@@ -103,7 +102,6 @@ final class AdvancedTextSearchView: UIView {
             isFirstTime = false
             configureTableView()
             setupSearchBar()
-            //configureSearchBar()
         }
     }
 }
@@ -120,34 +118,9 @@ private extension AdvancedTextSearchView {
         searchTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
     }
 
-    func configureSearchBar() {
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Type in food name".localized
-        searchController.searchBar.delegate = self
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
-            searchController.searchBar.becomeFirstResponder()
-        }
-        let titleAttribures = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        UIBarButtonItem.appearance(whenContainedInInstancesOf:
-                                    [UISearchBar.self]).setTitleTextAttributes(titleAttribures,
-                                                                               for: .normal)
-        searchController.searchBar.searchTextField.font = UIFont.inter(type: .regular, size: 14)
-        searchController.searchBar.searchTextField.textColor = .black
-        searchController.searchBar.searchTextField.leftView?.tintColor = .primaryColor
-        searchController.searchBar.searchTextField.rightView?.tintColor = .gray400
-        searchController.searchBar.searchTextField.backgroundColor = .white
-        searchController.searchBar.keyboardAppearance = .dark
-        searchController.searchBar.backgroundImage = UIImage()
-        searchController.searchBar.tintColor = .primaryColor
-        configureSearchBarTextField()
-        searchView.addSubview(searchController.searchBar)
-    }
-
     private func setupSearchBar() {
 
         if let vc = findViewController() {
-            // Set up the search controller
             searchController.searchResultsUpdater = self
             searchController.obscuresBackgroundDuringPresentation = false
             searchController.searchBar.placeholder = "Type in food name".localized
@@ -164,12 +137,14 @@ private extension AdvancedTextSearchView {
             searchController.searchBar.keyboardAppearance = .dark
             searchController.searchBar.backgroundImage = UIImage()
             searchController.searchBar.tintColor = .primaryColor
+            searchController.searchBar.showsCancelButton = true
             configureSearchBarTextField()
-            // Add the search controller to the navigation bar
             vc.navigationItem.searchController = searchController
             vc.navigationItem.hidesSearchBarWhenScrolling = false
-            // Ensure the search bar does not remain on the screen if the user navigates to another view controller
             vc.definesPresentationContext = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.searchController.searchBar.becomeFirstResponder()
+            }
         }
     }
 
@@ -207,17 +182,26 @@ private extension AdvancedTextSearchView {
         userFoods = nil
         searchController.resignFirstResponder()
         searchController.isActive = false
+        findViewController()?.navigationController?.popViewController(animated: true)
     }
 
     private func navigateToEditFood(foodRecord: FoodRecordV3) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            searchController.resignFirstResponder()
-            searchController.isActive = false
             var foodRecord = foodRecord
             foodRecord.createdAt = Date()
             foodRecord.mealLabel = MealLabel(mealTime: .currentMealTime())
             delegate?.userSelectedFood(record: foodRecord, isPlusAction: false)
+        }
+    }
+
+    private func fetchFoodItemFromSearch(result: PassioFoodDataInfo) {
+
+        PassioNutritionAI.shared.fetchFoodItemFor(foodItem: result) { [weak self] (foodItem) in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.delegate?.userSelectedFoodItem(item: foodItem, isPlusAction: false)
+            }
         }
     }
 
@@ -314,18 +298,6 @@ private extension AdvancedTextSearchView {
                     self.state = .searched
                 }
                 self.reloadTableView()
-            }
-        }
-    }
-
-    func fetchFoodItemFromSearch(result: PassioFoodDataInfo) {
-
-        PassioNutritionAI.shared.fetchFoodItemFor(foodItem: result) { [weak self] (foodItem) in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                // self.searchController.resignFirstResponder()
-                // self.searchController.isActive = false
-                self.delegate?.userSelectedFoodItem(item: foodItem, isPlusAction: false)
             }
         }
     }

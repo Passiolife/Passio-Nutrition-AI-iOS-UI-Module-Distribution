@@ -341,7 +341,7 @@ extension FoodEditorView: UITableViewDataSource {
         let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel) { _ in }
         alertName.addAction(save)
         alertName.addAction(cancel)
-        self.findViewController()?.present(alertName, animated: true)
+        UIApplication.topViewController()?.present(alertName, animated: true)
     }
 }
 

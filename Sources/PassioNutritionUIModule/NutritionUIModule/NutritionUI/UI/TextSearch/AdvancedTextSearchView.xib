@@ -16,44 +16,25 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Hvk-2M-c7H">
-                    <rect key="frame" x="0.0" y="115" width="393" height="500"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <rect key="frame" x="0.0" y="59" width="393" height="500"/>
+                    <color key="backgroundColor" name="gray-50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="500" id="3OR-g5-6Nh"/>
                     </constraints>
                 </tableView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XYA-dE-zCj">
-                    <rect key="frame" x="0.0" y="59" width="393" height="56"/>
-                    <color key="backgroundColor" red="0.94901960784313721" green="0.96078431372549022" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="56" id="fSf-jX-PkZ"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vpk-b9-cFu">
-                    <rect key="frame" x="0.0" y="0.0" width="393" height="59"/>
-                    <color key="backgroundColor" red="0.94901960784313721" green="0.96078431372549022" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
-                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" name="gray-50"/>
             <constraints>
-                <constraint firstItem="XYA-dE-zCj" firstAttribute="top" secondItem="Vpk-b9-cFu" secondAttribute="bottom" id="82N-Gj-UVQ"/>
-                <constraint firstItem="Vpk-b9-cFu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="CJg-S4-xi8"/>
-                <constraint firstAttribute="trailing" secondItem="XYA-dE-zCj" secondAttribute="trailing" id="Ytm-hL-tIp"/>
-                <constraint firstItem="Hvk-2M-c7H" firstAttribute="top" secondItem="XYA-dE-zCj" secondAttribute="bottom" id="ao2-wf-OCM"/>
-                <constraint firstItem="Vpk-b9-cFu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ce2-38-sWO"/>
                 <constraint firstItem="Hvk-2M-c7H" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="dph-rl-ANF"/>
                 <constraint firstItem="Hvk-2M-c7H" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="hPu-6A-0gV"/>
-                <constraint firstAttribute="trailing" secondItem="Vpk-b9-cFu" secondAttribute="trailing" id="sII-8a-ybd"/>
-                <constraint firstItem="XYA-dE-zCj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tSc-ba-paa"/>
-                <constraint firstItem="XYA-dE-zCj" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="ucJ-AK-gE9"/>
+                <constraint firstItem="Hvk-2M-c7H" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="n0Z-Kx-6ik"/>
             </constraints>
             <connections>
                 <outlet property="searchTableView" destination="Hvk-2M-c7H" id="57A-xT-60O"/>
-                <outlet property="searchView" destination="XYA-dE-zCj" id="EcM-0G-C3e"/>
                 <outlet property="tblViewHeightConstraint" destination="3OR-g5-6Nh" id="fcY-Eq-XoE"/>
             </connections>
-            <point key="canvasLocation" x="271" y="-10"/>
+            <point key="canvasLocation" x="100" y="20"/>
         </view>
     </objects>
     <resources>

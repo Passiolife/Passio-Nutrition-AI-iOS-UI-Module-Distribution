@@ -55,6 +55,15 @@ extension UINavigationController: UIGestureRecognizerDelegate {
         }
     }
 
+    func popToSpecificViewController(_ viewController: AnyClass) {
+        for element in viewControllers {
+            if element.isKind(of: viewController) {
+                popToViewController(element, animated: true)
+                break
+            }
+        }
+    }
+
     // To keep default swipe to back behavior
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return viewControllers.count > 1

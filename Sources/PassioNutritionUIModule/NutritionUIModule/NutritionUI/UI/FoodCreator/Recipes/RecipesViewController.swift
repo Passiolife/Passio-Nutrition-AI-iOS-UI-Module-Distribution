@@ -113,18 +113,22 @@ extension RecipesViewController {
                 editVC.foodItemData = FoodRecordIngredient(foodRecord: record)
                 editVC.indexOfIngredient = 0
                 editVC.delegate = self
-                self.navigationController?.pushViewController(editVC, animated: true)
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(editVC, animated: true)
+                }
             }
         }
     }
 
     private func navigateToEditRecipe(recipe: FoodRecordV3, isCreate: Bool = false) {
-        let editRecipeVC = EditRecipeViewController(nibName: EditRecipeViewController.className,
-                                                    bundle: .module)
-        editRecipeVC.loadViewIfNeeded()
-        editRecipeVC.isCreate = isCreate
-        editRecipeVC.recipe = recipe
-        navigationController?.pushViewController(editRecipeVC, animated: true)
+        DispatchQueue.main.async { [self] in
+            let editRecipeVC = EditRecipeViewController(nibName: EditRecipeViewController.className,
+                                                        bundle: .module)
+            editRecipeVC.loadViewIfNeeded()
+            editRecipeVC.isCreate = isCreate
+            editRecipeVC.recipe = recipe
+            navigationController?.pushViewController(editRecipeVC, animated: true)
+        }
     }
 }
 
@@ -196,11 +200,9 @@ extension RecipesViewController: PlusMenuDelegate {
 
     func onSearchSelected() {
         let vc = TextSearchViewController()
-        vc.dismmissToMyLog = true
-        vc.isCreateRecipe = true
-        vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
-        present(vc, animated: true)
+        vc.isCreateRecipe = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func onScanSelected() {
@@ -222,7 +224,6 @@ extension RecipesViewController: PlusMenuDelegate {
 extension RecipesViewController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
-
         if let item {
             if recipe == nil {
                 createRecipe(from: item, record: nil)
@@ -245,13 +246,13 @@ extension RecipesViewController: AdvancedTextSearchViewDelegate {
 extension RecipesViewController: IngredientEditorViewDelegate {
 
     func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
-
+        if var recipe {
+            recipe.replaceIngredient(updatedIngredient: ingredient, atIndex: atIndex)
+            navigateToEditRecipe(recipe: recipe)
+        }
     }
 
-    func ingredientEditedCancel() {
-
-    }
-
+    func ingredientEditedCancel() { }
     func startNutritionBrowser(foodItemData: FoodRecordIngredient) { }
     func replaceFoodUsingSearch() { }
 }

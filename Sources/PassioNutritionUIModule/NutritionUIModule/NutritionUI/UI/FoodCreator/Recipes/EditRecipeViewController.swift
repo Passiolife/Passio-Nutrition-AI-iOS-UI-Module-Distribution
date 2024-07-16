@@ -310,11 +310,9 @@ extension EditRecipeViewController: PlusMenuDelegate {
 
     func onSearchSelected() {
         let vc = TextSearchViewController()
-        vc.dismmissToMyLog = true
-        vc.isCreateRecipe = true
-        vc.modalPresentationStyle = .fullScreen
         vc.advancedSearchDelegate = self
-        present(vc, animated: true)
+        vc.isCreateRecipe = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func onScanSelected() {}
@@ -363,13 +361,10 @@ extension EditRecipeViewController: AdvancedTextSearchViewDelegate {
 extension EditRecipeViewController: IngredientEditorViewDelegate {
 
     func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
-
+        recipe?.replaceIngredient(updatedIngredient: ingredient, atIndex: atIndex)
     }
 
-    func ingredientEditedCancel() {
-
-    }
-
+    func ingredientEditedCancel() { }
     func startNutritionBrowser(foodItemData: FoodRecordIngredient) { }
     func replaceFoodUsingSearch() { }
 }

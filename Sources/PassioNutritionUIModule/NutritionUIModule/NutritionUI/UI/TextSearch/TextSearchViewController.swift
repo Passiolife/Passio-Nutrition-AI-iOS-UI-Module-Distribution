@@ -14,19 +14,23 @@ import PassioNutritionAISDK
 final class TextSearchViewController: InstantiableViewController {
 
     private var advancedTextSearchView: AdvancedTextSearchView!
-
-    var dismmissToMyLog = false
-    var isCreateRecipe = false
     private var isFirstTime = true
+    var isCreateRecipe = false
 
     weak var advancedSearchDelegate: AdvancedTextSearchViewDelegate?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let nib = UINib.nibFromBundle(nibName: "AdvancedTextSearchView")
-        advancedTextSearchView = nib.instantiate(withOwner: self,
-                                                 options: nil).first as? AdvancedTextSearchView
+        title = "Text Search"
+        extendedLayoutIncludesOpaqueBars = true
+
+        setupBackButton()
+        if advancedTextSearchView == nil {
+            let nib = UINib.nibFromBundle(nibName: "AdvancedTextSearchView")
+            advancedTextSearchView = nib.instantiate(withOwner: self,
+                                                     options: nil).first as? AdvancedTextSearchView
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -46,29 +50,10 @@ final class TextSearchViewController: InstantiableViewController {
 extension TextSearchViewController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
-        DispatchQueue.main.async {
-            if self.dismmissToMyLog || self.navigationController == nil {
-                self.dismiss(animated: true) {
-                    self.advancedSearchDelegate?.userSelectedFood(record: record,
-                                                                   isPlusAction: isPlusAction)
-                }
-            } else {
-                self.advancedSearchDelegate?.userSelectedFood(record: record,
-                                                         isPlusAction: isPlusAction)
-            }
-        }
+        advancedSearchDelegate?.userSelectedFood(record: record, isPlusAction: isPlusAction)
     }
 
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
-        DispatchQueue.main.async {
-            if self.dismmissToMyLog || self.navigationController == nil {
-                self.dismiss(animated: true) { [weak self] in
-                    self?.advancedSearchDelegate?.userSelectedFoodItem(item: item,
-                                                                       isPlusAction: isPlusAction)
-                }
-            } else {
-                self.advancedSearchDelegate?.userSelectedFoodItem(item: item, isPlusAction: isPlusAction)
-            }
-        }
+        advancedSearchDelegate?.userSelectedFoodItem(item: item, isPlusAction: isPlusAction)
     }
 }

@@ -57,11 +57,11 @@ class IngredientEditorView: UIView {
         buttonCancel.applyBorder(width: 2, color: .primaryColor)
         buttonSave.setTitle( "Save", for: .normal)
         buttonSave.backgroundColor = .primaryColor
-        buttonCancel.roundMyCornerWith(radius: Custom.buttonCornerRadius)
-        buttonSave.roundMyCornerWith(radius: Custom.buttonCornerRadius)
+        buttonCancel.roundMyCornerWith(radius: 4)
+        buttonSave.roundMyCornerWith(radius: 4)
     }
 
-    // MARK: Button Actions.
+    // MARK: Button's Actions.
     @objc func changeLabel(sender: UIButton ) {
         guard let servingUnits = foodRecordIngredient?.servingUnits else { return }
         let items = servingUnits.map { return $0.unitName }
@@ -126,6 +126,7 @@ extension IngredientEditorView: UITableViewDataSource {
                                                                  slider: cell.sliderAmount)
             cell.setup(quantity: quantity, unitName: unitName, weight: weight)
             cell.textAmount.delegate = self
+            cell.textAmount.addOkButtonToToolbar(target: self, action: #selector(closeKeyBoard), forEvent: .touchUpInside)
             cell.buttonUnits.addTarget(self, action: #selector(changeLabel(sender:)), for: .touchUpInside)
             cell.sliderAmount.addTarget(self, action: #selector(sliderAmountValueDidChange(sender:)), for: .valueChanged)
             return cell
@@ -205,6 +206,10 @@ extension IngredientEditorView: UITableViewDataSource {
     @objc func userPressedReplaceSearch() {
         delegate?.replaceFoodUsingSearch()
     }
+
+    @objc private func closeKeyBoard(barButtonItem: UIBarButtonItem) {
+        endEditing(true)
+    }
 }
 
 extension IngredientEditorView: CustomPickerSelectionDelegate {
@@ -216,33 +221,11 @@ extension IngredientEditorView: CustomPickerSelectionDelegate {
 
 extension IngredientEditorView: UITextFieldDelegate {
 
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        let nFrame = CGRect(x: 0, y: 0, width: frame.size.width, height: 44)
-        let kbToolBarView = UIToolbar.init(frame: nFrame)
-        let kbSpacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                       target: nil, action: nil)
-        let bottonOk = UIBarButtonItem(title: "OK".localized, style: .plain, target: self,
-                                       action: #selector(closeKeyBoard(barButtonItem:)))
-        bottonOk.tag = textField.tag
-        kbToolBarView.items = [kbSpacer, bottonOk, kbSpacer]
-        kbToolBarView.tintColor = .white
-        kbToolBarView.barTintColor = .customBase
-        textField.inputAccessoryView = kbToolBarView
-        frame.origin.y -= 180
-        return true
-    }
-
-    @objc func closeKeyBoard(barButtonItem: UIBarButtonItem) {
-        if let fvc = self.findViewController() {
-            fvc.view.endEditing(true)
-        }
-    }
-
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         if let text = textField.text, text.contains("."), string == "." {
             return false
-        } else {// if let text = textField.text, text.count =< 5 {
+        } else {
             return true
         }
     }

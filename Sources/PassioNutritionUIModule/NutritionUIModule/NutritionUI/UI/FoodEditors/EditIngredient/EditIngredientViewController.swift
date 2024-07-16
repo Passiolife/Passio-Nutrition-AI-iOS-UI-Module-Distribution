@@ -14,7 +14,6 @@ import PassioNutritionAISDK
 final class EditIngredientViewController: UIViewController {
 
     private let passioSDK = PassioNutritionAI.shared
-
     private var ingredientEditorView: IngredientEditorView?
     private var isFavoriteTemplate = false
     private var saveOnDismiss = true
@@ -65,34 +64,21 @@ final class EditIngredientViewController: UIViewController {
 extension EditIngredientViewController: IngredientEditorViewDelegate {
 
     func replaceFoodUsingSearch() {
-
-        let tsVC = TextSearchViewController()
-        tsVC.modalPresentationStyle = .fullScreen
-        tsVC.advancedSearchDelegate = self
-        self.present(tsVC, animated: true)
-    }
-
-    func startNutritionBrowser(foodItemData: FoodRecordIngredient) {
-        // TODO: Fix lookupPassioIDAttributesFor + FoodItem
-//        guard let pAtt = passioSDK.lookupPassioIDAttributesFor(passioID: foodItemData.passioID) else {
-//            return
-//        }
-//        let nbVC = BrowseNutritionViewController()
-//        nbVC.foodRecord = FoodRecordV3(passioIDAttributes: pAtt,
-//                                     replaceVisualPassioID: nil,
-//                                     replaceVisualName: nil)
-//        nbVC.delegate = self
-//        self.navigationController?.pushViewController(nbVC, animated: true)
+        let vc = TextSearchViewController()
+        vc.advancedSearchDelegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func ingredientEditedFoodItemData(ingredient foodItemData: FoodRecordIngredient, atIndex: Int) {
-        navigationController?.popViewController(animated: true)
+        delegate?.ingredientEditedFoodItemData(ingredient: foodItemData, atIndex: atIndex)
     }
 
     func ingredientEditedCancel() {
         saveOnDismiss = false
         navigationController?.popViewController(animated: true)
     }
+
+    func startNutritionBrowser(foodItemData: FoodRecordIngredient) { }
 }
 
 extension EditIngredientViewController: AdvancedTextSearchViewDelegate {

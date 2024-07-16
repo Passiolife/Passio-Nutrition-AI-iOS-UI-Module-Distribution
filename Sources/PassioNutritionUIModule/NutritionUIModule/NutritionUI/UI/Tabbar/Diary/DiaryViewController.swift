@@ -372,10 +372,8 @@ extension DiaryViewController: GoToManualSearchDelegate {
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 let vc = TextSearchViewController()
-                vc.dismmissToMyLog = true
-                vc.modalPresentationStyle = .fullScreen
                 vc.advancedSearchDelegate = self
-                self.present(vc, animated: true)
+                self.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }

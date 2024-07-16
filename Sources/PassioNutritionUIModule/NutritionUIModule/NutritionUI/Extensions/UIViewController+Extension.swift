@@ -39,10 +39,14 @@ public extension UIViewController {
         (self.navigationController?.navigationBar.frame.height ?? 0.0)
     }
 
-    func presentVC(vc: UIViewController, isAnimated: Bool = true) {
+    func presentVC(vc: UIViewController, isAnimated: Bool = true, showOnTop: Bool = true) {
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overFullScreen
-        present(vc, animated: isAnimated)
+        if showOnTop {
+            UIApplication.topViewController()?.present(vc, animated: isAnimated)
+        } else {
+            present(vc, animated: isAnimated)
+        }
     }
 
     func getMeasurementUnit() -> UnitSelection {

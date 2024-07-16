@@ -18,9 +18,7 @@ protocol EditRecordViewControllerDelegate: AnyObject {
 final class EditRecordViewController: UIViewController {
 
     private let connector = PassioInternalConnector.shared
-
     private var foodEditorView: FoodEditorView?
-    private var saveOnDisappear = true
     private var replaceFood = false
 
     var foodRecord: FoodRecordV3?
@@ -126,7 +124,6 @@ extension EditRecordViewController: FoodEditorDelegate {
     }
 
     func foodEditorCancel() {
-        saveOnDisappear = false
         navigationController?.popViewController(animated: true)
     }
 
@@ -136,8 +133,7 @@ extension EditRecordViewController: FoodEditorDelegate {
         editVC.foodItemData = ingredient
         editVC.indexOfIngredient = indexOfIngredient
         editVC.delegate = self
-        self.navigationController?.pushViewController(editVC, animated: true)
-        saveOnDisappear = false
+        navigationController?.pushViewController(editVC, animated: true)
     }
 
     func foodEditorSearchText() {
@@ -149,20 +145,15 @@ extension EditRecordViewController: FoodEditorDelegate {
     }
 
     func delete(foodRecord: FoodRecordV3) {
-        saveOnDisappear = false
         delegateDelete?.deleteFromEdit(foodRecord: foodRecord)
         navigationController?.popViewController(animated: true)
     }
 
-    private func goToAdvancedSearch(isFoodReplace: Bool = false,
-                                    isSaveOnDisappear: Bool = false) {
-
-        let tsVC = TextSearchViewController()
-        tsVC.modalPresentationStyle = .fullScreen
-        tsVC.advancedSearchDelegate = self
-        self.present(tsVC, animated: true)
+    private func goToAdvancedSearch(isFoodReplace: Bool = false) {
         replaceFood = isFoodReplace
-        saveOnDisappear = isSaveOnDisappear
+        let textSearchVC = TextSearchViewController()
+        textSearchVC.advancedSearchDelegate = self
+        navigationController?.pushViewController(textSearchVC, animated: true)
     }
 
     func showVolumeEstimationViews(foodRecord: FoodRecordV3?) { }
@@ -174,7 +165,8 @@ extension EditRecordViewController: FoodEditorDelegate {
 extension EditRecordViewController: IngredientEditorViewDelegate {
 
     func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
-        foodEditorView?.foodRecord?.replaceIngredient(updatedIngredient: ingredient, atIndex: atIndex)
+        foodEditorView?.foodRecord?.replaceIngredient(updatedIngredient: ingredient,
+                                                      atIndex: atIndex)
     }
 
     func goToSearchManully() { }
