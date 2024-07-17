@@ -13,9 +13,10 @@ final class PassioUserDefaults {
     enum Key: String {
         case scanningOnboardingCompleted
         case dragTrayForFirstTime
+        case trackingEnabled
     }
 
-    class func store(for key: PassioUserDefaults.Key, value: Any?){
+    class func store(for key: PassioUserDefaults.Key, value: Any?) {
         let defaults = UserDefaults.standard
         defaults.set(value, forKey: key.rawValue)
     }

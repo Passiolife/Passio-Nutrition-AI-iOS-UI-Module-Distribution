@@ -22,15 +22,23 @@
                         <constraint firstAttribute="height" constant="500" id="3OR-g5-6Nh"/>
                     </constraints>
                 </tableView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="1EU-Kw-VN7">
+                    <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                    <color key="tintColor" name="indigo-600"/>
+                    <color key="color" name="indigo-600"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" name="gray-50"/>
             <constraints>
                 <constraint firstItem="Hvk-2M-c7H" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="dph-rl-ANF"/>
+                <constraint firstItem="1EU-Kw-VN7" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dqg-jU-1uc"/>
                 <constraint firstItem="Hvk-2M-c7H" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="hPu-6A-0gV"/>
                 <constraint firstItem="Hvk-2M-c7H" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="n0Z-Kx-6ik"/>
+                <constraint firstItem="1EU-Kw-VN7" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="uod-dq-uQY"/>
             </constraints>
             <connections>
+                <outlet property="activityIndicatorView" destination="1EU-Kw-VN7" id="FOv-bJ-LJy"/>
                 <outlet property="searchTableView" destination="Hvk-2M-c7H" id="57A-xT-60O"/>
                 <outlet property="tblViewHeightConstraint" destination="3OR-g5-6Nh" id="fcY-Eq-XoE"/>
             </connections>
@@ -40,6 +48,9 @@
     <resources>
         <namedColor name="gray-50">
             <color red="0.97647058823529409" green="0.98039215686274506" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

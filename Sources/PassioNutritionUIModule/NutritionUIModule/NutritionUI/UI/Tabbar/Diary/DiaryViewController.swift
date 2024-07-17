@@ -128,7 +128,7 @@ class DiaryViewController: UIViewController {
 
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 120, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 150, right: 0)
 
         let layout = UICollectionViewCompositionalLayout { (sectionNumber, env) in
             if sectionNumber == 0 {

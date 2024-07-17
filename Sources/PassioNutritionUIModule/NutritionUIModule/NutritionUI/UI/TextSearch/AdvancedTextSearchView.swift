@@ -18,6 +18,7 @@ protocol AdvancedTextSearchViewDelegate: AnyObject {
 
 final class AdvancedTextSearchView: UIView {
 
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var tblViewHeightConstraint: NSLayoutConstraint!
 
@@ -89,6 +90,7 @@ final class AdvancedTextSearchView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        activityIndicatorView.color = .primaryColor
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)),
@@ -200,6 +202,7 @@ private extension AdvancedTextSearchView {
         PassioNutritionAI.shared.fetchFoodItemFor(foodItem: result) { [weak self] (foodItem) in
             guard let self else { return }
             DispatchQueue.main.async {
+                self.activityIndicatorView.isHidden = true
                 self.delegate?.userSelectedFoodItem(item: foodItem, isPlusAction: false)
             }
         }
@@ -208,6 +211,11 @@ private extension AdvancedTextSearchView {
     private func getFoodRecord(foodData: PassioFoodDataInfo?,
                                record: FoodRecordV3?,
                                completion: @escaping ((FoodRecordV3?) -> Void)) {
+
+        DispatchQueue.main.async {
+            self.activityIndicatorView.isHidden = false
+            self.activityIndicatorView.startAnimating()
+        }
         if let foodData {
             PassioNutritionAI.shared.fetchFoodItemFor(foodItem: foodData) { (foodItem) in
                 guard let foodItem else {
@@ -222,6 +230,10 @@ private extension AdvancedTextSearchView {
     }
 
     private func quickLogFood(record: FoodRecordV3?) {
+
+        DispatchQueue.main.async {
+            self.activityIndicatorView.isHidden = true
+        }
         if var record {
             if isCreateRecipe {
                 delegate?.userSelectedFood(record: record, isPlusAction: true)
@@ -442,6 +454,11 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         guard let searchResult = alternateSearches?.results else { return }
+
+        DispatchQueue.main.async {
+            self.activityIndicatorView.isHidden = false
+            self.activityIndicatorView.startAnimating()
+        }
 
         switch sections[indexPath.section] {
 

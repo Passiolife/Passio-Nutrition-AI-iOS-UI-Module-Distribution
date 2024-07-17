@@ -180,8 +180,6 @@ class DetectedFoodResultView: CustomModalViewController {
                     self.setupNameAndImage(name: foodItem.name, passioID: foodItem.iconId, entityType: .packagedFoodCode)
                     self.setDragabble(isDraggable: false)
                 }
-            } else {
-                print("Package food not detected")
             }
         })
     }

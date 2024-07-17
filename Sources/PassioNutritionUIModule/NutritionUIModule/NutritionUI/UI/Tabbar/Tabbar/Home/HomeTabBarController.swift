@@ -77,6 +77,10 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         DispatchQueue.global(qos: .background).async {
             FileManager.default.clearTempDirectory()
         }
+
+        PassioNutritionAI.shared.setTokenUsageOverlay(
+            visible: PassioUserDefaults.bool(for: .trackingEnabled)
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {

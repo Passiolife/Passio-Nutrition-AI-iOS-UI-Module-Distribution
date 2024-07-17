@@ -6,8 +6,10 @@
 //  Copyright © 2024 Passio Inc. All rights reserved.
 //
 
-import Foundation
 import UIKit
+#if canImport(PassioNutritionAISDK)
+import PassioNutritionAISDK
+#endif
 
 class EditSettingsViewController: UIViewController {
 
@@ -20,6 +22,10 @@ class EditSettingsViewController: UIViewController {
     @IBOutlet weak var reminderDinnerSwitch: UISwitch!
     @IBOutlet weak var unitContainerView: UIView!
     @IBOutlet weak var reminderContainerView: UIView!
+    @IBOutlet weak var tokenTrackingContainerView: UIView!
+    @IBOutlet weak var tokenTrackingLabel: UILabel!
+    @IBOutlet weak var enableTokenTrackingLabel: UILabel!
+    @IBOutlet weak var tokenTrackingSwitch: UISwitch!
 
     var userProfile: UserProfileModel?
     let connector = PassioInternalConnector.shared
@@ -51,7 +57,7 @@ class EditSettingsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        [unitContainerView, reminderContainerView].forEach {
+        [unitContainerView, reminderContainerView, tokenTrackingContainerView].forEach {
             $0.layer.shadowPath = UIBezierPath(roundedRect: $0.bounds, cornerRadius: 8).cgPath
         }
     }
@@ -67,7 +73,7 @@ class EditSettingsViewController: UIViewController {
         unitButton.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
         heightUnitButtom.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
 
-        [unitContainerView, reminderContainerView].forEach{
+        [unitContainerView, reminderContainerView, tokenTrackingContainerView].forEach{
             $0?.dropShadow(radius: 8,
                            offset: CGSize(width: 0, height: 1),
                            color: .black.withAlphaComponent(0.06),
@@ -75,8 +81,8 @@ class EditSettingsViewController: UIViewController {
                            shadowOpacity: 1)
         }
 
-        [reminderBreakfastSwitch, reminderDinnerSwitch, reminderLunchSwitch].forEach({
-            $0?.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        [reminderBreakfastSwitch, reminderDinnerSwitch, reminderLunchSwitch, tokenTrackingSwitch].forEach({
+            $0?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         })
 
         title = "Settings"
@@ -84,6 +90,7 @@ class EditSettingsViewController: UIViewController {
         reminderBreakfastSwitch.onTintColor = .primaryColor
         reminderLunchSwitch.onTintColor = .primaryColor
         reminderDinnerSwitch.onTintColor = .primaryColor
+        tokenTrackingSwitch.onTintColor = .primaryColor
     }
 
     private func setupProfile() {
@@ -93,6 +100,7 @@ class EditSettingsViewController: UIViewController {
         reminderBreakfastSwitch.isOn = userProfile?.reminderSettings?.breakfast ?? false
         reminderLunchSwitch.isOn = userProfile?.reminderSettings?.lunch ?? false
         reminderDinnerSwitch.isOn = userProfile?.reminderSettings?.dinner ?? false
+        tokenTrackingSwitch.isOn = PassioUserDefaults.bool(for: .trackingEnabled)
     }
 
     @objc private func showUnit(_ sender: UIButton) {
@@ -151,5 +159,11 @@ extension EditSettingsViewController: CustomPickerSelectionDelegate {
         reminderSettings.lunch = reminderLunchSwitch.isOn
         reminderSettings.dinner = reminderDinnerSwitch.isOn
         userProfile?.reminderSettings = reminderSettings
+    }
+
+    @IBAction func onTokenTrackingChanged(_ sender: UISwitch) {
+
+        PassioUserDefaults.store(for: .trackingEnabled, value: sender.isOn)
+        PassioNutritionAI.shared.setTokenUsageOverlay(visible: sender.isOn)
     }
 }
