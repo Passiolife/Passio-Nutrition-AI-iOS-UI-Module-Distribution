@@ -53,6 +53,8 @@ class MealPlanViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        MealPlanManager.shared.getMealPlans()
         registerCellsAndTableDelegates()
     }
 

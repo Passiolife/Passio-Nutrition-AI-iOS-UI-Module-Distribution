@@ -51,7 +51,7 @@ class FoodRecognitionDataSetConnector {
                     completion(nil)
                     return
                 }
-                foodRecord = FoodRecordV3.init(foodItem: item)
+                foodRecord = FoodRecordV3(foodItem: item)
                 completion(foodRecord)
             }
         }

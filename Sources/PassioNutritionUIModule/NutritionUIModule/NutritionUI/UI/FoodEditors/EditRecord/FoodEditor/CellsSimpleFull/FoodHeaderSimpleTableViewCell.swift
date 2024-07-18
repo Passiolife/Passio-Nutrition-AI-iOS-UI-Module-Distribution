@@ -24,7 +24,6 @@ class FoodHeaderSimpleTableViewCell: UITableViewCell {
     @IBOutlet weak var carbsPercentLabel: UILabel!
     @IBOutlet weak var fatPercentLabel: UILabel!
     @IBOutlet weak var protienPercentLabel: UILabel!
-
     @IBOutlet weak var insetBackground: UIView!
     @IBOutlet weak var favouriteButton: UIButton!
     @IBOutlet weak var nutritionInfoButton: UIButton!
@@ -81,16 +80,22 @@ class FoodHeaderSimpleTableViewCell: UITableViewCell {
 
         imageFood.isUserInteractionEnabled = false
         imageFood.roundMyCorner()
-        selectionStyle = .none
 
         nutritionInfoButton.isHidden = !foodRecord.isOpenFood
 
-        let percents = macronutrientPercentages(carbsG: foodRecord.totalCarbs, fatG: foodRecord.totalFat, proteinG: foodRecord.totalProteins, totalCalories: foodRecord.totalCalories)
-
-
-        let c = DonutProgressView.Datasource.init(label: "carbs", color: .lightBlue, percent: percents.carbPercentage)
-        let p = DonutProgressView.Datasource.init(label: "protein", color: .green500, percent: percents.proteinPercentage)
-        let f = DonutProgressView.Datasource.init(label: "Fat", color: .purple500, percent: percents.fatPercentage)
+        let percents = macronutrientPercentages(carbsG: foodRecord.totalCarbs,
+                                                fatG: foodRecord.totalFat,
+                                                proteinG: foodRecord.totalProteins,
+                                                totalCalories: foodRecord.totalCalories)
+        let c = DonutProgressView.Datasource.init(label: "carbs",
+                                                  color: .lightBlue,
+                                                  percent: percents.carbPercentage)
+        let p = DonutProgressView.Datasource.init(label: "protein",
+                                                  color: .green500,
+                                                  percent: percents.proteinPercentage)
+        let f = DonutProgressView.Datasource.init(label: "Fat",
+                                                  color: .purple500,
+                                                  percent: percents.fatPercentage)
 
         nutritionView.updateData(data: [c,p,f])
         caloriesLabel.text = foodRecord.totalCalories.roundDigits(afterDecimal: 0).clean
@@ -133,12 +138,19 @@ class FoodHeaderSimpleTableViewCell: UITableViewCell {
 
         nutritionInfoButton.isHidden = !foodIngrident.isOpenFood
 
-        let percents = macronutrientPercentages(carbsG: foodIngrident.totalCarbs, fatG: foodIngrident.totalFat, proteinG: foodIngrident.totalProteins, totalCalories: foodIngrident.totalCalories)
-
-
-        let c = DonutProgressView.Datasource.init(label: "carbs", color: .lightBlue, percent: percents.carbPercentage)
-        let p = DonutProgressView.Datasource.init(label: "protein", color: .green500, percent: percents.proteinPercentage)
-        let f = DonutProgressView.Datasource.init(label: "Fat", color: .purple500, percent: percents.fatPercentage)
+        let percents = macronutrientPercentages(carbsG: foodIngrident.totalCarbs,
+                                                fatG: foodIngrident.totalFat,
+                                                proteinG: foodIngrident.totalProteins,
+                                                totalCalories: foodIngrident.totalCalories)
+        let c = DonutProgressView.Datasource.init(label: "carbs",
+                                                  color: .lightBlue,
+                                                  percent: percents.carbPercentage)
+        let p = DonutProgressView.Datasource.init(label: "protein",
+                                                  color: .green500,
+                                                  percent: percents.proteinPercentage)
+        let f = DonutProgressView.Datasource.init(label: "Fat",
+                                                  color: .purple500,
+                                                  percent: percents.fatPercentage)
 
         nutritionView.updateData(data: [c,p,f])
         caloriesLabel.text = foodIngrident.totalCalories.roundDigits(afterDecimal: 0).clean
@@ -158,7 +170,12 @@ class FoodHeaderSimpleTableViewCell: UITableViewCell {
         }
     }
 
-    func macronutrientPercentages(carbsG: Double, fatG: Double, proteinG: Double, totalCalories: Double) -> (carbPercentage: Double,fatPercentage: Double,proteinPercentage: Double  ) {
+    func macronutrientPercentages(carbsG: Double,
+                                  fatG: Double,
+                                  proteinG: Double,
+                                  totalCalories: Double) -> (carbPercentage: Double,
+                                                             fatPercentage: Double,
+                                                             proteinPercentage: Double) {
         // Calculate calories contributed by each macronutrient
         let carbCalories = carbsG * 4
         let fatCalories = fatG * 9
@@ -172,6 +189,8 @@ class FoodHeaderSimpleTableViewCell: UITableViewCell {
         let fatPercentage = (fatCalories / totalMacronutrientCalories) * 100
         let proteinPercentage = (proteinCalories / totalMacronutrientCalories) * 100
 
-        return (carbPercentage: carbPercentage, fatPercentage: fatPercentage, proteinPercentage: proteinPercentage)
+        return (carbPercentage: carbPercentage,
+                fatPercentage: fatPercentage,
+                proteinPercentage: proteinPercentage)
     }
 }

@@ -164,6 +164,7 @@ extension EditSettingsViewController: CustomPickerSelectionDelegate {
     @IBAction func onTokenTrackingChanged(_ sender: UISwitch) {
 
         PassioUserDefaults.store(for: .trackingEnabled, value: sender.isOn)
-        PassioNutritionAI.shared.setTokenUsageOverlay(visible: sender.isOn)
+        let tokenOverlay = TokenUsageOverlayManager.shared
+        sender.isOn ? tokenOverlay.showOverlay() : tokenOverlay.hideOverlay()
     }
 }

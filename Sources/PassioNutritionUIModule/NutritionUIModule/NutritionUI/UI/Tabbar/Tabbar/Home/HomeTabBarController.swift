@@ -67,20 +67,13 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        UserManager.shared.configure()
-
         addTabBarControllers()
         configureUI()
-        configureNavBar()
-        MealPlanManager.shared.getMealPlans()
-
+        UserManager.shared.configure()
+        showTokenUsageUI()
         DispatchQueue.global(qos: .background).async {
             FileManager.default.clearTempDirectory()
         }
-
-        PassioNutritionAI.shared.setTokenUsageOverlay(
-            visible: PassioUserDefaults.bool(for: .trackingEnabled)
-        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -219,6 +212,15 @@ extension HomeTabBarController {
         customPickerViewController.modalPresentationStyle = .overFullScreen
         self.navigationController?.present(customPickerViewController, animated: true, completion: nil)
     }
+
+    private func showTokenUsageUI() {
+        PassioNutritionAI.shared.accountDelegate = self
+        if PassioUserDefaults.bool(for: .trackingEnabled) {
+            TokenUsageOverlayManager.shared.showOverlay()
+        } else {
+            TokenUsageOverlayManager.shared.hideOverlay()
+        }
+    }
 }
 
 // MARK: - TabBar delegate
@@ -296,6 +298,7 @@ extension HomeTabBarController: AdvancedTextSearchViewDelegate {
     }
 }
 
+// MARK: - CustomPickerSelection Delegate
 extension HomeTabBarController: CustomPickerSelectionDelegate {
 
     func onPickerSelection(value: String, selectedIndex: Int, viewTag: Int) {
@@ -313,5 +316,13 @@ extension HomeTabBarController: CustomPickerSelectionDelegate {
             break
         default: break
         }
+    }
+}
+
+// MARK: - PassioAccount Delegate
+extension HomeTabBarController: PassioAccountDelegate {
+
+    func tokenBudgetUpdated(tokenBudget: TokenBudget) {
+        TokenUsageOverlayManager.shared.updateOverlay(withBudget: tokenBudget)
     }
 }

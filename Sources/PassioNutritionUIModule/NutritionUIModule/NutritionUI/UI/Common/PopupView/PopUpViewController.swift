@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-final class PopUpViewController: UIViewController {
+final class PopUpViewController: InstantiableViewController {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var infoTextView: UITextView!
