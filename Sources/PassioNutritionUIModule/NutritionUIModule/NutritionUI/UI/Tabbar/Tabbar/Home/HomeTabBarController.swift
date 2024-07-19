@@ -322,7 +322,7 @@ extension HomeTabBarController: CustomPickerSelectionDelegate {
 // MARK: - PassioAccount Delegate
 extension HomeTabBarController: PassioAccountDelegate {
 
-    func tokenBudgetUpdated(tokenBudget: TokenBudget) {
+    func tokenBudgetUpdated(tokenBudget: PassioTokenBudget) {
         TokenUsageOverlayManager.shared.updateOverlay(withBudget: tokenBudget)
     }
 }

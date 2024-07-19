@@ -31,6 +31,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
     private var isRecognitionsPaused = false
     private var currentZoomLevel: CGFloat = 1
     private var workItem: DispatchWorkItem?
+    private var isFlashlightOn: Bool = false
 
     public var dataset: (any FoodRecognitionDataSet)? {
         didSet {
@@ -195,7 +196,8 @@ private extension FoodRecognitionV3ViewController {
     }
 
     @IBAction func onFlashlight(_ sender: UIButton) {
-        passioSDK.setFlashlightOn()
+        passioSDK.enableFlashlight(enabled: !isFlashlightOn, level: 2)
+        isFlashlightOn.toggle()
     }
 }
 

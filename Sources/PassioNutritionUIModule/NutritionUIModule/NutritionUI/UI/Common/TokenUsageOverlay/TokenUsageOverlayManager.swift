@@ -11,7 +11,7 @@ final class TokenUsageOverlayManager {
 
     static let shared = TokenUsageOverlayManager()
 
-    private var lastBudget = TokenBudget()
+    private var lastBudget = PassioTokenBudget()
     private var overlayWindow: UIWindow?
     private var textLabel: UILabel?
     private var progressBar: UIProgressView?
@@ -106,7 +106,7 @@ final class TokenUsageOverlayManager {
         }
     }
 
-    func updateOverlay(withBudget budget: TokenBudget) {
+    func updateOverlay(withBudget budget: PassioTokenBudget) {
 
         totalSessionTokens += budget.requestUsage
         lastBudget = budget
