@@ -59,8 +59,8 @@ class DashboardViewController: UIViewController {
     }
 
     func registerCell() {
-        tableView.register(nibName: "DailyNutritionCell")
-        tableView.register(nibName: "CalendarCell")
+        tableView.register(nibName: DailyNutritionCell.className)
+        tableView.register(nibName: CalendarCell.className)
     }
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
@@ -72,7 +72,7 @@ class DashboardViewController: UIViewController {
 
     func setTitle() {
         if selectedDate.isToday {
-            dateButton.setTitle("Today".localized, for: .normal)
+            dateButton.setTitle("Today", for: .normal)
         } else {
             let dateFormatterPrint = DateFormatter()
             dateFormatterPrint.dateFormat = "MMMM dd, yyyy"
@@ -113,7 +113,7 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
         switch cells[indexPath.row] {
 
         case .nutrition:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DailyNutritionCell") as! DailyNutritionCell
+            let cell = tableView.dequeueCell(cellClass: DailyNutritionCell.self, forIndexPath: indexPath)
             let displayedRecords = dayLog?.displayedRecords ?? []
             let userProfile = UserManager.shared.user ?? UserProfileModel()
             let (calories, carbs, protein, fat) = getNutritionSummaryfor(foodRecords: displayedRecords)
@@ -126,7 +126,7 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
 
         case .calender:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CalendarCell") as! CalendarCell
+            let cell = tableView.dequeueCell(cellClass: CalendarCell.self, forIndexPath: indexPath)
             cell.configure(currentDate: self.selectedDate, calendarScope: calendarScope)
             cell.configureDateUI()
             return cell

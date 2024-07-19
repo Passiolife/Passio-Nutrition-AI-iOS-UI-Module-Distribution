@@ -65,11 +65,11 @@ extension QuickAddSuggestionViewController {
     private func registerCellsAndTableDelegates() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        let layout = UICollectionViewCompositionalLayout { (sectionNumber, env) in
-            return self.collectionLayout(height: 60)
+        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionNumber, env) in
+            return self?.collectionLayout(height: 60)
         }
         collectionView.setCollectionViewLayout(layout, animated: true )
-        collectionView.register(nibName: "QuickAddCollectionViewCell")
+        collectionView.register(nibName: QuickAddCollectionViewCell.className)
     }
 
     func getQuickSuggestion() {

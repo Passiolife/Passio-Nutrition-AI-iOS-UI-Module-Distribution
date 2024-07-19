@@ -14,6 +14,7 @@ import PassioNutritionAISDK
 
 final class FoodRecognitionV3ViewController: UIViewController {
 
+    @IBOutlet weak var flashLightButton: UIButton!
     @IBOutlet weak var focusButton: UIButton!
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var scanningView: UIView!
@@ -116,6 +117,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
         nutritionFactResultVC?.delegate = self
         activityIndicator.color = .primaryColor
         zoomSlider.minimumTrackTintColor = .primaryColor
+        flashLightButton.tintColor = .primaryColor
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -190,6 +192,10 @@ private extension FoodRecognitionV3ViewController {
         let tappedPoint = gesture.location(in: view)
         let convertedPoint = videoLayer.captureDevicePointConverted(fromLayerPoint: tappedPoint)
         passioSDK.setTapToFocus(pointOfInterest: convertedPoint)
+    }
+
+    @IBAction func onFlashlight(_ sender: UIButton) {
+        passioSDK.setFlashlightOn()
     }
 }
 

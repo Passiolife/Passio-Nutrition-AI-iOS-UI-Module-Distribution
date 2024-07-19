@@ -41,6 +41,9 @@ final class EditProfileViewController: UIViewController {
 
         configureUI()
         configureNavBar()
+        if MealPlanManager.shared.mealPlans.count == 0 {
+            MealPlanManager.shared.getMealPlans()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

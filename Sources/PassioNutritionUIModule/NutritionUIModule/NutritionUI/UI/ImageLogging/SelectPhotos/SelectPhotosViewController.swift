@@ -42,7 +42,7 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
         selectedImageCollectionView.dataSource = self
         selectedImageCollectionView.delegate = self
         selectedImageCollectionView.collectionViewLayout = createCompositionalLayout()
-        selectedImageCollectionView.register(nibName: "SelectedImageCell")
+        selectedImageCollectionView.register(nibName: SelectedImageCell.className)
     }
 
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {

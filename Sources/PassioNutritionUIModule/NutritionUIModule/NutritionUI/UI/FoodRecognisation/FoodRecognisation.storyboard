@@ -125,6 +125,21 @@
                                     <action selector="onZoomLevelChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="A37-DI-c78"/>
                                 </connections>
                             </slider>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pas-ko-4o3">
+                                <rect key="frame" x="349" y="122" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="gEX-Ve-vcm"/>
+                                    <constraint firstAttribute="width" constant="28" id="its-WY-EAq"/>
+                                </constraints>
+                                <color key="tintColor" name="indigo-600"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="flashlight.on.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="regular"/>
+                                </state>
+                                <connections>
+                                    <action selector="onFlashlight:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="RG8-nf-9fE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -142,6 +157,7 @@
                             <constraint firstItem="dWt-si-RNn" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="12" id="J9b-H2-OMF"/>
                             <constraint firstItem="TcB-od-pu9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="MTm-04-hdp"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="LK3-IK-J1a" secondAttribute="trailing" id="V9Q-7H-uRy"/>
+                            <constraint firstItem="pas-ko-4o3" firstAttribute="top" secondItem="TcB-od-pu9" secondAttribute="bottom" constant="16" id="XyF-bd-c2E"/>
                             <constraint firstItem="gBO-eB-EXK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="cKp-IA-XYa"/>
                             <constraint firstItem="9OA-zS-gMO" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="eC5-5P-Wvj"/>
                             <constraint firstItem="8Pe-jm-fVd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="ejY-D5-5Lj"/>
@@ -149,6 +165,7 @@
                             <constraint firstItem="hDu-fn-wAi" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="hIT-2G-3JA"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fRh-tC-Al6" secondAttribute="trailing" constant="16" id="iRi-SB-COO"/>
                             <constraint firstItem="TcB-od-pu9" firstAttribute="centerY" secondItem="dWt-si-RNn" secondAttribute="centerY" id="pu8-wh-nCw"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="pas-ko-4o3" secondAttribute="trailing" constant="16" id="rVu-Zc-0ri"/>
                             <constraint firstItem="9OA-zS-gMO" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" multiplier="0.8" id="t53-Jp-tov"/>
                             <constraint firstAttribute="bottom" secondItem="gBO-eB-EXK" secondAttribute="bottom" id="vUL-cL-lvV"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="dWt-si-RNn" secondAttribute="trailing" constant="16" id="ztv-gC-vPp"/>
@@ -157,6 +174,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="hDu-fn-wAi" id="TSP-gK-kf3"/>
                         <outlet property="contentView" destination="gBO-eB-EXK" id="Su7-YY-YEa"/>
+                        <outlet property="flashLightButton" destination="pas-ko-4o3" id="JB5-mq-Nqi"/>
                         <outlet property="focusButton" destination="dWt-si-RNn" id="WGp-uZ-xRl"/>
                         <outlet property="nutritionContentView" destination="8Pe-jm-fVd" id="pur-s1-fAg"/>
                         <outlet property="previewView" destination="LK3-IK-J1a" id="d3g-TG-3f7"/>
@@ -1452,6 +1470,7 @@
         <image name="barcode_detected" width="38" height="30"/>
         <image name="barcode_error" width="40" height="40"/>
         <image name="drinks" width="40" height="40"/>
+        <image name="flashlight.on.fill" catalog="system" width="72" height="128"/>
         <image name="focus_off_icon" width="32" height="32"/>
         <image name="green-check" width="40" height="40"/>
         <image name="nutritionFacts" width="40" height="40"/>

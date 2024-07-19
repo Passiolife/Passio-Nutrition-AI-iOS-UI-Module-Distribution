@@ -54,11 +54,15 @@ class MealPlanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        MealPlanManager.shared.getMealPlans()
+        if MealPlanManager.shared.mealPlans.count == 0 {
+            MealPlanManager.shared.getMealPlans()
+        }
         registerCellsAndTableDelegates()
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         if let mealPlan = UserManager.shared.user?.mealPlan {
             if selectedMealPlan != mealPlan {
                 selectedMealPlan = mealPlan
@@ -71,23 +75,28 @@ class MealPlanViewController: UIViewController {
         }
     }
 
-    func getMealPlanData() {
+    private func getMealPlanData() {
+
         ProgressHUD.show(presentingVC: self)
         PassioNutritionAI.shared.fetchMealPlanForDay(mealPlanLabel: selectedMealPlan?.mealPlanLabel ?? "",
                                                      day: selectedDay ?? 1) { [weak self] mealPlanItems in
+
             guard let self else { return }
+
+            breakfastMealPlanItem = mealPlanItems.filter { $0.mealTime == .breakfast }
+            lunchMealPlanItem = mealPlanItems.filter { $0.mealTime == .lunch }
+            dinnerMealPlanItem = mealPlanItems.filter { $0.mealTime == .dinner }
+            snacksMealPlanItem = mealPlanItems.filter { $0.mealTime == .snack }
+
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
-                self.breakfastMealPlanItem = mealPlanItems.filter({$0.mealTime == .breakfast})
-                self.lunchMealPlanItem = mealPlanItems.filter({$0.mealTime == .lunch})
-                self.dinnerMealPlanItem = mealPlanItems.filter({$0.mealTime == .dinner})
-                self.snacksMealPlanItem = mealPlanItems.filter({$0.mealTime == .snack})
                 self.collectionView.reloadData()
             }
         }
     }
 
-    func registerCellsAndTableDelegates() {
+    private func registerCellsAndTableDelegates() {
+
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 40, right: 0)
@@ -99,7 +108,8 @@ class MealPlanViewController: UIViewController {
             return self?.collectionLayout(height: 60)
         }
 
-        layout.register(MealPlanSectionDecorationView.self, forDecorationViewOfKind: "MealPlanSectionDecorationView")
+        layout.register(MealPlanSectionDecorationView.self,
+                        forDecorationViewOfKind: MealPlanSectionDecorationView.className)
         collectionView.setCollectionViewLayout(layout, animated: true)
 
         CellMealPlan.allCases.forEach {
@@ -133,7 +143,9 @@ extension MealPlanViewController: UICollectionViewDataSource, UICollectionViewDe
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 
-        let decorationItem = NSCollectionLayoutDecorationItem.background(elementKind: "MealPlanSectionDecorationView")
+        let decorationItem = NSCollectionLayoutDecorationItem.background(
+            elementKind: MealPlanSectionDecorationView.className
+        )
         decorationItem.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
         section.decorationItems = [decorationItem]
 
@@ -156,10 +168,7 @@ extension MealPlanViewController: UICollectionViewDataSource, UICollectionViewDe
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if sections[indexPath.section] == .dietType {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MealPlanDietTypeCell",
-                                                                for: indexPath) as? MealPlanDietTypeCell else {
-                return UICollectionViewCell()
-            }
+            let cell = collectionView.dequeueCell(cellClass: MealPlanDietTypeCell.self, forIndexPath: indexPath)
             cell.selectedMealPlan = selectedMealPlan
             cell.selectedDay = selectedDay ?? 1
             cell.delegate = self
@@ -168,10 +177,7 @@ extension MealPlanViewController: UICollectionViewDataSource, UICollectionViewDe
 
         switch indexPath.row {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MealPlanSectionHeaderCell",
-                                                                for: indexPath) as? MealPlanSectionHeaderCell else {
-                return UICollectionViewCell()
-            }
+            let cell = collectionView.dequeueCell(cellClass: MealPlanSectionHeaderCell.self, forIndexPath: indexPath)
             guard let mealForSection =  sections[indexPath.section].mealForSection else {return UICollectionViewCell()}
             cell.mealLabel = mealForSection
             cell.labelMealTime.text = mealForSection.rawValue
@@ -179,10 +185,7 @@ extension MealPlanViewController: UICollectionViewDataSource, UICollectionViewDe
             return cell
 
         default:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MealPlanFoodCell",
-                                                                for: indexPath) as? MealPlanFoodCell else {
-                return UICollectionViewCell()
-            }
+            let cell = collectionView.dequeueCell(cellClass: MealPlanFoodCell.self, forIndexPath: indexPath)
             if let mealPlanItem = getMealPlanItem(indexPath: indexPath) {
                 if let foodSearchResult = mealPlanItem.meal {
                     cell.setup(foodResult: foodSearchResult)
