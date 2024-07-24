@@ -23,7 +23,7 @@ final class AdvancedTextSearchView: UIView {
     @IBOutlet weak var tblViewHeightConstraint: NSLayoutConstraint!
 
     private let connecter = PassioInternalConnector.shared
-    private let searchController = UISearchController(searchResultsController: nil)
+    var searchController: UISearchController?
     private var alternateSearches: SearchResponse?
     private var favorites: [FoodRecordV3]?
     private var userFoods: [FoodRecordV3]?
@@ -122,7 +122,9 @@ private extension AdvancedTextSearchView {
 
     private func setupSearchBar() {
 
-        if let vc = findViewController() {
+        searchController = UISearchController(searchResultsController: nil)
+
+        if let vc = findViewController(), let searchController {
             searchController.searchResultsUpdater = self
             searchController.obscuresBackgroundDuringPresentation = false
             searchController.searchBar.placeholder = "Type in food name".localized
@@ -144,14 +146,14 @@ private extension AdvancedTextSearchView {
             vc.navigationItem.searchController = searchController
             vc.navigationItem.hidesSearchBarWhenScrolling = false
             vc.definesPresentationContext = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.searchController.searchBar.becomeFirstResponder()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) { [weak self] in
+                self?.searchController?.searchBar.becomeFirstResponder()
             }
         }
     }
 
     func isSearchBarEmpty() -> Bool {
-        searchController.searchBar.text?.isEmpty ?? true
+        searchController?.searchBar.text?.isEmpty ?? true
     }
 
     func performSearch(term: String) {
@@ -182,12 +184,17 @@ private extension AdvancedTextSearchView {
         alternateSearches = nil
         favorites = nil
         userFoods = nil
-        searchController.resignFirstResponder()
-        searchController.isActive = false
+        searchController?.resignFirstResponder()
+        searchController?.isActive = false
         findViewController()?.navigationController?.popViewController(animated: true)
     }
 
     private func navigateToEditFood(foodRecord: FoodRecordV3) {
+
+        searchTimer?.invalidate()
+        searchTimer = nil
+        searchController = nil
+
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             var foodRecord = foodRecord
@@ -199,11 +206,15 @@ private extension AdvancedTextSearchView {
 
     private func fetchFoodItemFromSearch(result: PassioFoodDataInfo) {
 
+        searchTimer?.invalidate()
+        searchTimer = nil
+        searchController = nil
+
         PassioNutritionAI.shared.fetchFoodItemFor(foodItem: result) { [weak self] (foodItem) in
             guard let self else { return }
-            DispatchQueue.main.async {
-                self.activityIndicatorView.isHidden = true
-                self.delegate?.userSelectedFoodItem(item: foodItem, isPlusAction: false)
+            DispatchQueue.main.async { [weak self] in
+                self?.activityIndicatorView.isHidden = true
+                self?.delegate?.userSelectedFoodItem(item: foodItem, isPlusAction: false)
             }
         }
     }
@@ -212,9 +223,9 @@ private extension AdvancedTextSearchView {
                                record: FoodRecordV3?,
                                completion: @escaping ((FoodRecordV3?) -> Void)) {
 
-        DispatchQueue.main.async {
-            self.activityIndicatorView.isHidden = false
-            self.activityIndicatorView.startAnimating()
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicatorView.isHidden = false
+            self?.activityIndicatorView.startAnimating()
         }
         if let foodData {
             PassioNutritionAI.shared.fetchFoodItemFor(foodItem: foodData) { (foodItem) in
@@ -231,18 +242,20 @@ private extension AdvancedTextSearchView {
 
     private func quickLogFood(record: FoodRecordV3?) {
 
-        DispatchQueue.main.async {
-            self.activityIndicatorView.isHidden = true
+        DispatchQueue.main.async { [weak self] in
+            self?.activityIndicatorView.isHidden = true
         }
         if var record {
             if isCreateRecipe {
-                delegate?.userSelectedFood(record: record, isPlusAction: true)
+                DispatchQueue.main.async { [weak self] in
+                    self?.delegate?.userSelectedFood(record: record, isPlusAction: true)
+                }
             } else {
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
                 connecter.updateRecord(foodRecord: record, isNew: true)
-                DispatchQueue.main.async {
-                    self.findViewController()?.showMessage(msg: "Added to log", alignment: .center)
+                DispatchQueue.main.async { [weak self] in
+                    self?.findViewController()?.showMessage(msg: "Added to log", alignment: .center)
                 }
             }
         }
@@ -315,7 +328,7 @@ private extension AdvancedTextSearchView {
     }
 
     private var isFoodRecordAvailable: Bool {
-        if searchController.searchBar.text!.count >= 3
+        if searchController?.searchBar.text!.count ?? 0 >= 3
             && (
                 (alternateSearches?.alternateNames.count ?? 0 > 0)
                 || (alternateSearches?.results.count ?? 0 > 0)
@@ -329,8 +342,8 @@ private extension AdvancedTextSearchView {
     }
 
     private func reloadTableView() {
-        DispatchQueue.main.async {
-            self.searchTableView.reloadWithAnimations(withDuration: 0.03)
+        DispatchQueue.main.async { [weak self] in
+            self?.searchTableView.reloadWithAnimations(withDuration: 0.03)
         }
     }
 
@@ -499,7 +512,7 @@ extension AdvancedTextSearchView: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let alternateSearch = alternateSearches?.alternateNames[safe: indexPath.item]
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
-        searchController.searchBar.text = alternateSearch?.capitalized
+        searchController?.searchBar.text = alternateSearch?.capitalized
         filterContentForSearchText(alternateSearch ?? "")
     }
 
@@ -516,7 +529,7 @@ extension AdvancedTextSearchView: UICollectionViewDataSource, UICollectionViewDe
 extension AdvancedTextSearchView: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        performSearch(term: searchController.searchBar.text!.lowercased())
+        performSearch(term: searchController?.searchBar.text!.lowercased() ?? "")
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -528,8 +541,8 @@ extension AdvancedTextSearchView: UISearchBarDelegate {
 extension AdvancedTextSearchView: UISearchResultsUpdating {
 
     func updateSearchResults(for searchController: UISearchController) {
-        DispatchQueue.main.async {
-            self.performSearch(term: searchController.searchBar.text!.lowercased())
+        DispatchQueue.main.async { [weak self] in
+            self?.performSearch(term: searchController.searchBar.text!.lowercased())
         }
     }
 }

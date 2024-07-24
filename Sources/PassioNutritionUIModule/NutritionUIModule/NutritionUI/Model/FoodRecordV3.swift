@@ -156,8 +156,35 @@ public struct FoodRecordV3: Codable, Equatable {
         }
     }
 
+    init(foodRecordIngredient: FoodRecordIngredient) {
+
+        passioID = foodRecordIngredient.passioID
+        name = foodRecordIngredient.name
+        iconId = foodRecordIngredient.iconId
+
+        let now = Date()
+        createdAt = now
+        mealLabel = MealLabel.mealLabelBy(time: now)
+        uuid = UUID().uuidString
+
+        self.entityType = foodRecordIngredient.entityType
+        self.confidence = nil
+
+        servingSizes = foodRecordIngredient.servingSizes
+        servingUnits = foodRecordIngredient.servingUnits
+        selectedUnit = foodRecordIngredient.selectedUnit
+        selectedQuantity = foodRecordIngredient.selectedQuantity
+
+        nutrients = foodRecordIngredient.nutrients
+        openFoodLicense = foodRecordIngredient.openFoodLicense
+
+        _ = setFoodRecordServing(unit: selectedUnit, quantity: selectedQuantity)
+    }
+
     // MARK: Helper for Ingredients
-    mutating func addIngredient(record: FoodRecordV3, index: Int = 0) {
+    mutating func addIngredient(record: FoodRecordV3? = nil,
+                                ingredient: FoodRecordIngredient? = nil,
+                                index: Int = 0) {
 
         if ingredients.count == 1 { // this is when a food Item become a recipe
             var ingredientsAtZero = ingredients[0]
@@ -165,7 +192,11 @@ public struct FoodRecordV3: Codable, Equatable {
             ingredientsAtZero.details = details
             ingredients[0] = ingredientsAtZero
         }
-        ingredients.append(contentsOf: record.ingredients)
+        if let ingredient {
+            ingredients.append(ingredient)
+        } else if let record {
+            ingredients.append(contentsOf: record.ingredients)
+        }
         self.updateServingSizeAndUnitsForRecipe()
         if ingredients.count > 1 {
             entityType = .recipe

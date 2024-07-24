@@ -67,7 +67,7 @@ class IngredientEditorView: UIView {
         let items = servingUnits.map { return $0.unitName }
         let customPickerViewController = CustomPickerViewController()
         customPickerViewController.loadViewIfNeeded()
-        customPickerViewController.pickerItems = items.map({PickerElement.init(title: $0)})
+        customPickerViewController.pickerItems = items.map { PickerElement(title: $0) }
         if let frame = sender.superview?.convert(sender.frame, to: nil) {
             customPickerViewController.pickerFrame = CGRect(x: frame.origin.x - 5,
                                                             y: frame.origin.y + 50,
@@ -82,7 +82,7 @@ class IngredientEditorView: UIView {
 
     @IBAction func saveIngredient(_ sender: UIButton) {
         if let foodItemData = foodRecordIngredient {
-            delegate?.ingredientEditedFoodItemData(ingredient: foodItemData, 
+            delegate?.ingredientEditedFoodItemData(ingredient: foodItemData,
                                                    atIndex: indexOfIngredient)
         } else {
             delegate?.ingredientEditedCancel()

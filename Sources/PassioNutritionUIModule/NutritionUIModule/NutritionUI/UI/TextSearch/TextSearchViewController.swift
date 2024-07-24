@@ -15,7 +15,10 @@ final class TextSearchViewController: InstantiableViewController {
 
     private var advancedTextSearchView: AdvancedTextSearchView!
     private var isFirstTime = true
+
     var isCreateRecipe = false
+    var indexToPop: Int? = nil
+    var shouldPopVC: Bool = true
 
     weak var advancedSearchDelegate: AdvancedTextSearchViewDelegate?
 
@@ -27,7 +30,7 @@ final class TextSearchViewController: InstantiableViewController {
 
         setupBackButton()
         if advancedTextSearchView == nil {
-            let nib = UINib.nibFromBundle(nibName: "AdvancedTextSearchView")
+            let nib = UINib.nibFromBundle(nibName: AdvancedTextSearchView.className)
             advancedTextSearchView = nib.instantiate(withOwner: self,
                                                      options: nil).first as? AdvancedTextSearchView
         }
@@ -44,16 +47,43 @@ final class TextSearchViewController: InstantiableViewController {
             view.addSubview(advancedTextSearchView)
         }
     }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        advancedTextSearchView.searchController?.removeFromParent()
+        advancedTextSearchView.searchController = nil
+        advancedTextSearchView.removeFromSuperview()
+        advancedTextSearchView = nil
+    }
 }
 
 // MARK: - AdvancedTextSearchView Delegate
 extension TextSearchViewController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
-        advancedSearchDelegate?.userSelectedFood(record: record, isPlusAction: isPlusAction)
+        if shouldPopVC {
+            if let indexToPop {
+                navigationController?.popUpToIndexControllers(popUptoIndex: indexToPop)
+            } else {
+                navigationController?.popViewController(animated: false)
+            }
+            advancedSearchDelegate?.userSelectedFood(record: record, isPlusAction: isPlusAction)
+        } else {
+            advancedSearchDelegate?.userSelectedFood(record: record, isPlusAction: isPlusAction)
+        }
     }
 
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
-        advancedSearchDelegate?.userSelectedFoodItem(item: item, isPlusAction: isPlusAction)
+        if shouldPopVC {
+            if let indexToPop {
+                navigationController?.popUpToIndexControllers(popUptoIndex: indexToPop)
+            } else {
+                navigationController?.popViewController(animated: false)
+            }
+            advancedSearchDelegate?.userSelectedFoodItem(item: item, isPlusAction: isPlusAction)
+        } else {
+            advancedSearchDelegate?.userSelectedFoodItem(item: item, isPlusAction: isPlusAction)
+        }
     }
 }

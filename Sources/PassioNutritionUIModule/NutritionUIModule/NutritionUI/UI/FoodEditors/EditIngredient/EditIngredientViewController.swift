@@ -16,10 +16,11 @@ final class EditIngredientViewController: UIViewController {
     private let passioSDK = PassioNutritionAI.shared
     private var ingredientEditorView: IngredientEditorView?
     private var isFavoriteTemplate = false
-    private var saveOnDismiss = true
 
+    var saveOnDismiss = true
     var foodItemData: FoodRecordIngredient?
     var indexOfIngredient = 0
+    var indexToPop: Int? = nil
 
     weak var delegate: IngredientEditorViewDelegate?
 
@@ -61,15 +62,23 @@ final class EditIngredientViewController: UIViewController {
     }
 }
 
+// MARK: - IngredientEditorViewDelegate
 extension EditIngredientViewController: IngredientEditorViewDelegate {
 
     func replaceFoodUsingSearch() {
         let vc = TextSearchViewController()
         vc.advancedSearchDelegate = self
+        vc.indexToPop = 1
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func ingredientEditedFoodItemData(ingredient foodItemData: FoodRecordIngredient, atIndex: Int) {
+    func ingredientEditedFoodItemData(ingredient foodItemData: FoodRecordIngredient,
+                                      atIndex: Int) {
+        if let indexToPop {
+            navigationController?.popUpToIndexControllers(popUptoIndex: indexToPop)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
         delegate?.ingredientEditedFoodItemData(ingredient: foodItemData, atIndex: atIndex)
     }
 

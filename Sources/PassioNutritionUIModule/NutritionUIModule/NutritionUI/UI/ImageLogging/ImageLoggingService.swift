@@ -6,7 +6,9 @@
 //
 
 import UIKit
-import PassioNutritionUIModule
+#if canImport(PassioNutritionAISDK)
+import PassioNutritionAISDK
+#endif
 
 protocol ImageLoggingService: AnyObject {
     func fetchFoodData(

@@ -153,6 +153,7 @@ extension EditRecordViewController: FoodEditorDelegate {
         replaceFood = isFoodReplace
         let textSearchVC = TextSearchViewController()
         textSearchVC.advancedSearchDelegate = self
+        textSearchVC.shouldPopVC = false
         navigationController?.pushViewController(textSearchVC, animated: true)
     }
 
@@ -195,7 +196,6 @@ extension EditRecordViewController: AdvancedTextSearchViewDelegate {
             guard let `self` = self else { return }
             self.foodEditorView?.tableView.scrollToBottom()
         }
-
         navigationController?.popViewController(animated: true)
     }
 

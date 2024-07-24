@@ -73,11 +73,6 @@ final class FoodRecognitionV3ViewController: UIViewController {
         didSet {
             focusButton.setImage(UIImage(resource: isFocusEnabled ? .focusIcon : .focusOffIcon),
                                  for: .normal)
-            let msg = isFocusEnabled ? "On" : "Off"
-            showMessage(msg: "Tap to Focus: \(msg)",
-                        duration: 0.35,
-                        width: 200,
-                        alignment: .center)
         }
     }
     private var isHintPresented: Bool = false {
@@ -118,7 +113,6 @@ final class FoodRecognitionV3ViewController: UIViewController {
         nutritionFactResultVC?.delegate = self
         activityIndicator.color = .primaryColor
         zoomSlider.minimumTrackTintColor = .primaryColor
-        flashLightButton.tintColor = .primaryColor
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -196,8 +190,10 @@ private extension FoodRecognitionV3ViewController {
     }
 
     @IBAction func onFlashlight(_ sender: UIButton) {
-        passioSDK.enableFlashlight(enabled: !isFlashlightOn, level: 2)
+        passioSDK.enableFlashlight(enabled: !isFlashlightOn, level: 1)
         isFlashlightOn.toggle()
+        flashLightButton.setImage(UIImage(systemName: isFlashlightOn ? "flashlight.on.fill" : "flashlight.off.fill"),
+                                  for: .normal)
     }
 }
 
@@ -358,6 +354,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
     func didTapOnAddManual() {
         let vc = TextSearchViewController()
         vc.advancedSearchDelegate = self
+        vc.shouldPopVC = false
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -469,9 +466,7 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
 // MARK: - FoodRecognisationPopUp Delegate
 extension FoodRecognitionV3ViewController: FoodRecognisationPopUpDelegate {
 
-    func didCancelOnBarcodeFailure() {
-
-    }
+    func didCancelOnBarcodeFailure() { }
 
     func didAskForNutritionScanBarcodeFailure() {
         startNutritionFactsDetection()

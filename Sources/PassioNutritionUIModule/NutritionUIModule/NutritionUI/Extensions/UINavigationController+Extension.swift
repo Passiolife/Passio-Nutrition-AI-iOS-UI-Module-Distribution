@@ -55,11 +55,25 @@ extension UINavigationController: UIGestureRecognizerDelegate {
         }
     }
 
-    func popToSpecificViewController(_ viewController: AnyClass) {
-        for element in viewControllers {
-            if element.isKind(of: viewController) {
-                popToViewController(element, animated: true)
-                break
+    func popToSpecificViewController(_ viewController: AnyClass, isAnimated: Bool = false) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            for element in viewControllers {
+                if element.isKind(of: viewController) {
+                    popToViewController(element, animated: isAnimated)
+                    break
+                }
+            }
+        }
+
+    }
+
+    func popUpToIndexControllers(popUptoIndex: Int, isAnimated: Bool = false) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if viewControllers.indices.contains(popUptoIndex) {
+                let vcToPop = viewControllers[viewControllers.count-popUptoIndex]
+                popToViewController(vcToPop, animated: isAnimated)
             }
         }
     }

@@ -365,7 +365,7 @@ extension FoodEditorView: UITableViewDelegate {
 
         guard indexPath.row > rowsBeforeIngrediants else { return nil }
 
-        let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) {  (_, _, _) in
+        let deleteItem = UIContextualAction(style: .destructive, title: "Delete") {  (_, _, _) in
 
             let index = indexPath.row - self.rowsBeforeIngrediants - 1
             _ = self.foodRecord?.removeIngredient(atIndex: index)

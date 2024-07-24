@@ -7,7 +7,6 @@
 
 import UIKit
 import Lottie
-import PassioNutritionUIModule
 #if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
 #endif

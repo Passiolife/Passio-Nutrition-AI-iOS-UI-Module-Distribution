@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import PassioNutritionUIModule
 #if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
 #endif
@@ -106,21 +105,22 @@ extension RecipesViewController {
     private func handleRecipe(for record: FoodRecordV3, isPlusAction: Bool) {
         if var recipe {
             if isPlusAction {
-                recipe.addIngredient(record: record)
                 navigateToEditRecipe(recipe: recipe)
             } else {
-                let editVC = EditIngredientViewController()
-                editVC.foodItemData = FoodRecordIngredient(foodRecord: record)
-                editVC.indexOfIngredient = 0
-                editVC.delegate = self
+                let editIngredientVC = EditIngredientViewController()
+                editIngredientVC.foodItemData = FoodRecordIngredient(foodRecord: record)
+                editIngredientVC.indexOfIngredient = 0
+                editIngredientVC.delegate = self
+                editIngredientVC.saveOnDismiss = false
+                editIngredientVC.indexToPop = 2
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(editVC, animated: true)
+                    self.navigationController?.pushViewController(editIngredientVC, animated: true)
                 }
             }
         }
     }
 
-    private func navigateToEditRecipe(recipe: FoodRecordV3, isCreate: Bool = false) {
+    private func navigateToEditRecipe(recipe: FoodRecordV3, isCreate: Bool = true) {
         DispatchQueue.main.async { [self] in
             let editRecipeVC = EditRecipeViewController(nibName: EditRecipeViewController.className,
                                                         bundle: .module)
@@ -130,24 +130,6 @@ extension RecipesViewController {
             navigationController?.pushViewController(editRecipeVC, animated: true)
         }
     }
-}
-
-// MARK: - CustomAlert Delegate
-extension RecipesViewController: CustomAlertDelegate {
-
-    func onRightButtonTapped(textValue: String?) {
-
-        recipeName = textValue ?? ""
-
-        let plusMenuVC = PlusMenuViewController()
-        plusMenuVC.menuData = [.scan, .search, .voiceLogging]
-        plusMenuVC.delegate = self
-        plusMenuVC.modalTransitionStyle = .crossDissolve
-        plusMenuVC.modalPresentationStyle = .overFullScreen
-        navigationController?.present(plusMenuVC, animated: true)
-    }
-
-    func onleftButtonTapped() {}
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
@@ -169,7 +151,7 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigateToEditRecipe(recipe: recipes[indexPath.row])
+        navigateToEditRecipe(recipe: recipes[indexPath.row], isCreate: false)
     }
 
     func tableView(_ tableView: UITableView,
@@ -177,7 +159,7 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
     UISwipeActionsConfiguration? {
 
         let editItem = UIContextualAction(style: .normal, title: "Edit".localized) {  (_, _, _) in
-            self.navigateToEditRecipe(recipe: self.recipes[indexPath.row])
+            self.navigateToEditRecipe(recipe: self.recipes[indexPath.row], isCreate: false)
         }
         editItem.backgroundColor = .primaryColor
 
@@ -195,6 +177,24 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - CustomAlert Delegate
+extension RecipesViewController: CustomAlertDelegate {
+
+    func onRightButtonTapped(textValue: String?) {
+
+        recipeName = textValue ?? ""
+
+        let plusMenuVC = PlusMenuViewController()
+        plusMenuVC.menuData = [.search]
+        plusMenuVC.delegate = self
+        plusMenuVC.modalTransitionStyle = .crossDissolve
+        plusMenuVC.modalPresentationStyle = .overFullScreen
+        navigationController?.present(plusMenuVC, animated: true)
+    }
+
+    func onleftButtonTapped() {}
+}
+
 // MARK: - PlusMenu Delegate
 extension RecipesViewController: PlusMenuDelegate {
 
@@ -202,22 +202,21 @@ extension RecipesViewController: PlusMenuDelegate {
         let vc = TextSearchViewController()
         vc.advancedSearchDelegate = self
         vc.isCreateRecipe = true
+        vc.indexToPop = 2
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func onScanSelected() {
+    func onScanSelected() { }
 
-    }
+    func onFavouritesSelected() { }
 
-    func onFavouritesSelected() {}
+    func onMyFoodsSelected() { }
 
-    func onMyFoodsSelected() {}
+    func onVoiceLoggingSelected() { }
 
-    func onVoiceLoggingSelected() {}
+    func takePhotosSelected() { }
 
-    func takePhotosSelected() {}
-
-    func selectPhotosSelected() {}
+    func selectPhotosSelected() { }
 }
 
 // MARK: - AdvancedTextSearch ViewDelegate

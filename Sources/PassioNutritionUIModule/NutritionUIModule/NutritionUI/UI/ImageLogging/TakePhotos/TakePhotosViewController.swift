@@ -8,7 +8,9 @@
 import UIKit
 import AVFoundation
 import Combine
-import PassioNutritionUIModule
+#if canImport(PassioNutritionAISDK)
+import PassioNutritionAISDK
+#endif
 
 protocol UsePhotosDelegate: AnyObject {
     func onSelecting(images: [UIImage])

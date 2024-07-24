@@ -126,14 +126,14 @@
                                 </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pas-ko-4o3">
-                                <rect key="frame" x="349" y="122" width="28" height="28"/>
+                                <rect key="frame" x="343" y="122" width="28" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="gEX-Ve-vcm"/>
                                     <constraint firstAttribute="width" constant="28" id="its-WY-EAq"/>
                                 </constraints>
-                                <color key="tintColor" name="indigo-600"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="flashlight.on.fill" catalog="system">
+                                <state key="normal" image="flashlight.off.fill" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="regular"/>
                                 </state>
                                 <connections>
@@ -164,8 +164,8 @@
                             <constraint firstItem="hDu-fn-wAi" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="gPd-mu-2e3"/>
                             <constraint firstItem="hDu-fn-wAi" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="hIT-2G-3JA"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fRh-tC-Al6" secondAttribute="trailing" constant="16" id="iRi-SB-COO"/>
+                            <constraint firstItem="pas-ko-4o3" firstAttribute="centerX" secondItem="dWt-si-RNn" secondAttribute="centerX" id="jWi-Pg-N8h"/>
                             <constraint firstItem="TcB-od-pu9" firstAttribute="centerY" secondItem="dWt-si-RNn" secondAttribute="centerY" id="pu8-wh-nCw"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="pas-ko-4o3" secondAttribute="trailing" constant="16" id="rVu-Zc-0ri"/>
                             <constraint firstItem="9OA-zS-gMO" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" multiplier="0.8" id="t53-Jp-tov"/>
                             <constraint firstAttribute="bottom" secondItem="gBO-eB-EXK" secondAttribute="bottom" id="vUL-cL-lvV"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="dWt-si-RNn" secondAttribute="trailing" constant="16" id="ztv-gC-vPp"/>
@@ -1470,7 +1470,7 @@
         <image name="barcode_detected" width="38" height="30"/>
         <image name="barcode_error" width="40" height="40"/>
         <image name="drinks" width="40" height="40"/>
-        <image name="flashlight.on.fill" catalog="system" width="72" height="128"/>
+        <image name="flashlight.off.fill" catalog="system" width="72" height="128"/>
         <image name="focus_off_icon" width="32" height="32"/>
         <image name="green-check" width="40" height="40"/>
         <image name="nutritionFacts" width="40" height="40"/>

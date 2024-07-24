@@ -242,6 +242,7 @@ extension HomeTabBarController: PlusMenuDelegate {
 
     func onSearchSelected() {
         let vc = TextSearchViewController()
+        vc.shouldPopVC = false
         vc.advancedSearchDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }

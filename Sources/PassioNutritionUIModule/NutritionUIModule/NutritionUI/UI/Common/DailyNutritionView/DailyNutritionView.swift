@@ -52,15 +52,15 @@ class DailyNutritionView: ViewFromXIB {
         proteinlabel.font = .inter(type: .medium, size: 14)
         fatLabel.font = .inter(type: .medium, size: 14)
 
-        caloriesProgressView.lineColor = UIColor.colorFromBundle(named: "gray-200")
-        carbsProgressView.lineColor = UIColor.colorFromBundle(named: "gray-200")
-        proteinProgressView.lineColor = UIColor.colorFromBundle(named: "gray-200")
-        fatProgressView.lineColor = UIColor.colorFromBundle(named: "gray-200")
+        caloriesProgressView.lineColor = .gray200
+        carbsProgressView.lineColor = .gray200
+        proteinProgressView.lineColor = .gray200
+        fatProgressView.lineColor = .gray200
 
-        caloriesProgressView.selectedLineColor = UIColor.colorFromBundle(named: "yellow-500")
-        carbsProgressView.selectedLineColor = UIColor.colorFromBundle(named: "lightBlue")
-        proteinProgressView.selectedLineColor = UIColor.colorFromBundle(named: "green-500")
-        fatProgressView.selectedLineColor = UIColor.colorFromBundle(named: "purple500")
+        caloriesProgressView.selectedLineColor = .yellow500
+        carbsProgressView.selectedLineColor = .lightBlue
+        proteinProgressView.selectedLineColor = .green500
+        fatProgressView.selectedLineColor = .purple500
 
         caloriesProgressView.selectedDarkLineColor = UIColor.colorFromBundle(named: "yellow-900")
         carbsProgressView.selectedDarkLineColor = UIColor.colorFromBundle(named: "lightBlue-900")
