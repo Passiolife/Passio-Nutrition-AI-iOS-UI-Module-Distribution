@@ -47,15 +47,6 @@ final class TextSearchViewController: InstantiableViewController {
             view.addSubview(advancedTextSearchView)
         }
     }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        advancedTextSearchView.searchController?.removeFromParent()
-        advancedTextSearchView.searchController = nil
-        advancedTextSearchView.removeFromSuperview()
-        advancedTextSearchView = nil
-    }
 }
 
 // MARK: - AdvancedTextSearchView Delegate

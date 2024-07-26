@@ -26,6 +26,7 @@ extension FoodEditorDelegate {
     func userSelected(foodRecord: FoodRecordV3) { }
     func userSelected(ingredient: FoodRecordIngredient, indexOfIngredient: Int) { }
     func foodEditorSearchText() { }
+    func addFoodFavorites(foodRecord: FoodRecordV3) { }
 }
 
 // MARK: - Food Editor
@@ -158,20 +159,28 @@ class FoodEditorView: UIView {
     func fetchFavorites() {
         connector.fetchFavorites { favorites in
             self.favorites = favorites.filter {
-                $0.passioID == self.foodRecord?.passioID
-            }.sorted {
-                $0.createdAt > $1.createdAt
+                $0.refCode == self.foodRecord?.refCode
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
 
-    @objc func addToFavorites() {
+    @objc func addRemoveFavorites() {
+
         guard let foodRecord = foodRecord else { return }
-        var favorite = foodRecord
-        favorite.name = foodRecord.name.capitalized
-        connector.updateFavorite(foodRecord: favorite)
-        delegate?.addFoodFavorites(foodRecord: favorite)
-        tableView.reloadData()
+
+        if favorites.count > 0 {
+            connector.deleteFavorite(foodRecord: foodRecord)
+            findViewController()?.showMessage(msg: "Removed from Favorites")
+        } else {
+            var favorite = foodRecord
+            favorite.name = foodRecord.name.capitalized
+            connector.updateFavorite(foodRecord: favorite)
+            findViewController()?.showMessage(msg: "Added to Favorites")
+        }
+        fetchFavorites()
     }
 
     @objc private func showNutritionInformation() {
@@ -242,7 +251,7 @@ extension FoodEditorView: UITableViewDataSource {
         let cellName = getCellNameFor(indexPath: indexPath)
         switch cellName {
         case .foodHeaderSimpleTableViewCell:
-            return getHeaderSimpleTableViewCell(cellForRowAt: indexPath)
+            return getFoodHeaderSimpleTableViewCell(cellForRowAt: indexPath)
         case .amountSliderFullTableViewCell:
             return getAmountSliderFullTableViewCell(indexPath: indexPath)
         case .mealSelectionTableViewCell:
@@ -429,14 +438,15 @@ extension FoodEditorView: UITextFieldDelegate {
 // MARK: - Cells
 extension FoodEditorView {
 
-    func getHeaderSimpleTableViewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FoodHeaderSimpleTableViewCell",
-                                                       for: indexPath) as? FoodHeaderSimpleTableViewCell,
-              let foodRecord = foodRecord else {
+    func getFoodHeaderSimpleTableViewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let foodRecord = foodRecord else {
             return UITableViewCell()
         }
-        cell.favouriteButton.addTarget(self, action: #selector(addToFavorites), for: .touchUpInside)
+        let cell = tableView.dequeueCell(cellClass: FoodHeaderSimpleTableViewCell.self, forIndexPath: indexPath)
+        let isFavorite = favorites.count > 0 ? "heart.fill" : "heart"
+        cell.favouriteButton.setImage(UIImage(systemName: isFavorite), for: .normal)
+        cell.favouriteButton.tintColor = favorites.count > 0 ? UIColor.red : .gray400
+        cell.favouriteButton.addTarget(self, action: #selector(addRemoveFavorites), for: .touchUpInside)
         let titleRecognizer = UITapGestureRecognizer(target: self, action: #selector(renameFoodRecordAlert))
         cell.labelName.addGestureRecognizer(titleRecognizer)
         cell.setup(foodRecord: foodRecord, isFavourite: isEditingFavorite)
@@ -445,10 +455,7 @@ extension FoodEditorView {
     }
 
     func getAmountSliderFullTableViewCell(indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AmountSliderFullTableViewCell",
-                                                       for: indexPath) as? AmountSliderFullTableViewCell else {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeueCell(cellClass: AmountSliderFullTableViewCell.self, forIndexPath: indexPath)
         let (quantity, unitName, weight) = getAmountsforCell(tableRowOrCollectionTag: indexPath.row,
                                                              slider: cell.sliderAmount)
         cell.setup(quantity: quantity, unitName: unitName, weight: weight)
@@ -459,10 +466,7 @@ extension FoodEditorView {
     }
 
     func getIngredientAddTableViewCell(indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientAddTableViewCell",
-                                                       for: indexPath) as? IngredientAddTableViewCell else {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeueCell(cellClass: IngredientAddTableViewCell.self, forIndexPath: indexPath)
         cell.buttonAddIngredients.addTarget(self, action: #selector(addIngredients), for: .touchUpInside)
         return cell
     }
@@ -479,14 +483,11 @@ extension FoodEditorView {
 
         let numbertoJump = 1
         let indexForIngredient = indexPath.row - rowsBeforeIngrediants - numbertoJump
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientHeaderTableViewCell",
-                                                       for: indexPath) as? IngredientHeaderTableViewCell,
-              let foodRecord = foodRecord,
+        guard let foodRecord = foodRecord,
               foodRecord.ingredients.count > indexForIngredient else {
             return UITableViewCell()
         }
-
+        let cell = tableView.dequeueCell(cellClass: IngredientHeaderTableViewCell.self, forIndexPath: indexPath)
         let ingredient = foodRecord.ingredients[indexForIngredient]
         cell.setup(ingredient: ingredient,
                    isLastCell: foodRecord.ingredients.count == indexForIngredient + 1)
@@ -494,25 +495,17 @@ extension FoodEditorView {
     }
 
     func getMealSelectionCell(indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "MealSelectionTableViewCell",
-                                                       for: indexPath) as? MealSelectionTableViewCell else {
-            return UITableViewCell()
-        }
-
+        let cell = tableView.dequeueCell(cellClass: MealSelectionTableViewCell.self, forIndexPath: indexPath)
         if let meal = foodRecord?.mealLabel {
             cell.setMealSelection(meal)
         }
-
         cell.delegate = self
         cell.insetBackgroundView.backgroundColor = .passioInsetColor
         return cell
     }
 
     func getTimestampCell(indexPath: IndexPath) -> UITableViewCell{
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TimestampTableViewCell", for: indexPath) as? TimestampTableViewCell  else {
-            return UITableViewCell()
-        }
+        let cell = tableView.dequeueCell(cellClass: TimestampTableViewCell.self, forIndexPath: indexPath)
         if let editedDate = editedTimestamp {
             cell.updateWithDate(editedDate)
         } else if let record = foodRecord {

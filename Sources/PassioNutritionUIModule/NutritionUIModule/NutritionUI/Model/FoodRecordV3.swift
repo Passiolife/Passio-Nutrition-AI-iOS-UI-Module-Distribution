@@ -36,6 +36,7 @@ public struct FoodRecordV3: Codable, Equatable {
     public var createdAt: Date
     public var mealLabel: MealLabel = .snack
     public var barcode: String = ""
+    public var refCode: String = ""
 
     public var ingredients: [FoodRecordIngredient] = []
 
@@ -92,6 +93,7 @@ public struct FoodRecordV3: Codable, Equatable {
 
         id = foodItem.id
         passioID = foodItem.scannedId
+        refCode = foodItem.refCode ?? ""
         name = foodItem.name
         details = foodItem.details
         iconId = foodItem.iconId
@@ -131,6 +133,7 @@ public struct FoodRecordV3: Codable, Equatable {
         passioID = ingredient.id
         name = ingredient.name
         iconId = ingredient.iconId
+        refCode = ingredient.refCode ?? ""
         self.barcode = barcode
 
         let now = Date()
@@ -161,6 +164,7 @@ public struct FoodRecordV3: Codable, Equatable {
         passioID = foodRecordIngredient.passioID
         name = foodRecordIngredient.name
         iconId = foodRecordIngredient.iconId
+        refCode = foodRecordIngredient.refCode
 
         let now = Date()
         createdAt = now

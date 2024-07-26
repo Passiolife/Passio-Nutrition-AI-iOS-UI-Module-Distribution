@@ -46,8 +46,10 @@ class FoodHeaderSimpleTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        insetBackground.layer.shadowPath = UIBezierPath(roundedRect: insetBackground.bounds,
-                                                        cornerRadius: 8).cgPath
+        DispatchQueue.main.async { [self] in
+            insetBackground.layer.shadowPath = UIBezierPath(roundedRect: insetBackground.bounds,
+                                                            cornerRadius: 8).cgPath
+        }
     }
 
     func setup(foodRecord: FoodRecordV3, isFavourite: Bool) {

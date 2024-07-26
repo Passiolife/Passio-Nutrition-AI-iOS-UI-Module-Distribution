@@ -13,7 +13,7 @@ import PassioNutritionAISDK
 #endif
 
 protocol BarcodeRecogniserDelegate: AnyObject {
-    func onBarcodeDetected(barcode: String?, record: FoodRecordV3?, isUserFoodBarcode: Bool)
+    func onBarcodeDetected(barcode: String?)
 }
 
 final class BarcodeRecogniserViewController: UIViewController {
@@ -122,29 +122,17 @@ final class BarcodeRecogniserViewController: UIViewController {
     }
 
     @IBAction func onConfirmBarcode(_ sender: UIButton) {
-        delegate?.onBarcodeDetected(barcode: barcodeTextField.text ?? "",
-                                    record: nil,
-                                    isUserFoodBarcode: false)
+        delegate?.onBarcodeDetected(barcode: barcodeTextField.text ?? "")
         navigationController?.popViewController(animated: true)
     }
 
     @IBAction func onCancelBarcode(_ sender: UIButton) {
-        delegate?.onBarcodeDetected(barcode: nil,
-                                    record: nil,
-                                    isUserFoodBarcode: false)
+        delegate?.onBarcodeDetected(barcode: nil)
         navigationController?.popViewController(animated: true)
     }
 
     @IBAction func onCreateCustomFoodAnyway(_ sender: UIButton) {
-        if isUserFoodBarcode {
-            delegate?.onBarcodeDetected(barcode: nil, 
-                                        record: foodRecord,
-                                        isUserFoodBarcode: true)
-        } else {
-            delegate?.onBarcodeDetected(barcode: barcodeTextField.text ?? "", 
-                                        record: foodRecord,
-                                        isUserFoodBarcode: false)
-        }
+        delegate?.onBarcodeDetected(barcode: isUserFoodBarcode ? nil : barcodeTextField.text ?? "")
         navigationController?.popViewController(animated: true)
     }
 
@@ -269,6 +257,7 @@ extension BarcodeRecogniserViewController: FoodRecognitionDelegate {
 
     private func checkInSystemBarcodeAvailable(dataset: BarcodeDataSet,
                                                completion: @escaping (Bool, Bool) -> Void) {
+
         dataset.getFoodItem(completion: { [weak self] (passioFoodItem) in
 
             guard let self else { return }

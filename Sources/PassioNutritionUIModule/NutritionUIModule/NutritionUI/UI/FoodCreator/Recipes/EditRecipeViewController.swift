@@ -399,7 +399,7 @@ extension EditRecipeViewController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
 
-        if let item, var recipe {
+        if let item, let recipe {
             updateRecipe(for: FoodRecordV3(foodItem: item),
                          isPlusAction: isPlusAction,
                          indexOfIngredient: recipe.ingredients.count)
@@ -407,7 +407,7 @@ extension EditRecipeViewController: AdvancedTextSearchViewDelegate {
     }
 
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
-        if let record, var recipe {
+        if let record, let recipe {
             updateRecipe(for: record,
                          isPlusAction: isPlusAction,
                          indexOfIngredient: recipe.ingredients.count)

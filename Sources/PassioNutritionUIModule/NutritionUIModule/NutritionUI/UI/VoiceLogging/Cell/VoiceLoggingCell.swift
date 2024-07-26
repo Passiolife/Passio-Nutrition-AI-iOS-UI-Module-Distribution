@@ -33,8 +33,7 @@ class VoiceLoggingCell: UITableViewCell {
         if let nutritionPreview = foodInfo.nutritionPreview {
 
             let ratio = (Double(nutritionPreview.calories) / nutritionPreview.weightQuantity).roundDigits(afterDecimal: 2)
-            let servingUnit = advisorInfo.portionSize == "" ? "\(advisorInfo.weightGrams) g" : advisorInfo.portionSize
-            foodDetailsLabel.text = "\(servingUnit) | \((ratio * advisorInfo.weightGrams).roundDigits(afterDecimal: 2)) cal"
+            foodDetailsLabel.text = "\(advisorInfo.weightGrams) g | \((ratio * advisorInfo.weightGrams).roundDigits(afterDecimal: 2)) cal"
 
         } else {
             foodDetailsLabel.text = ""

@@ -193,7 +193,6 @@ private extension AdvancedTextSearchView {
 
         searchTimer?.invalidate()
         searchTimer = nil
-        searchController = nil
 
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
@@ -208,7 +207,6 @@ private extension AdvancedTextSearchView {
 
         searchTimer?.invalidate()
         searchTimer = nil
-        searchController = nil
 
         PassioNutritionAI.shared.fetchFoodItemFor(foodItem: result) { [weak self] (foodItem) in
             guard let self else { return }

@@ -214,8 +214,8 @@
                                     <color key="titleColor" name="gray-400"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="918-Tc-LyA">
-                                <rect key="frame" x="319" y="169.33333333333334" width="0.0" height="42"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="g" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="918-Tc-LyA">
+                                <rect key="frame" x="309.66666666666669" y="169.33333333333334" width="9.3333333333333144" height="42"/>
                                 <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
                                 <color key="textColor" name="gray-500"/>
                                 <nil key="highlightedColor"/>

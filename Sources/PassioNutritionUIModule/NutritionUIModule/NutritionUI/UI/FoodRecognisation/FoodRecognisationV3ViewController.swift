@@ -130,7 +130,6 @@ final class FoodRecognitionV3ViewController: UIViewController {
             }
         }
 
-        //This is timer which is for just checking peridically due to tray issue
         timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true, block: { [weak self] _ in
             guard let self else { return }
             if isRecognitionsPaused {
@@ -230,6 +229,9 @@ private extension FoodRecognitionV3ViewController {
             let bgFrame = previewView.bounds
             vLayer.frame = bgFrame
             previewView.layer.insertSublayer(vLayer, at: 0)
+
+            zoomSlider.minimumValue = Float(passioSDK.getMinMaxCameraZoomLevel.minLevel ?? 0)
+            zoomSlider.maximumValue = 15 // Float(passioSDK.getMinMaxCameraZoomLevel.maxLevel ?? 0)
         }
     }
 
@@ -439,16 +441,16 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
 
     func onClickNext(dataset: NutritionFactsDataSet) {
 
-        pauseDetection()
-
-        let createFoodVC = CreateFoodViewController()
-        createFoodVC.isFromNutritionFacts = true
-        createFoodVC.foodDataSet = dataset
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
-            guard let self else { return }
-            navigationController?.pushViewController(createFoodVC, animated: true)
-        })
+//        pauseDetection()
+//
+//        let createFoodVC = CreateFoodViewController()
+//        createFoodVC.isFromNutritionFacts = true
+//        createFoodVC.foodDataSet = dataset
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
+//            guard let self else { return }
+//            navigationController?.pushViewController(createFoodVC, animated: true)
+//        })
     }
 
     func renameFoodRecordAlert(dataset: NutritionFactsDataSet) { }

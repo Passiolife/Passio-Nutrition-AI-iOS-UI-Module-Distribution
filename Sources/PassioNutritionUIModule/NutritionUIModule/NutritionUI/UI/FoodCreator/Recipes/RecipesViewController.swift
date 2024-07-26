@@ -103,7 +103,7 @@ extension RecipesViewController {
     }
 
     private func handleRecipe(for record: FoodRecordV3, isPlusAction: Bool) {
-        if var recipe {
+        if let recipe {
             if isPlusAction {
                 navigateToEditRecipe(recipe: recipe)
             } else {

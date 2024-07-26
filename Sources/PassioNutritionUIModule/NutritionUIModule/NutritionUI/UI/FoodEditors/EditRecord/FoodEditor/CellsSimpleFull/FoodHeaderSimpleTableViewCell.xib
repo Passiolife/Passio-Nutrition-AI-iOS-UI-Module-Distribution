@@ -274,11 +274,11 @@
                 <outlet property="protienLabel" destination="cbm-wG-axt" id="iQb-DS-tfJ"/>
                 <outlet property="protienPercentLabel" destination="LM4-AK-gbd" id="1z7-C6-q1q"/>
             </connections>
-            <point key="canvasLocation" x="-175.36231884057972" y="-98.102678571428569"/>
+            <point key="canvasLocation" x="-33" y="-83"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="heart" catalog="system" width="32" height="32"/>
         <namedColor name="gray-200">
             <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
