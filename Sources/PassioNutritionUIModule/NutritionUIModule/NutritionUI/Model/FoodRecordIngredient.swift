@@ -16,6 +16,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
     public var passioID: PassioID = ""
     public var name: String = ""
     public var iconId: String = ""
+    public var refCode: String = ""
     public var selectedUnit: String = ""
     public var selectedQuantity: Double = 0.0
     public var servingSizes: [PassioServingSize]
@@ -61,6 +62,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
         name = foodRecord.name
         details = foodRecord.details
         iconId = foodRecord.iconId
+        refCode = foodRecord.refCode
 
         self.entityType = entityType
 
@@ -79,6 +81,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
         passioID = ingredient.id
         name = ingredient.name
         iconId = ingredient.iconId
+        refCode = ingredient.refCode ?? ""
 
         self.entityType = entityType
 

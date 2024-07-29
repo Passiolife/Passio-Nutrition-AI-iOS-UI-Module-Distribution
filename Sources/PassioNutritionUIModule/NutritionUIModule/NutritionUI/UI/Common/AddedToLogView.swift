@@ -12,7 +12,7 @@ class AddedToLogView: UIView {
 
     init(frame: CGRect,
          withText: String,
-         bgColor: UIColor = .black.withAlphaComponent(0.5),
+         bgColor: UIColor = .black.withAlphaComponent(0.8),
          txtColor: UIColor = .white) {
         super.init(frame: frame)
         let label = UILabel()

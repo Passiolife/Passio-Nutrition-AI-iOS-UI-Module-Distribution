@@ -131,28 +131,22 @@ class ResultsLoggingView: UIView {
         foods.forEach { food in
 
             dispatchGroup.enter()
-            let advisorFoodInfo = food.foodData.advisorFoodInfo
 
-            PassioNutritionAI.shared.fetchFoodItemFor(foodItem: advisorFoodInfo.foodDataInfo) { (foodItem) in
+            DispatchQueue.global(qos: .userInteractive).async {
 
-                if let foodItem {
+                let advisorFoodInfo = food.foodData.advisorFoodInfo
 
-                    var foodRecord = FoodRecordV3(foodItem: foodItem)
+                PassioNutritionAI.shared.fetchFoodItemFor(foodItem: advisorFoodInfo.foodDataInfo,
+                                                          weightGrams: advisorFoodInfo.weightGrams) { (foodItem) in
 
-                    if foodRecord.setSelectedUnit(unit: advisorFoodInfo.portionSize.separateStringUsingSpace.1 ?? "") {
-                        let quantity = advisorFoodInfo.portionSize.separateStringUsingSpace.0 ?? "0"
-                        foodRecord.setSelectedQuantity(quantity: Double(quantity) ?? 0)
+                    if let foodItem {
+                        var foodRecord = FoodRecordV3(foodItem: foodItem)
+                        foodRecord.mealLabel = MealLabel(mealTime: food.foodData.meal ?? PassioMealTime.currentMealTime())
+                        PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord, isNew: true)
+                        dispatchGroup.leave()
                     } else {
-                        if foodRecord.setSelectedUnit(unit: "gram") {
-                            foodRecord.setSelectedQuantity(quantity: advisorFoodInfo.weightGrams)
-                        }
+                        dispatchGroup.leave()
                     }
-                    foodRecord.mealLabel = MealLabel(mealTime: food.foodData.meal ?? PassioMealTime.currentMealTime())
-                    PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord, isNew: true)
-                    dispatchGroup.leave()
-
-                } else {
-                    dispatchGroup.leave()
                 }
             }
         }

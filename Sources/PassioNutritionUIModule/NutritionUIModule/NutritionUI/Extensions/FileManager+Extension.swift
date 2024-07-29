@@ -20,9 +20,8 @@ extension FileManager {
                     do {
                         let record = try decoder.decode(T.self, from: data)
                         records.append(record)
-                    }
-                    catch {
-                        print(error.localizedDescription)
+                    } catch {
+                        // print(error.localizedDescription)
                     }
                 }
             }

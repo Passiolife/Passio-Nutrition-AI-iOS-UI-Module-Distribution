@@ -90,7 +90,7 @@ final class PlusMenuViewController: InstantiableViewController {
         dismissButton.backgroundColor = .primaryColor
         menuTableView.isHidden = true
         menuTableView.clipsToBounds = true
-        menuData = menuData.filter { $0 != .takePhotos && $0 != .selectPhotos }
+        menuData = menuData.filter { $0 != .myFoods && $0 != .takePhotos && $0 != .selectPhotos }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
             menuTableView.isHidden = false

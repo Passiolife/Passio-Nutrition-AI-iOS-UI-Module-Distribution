@@ -157,8 +157,11 @@ extension CreateFoodViewController {
 
     private func editFoodRecord(foodDetails: FoodDetailsTableViewCell.FoodDetails) {
 
-        guard var record = foodRecord else { return }
-        
+        guard var record = foodRecord else { 
+            activityIndicatorView.isHidden = true
+            return
+        }
+
         record.name = foodDetails.name
         record.details = foodDetails.brand ?? ""
         record.barcode = foodDetails.barcode ?? ""
@@ -302,19 +305,9 @@ extension CreateFoodViewController: FoodDataSetCellDelegate {
 // MARK: - BarcodeRecogniser Delegate
 extension CreateFoodViewController: BarcodeRecogniserDelegate {
 
-    func onBarcodeDetected(barcode: String?, record: FoodRecordV3?, isUserFoodBarcode: Bool) {
-
-        isCreateNewFood = isUserFoodBarcode
-
+    func onBarcodeDetected(barcode: String?) {
         if let getFoodDetailCell, let barcode {
             getFoodDetailCell.barcodeTextField.text = barcode
-        }
-        if var record {
-            record.barcode = barcode ?? ""
-            var passioID = UUID().uuidString.replacingOccurrences(of: "-", with: "")
-            passioID = PassioIDEntityType.barcode.rawValue + passioID
-            record.iconId = "userFood.\(passioID)"
-            foodRecord = record
         }
     }
 }
