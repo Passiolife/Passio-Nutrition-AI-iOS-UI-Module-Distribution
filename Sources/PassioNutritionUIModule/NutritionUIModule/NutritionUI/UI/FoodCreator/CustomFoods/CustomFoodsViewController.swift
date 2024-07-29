@@ -107,7 +107,6 @@ extension CustomFoodsViewController: UITableViewDataSource, UITableViewDelegate 
         editItem.backgroundColor = .primaryColor
 
         let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) { (_, _, _) in
-            self.connector.deleteUserFoodImage(with: self.customFoods[indexPath.row].iconId)
             self.connector.deleteUserFood(record: self.customFoods[indexPath.row])
             DispatchQueue.main.async { [self] in
                 if customFoods.indices.contains(indexPath.row) {

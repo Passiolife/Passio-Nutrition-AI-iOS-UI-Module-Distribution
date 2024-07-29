@@ -227,8 +227,13 @@ extension RequiredNutritionsTableViewCell {
         let weightValue = weightTextField.text?.separateStringUsingSpace.0 ?? ""
         weightTextField.text = weightValue
         let weightType = weightLabel.text ?? g == ml ? ml : g
-        let servingSizeGram = (foodDataSet?.nutritionFacts?.servingSizeGram.roundDigits(afterDecimal: 2)?.clean ?? "") + " \(weightType)"
-        weightTextField.text = (weightTextField.text ?? "") == "" ? servingSizeGram : "\(self.weightTextField.text ?? "") \(weightType)"
+        let weight = foodDataSet?.nutritionFacts?.servingSizeGram.roundDigits(afterDecimal: 2)?.clean ?? ""
+        let servingSizeGram = if weight == "" {
+            ""
+        } else {
+            weight + " \(weightType)"
+        }
+        weightTextField.text = (weightTextField.text ?? "") == "" ? servingSizeGram : "\(weightTextField.text ?? "") \(weightType)"
     }
 }
 
@@ -261,9 +266,14 @@ extension RequiredNutritionsTableViewCell: UITextFieldDelegate {
         case weightTextField:
             let weightText = weightTextField.text ?? ""
             let weightType = weightLabel.text ?? g == ml ? ml : g
-            let servingSizeGram = (foodDataSet?.nutritionFacts?.servingSizeGram.roundDigits(afterDecimal: 2)?.clean ?? "") + " \(weightType)"
+            let weight = foodDataSet?.nutritionFacts?.servingSizeGram.roundDigits(afterDecimal: 2)?.clean ?? ""
+            let servingSizeGram = if weight == "" {
+                ""
+            } else {
+                weight + " \(weightType)"
+            }
             weightLabel.text = weightType
-            weightTextField.text = weightText == "" ? servingSizeGram : "\(self.weightTextField.text ?? "") \(weightType)"
+            weightTextField.text = weightText == "" ? servingSizeGram : "\(weightTextField.text ?? "") \(weightType)"
 
         case caloriesTextField:
             let caloriesText = caloriesTextField.text ?? ""
