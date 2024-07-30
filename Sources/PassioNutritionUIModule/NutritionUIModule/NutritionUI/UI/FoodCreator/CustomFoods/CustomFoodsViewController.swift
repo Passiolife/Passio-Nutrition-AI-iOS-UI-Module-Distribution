@@ -61,7 +61,11 @@ extension CustomFoodsViewController {
     }
 
     private func addFoodQuickly(record: FoodRecordV3) {
-        connector.updateRecord(foodRecord: record, isNew: true)
+        var foodRecord = record
+        foodRecord.uuid = UUID().uuidString
+        foodRecord.createdAt = Date()
+        foodRecord.mealLabel = .mealLabelBy()
+        connector.updateRecord(foodRecord: foodRecord, isNew: true)
         showMessage(msg: "Added to Log")
     }
 

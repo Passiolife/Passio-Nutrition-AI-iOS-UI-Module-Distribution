@@ -66,17 +66,17 @@ final class EditRecordViewController: UIViewController {
     }
 
     @objc func onNavigateToCreateFood() {
-//        guard let foodRecord = foodRecord else { return }
-//        if foodRecord.entityType == .recipe {
-//            // Navigate to Recipe editor
-//        } else {
-//            let createFoodVC = CreateFoodViewController(nibName: "CreateFoodViewController", bundle: .module)
-//            createFoodVC.loadViewIfNeeded()
-//            createFoodVC.isCreateNewFood = false
-//            createFoodVC.isFromFoodEdit = true
-//            createFoodVC.foodRecord = foodRecord
-//            navigationController?.pushViewController(createFoodVC, animated: true)
-//        }
+        guard let foodRecord = foodRecord else { return }
+        if foodRecord.entityType == .recipe {
+            // Navigate to Recipe editor
+        } else {
+            let createFoodVC = CreateFoodViewController(nibName: "CreateFoodViewController", bundle: .module)
+            createFoodVC.loadViewIfNeeded()
+            createFoodVC.isCreateNewFood = false
+            createFoodVC.isFromFoodEdit = true
+            createFoodVC.foodRecord = foodRecord
+            navigationController?.pushViewController(createFoodVC, animated: true)
+        }
     }
 
     @objc func swapFood() {

@@ -441,16 +441,16 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
 
     func onClickNext(dataset: NutritionFactsDataSet) {
 
-//        pauseDetection()
-//
-//        let createFoodVC = CreateFoodViewController()
-//        createFoodVC.isFromNutritionFacts = true
-//        createFoodVC.foodDataSet = dataset
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
-//            guard let self else { return }
-//            navigationController?.pushViewController(createFoodVC, animated: true)
-//        })
+        pauseDetection()
+
+        let createFoodVC = CreateFoodViewController()
+        createFoodVC.isFromNutritionFacts = true
+        createFoodVC.foodDataSet = dataset
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
+            guard let self else { return }
+            navigationController?.pushViewController(createFoodVC, animated: true)
+        })
     }
 
     func renameFoodRecordAlert(dataset: NutritionFactsDataSet) { }
