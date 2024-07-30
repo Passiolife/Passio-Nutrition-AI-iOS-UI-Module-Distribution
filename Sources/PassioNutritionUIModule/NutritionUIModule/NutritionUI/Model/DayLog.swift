@@ -80,6 +80,19 @@ public class DayLog {
         return sorted
     }
     
+    static func generateDataRequest(dayLogs: [DayLog]) -> String {
+        let meals = DayLogMeal.extractMeals(dayLogs: dayLogs)
+        let encoder = JSONEncoder()
+        
+        do {
+            let data = try encoder.encode(meals)
+            let json = String(data: data, encoding: .ascii)
+            return json ?? ""
+        } catch {
+            return ""
+        }
+    }
+    
     var displayedRecords: [FoodRecordV3] {
         records.filter { !hidenMeals.contains($0.mealLabel) }
     }
@@ -114,5 +127,36 @@ public class DayLog {
 
     var dailyCalories: Double {
         records.map {$0.totalCalories}.reduce(0.0, +).roundDigits(afterDecimal: 0)
+    }
+}
+
+internal struct DayLogMeal: Codable {
+    let date: String
+    let breakfast: [String]
+    let lunch: [String]
+    let dinner: [String]
+    let snacks: [String]
+    
+    var containsData: Bool {
+        !(breakfast.isEmpty && lunch.isEmpty && dinner.isEmpty && snacks.isEmpty)
+    }
+    
+    static func extractMeals(dayLogs: [DayLog]) -> [DayLogMeal] {
+        var meals = [DayLogMeal]()
+        for dayLog in dayLogs {
+            let breakfast = dayLog.breakfastArray.compactMap({ $0.name })
+            let lunch = dayLog.lunchArray.compactMap({ $0.name })
+            let dinner = dayLog.dinnerArray.compactMap({ $0.name })
+            let snacks = dayLog.snackArray.compactMap({ $0.name })
+            let meal = DayLogMeal(date: dayLog.date.dateString,
+                                  breakfast: breakfast,
+                                  lunch: lunch,
+                                  dinner: dinner,
+                                  snacks: snacks)
+            if meal.containsData {
+                meals.append(meal)
+            }
+        }
+        return meals
     }
 }
