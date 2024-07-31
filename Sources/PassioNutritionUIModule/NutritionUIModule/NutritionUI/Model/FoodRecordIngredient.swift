@@ -51,6 +51,10 @@ public struct FoodRecordIngredient: Codable, Equatable {
     public var totalFat: Double {
         nutrients.fat()?.value ?? 0
     }
+    
+    public var totalFiber: Double {
+        nutrients.fibers()?.value ?? 0
+    }
 
     public var nutritionSummary: NutritionSummary {
         (calories: totalCalories, carbs: totalCarbs, protein: totalProteins, fat: totalFat)

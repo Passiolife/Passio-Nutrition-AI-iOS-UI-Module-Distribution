@@ -72,6 +72,10 @@ public struct FoodRecordV3: Codable, Equatable {
     public var totalFat: Double {
         ingredients.map { $0.totalFat }.reduce(0.0, +).roundDigits(afterDecimal: 1)
     }
+    
+    public var totalFiber: Double {
+        ingredients.map { $0.totalFiber }.reduce(0.0, +).roundDigits(afterDecimal: 1)
+    }
 
     public var nutritionSummary: NutritionSummary {
         (calories: totalCalories, carbs: totalCarbs, protein: totalProteins, fat: totalFat)
