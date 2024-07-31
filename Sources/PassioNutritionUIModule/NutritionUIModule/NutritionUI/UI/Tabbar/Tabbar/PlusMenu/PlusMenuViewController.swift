@@ -16,6 +16,7 @@ protocol PlusMenuDelegate: AnyObject {
     func onVoiceLoggingSelected()
     func takePhotosSelected()
     func selectPhotosSelected()
+    func nutritionAdvisorSelected()
 }
 
 final class PlusMenuViewController: InstantiableViewController {
@@ -35,6 +36,7 @@ final class PlusMenuViewController: InstantiableViewController {
         case useImage
         case takePhotos
         case selectPhotos
+        case nutritionAdvisor
 
         var image: UIImage? {
             switch self {
@@ -46,6 +48,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .takePhotos: UIImage.imageFromBundle(named: "takePhotos")
             case .selectPhotos: UIImage.imageFromBundle(named: "selectPhotos")
             case .useImage: UIImage.imageFromBundle(named: "useImage")
+            case .nutritionAdvisor: UIImage.imageFromBundle(named: "AIAdvisor")
             }
         }
 
@@ -59,6 +62,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .takePhotos: "Take Photos"
             case .selectPhotos: "Select Photos"
             case .useImage: "Use Image"
+            case .nutritionAdvisor: "AI Advisor"
             }
         }
     }
@@ -70,7 +74,8 @@ final class PlusMenuViewController: InstantiableViewController {
                                    .search,
                                    .scan,
                                    .takePhotos,
-                                   .selectPhotos]
+                                   .selectPhotos,
+                                   .nutritionAdvisor]
     var menuData: [Rows] = [.myFoods,
                             .favourite,
                             .voiceLogging,
@@ -78,7 +83,8 @@ final class PlusMenuViewController: InstantiableViewController {
                             .search,
                             .scan,
                             .takePhotos,
-                            .selectPhotos]
+                            .selectPhotos,
+                            .nutritionAdvisor]
     var bottomCountedValue: CGFloat = 70.0
 
     weak var delegate: PlusMenuDelegate?
@@ -175,6 +181,8 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         case .useImage:
             menuData = menuData.filter { $0 == .takePhotos || $0 == .selectPhotos }
             menuTableView.reloadWithAnimations(withDuration: 0.12)
+        case .nutritionAdvisor:
+            delegate?.nutritionAdvisorSelected()
         }
     }
 

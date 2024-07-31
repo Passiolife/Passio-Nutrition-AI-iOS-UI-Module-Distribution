@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view opaque="NO" contentMode="scaleToFill" id="pMe-y8-1mK" customClass="TakePhotosTipView" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="416" height="800"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vrO-Gd-cnt">
+                    <rect key="frame" x="34" y="218" width="348" height="389"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="hfh-y5-Vz5">
+                            <rect key="frame" x="16" y="30" width="316" height="329"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Taking a good picture" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oVB-x8-67D">
+                                    <rect key="frame" x="0.0" y="0.0" width="316" height="24"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="24" id="CHR-iD-W3P"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OcV-YK-l0H">
+                                    <rect key="frame" x="0.0" y="48" width="316" height="137"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="foodPlate" translatesAutoresizingMaskIntoConstraints="NO" id="g2V-t6-qG3">
+                                            <rect key="frame" x="89.666666666666657" y="0.0" width="137" height="137"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="g2V-t6-qG3" secondAttribute="height" id="Nmr-xB-iRh"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="g2V-t6-qG3" firstAttribute="centerY" secondItem="OcV-YK-l0H" secondAttribute="centerY" id="Ac3-KU-Mgi"/>
+                                        <constraint firstItem="g2V-t6-qG3" firstAttribute="top" secondItem="OcV-YK-l0H" secondAttribute="top" id="Dgz-su-HSc"/>
+                                        <constraint firstItem="g2V-t6-qG3" firstAttribute="centerX" secondItem="OcV-YK-l0H" secondAttribute="centerX" id="etq-co-lKg"/>
+                                    </constraints>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make sure all your food items are clearly visible in the shot" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mF9-NG-1xy">
+                                    <rect key="frame" x="0.0" y="209" width="316" height="44"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="KHO-cH-aYu"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Umm-Xy-HYy">
+                                    <rect key="frame" x="0.0" y="277" width="316" height="52"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upm-Kt-UAn">
+                                            <rect key="frame" x="88" y="0.0" width="140" height="52"/>
+                                            <color key="backgroundColor" name="indigo-600"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="140" id="U4i-Uf-nYN"/>
+                                                <constraint firstAttribute="height" constant="52" id="efh-1H-FdE"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <state key="normal" title="Ok"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="okAction:" destination="pMe-y8-1mK" eventType="touchUpInside" id="DZl-Vo-di3"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="52" id="Nga-l4-A9M"/>
+                                        <constraint firstItem="upm-Kt-UAn" firstAttribute="centerX" secondItem="Umm-Xy-HYy" secondAttribute="centerX" id="bdR-yr-uO8"/>
+                                        <constraint firstItem="upm-Kt-UAn" firstAttribute="centerY" secondItem="Umm-Xy-HYy" secondAttribute="centerY" id="pSe-27-CDs"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="hfh-y5-Vz5" firstAttribute="centerX" secondItem="vrO-Gd-cnt" secondAttribute="centerX" id="9MZ-nA-WF5"/>
+                        <constraint firstItem="hfh-y5-Vz5" firstAttribute="centerY" secondItem="vrO-Gd-cnt" secondAttribute="centerY" id="JCu-k3-Q12"/>
+                        <constraint firstAttribute="width" constant="348" id="Tvs-uF-htK"/>
+                        <constraint firstItem="hfh-y5-Vz5" firstAttribute="top" secondItem="vrO-Gd-cnt" secondAttribute="top" constant="30" id="em4-Sm-pRN"/>
+                        <constraint firstItem="hfh-y5-Vz5" firstAttribute="leading" secondItem="vrO-Gd-cnt" secondAttribute="leading" constant="16" id="khx-qz-DhG"/>
+                        <constraint firstAttribute="height" constant="389" id="xWu-IR-Nhb"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="E6H-ag-Wwx"/>
+            <color key="backgroundColor" red="0.41999999999999998" green="0.44700000000000001" blue="0.502" alpha="0.75" colorSpace="custom" customColorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="vrO-Gd-cnt" firstAttribute="centerY" secondItem="E6H-ag-Wwx" secondAttribute="centerY" id="JAS-s0-t1L"/>
+                <constraint firstItem="vrO-Gd-cnt" firstAttribute="centerX" secondItem="E6H-ag-Wwx" secondAttribute="centerX" id="ihC-HK-jU5"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="134" y="-658"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="foodPlate" width="141" height="141"/>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

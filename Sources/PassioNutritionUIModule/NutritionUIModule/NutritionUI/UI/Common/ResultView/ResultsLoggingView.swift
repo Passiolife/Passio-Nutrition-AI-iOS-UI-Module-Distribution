@@ -135,12 +135,14 @@ class ResultsLoggingView: UIView {
             DispatchQueue.global(qos: .userInteractive).async {
 
                 let advisorFoodInfo = food.foodData.advisorFoodInfo
-
+            
                 PassioNutritionAI.shared.fetchFoodItemFor(foodItem: advisorFoodInfo.foodDataInfo,
                                                           weightGrams: advisorFoodInfo.weightGrams) { (foodItem) in
-
+                
                     if let foodItem {
                         var foodRecord = FoodRecordV3(foodItem: foodItem)
+
+                    
                         foodRecord.mealLabel = MealLabel(mealTime: food.foodData.meal ?? PassioMealTime.currentMealTime())
                         PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord, isNew: true)
                         dispatchGroup.leave()

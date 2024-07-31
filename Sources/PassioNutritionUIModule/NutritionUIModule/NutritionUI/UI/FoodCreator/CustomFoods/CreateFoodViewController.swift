@@ -80,10 +80,11 @@ final class CreateFoodViewController: InstantiableViewController {
     @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardRectValue = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as?
                                     NSValue)?.cgRectValue {
-            createFoodTableView.contentInset = UIEdgeInsets(top: 0,
-                                                            left: 0,
-                                                            bottom: keyboardRectValue.height - 75,
-                                                            right: 0)
+            let insets = UIEdgeInsets(top: 0,
+                                      left: 0,
+                                      bottom: keyboardRectValue.height - 75,
+                                      right: 0)
+            createFoodTableView.contentInset = insets
         }
     }
 

@@ -10,7 +10,8 @@ import UIKit
 class InstantiableViewController: UIViewController {
 
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: String(describing: Self.self), bundle: Bundle.module)
+        let initBundle = nibBundleOrNil ?? Bundle.module
+        super.init(nibName: String(describing: Self.self), bundle: initBundle)
     }
     
     required init?(coder: NSCoder) {

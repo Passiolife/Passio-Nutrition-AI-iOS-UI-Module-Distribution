@@ -13,7 +13,7 @@ import PassioNutritionAISDK
 #endif
 
 protocol UsePhotosDelegate: AnyObject {
-    func onSelecting(images: [UIImage])
+    func onImagesSelected(images: [UIImage])
 }
 
 class TakePhotosViewController: InstantiableViewController, ImageLoggingService {
@@ -36,7 +36,8 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     private var cancellables = Set<AnyCancellable>()
     private var resultsLoggingView: ResultsLoggingView?
     private var selectedCellIndexPath: IndexPath?
-
+    private var tipView: TakePhotosTipView?
+    
     private var capturedImages: [UIImage] = []
     private var thumbnailImages: [UIImage] = [] {
         didSet {
@@ -51,8 +52,9 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     }
 
     var isStandAlone = true
+    var showTip = false
     weak var delegate: UsePhotosDelegate?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -68,10 +70,56 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
         cancelButton.setTitleColor(.primaryColor, for: .normal)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.updateStatusBarColor(color: .clear)
+        if showTip {
+            showTipView()
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
+        navigationController?.updateStatusBarColor(color: .white)
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    private func showTipView() {
+        if tipView == nil {
+            tipView = TakePhotosTipView.fromNib(named: "TakePhotosTipView",
+                                                bundle: Bundle.module)
+            tipView?.delegate = self
+            
+            if let tipView = tipView,
+               let window = UIApplication.shared.keyWindow {
+                window.addSubview(tipView)
+                tipView.translatesAutoresizingMaskIntoConstraints = false
+                
+                let containerConstraints = [
+                    tipView.leadingAnchor.constraint(equalTo: window.leadingAnchor),
+                    tipView.trailingAnchor.constraint(equalTo: window.trailingAnchor),
+                    tipView.topAnchor.constraint(equalTo: window.topAnchor),
+                    tipView.bottomAnchor.constraint(equalTo: window.bottomAnchor)
+                ]
+                
+                NSLayoutConstraint.activate(containerConstraints)
+            }
+//            if let tipView = tipView {
+//                tipView.translatesAutoresizingMaskIntoConstraints = false
+//                view.addSubview(tipView)
+//
+//                let containerConstraints = [
+//                    tipView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//                    tipView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//                    tipView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//                    tipView.topAnchor.constraint(equalTo: view.topAnchor)
+//                ]
+//
+//                NSLayoutConstraint.activate(containerConstraints)
+//            }
+        }
     }
 
     // MARK: @IBActions
@@ -85,7 +133,7 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
         } else {
             navigationController?.popViewController(animated: true) { [weak self] in
                 guard let self else { return }
-                delegate?.onSelecting(images: capturedImages)
+                delegate?.onImagesSelected(images: capturedImages)
             }
         }
     }
@@ -462,5 +510,12 @@ extension TakePhotosViewController: CustomAlertDelegate {
 
     func onleftButtonTapped() {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension TakePhotosViewController: TakePhotosTipViewDelegate {
+    func dismiss(sender: TakePhotosTipView) {
+        tipView?.removeFromSuperview()
+        tipView = nil
     }
 }

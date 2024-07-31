@@ -45,6 +45,7 @@ public protocol PassioConnector: AnyObject {
 
     // Photos
     var passioKeyForSDK: String { get }
+    var nutritionAdvisorKey: String { get }
     var offsetFoodEditor: CGFloat { get }
 }
 
@@ -67,6 +68,10 @@ public class PassioInternalConnector {
 
     public var passioKeyForSDK: String {
         passioExternalConnector?.passioKeyForSDK ?? "no key"
+    }
+    
+    public var nutritionAdvisorKey: String {
+        passioExternalConnector?.nutritionAdvisorKey ?? "no key"
     }
 
     public var bundleForModule: Bundle {

@@ -175,7 +175,8 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
                 itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
                     guard let self else { return }
                     if let image = image as? UIImage {
-                        selectedImages.append(image)
+                        let fixed = image.fixOrientation()
+                        selectedImages.append(fixed)
                         dispatchGroup.leave()
                     } else {
                         dispatchGroup.leave()
@@ -197,7 +198,7 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
             } else {
                 navigationController?.popViewController(animated: true) { [weak self] in
                     guard let self else { return }
-                    delegate?.onSelecting(images: selectedImages)
+                    delegate?.onImagesSelected(images: selectedImages)
                 }
             }
         }
