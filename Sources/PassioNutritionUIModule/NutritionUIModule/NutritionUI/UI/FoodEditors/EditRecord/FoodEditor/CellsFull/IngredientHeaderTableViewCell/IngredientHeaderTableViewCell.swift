@@ -33,17 +33,19 @@ class IngredientHeaderTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        insetBackground.dropShadow(radius: isLastCell ? 8 : 0,
-                                   offset: CGSize(width: 0, height: 1),
-                                   color: .black.withAlphaComponent(0.06),
-                                   shadowRadius: 2,
-                                   shadowOpacity: isLastCell ? 1 : 0,
-                                   istopBottomRadius: isLastCell ? true : false,
-                                   isDownRadius: isLastCell ? true : false)
-        insetBackground.layer.shadowPath = UIBezierPath(
-            roundedRect: isLastCell ? insetBackground.bounds : .zero,
-            cornerRadius: isLastCell ? 8 : 0
-        ).cgPath
+        DispatchQueue.main.async { [self] in
+            insetBackground.dropShadow(radius: isLastCell ? 8 : 0,
+                                       offset: CGSize(width: 0, height: 1),
+                                       color: .black.withAlphaComponent(0.06),
+                                       shadowRadius: 2,
+                                       shadowOpacity: isLastCell ? 1 : 0,
+                                       istopBottomRadius: isLastCell ? true : false,
+                                       isDownRadius: isLastCell ? true : false)
+            insetBackground.layer.shadowPath = UIBezierPath(
+                roundedRect: isLastCell ? insetBackground.bounds : .zero,
+                cornerRadius: isLastCell ? 8 : 0
+            ).cgPath
+        }
     }
 
     func setup(ingredient: FoodRecordIngredient, isLastCell: Bool) {

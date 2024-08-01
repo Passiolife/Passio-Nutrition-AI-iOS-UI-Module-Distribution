@@ -18,6 +18,16 @@ protocol PlusMenuDelegate: AnyObject {
     func selectPhotosSelected()
 }
 
+extension PlusMenuDelegate {
+    func onScanSelected() { }
+    func onSearchSelected() { }
+    func onFavouritesSelected() { }
+    func onMyFoodsSelected() { }
+    func onVoiceLoggingSelected() { }
+    func takePhotosSelected() { }
+    func selectPhotosSelected() { }
+}
+
 final class PlusMenuViewController: InstantiableViewController {
 
     @IBOutlet weak var menuTableView: UITableView!

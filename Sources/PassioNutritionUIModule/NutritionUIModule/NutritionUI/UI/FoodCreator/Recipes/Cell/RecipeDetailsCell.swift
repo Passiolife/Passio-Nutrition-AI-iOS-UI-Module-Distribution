@@ -16,6 +16,7 @@ class RecipeDetailsCell: UITableViewCell {
     @IBOutlet weak var recipeNameTextField: UITextField!
 
     var onCreateFoodImage: ((UIImagePickerController.SourceType) -> Void)?
+    var recipeName: ((String) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,8 +27,14 @@ class RecipeDetailsCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        backgroundShadowView.layer.shadowPath = UIBezierPath(roundedRect: backgroundShadowView.bounds,
-                                                             cornerRadius: 8).cgPath
+        DispatchQueue.main.async { [self] in
+            backgroundShadowView.layer.shadowPath = UIBezierPath(roundedRect: backgroundShadowView.bounds,
+                                                                 cornerRadius: 8).cgPath
+        }
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        endEditing(true)
     }
 
     private func configureUI() {
@@ -93,5 +100,9 @@ extension RecipeDetailsCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        recipeName?(textField.text ?? "")
     }
 }

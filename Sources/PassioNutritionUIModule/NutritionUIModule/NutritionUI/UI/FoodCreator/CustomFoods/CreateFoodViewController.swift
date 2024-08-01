@@ -157,7 +157,7 @@ extension CreateFoodViewController {
 
     private func editFoodRecord(foodDetails: FoodDetailsTableViewCell.FoodDetails) {
 
-        guard var record = foodRecord else { 
+        guard var record = foodRecord else {
             activityIndicatorView.isHidden = true
             return
         }
@@ -165,7 +165,7 @@ extension CreateFoodViewController {
         record.name = foodDetails.name
         record.details = foodDetails.brand ?? ""
         record.barcode = foodDetails.barcode ?? ""
-        
+
         if let foodItem = foodDataSet?.updatedNutritionFacts?.fromNutritionFacts(foodName: foodDetails.name,
                                                                                  brand: foodDetails.brand ?? "") {
             record.servingSizes = foodItem.amount.servingSizes
@@ -177,7 +177,7 @@ extension CreateFoodViewController {
             _ = record.setFoodRecordServing(unit: record.selectedUnit,
                                             quantity: record.selectedQuantity)
         }
-        
+
         connector.updateUserFood(record: record, isNew: true)
         connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image.get180pImage)
         activityIndicatorView.isHidden = true
@@ -197,7 +197,7 @@ extension CreateFoodViewController {
 
         let foodRecognisationStoryboard = UIStoryboard(name: "FoodRecognisation", bundle: .module)
         let barcodeRecogniserVC = foodRecognisationStoryboard.instantiateViewController(
-            withIdentifier: "BarcodeRecogniserViewController"
+            withIdentifier: BarcodeRecogniserViewController.className
         ) as! BarcodeRecogniserViewController
         barcodeRecogniserVC.delegate = self
         navigationController?.pushViewController(barcodeRecogniserVC, animated: true)

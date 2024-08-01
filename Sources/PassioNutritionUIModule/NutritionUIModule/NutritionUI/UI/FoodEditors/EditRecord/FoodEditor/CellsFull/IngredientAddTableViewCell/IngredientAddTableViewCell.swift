@@ -31,4 +31,8 @@ class IngredientAddTableViewCell: UITableViewCell {
         insetBackground.layer.shadowPath = UIBezierPath(roundedRect: insetBackground.bounds,
                                                         cornerRadius: 8).cgPath
     }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        endEditing(true)
+    }
 }

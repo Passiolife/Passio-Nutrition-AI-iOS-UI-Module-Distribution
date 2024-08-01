@@ -27,6 +27,7 @@ final class AdvancedTextSearchView: UIView {
     private var alternateSearches: SearchResponse?
     private var favorites: [FoodRecordV3]?
     private var userFoods: [FoodRecordV3]?
+    private var recipes: [FoodRecordV3]?
 
     private var searchTimer: Timer?
     private var previousSearch = ""
@@ -83,6 +84,7 @@ final class AdvancedTextSearchView: UIView {
         case status
         case favorites
         case userFoods
+        case recipes
     }
 
     var sections: [Sections] = []
@@ -184,6 +186,7 @@ private extension AdvancedTextSearchView {
         alternateSearches = nil
         favorites = nil
         userFoods = nil
+        recipes = nil
         searchController?.resignFirstResponder()
         searchController?.isActive = false
         findViewController()?.navigationController?.popViewController(animated: true)
@@ -269,6 +272,7 @@ private extension AdvancedTextSearchView {
             alternateSearches = nil
             favorites = nil
             userFoods = nil
+            recipes = nil
             reloadTableView()
             return
         }
@@ -305,6 +309,15 @@ private extension AdvancedTextSearchView {
                 }
             }
 
+            // Recipes
+            dispatchGroup.enter()
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.connecter.fetchRecipes { recipes in
+                    self.recipes = recipes.filter { $0.name.lowercased().contains(searchText) }
+                    dispatchGroup.leave()
+                }
+            }
+
             // Favorites
             dispatchGroup.enter()
             DispatchQueue.global(qos: .userInitiated).async {
@@ -331,6 +344,7 @@ private extension AdvancedTextSearchView {
                 (alternateSearches?.alternateNames.count ?? 0 > 0)
                 || (alternateSearches?.results.count ?? 0 > 0)
                 || (userFoods?.count ?? 0 > 0)
+                || (recipes?.count ?? 0 > 0)
                 || (favorites?.count ?? 0 > 0)
             ) {
             return true
@@ -372,6 +386,9 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
             if (favorites?.count ?? 0) > 0 {
                 sections.append(.favorites)
             }
+            if (recipes?.count ?? 0) > 0 {
+                sections.append(.recipes)
+            }
             if (alternateSearches?.results ?? []).count > 0 {
                 sections.append(.results)
             }
@@ -385,6 +402,7 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
         case .status, .alternateSearch: 1
         case .userFoods: userFoods?.count ?? 0
         case .favorites: favorites?.count ?? 0
+        case .recipes: recipes?.count ?? 0
         case .results: alternateSearches?.results.count ?? 0
         }
     }
@@ -451,6 +469,21 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
             if let userFoods = userFoods?[safe: indexPath.row] {
 
                 cell.setup(foodRecord: userFoods, isFromSearch: true)
+                cell.onQuickAddFood = { [weak self] in
+                    guard let self else { return }
+                    getFoodRecord(foodData: nil, record: userFoods) { foodRecord in
+                        self.quickLogFood(record: foodRecord)
+                    }
+                }
+            }
+            return cell
+
+        case .recipes:
+            let cell = tableView.dequeueCell(cellClass: AdvancedTextSearchCell.self, forIndexPath: indexPath)
+
+            if let userFoods = recipes?[safe: indexPath.row] {
+
+                cell.setup(foodRecord: userFoods, isFromSearch: true, isRecipe: true)
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
                     getFoodRecord(foodData: nil, record: userFoods) { foodRecord in

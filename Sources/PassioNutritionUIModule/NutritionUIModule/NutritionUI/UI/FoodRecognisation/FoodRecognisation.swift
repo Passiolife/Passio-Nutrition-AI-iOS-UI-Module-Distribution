@@ -40,8 +40,29 @@ class FoodRecognitionDataSetConnector {
         }
     }
 
-    func getRecordV3(completion: @escaping (FoodRecordV3?) -> Void) {
-        if let foodRecord {
+    func getRecordV3(dataType: FoodRecognitionDataSetConnector,
+                     completion: @escaping (FoodRecordV3?) -> Void) {
+
+
+        var barcode = dataType.id ?? ""
+        if barcode.count == 13 && barcode.first == "0" { barcode.removeFirst() }
+
+        var entityType = foodRecord?.entityType ?? .item
+
+        switch dataType {
+        case let dataType as VisualFoodDataSet:
+            entityType = .item
+        case let dataType as BarcodeDataSet:
+            entityType = .barcode
+        case let dataType as PackageFoodDataSet:
+            entityType = .packagedFoodCode
+        default:
+            entityType = .nutritionFacts
+        }
+
+        if var foodRecord {
+            foodRecord.barcode = barcode
+            foodRecord.entityType = entityType
             completion(foodRecord)
             return
         }
@@ -52,6 +73,8 @@ class FoodRecognitionDataSetConnector {
                     return
                 }
                 foodRecord = FoodRecordV3(foodItem: item)
+                foodRecord?.entityType = entityType
+                foodRecord?.barcode = barcode
                 completion(foodRecord)
             }
         }
@@ -142,16 +165,21 @@ class PackageFoodDataSet: FoodRecognitionDataSetConnector, FoodRecognitionDataSe
 }
 
 class VisualFoodDataSet: FoodRecognitionDataSetConnector, FoodRecognitionDataSet {
+
     var candidate: DetectedCandidate?
     var allAlternatives: [DetectedCandidate] = []
 
     override var id: String? {return candidate?.passioID}
 
-    init(candidate: DetectedCandidate? = nil, topKResults: [DetectedCandidate] = [] ) {
+    init(candidate: DetectedCandidate? = nil,
+         topKResults: [DetectedCandidate] = []) {
         super.init()
+
         self.candidate = candidate
-        self.allAlternatives = ((candidate?.alternatives ?? []) + topKResults).uniqued(on: {$0.passioID}).filter({$0.passioID != self.id})
-        
+        self.allAlternatives = (
+            (candidate?.alternatives ?? []) + topKResults
+        ).uniqued(on: {$0.passioID}).filter{ $0.passioID != self.id }
+
 //        if let mapping = PassioNutritionAI.shared.lookupPersonalizedAlternativeFor(passioID: candidate?.passioID ?? "NAN"){
 //            if allAlternatives.contains(where: {mapping.nutritionalPassioID == $0.passioID}){
 //                guard let toBeSwitchCandidate = allAlternatives.first(where: {mapping.nutritionalPassioID == $0.passioID}) else { return }

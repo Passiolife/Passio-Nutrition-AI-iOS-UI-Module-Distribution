@@ -41,6 +41,10 @@ class AmountSliderFullTableViewCell: UITableViewCell {
                                                         cornerRadius: 8).cgPath
     }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        endEditing(true)
+    }
+
     func setup(quantity: Double, unitName: String, weight: String) {
 
         let textAmount = quantity == Double(Int(quantity)) ? String(Int(quantity)) :

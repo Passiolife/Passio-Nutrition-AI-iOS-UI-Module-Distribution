@@ -365,7 +365,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
         pauseDetection()
 
         if let dataset = dataset as? FoodRecognitionDataSetConnector {
-            dataset.getRecordV3 { [weak self] record in
+            dataset.getRecordV3(dataType: dataset) { [weak self] record in
                 guard let self else { return }
                 guard let record = record else {
                     self.startFoodDetection()
@@ -380,7 +380,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
 
         if let dataset = dataset as? FoodRecognitionDataSetConnector {
 
-            dataset.getRecordV3 { [weak self] record in
+            dataset.getRecordV3(dataType: dataset) { [weak self] record in
 
                 guard let self else { return }
                 guard var record = record else {
@@ -404,7 +404,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
 
         if let dataset = dataset as? FoodRecognitionDataSetConnector {
             
-            dataset.getRecordV3 { [weak self] record in
+            dataset.getRecordV3(dataType: dataset) { [weak self] record in
                 guard let `self` = self else { return }
                 self.endLoading()
 

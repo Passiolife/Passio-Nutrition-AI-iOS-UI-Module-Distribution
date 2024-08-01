@@ -83,7 +83,11 @@ extension RecipesViewController {
     }
 
     private func addFoodQuickly(record: FoodRecordV3) {
-        connector.updateRecord(foodRecord: record, isNew: true)
+        var foodRecord = record
+        foodRecord.uuid = UUID().uuidString
+        foodRecord.createdAt = Date()
+        foodRecord.mealLabel = .mealLabelBy()
+        connector.updateRecord(foodRecord: foodRecord, isNew: true)
         showMessage(msg: "Added to Log")
     }
 
@@ -103,8 +107,9 @@ extension RecipesViewController {
     }
 
     private func handleRecipe(for record: FoodRecordV3, isPlusAction: Bool) {
-        if let recipe {
+        if var recipe {
             if isPlusAction {
+                recipe.ingredients[0].iconId = recipe.iconId
                 navigateToEditRecipe(recipe: recipe)
             } else {
                 let editIngredientVC = EditIngredientViewController()
@@ -113,6 +118,7 @@ extension RecipesViewController {
                 editIngredientVC.delegate = self
                 editIngredientVC.saveOnDismiss = false
                 editIngredientVC.indexToPop = 2
+                editIngredientVC.isAddIngredient = true
                 DispatchQueue.main.async {
                     self.navigationController?.pushViewController(editIngredientVC, animated: true)
                 }
