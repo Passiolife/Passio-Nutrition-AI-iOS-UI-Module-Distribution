@@ -15,7 +15,7 @@ public extension UIViewController {
         let backButton = UIButton(type: .custom)
         backButton.setImage(UIImage.imageFromBundle(named: "back_arrow"), for: .normal)
         backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
-        backButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 0)
+        backButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         let backButtonItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = backButtonItem
     }
