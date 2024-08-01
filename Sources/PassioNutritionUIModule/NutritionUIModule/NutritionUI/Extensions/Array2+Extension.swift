@@ -35,6 +35,36 @@ extension Array where Element == UITextField {
     }
 }
 
+public extension Array where Element == DayLog {
+    func generateDataRequestJson() -> String {
+        var meals = [DayLogRecord]()
+        for dayLog in self {
+            let breakfast = dayLog.breakfastArray.compactMap({ $0.name })
+            let lunch = dayLog.lunchArray.compactMap({ $0.name })
+            let dinner = dayLog.dinnerArray.compactMap({ $0.name })
+            let snacks = dayLog.snackArray.compactMap({ $0.name })
+            let meal = DayLogRecord(date: dayLog.date.dateString,
+                                    breakfast: breakfast,
+                                    lunch: lunch,
+                                    dinner: dinner,
+                                    snacks: snacks)
+            if meal.containsData {
+                meals.append(meal)
+            }
+        }
+        
+        let encoder = JSONEncoder()
+        
+        do {
+            let data = try encoder.encode(meals)
+            let json = String(data: data, encoding: .ascii)
+            return json ?? ""
+        } catch {
+            return ""
+        }
+    }
+}
+
 // MARK: Safe use of Collection's Index while avoiding “Fatal error: Index out of range”.
 extension Collection where Indices.Iterator.Element == Index {
 

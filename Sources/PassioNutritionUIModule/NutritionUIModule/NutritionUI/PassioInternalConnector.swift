@@ -20,6 +20,7 @@ public protocol PassioConnector: AnyObject {
     func updateRecord(foodRecord: FoodRecordV3, isNew: Bool)
     func deleteRecord(foodRecord: FoodRecordV3)
     func fetchDayRecords(date: Date, completion: @escaping ([FoodRecordV3]) -> Void)
+    func fetchMealLogsJson(daysBack: Int) -> String
 
     // User Foods
     func updateUserFood(record: FoodRecordV3, isNew: Bool)
@@ -162,6 +163,19 @@ extension PassioInternalConnector: PassioConnector {
         connector.fetchDayRecords(date: date) { (foodRecords) in
             completion(foodRecords)
         }
+    }
+    
+    public func fetchMealLogsJson(daysBack: Int) -> String {
+        let toDate = Date()
+        let fromDate = Calendar.current.date(byAdding: .day, value: -daysBack, to: toDate) ?? Date()
+
+        var dayLogs = [DayLog]()
+        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
+                                                            toDate: toDate) { dayLog in
+            dayLogs.append(contentsOf: dayLog)
+        }
+        let json = dayLogs.generateDataRequestJson()
+        return json
     }
 
     // MARK: UserFood
