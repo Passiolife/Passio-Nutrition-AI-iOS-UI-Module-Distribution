@@ -14,14 +14,17 @@ import PassioNutritionAISDK
 
 final class FoodRecognitionV3ViewController: UIViewController {
 
-    @IBOutlet weak var flashLightButton: UIButton!
-    @IBOutlet weak var focusButton: UIButton!
+    @IBOutlet weak var wholeFoodsButton: UIButton!
+    @IBOutlet weak var barcodeButton: UIButton!
+    @IBOutlet weak var nutritionFactsButton: UIButton!
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var scanningView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var nutritionContentView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var zoomSlider: UISlider!
+//    @IBOutlet weak var zoomSlider: UISlider!
+//    @IBOutlet weak var flashLightButton: UIButton!
+//    @IBOutlet weak var focusButton: UIButton!
 
     private let passioSDK = PassioNutritionAI.shared
     private let connector = PassioInternalConnector.shared
@@ -32,6 +35,17 @@ final class FoodRecognitionV3ViewController: UIViewController {
     private var currentZoomLevel: CGFloat = 1
     private var workItem: DispatchWorkItem?
     private var isFlashlightOn: Bool = false
+    private let white40Color = UIColor.white.withAlphaComponent(0.40)
+
+    private var scanMode: ScanMode = .wholeFoods {
+        didSet {
+            setupScanModeButtonsUI()
+        }
+    }
+
+    private enum ScanMode {
+        case wholeFoods, barcode, nutritionFacts
+    }
 
     public var dataset: (any FoodRecognitionDataSet)? {
         didSet {
@@ -71,8 +85,8 @@ final class FoodRecognitionV3ViewController: UIViewController {
     }
     private var isFocusEnabled = false {
         didSet {
-            focusButton.setImage(UIImage(resource: isFocusEnabled ? .focusIcon : .focusOffIcon),
-                                 for: .normal)
+//            focusButton.setImage(UIImage(resource: isFocusEnabled ? .focusIcon : .focusOffIcon),
+//                                 for: .normal)
         }
     }
     private var isHintPresented: Bool = false {
@@ -112,7 +126,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
         foodResultVC?.delegate = self
         nutritionFactResultVC?.delegate = self
         activityIndicator.color = .primaryColor
-        zoomSlider.minimumTrackTintColor = .primaryColor
+        // zoomSlider.minimumTrackTintColor = .primaryColor
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -134,7 +148,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
             guard let self else { return }
             if isRecognitionsPaused {
                 if (foodResultVC?.containerViewHeightConstraint?.constant ?? -1) == 0
-                    && presentedViewController == nil  {
+                    && presentedViewController == nil {
                     startFoodDetection()
                 }
             }
@@ -155,6 +169,15 @@ final class FoodRecognitionV3ViewController: UIViewController {
 
 // MARK: - @IBAction
 private extension FoodRecognitionV3ViewController {
+
+    @IBAction func onScanMode(_ sender: UIButton) {
+        scanMode = switch sender.tag {
+        case 0: .wholeFoods
+        case 1: .barcode
+        case 2: .nutritionFacts
+        default: .wholeFoods
+        }
+    }
 
     @IBAction func onZoomLevelChanged(_ sender: UISlider) {
         guard let _ = videoLayer else { return }
@@ -191,13 +214,30 @@ private extension FoodRecognitionV3ViewController {
     @IBAction func onFlashlight(_ sender: UIButton) {
         passioSDK.enableFlashlight(enabled: !isFlashlightOn, level: 1)
         isFlashlightOn.toggle()
-        flashLightButton.setImage(UIImage(systemName: isFlashlightOn ? "flashlight.on.fill" : "flashlight.off.fill"),
-                                  for: .normal)
+//        flashLightButton.setImage(UIImage(systemName: isFlashlightOn ? "flashlight.on.fill" : "flashlight.off.fill"),
+//                                  for: .normal)
     }
 }
 
 // MARK: - Helper methods: Food Detection
 private extension FoodRecognitionV3ViewController {
+
+    func setupScanModeButtonsUI() {
+        switch scanMode {
+        case .wholeFoods:
+            wholeFoodsButton.animateBackgroundColor(color: .primaryColor)
+            barcodeButton.animateBackgroundColor(color: white40Color)
+            nutritionFactsButton.animateBackgroundColor(color: white40Color)
+        case .barcode:
+            wholeFoodsButton.animateBackgroundColor(color: white40Color)
+            barcodeButton.animateBackgroundColor(color: .primaryColor)
+            nutritionFactsButton.animateBackgroundColor(color: white40Color)
+        case .nutritionFacts:
+            wholeFoodsButton.animateBackgroundColor(color: white40Color)
+            barcodeButton.animateBackgroundColor(color: white40Color)
+            nutritionFactsButton.animateBackgroundColor(color: .primaryColor)
+        }
+    }
 
     func setupNavigation() {
 
@@ -230,8 +270,8 @@ private extension FoodRecognitionV3ViewController {
             vLayer.frame = bgFrame
             previewView.layer.insertSublayer(vLayer, at: 0)
 
-            zoomSlider.minimumValue = Float(passioSDK.getMinMaxCameraZoomLevel.minLevel ?? 0)
-            zoomSlider.maximumValue = 15 // Float(passioSDK.getMinMaxCameraZoomLevel.maxLevel ?? 0)
+//            zoomSlider.minimumValue = Float(passioSDK.getMinMaxCameraZoomLevel.minLevel ?? 0)
+//            zoomSlider.maximumValue = 15 // Float(passioSDK.getMinMaxCameraZoomLevel.maxLevel ?? 0)
         }
     }
 

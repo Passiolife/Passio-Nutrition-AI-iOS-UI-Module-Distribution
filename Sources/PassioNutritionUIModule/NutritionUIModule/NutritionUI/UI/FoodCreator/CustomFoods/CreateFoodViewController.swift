@@ -184,15 +184,6 @@ extension CreateFoodViewController {
         navigationController?.popViewController(animated: true)
     }
 
-    private func navigateToEditViewContorller(_ record: FoodRecordV3) {
-        let editVC = EditRecordViewController()
-        editVC.foodRecord = record
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
-            guard let self else { return }
-            navigationController?.pushViewController(editVC, animated: true)
-        })
-    }
-
     private func navigateToBarcodeViewController() {
 
         let foodRecognisationStoryboard = UIStoryboard(name: "FoodRecognisation", bundle: .module)
