@@ -9,7 +9,12 @@
 import Foundation
 
 extension Date {
-
+    var dateString: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        return dateFormatter.string(from: self)
+    }
+    
     func dateFormatWithSuffix() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMMM d'\(self.daySuffix())'"
