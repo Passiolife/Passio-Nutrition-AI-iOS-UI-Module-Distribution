@@ -12,6 +12,10 @@ protocol CustomAlertDelegate: AnyObject {
     func onleftButtonTapped()
 }
 
+extension CustomAlertDelegate {
+    func onleftButtonTapped() { }
+}
+
 struct CustomAlert {
 
     var headingLabel: Bool = true

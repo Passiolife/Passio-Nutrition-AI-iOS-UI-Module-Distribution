@@ -77,6 +77,15 @@ extension CustomFoodsViewController {
         createFoodVC.foodRecord = record
         navigationController?.pushViewController(createFoodVC, animated: true)
     }
+
+    private func navigateToEditViewContorller(record: FoodRecordV3) {
+        let editVC = EditRecordViewController()
+        editVC.foodRecord = record
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            navigationController?.pushViewController(editVC, animated: true)
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
@@ -98,7 +107,7 @@ extension CustomFoodsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigateToEdit(with: customFoods[indexPath.row])
+        navigateToEditViewContorller(record: customFoods[indexPath.row])
     }
 
     func tableView(_ tableView: UITableView,
