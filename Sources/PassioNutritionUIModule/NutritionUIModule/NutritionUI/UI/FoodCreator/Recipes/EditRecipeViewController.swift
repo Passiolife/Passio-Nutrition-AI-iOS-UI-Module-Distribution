@@ -29,10 +29,19 @@ class EditRecipeViewController: InstantiableViewController {
     var recipe: FoodRecordV3? {
         didSet {
             DispatchQueue.main.async { [self] in
-                saveButton.enableDisableButton(isEnabled: recipe?.ingredients.count ?? 1 > 1)
+                saveButton.enableDisableButton(duration: 0.21, isEnabled: isSaveRecipe)
                 editRecipeTableView.reloadData()
             }
         }
+    }
+
+    private var recipeName = "" {
+        didSet {
+            saveButton.enableDisableButton(duration: 0.21, isEnabled: isSaveRecipe)
+        }
+    }
+    private var isSaveRecipe: Bool {
+        (recipe?.ingredients.count ?? 1 >= 2) && (recipeName != "")
     }
 
     override func viewDidLoad() {
@@ -44,13 +53,14 @@ class EditRecipeViewController: InstantiableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        recipeName = recipe?.name ?? ""
         setupBackButton()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        recipe?.name = getRecipeDetailsCell?.recipeNameTextField.text ?? ""
+        recipe?.name = recipeName
     }
 
     @IBAction func onCancel(_ sender: UIButton) {
@@ -59,8 +69,8 @@ class EditRecipeViewController: InstantiableViewController {
 
     @IBAction func onSave(_ sender: UIButton) {
         if var recipe, let getRecipeDetailsCell {
-            recipe.name = getRecipeDetailsCell.recipeNameTextField.text ?? ""
-            recipe.iconId = "Recipe.\(recipe.iconId)"
+            recipe.name = recipeName
+            recipe.iconId = recipe.iconId.contains("Recipe") ? recipe.iconId : "Recipe.\(recipe.iconId)"
             PassioInternalConnector.shared.updateRecipe(record: recipe)
             PassioInternalConnector.shared.updateUserFoodImage(
                 with: recipe.iconId,
@@ -180,6 +190,7 @@ extension EditRecipeViewController {
         editVC.indexOfIngredient = indexOfIngredient
         editVC.saveOnDismiss = false
         editVC.indexToPop = isAddIngredient ? 2 : nil
+        editVC.isAddIngredient = isAddIngredient
         editVC.delegate = self
         navigationController?.pushViewController(editVC, animated: true)
     }
@@ -190,6 +201,7 @@ extension EditRecipeViewController {
         if var recipe {
             if isPlusAction {
                 recipe.addIngredient(record: record)
+                recipe.ingredients[indexOfIngredient].iconId = record.iconId
                 self.recipe = recipe
                 editRecipeTableView.scrollToBottom()
             } else {
@@ -210,7 +222,7 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch editRecipeSections[section] {
         case .recipeDetailsCell, .amountSliderFullTableViewCell, .ingredientAddTableViewCell: 1
-        case .ingredientHeaderTableViewCell: (recipe?.ingredients.count ?? 1) == 1 ? 0 : (recipe?.ingredients.count ?? 1)
+        case .ingredientHeaderTableViewCell: recipe?.ingredients.count ?? 1
         }
     }
 
@@ -223,6 +235,10 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
                                              forIndexPath: indexPath)
             if let recipe {
                 cell.configureCell(with: recipe, isCreate: isCreate)
+                cell.recipeName = { [weak self] (recipeName) in
+                    guard let self else { return }
+                    self.recipeName = recipeName
+                }
                 cell.onCreateFoodImage = { [weak self] (sourceType) in
                     guard let self else { return }
                     self.presentImagePicker(withSourceType: sourceType, delegate: self)
@@ -385,8 +401,6 @@ extension EditRecipeViewController: PlusMenuDelegate {
 
     func onFavouritesSelected() {}
 
-    func onMyFoodsSelected() {}
-
     func onVoiceLoggingSelected() {}
 
     func takePhotosSelected() {}
@@ -425,8 +439,4 @@ extension EditRecipeViewController: IngredientEditorViewDelegate {
             recipe?.replaceIngredient(updatedIngredient: ingredient, atIndex: atIndex)
         }
     }
-
-    func ingredientEditedCancel() { }
-    func startNutritionBrowser(foodItemData: FoodRecordIngredient) { }
-    func replaceFoodUsingSearch() { }
 }

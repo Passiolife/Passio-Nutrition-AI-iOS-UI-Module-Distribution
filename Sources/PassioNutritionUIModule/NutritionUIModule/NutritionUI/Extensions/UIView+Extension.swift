@@ -227,6 +227,16 @@ public extension UIView {
         }
     }
 
+    func animateBackgroundColor(color: UIColor,
+                                duration: TimeInterval = 0.3) {
+        UIView.transition(with: self,
+                          duration: 0.21,
+                          options: .curveEaseInOut,
+                          animations: {
+            self.backgroundColor = color
+        })
+    }
+
     func fitToSelf(childView: UIView) {
         childView.translatesAutoresizingMaskIntoConstraints = false
         let bindings = ["childView": childView]

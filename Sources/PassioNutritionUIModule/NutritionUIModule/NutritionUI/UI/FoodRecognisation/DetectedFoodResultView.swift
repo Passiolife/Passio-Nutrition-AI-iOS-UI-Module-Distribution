@@ -21,6 +21,7 @@ protocol DetectedFoodResultViewDelegate: NSObjectProtocol {
     func didViewExpanded(isExpanded: Bool)
     func didScannedWrongBarcode()
     func didTaponAlternative(dataset: (any FoodRecognitionDataSet)?)
+    func didViewStartedDragging(isDragging: Bool)
 }
 
 class DetectedFoodResultView: CustomModalViewController {
@@ -51,6 +52,12 @@ class DetectedFoodResultView: CustomModalViewController {
     override var isExpanded: Bool {
         didSet {
             delegate?.didViewExpanded(isExpanded: isExpanded)
+        }
+    }
+
+    override var isDraggingStarted: Bool {
+        didSet {
+            delegate?.didViewStartedDragging(isDragging: isDraggingStarted)
         }
     }
 
@@ -177,7 +184,9 @@ class DetectedFoodResultView: CustomModalViewController {
             if let foodItem = passioFoodItem {
                 DispatchQueue.main.async {
                     self.setupNoLoderView()
-                    self.setupNameAndImage(name: foodItem.name, passioID: foodItem.iconId, entityType: .packagedFoodCode)
+                    self.setupNameAndImage(name: foodItem.name, 
+                                           passioID: foodItem.iconId,
+                                           entityType: .packagedFoodCode)
                     self.setDragabble(isDraggable: false)
                 }
             }

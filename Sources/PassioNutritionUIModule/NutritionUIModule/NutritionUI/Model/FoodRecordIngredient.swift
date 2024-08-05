@@ -114,11 +114,30 @@ public struct FoodRecordIngredient: Codable, Equatable {
     }
 
     mutating public func setServingUnitKeepWeight(unitName: String) -> Bool {
-        guard  let weight2Quantity = (servingUnits.filter {$0.unitName == unitName}).first?.weight  else {
+        guard  let weight2Quantity = (servingUnits.filter { $0.unitName == unitName }).first?.weight  else {
             return false
         }
         selectedQuantity = computedWeight.value / weight2Quantity.value
         selectedUnit = unitName
+        return true
+    }
+
+    mutating func setSelectedUnit(unit: String) -> Bool {
+
+        var unit = if unit == "Gram" {
+            unit.lowercased()
+        } else {
+            unit
+        }
+
+        if selectedUnit == unit {
+            return true
+        }
+        if servingUnits.first(where: { $0.unitName == unit }) == nil {
+            return false
+        }
+        selectedUnit = unit
+        selectedQuantity = unit == "gram" ? 100 : 1
         return true
     }
 }

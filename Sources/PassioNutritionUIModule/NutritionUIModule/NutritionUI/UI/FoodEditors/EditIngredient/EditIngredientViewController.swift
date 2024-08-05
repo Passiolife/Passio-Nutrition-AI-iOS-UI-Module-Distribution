@@ -21,6 +21,7 @@ final class EditIngredientViewController: UIViewController {
     var foodItemData: FoodRecordIngredient?
     var indexOfIngredient = 0
     var indexToPop: Int? = nil
+    var isAddIngredient = false
 
     weak var delegate: IngredientEditorViewDelegate?
 
@@ -33,6 +34,7 @@ final class EditIngredientViewController: UIViewController {
         ingredientEditorView?.foodRecordIngredient = foodItemData
         ingredientEditorView?.indexOfIngredient = indexOfIngredient
         ingredientEditorView?.delegate = self
+        ingredientEditorView?.isAddIngredient = isAddIngredient
         title = "Edit Ingredient"
         
         self.setupBackButton()

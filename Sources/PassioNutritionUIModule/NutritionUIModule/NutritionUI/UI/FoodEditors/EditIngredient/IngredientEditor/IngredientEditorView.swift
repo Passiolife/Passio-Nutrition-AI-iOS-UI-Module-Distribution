@@ -18,6 +18,12 @@ protocol IngredientEditorViewDelegate: AnyObject {
     func replaceFoodUsingSearch()
 }
 
+extension IngredientEditorViewDelegate {
+    func ingredientEditedCancel() { }
+    func startNutritionBrowser(foodItemData: FoodRecordIngredient) { }
+    func replaceFoodUsingSearch() { }
+}
+
 class IngredientEditorView: UIView {
 
     @IBOutlet weak var tableView: UITableView!
@@ -28,6 +34,11 @@ class IngredientEditorView: UIView {
     let connector = PassioInternalConnector.shared
     var cachedMaxForSlider = [Int: [String: Float]]()
     var indexOfIngredient = 0
+    var isAddIngredient = false {
+        didSet {
+            buttonSave.setTitle(isAddIngredient ? "Add Ingredient" : "Save", for: .normal)
+        }
+    }
 
     var foodRecordIngredient: FoodRecordIngredient? {
         didSet {
@@ -55,14 +66,13 @@ class IngredientEditorView: UIView {
         buttonCancel.setTitle( "Cancel", for: .normal)
         buttonCancel.setTitleColor(.primaryColor, for: .normal)
         buttonCancel.applyBorder(width: 2, color: .primaryColor)
-        buttonSave.setTitle( "Save", for: .normal)
         buttonSave.backgroundColor = .primaryColor
         buttonCancel.roundMyCornerWith(radius: 4)
         buttonSave.roundMyCornerWith(radius: 4)
     }
 
-    // MARK: Button's Actions.
-    @objc func changeLabel(sender: UIButton ) {
+    // MARK: Button's Actions
+    @objc func changeLabel(sender: UIButton) {
         guard let servingUnits = foodRecordIngredient?.servingUnits else { return }
         let items = servingUnits.map { return $0.unitName }
         let customPickerViewController = CustomPickerViewController()
@@ -215,7 +225,7 @@ extension IngredientEditorView: UITableViewDataSource {
 extension IngredientEditorView: CustomPickerSelectionDelegate {
 
     func onPickerSelection(value: String, selectedIndex: Int, viewTag: Int) {
-        _ = foodRecordIngredient?.setServingUnitKeepWeight(unitName: value)
+        _ = foodRecordIngredient?.setSelectedUnit(unit: value)
     }
 }
 

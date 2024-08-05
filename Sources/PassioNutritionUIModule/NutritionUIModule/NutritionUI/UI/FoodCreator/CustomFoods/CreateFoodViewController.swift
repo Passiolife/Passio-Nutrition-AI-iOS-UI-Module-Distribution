@@ -42,16 +42,22 @@ final class CreateFoodViewController: InstantiableViewController {
     var isCreateNewFood = true
     var isFromFoodEdit = false
     var isFromNutritionFacts = false
+    var vcTitle = "Food Creator"
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Food Creator"
         cancelButton.setTitleColor(.primaryColor, for: .normal)
         cancelButton.applyBorder(width: 2, color: .primaryColor)
         saveButton.backgroundColor = .primaryColor
         setupBackButton()
         configureTableView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        title = vcTitle
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -157,7 +163,7 @@ extension CreateFoodViewController {
 
     private func editFoodRecord(foodDetails: FoodDetailsTableViewCell.FoodDetails) {
 
-        guard var record = foodRecord else { 
+        guard var record = foodRecord else {
             activityIndicatorView.isHidden = true
             return
         }
@@ -165,7 +171,7 @@ extension CreateFoodViewController {
         record.name = foodDetails.name
         record.details = foodDetails.brand ?? ""
         record.barcode = foodDetails.barcode ?? ""
-        
+
         if let foodItem = foodDataSet?.updatedNutritionFacts?.fromNutritionFacts(foodName: foodDetails.name,
                                                                                  brand: foodDetails.brand ?? "") {
             record.servingSizes = foodItem.amount.servingSizes
@@ -177,27 +183,18 @@ extension CreateFoodViewController {
             _ = record.setFoodRecordServing(unit: record.selectedUnit,
                                             quantity: record.selectedQuantity)
         }
-        
+
         connector.updateUserFood(record: record, isNew: true)
         connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image.get180pImage)
         activityIndicatorView.isHidden = true
         navigationController?.popViewController(animated: true)
     }
 
-    private func navigateToEditViewContorller(_ record: FoodRecordV3) {
-        let editVC = EditRecordViewController()
-        editVC.foodRecord = record
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
-            guard let self else { return }
-            navigationController?.pushViewController(editVC, animated: true)
-        })
-    }
-
     private func navigateToBarcodeViewController() {
 
         let foodRecognisationStoryboard = UIStoryboard(name: "FoodRecognisation", bundle: .module)
         let barcodeRecogniserVC = foodRecognisationStoryboard.instantiateViewController(
-            withIdentifier: "BarcodeRecogniserViewController"
+            withIdentifier: BarcodeRecogniserViewController.className
         ) as! BarcodeRecogniserViewController
         barcodeRecogniserVC.delegate = self
         navigationController?.pushViewController(barcodeRecogniserVC, animated: true)

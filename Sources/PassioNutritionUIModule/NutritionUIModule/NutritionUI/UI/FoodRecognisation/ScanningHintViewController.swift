@@ -12,8 +12,6 @@ class ScanningHintViewController: UIViewController {
 
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var wholeFoodsImageView: UIImageView!
-    @IBOutlet weak var drinkImageView: UIImageView!
-    @IBOutlet weak var packageFoodsImageView: UIImageView!
     @IBOutlet weak var nutritionFactsImageView: UIImageView!
     @IBOutlet weak var barcodeImageView: UIImageView!
 
@@ -24,8 +22,6 @@ class ScanningHintViewController: UIViewController {
 
         okButton.backgroundColor = .primaryColor
         wholeFoodsImageView.tintColor = .primaryColor
-        drinkImageView.tintColor = .primaryColor
-        packageFoodsImageView.tintColor = .primaryColor
         nutritionFactsImageView.tintColor = .primaryColor
         barcodeImageView.tintColor = .primaryColor
     }

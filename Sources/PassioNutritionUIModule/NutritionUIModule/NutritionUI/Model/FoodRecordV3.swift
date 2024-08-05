@@ -82,7 +82,9 @@ public struct FoodRecordV3: Codable, Equatable {
     }
 
     public var computedWeight: Measurement<UnitMass> {
-        guard let weight2UnitRatio = (servingUnits.filter {$0.unitName == selectedUnit}).first?.weight.value else {
+        guard let weight2UnitRatio = (servingUnits.filter {
+            $0.unitName == selectedUnit
+        }).first?.weight.value else {
             return Measurement<UnitMass>(value: 0, unit: .grams)
         }
         return Measurement<UnitMass>(value: weight2UnitRatio * selectedQuantity, unit: .grams)
@@ -154,7 +156,9 @@ public struct FoodRecordV3: Codable, Equatable {
         selectedQuantity = ingredient.amount.selectedQuantity
 
         nutrients = ingredient.referenceNutrients
-        openFoodLicense = ingredient.metadata.foodOrigins?.first(where: { $0.source == "openfood" })?.licenseCopy
+        openFoodLicense = ingredient.metadata.foodOrigins?.first(where: { 
+            $0.source == "openfood"
+        })?.licenseCopy
 
         if let scannedWeight = scannedWeight {
             addScannedAmount(scannedWeight: scannedWeight)
@@ -196,7 +200,7 @@ public struct FoodRecordV3: Codable, Equatable {
 
         if ingredients.count == 1 { // this is when a food Item become a recipe
             var ingredientsAtZero = ingredients[0]
-            ingredientsAtZero.iconId = ingredientsAtZero.passioID
+            // ingredientsAtZero.iconId = ingredientsAtZero.passioID
             ingredientsAtZero.details = details
             ingredients[0] = ingredientsAtZero
         }
@@ -212,24 +216,9 @@ public struct FoodRecordV3: Codable, Equatable {
     }
 
     mutating func removeIngredient(atIndex: Int) {
-
         guard atIndex < ingredients.count else { return }
-
         ingredients.remove(at: atIndex)
-
-        if ingredients.count == 1, let ingredient = ingredients.first {
-            name = ingredient.name
-            details = ingredient.details
-            iconId = ingredient.iconId
-            selectedUnit = ingredient.selectedUnit
-            selectedQuantity = ingredient.selectedQuantity
-            servingSizes = ingredient.servingSizes
-            servingUnits = ingredient.servingUnits
-            entityType = ingredient.entityType
-            self.calculateQuantity()
-        } else {
-            self.updateServingSizeAndUnitsForRecipe()
-        }
+        updateServingSizeAndUnitsForRecipe()
     }
 
     @discardableResult
@@ -237,16 +226,16 @@ public struct FoodRecordV3: Codable, Equatable {
 
         guard atIndex < ingredients.count else { return false }
         ingredients[atIndex] = updatedIngredient
-        self.updateServingSizeAndUnitsForRecipe()
+        updateServingSizeAndUnitsForRecipe()
         return true
     }
     
     mutating func updateServingSizeAndUnitsForRecipe() {
-        let totalWeight = ingredients.map {$0.computedWeight.value}.reduce(0, +)
-        
+        let totalWeight = ingredients.map { $0.computedWeight.value }.reduce(0, +)
         servingUnits = [
-            PassioServingUnit.init(unitName: "Gram", weight: Measurement<UnitMass>(value: 1, unit: .grams)),
-            PassioServingUnit.init(unitName: PassioFoodAmount.SERVING_UNIT_NAME, weight: Measurement<UnitMass>(value: totalWeight, unit: .grams))
+            PassioServingUnit(unitName: "gram", weight: Measurement<UnitMass>(value: 1, unit: .grams)),
+            PassioServingUnit(unitName: PassioFoodAmount.SERVING_UNIT_NAME,
+                                   weight: Measurement<UnitMass>(value: totalWeight, unit: .grams))
         ]
         _ = setSelectedUnitKeepWeight(unitName: PassioFoodAmount.SERVING_UNIT_NAME)
         servingSizes = [PassioServingSize(quantity: selectedQuantity, unitName: selectedUnit)]
@@ -271,8 +260,8 @@ public struct FoodRecordV3: Codable, Equatable {
 
     // MARK: Helper for qty, unit, servingsize & servingUnit
     private mutating func calculateQuantity() {
-        let totalWeight = ingredients.map {$0.computedWeight.value}.reduce(0, +)
-        if let servingSizeUnit = servingUnits.filter({ $0.unitName == selectedUnit }).first {
+        let totalWeight = ingredients.map { $0.computedWeight.value }.reduce(0, +)
+        if let servingSizeUnit = servingUnits.filter { $0.unitName == selectedUnit }.first {
             selectedQuantity = totalWeight/servingSizeUnit.weight.value
         }
     }
@@ -287,14 +276,26 @@ public struct FoodRecordV3: Codable, Equatable {
 
     mutating func setSelectedUnit(unit: String) -> Bool {
 
+        let gramUnit = "gram"
+        let cGramUnit = "Gram"
+        var unit = if unit == cGramUnit {
+            gramUnit
+        } else {
+            unit
+        }
+
         if selectedUnit == unit {
             return true
+        }
+        if let index = servingUnits.firstIndex(where: { $0.unitName == cGramUnit }) {
+            servingUnits[index] = PassioServingUnit(unitName: gramUnit,
+                                                    weight: servingUnits[index].weight)
         }
         if servingUnits.first(where: { $0.unitName == unit }) == nil {
             return false
         }
         selectedUnit = unit
-        selectedQuantity = unit == "gram" ? 100 : 1
+        selectedQuantity = unit == gramUnit ? 100 : 1
         calculateQuantityForIngredients()
         return true
     }
@@ -336,7 +337,9 @@ public struct FoodRecordV3: Codable, Equatable {
     }
 
     func ingredientWeight() -> Measurement<UnitMass> {
-        return ingredients.map { $0.computedWeight }.reduce(Measurement<UnitMass>(value: 0.0, unit: .grams)) { $0 + $1 }
+        return ingredients.map { 
+            $0.computedWeight
+        }.reduce(Measurement<UnitMass>(value: 0.0, unit: .grams)) { $0 + $1 }
     }
 
     // MARK: Get PassioNutrients

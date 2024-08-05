@@ -83,7 +83,11 @@ extension RecipesViewController {
     }
 
     private func addFoodQuickly(record: FoodRecordV3) {
-        connector.updateRecord(foodRecord: record, isNew: true)
+        var foodRecord = record
+        foodRecord.uuid = UUID().uuidString
+        foodRecord.createdAt = Date()
+        foodRecord.mealLabel = .mealLabelBy()
+        connector.updateRecord(foodRecord: foodRecord, isNew: true)
         showMessage(msg: "Added to Log")
     }
 
@@ -103,8 +107,9 @@ extension RecipesViewController {
     }
 
     private func handleRecipe(for record: FoodRecordV3, isPlusAction: Bool) {
-        if let recipe {
+        if var recipe {
             if isPlusAction {
+                recipe.ingredients[0].iconId = recipe.iconId
                 navigateToEditRecipe(recipe: recipe)
             } else {
                 let editIngredientVC = EditIngredientViewController()
@@ -113,6 +118,7 @@ extension RecipesViewController {
                 editIngredientVC.delegate = self
                 editIngredientVC.saveOnDismiss = false
                 editIngredientVC.indexToPop = 2
+                editIngredientVC.isAddIngredient = true
                 DispatchQueue.main.async {
                     self.navigationController?.pushViewController(editIngredientVC, animated: true)
                 }
@@ -128,6 +134,15 @@ extension RecipesViewController {
             editRecipeVC.isCreate = isCreate
             editRecipeVC.recipe = recipe
             navigationController?.pushViewController(editRecipeVC, animated: true)
+        }
+    }
+
+    private func navigateToEditFoodRecord(record: FoodRecordV3) {
+        let editVC = EditRecordViewController()
+        editVC.foodRecord = record
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            navigationController?.pushViewController(editVC, animated: true)
         }
     }
 }
@@ -151,7 +166,7 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigateToEditRecipe(recipe: recipes[indexPath.row], isCreate: false)
+        navigateToEditFoodRecord(record: recipes[indexPath.row])
     }
 
     func tableView(_ tableView: UITableView,
@@ -191,8 +206,6 @@ extension RecipesViewController: CustomAlertDelegate {
         plusMenuVC.modalPresentationStyle = .overFullScreen
         navigationController?.present(plusMenuVC, animated: true)
     }
-
-    func onleftButtonTapped() {}
 }
 
 // MARK: - PlusMenu Delegate
@@ -250,8 +263,4 @@ extension RecipesViewController: IngredientEditorViewDelegate {
             navigateToEditRecipe(recipe: recipe)
         }
     }
-
-    func ingredientEditedCancel() { }
-    func startNutritionBrowser(foodItemData: FoodRecordIngredient) { }
-    func replaceFoodUsingSearch() { }
 }
