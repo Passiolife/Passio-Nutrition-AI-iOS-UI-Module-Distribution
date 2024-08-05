@@ -42,16 +42,22 @@ final class CreateFoodViewController: InstantiableViewController {
     var isCreateNewFood = true
     var isFromFoodEdit = false
     var isFromNutritionFacts = false
+    var vcTitle = "Food Creator"
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Food Creator"
         cancelButton.setTitleColor(.primaryColor, for: .normal)
         cancelButton.applyBorder(width: 2, color: .primaryColor)
         saveButton.backgroundColor = .primaryColor
         setupBackButton()
         configureTableView()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        title = vcTitle
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

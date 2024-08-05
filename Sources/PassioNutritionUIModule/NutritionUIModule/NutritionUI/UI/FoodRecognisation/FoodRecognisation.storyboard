@@ -38,44 +38,42 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan_frame" translatesAutoresizingMaskIntoConstraints="NO" id="9OA-zS-gMO">
-                                <rect key="frame" x="16" y="141.33333333333337" width="361" height="399"/>
+                                <rect key="frame" x="16" y="145" width="361" height="361"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="9OA-zS-gMO" secondAttribute="height" multiplier="19:21" id="dnD-7S-UHW"/>
+                                    <constraint firstAttribute="width" secondItem="9OA-zS-gMO" secondAttribute="height" multiplier="1:1" id="jQX-Sz-0eO"/>
                                 </constraints>
                             </imageView>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRh-tC-Al6">
-                                <rect key="frame" x="16" y="556.33333333333337" width="361" height="72"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="BcR-Ua-yhI">
+                                <rect key="frame" x="22" y="540.33333333333337" width="245" height="31"/>
+                                <color key="tintColor" name="indigo-600"/>
+                                <connections>
+                                    <action selector="onZoomLevelChanged:" destination="Y6W-OH-hqX" eventType="valueChanged" id="VVL-HL-AH4"/>
+                                </connections>
+                            </slider>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="WjJ-5o-tk5">
+                                <rect key="frame" x="289" y="539.33333333333337" width="80" height="32"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="qLY-Vf-I7y">
-                                        <rect key="frame" x="72" y="17.333333333333258" width="217" height="37"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scanning..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uRn-hD-bqs">
-                                                <rect key="frame" x="0.0" y="0.0" width="217" height="16.333333333333332"/>
-                                                <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="14"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place your food within the frame" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uwy-u7-xFQ">
-                                                <rect key="frame" x="0.0" y="19.333333333333371" width="217" height="17.666666666666671"/>
-                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="15"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Et8-XJ-Z44">
+                                        <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="focus_off_icon"/>
+                                        <connections>
+                                            <action selector="onFocusTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="GwN-aI-Zau"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ra-az-ahi">
+                                        <rect key="frame" x="48" y="0.0" width="32" height="32"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="flashlight.off.fill" catalog="system">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onFlashlight:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="8gf-xc-BKq"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.41960784313725491" green="0.44705882352941173" blue="0.50196078431372548" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="72" id="JCy-cI-h78"/>
-                                    <constraint firstItem="qLY-Vf-I7y" firstAttribute="centerY" secondItem="fRh-tC-Al6" secondAttribute="centerY" id="vsU-yP-GsN"/>
-                                    <constraint firstItem="qLY-Vf-I7y" firstAttribute="centerX" secondItem="fRh-tC-Al6" secondAttribute="centerX" id="zDA-ik-Bmg"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
-                                        <real key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
+                            </stackView>
                             <containerView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Pe-jm-fVd">
                                 <rect key="frame" x="0.0" y="152" width="393" height="700"/>
                                 <constraints>
@@ -186,32 +184,35 @@
                             <constraint firstItem="egB-Wp-xon" firstAttribute="leading" secondItem="P5v-lb-9Q1" secondAttribute="leading" id="1Qf-Nx-ccw"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="8Pe-jm-fVd" secondAttribute="trailing" id="2Vd-3f-Gov"/>
                             <constraint firstItem="gBO-eB-EXK" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="3JC-lA-4Bc"/>
-                            <constraint firstItem="9OA-zS-gMO" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="4db-pY-CLx"/>
                             <constraint firstItem="Qxq-Bq-wtj" firstAttribute="leading" secondItem="Dq2-Lt-V51" secondAttribute="leading" id="4ub-Fy-3ma"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="WjJ-5o-tk5" secondAttribute="trailing" constant="24" id="5Gr-Fj-gTf"/>
+                            <constraint firstItem="9OA-zS-gMO" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="5b7-lb-FnW"/>
                             <constraint firstAttribute="bottom" secondItem="LK3-IK-J1a" secondAttribute="bottom" id="6w8-cX-ib5"/>
                             <constraint firstAttribute="bottom" secondItem="8Pe-jm-fVd" secondAttribute="bottom" id="ANv-or-62c"/>
-                            <constraint firstItem="fRh-tC-Al6" firstAttribute="top" secondItem="9OA-zS-gMO" secondAttribute="bottom" constant="16" id="Af9-9J-zed"/>
                             <constraint firstItem="LK3-IK-J1a" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Cab-1r-jSX"/>
                             <constraint firstItem="Qxq-Bq-wtj" firstAttribute="trailing" secondItem="Dq2-Lt-V51" secondAttribute="trailing" id="DNd-jF-2gm"/>
+                            <constraint firstItem="BcR-Ua-yhI" firstAttribute="top" secondItem="9OA-zS-gMO" secondAttribute="bottom" multiplier="1.068" id="Dfe-zb-4zb"/>
                             <constraint firstItem="iKp-t4-N8x" firstAttribute="bottom" secondItem="g1f-Aq-iIe" secondAttribute="bottom" id="DgW-NN-QKz"/>
-                            <constraint firstItem="fRh-tC-Al6" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="E65-qH-nMg"/>
                             <constraint firstItem="LK3-IK-J1a" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="EeI-h7-IXB"/>
                             <constraint firstItem="ezb-JH-FIn" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="topMargin" constant="16" id="EpS-rV-AzC"/>
                             <constraint firstItem="iKp-t4-N8x" firstAttribute="top" secondItem="g1f-Aq-iIe" secondAttribute="top" id="HkF-5V-pPC"/>
                             <constraint firstItem="egB-Wp-xon" firstAttribute="top" secondItem="P5v-lb-9Q1" secondAttribute="top" id="LiO-8l-nfm"/>
                             <constraint firstItem="iKp-t4-N8x" firstAttribute="trailing" secondItem="g1f-Aq-iIe" secondAttribute="trailing" id="MHT-WP-JFy"/>
                             <constraint firstItem="ezb-JH-FIn" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="TtX-yQ-0Xc"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9OA-zS-gMO" secondAttribute="trailing" constant="16" id="Uci-jr-ba4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="LK3-IK-J1a" secondAttribute="trailing" id="V9Q-7H-uRy"/>
+                            <constraint firstItem="9OA-zS-gMO" firstAttribute="top" secondItem="egB-Wp-xon" secondAttribute="bottom" multiplier="1.26" id="VF0-kw-o68"/>
+                            <constraint firstItem="WjJ-5o-tk5" firstAttribute="leading" secondItem="BcR-Ua-yhI" secondAttribute="trailing" constant="24" id="Vh2-ir-Ayp"/>
                             <constraint firstItem="Qxq-Bq-wtj" firstAttribute="top" secondItem="Dq2-Lt-V51" secondAttribute="top" id="ZbH-vS-QQv"/>
                             <constraint firstItem="gBO-eB-EXK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="cKp-IA-XYa"/>
-                            <constraint firstItem="9OA-zS-gMO" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="eC5-5P-Wvj"/>
                             <constraint firstItem="iKp-t4-N8x" firstAttribute="leading" secondItem="g1f-Aq-iIe" secondAttribute="leading" id="eX6-wq-t3m"/>
                             <constraint firstItem="8Pe-jm-fVd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="ejY-D5-5Lj"/>
                             <constraint firstItem="Qxq-Bq-wtj" firstAttribute="bottom" secondItem="Dq2-Lt-V51" secondAttribute="bottom" id="fcm-jf-nI2"/>
+                            <constraint firstItem="WjJ-5o-tk5" firstAttribute="centerY" secondItem="BcR-Ua-yhI" secondAttribute="centerY" id="fjQ-8T-ltV"/>
                             <constraint firstItem="hDu-fn-wAi" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="gPd-mu-2e3"/>
+                            <constraint firstItem="9OA-zS-gMO" firstAttribute="width" relation="lessThanOrEqual" secondItem="5EZ-qb-Rvc" secondAttribute="width" multiplier="0.966921" id="gYa-gR-7BO"/>
                             <constraint firstItem="hDu-fn-wAi" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="hIT-2G-3JA"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fRh-tC-Al6" secondAttribute="trailing" constant="16" id="iRi-SB-COO"/>
-                            <constraint firstItem="9OA-zS-gMO" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" multiplier="0.8" id="t53-Jp-tov"/>
+                            <constraint firstItem="BcR-Ua-yhI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="24" id="roO-FR-vGV"/>
                             <constraint firstAttribute="bottom" secondItem="gBO-eB-EXK" secondAttribute="bottom" id="vUL-cL-lvV"/>
                             <constraint firstItem="egB-Wp-xon" firstAttribute="bottom" secondItem="P5v-lb-9Q1" secondAttribute="bottom" id="xVu-eS-5PE"/>
                             <constraint firstItem="egB-Wp-xon" firstAttribute="trailing" secondItem="P5v-lb-9Q1" secondAttribute="trailing" id="xy8-p5-Gjx"/>
@@ -220,12 +221,15 @@
                     <connections>
                         <outlet property="activityIndicator" destination="hDu-fn-wAi" id="TSP-gK-kf3"/>
                         <outlet property="barcodeButton" destination="g1f-Aq-iIe" id="O64-GZ-z4F"/>
-                        <outlet property="contentView" destination="gBO-eB-EXK" id="Su7-YY-YEa"/>
-                        <outlet property="nutritionContentView" destination="8Pe-jm-fVd" id="pur-s1-fAg"/>
+                        <outlet property="cameraButtonStackView" destination="WjJ-5o-tk5" id="2Th-ty-uER"/>
+                        <outlet property="flashLightButton" destination="0Ra-az-ahi" id="dn4-Fh-ZcN"/>
+                        <outlet property="focusButton" destination="Et8-XJ-Z44" id="FwD-hT-bNN"/>
+                        <outlet property="foodDetectedView" destination="gBO-eB-EXK" id="sEn-Bq-f5j"/>
+                        <outlet property="nutritionDetectedView" destination="8Pe-jm-fVd" id="CpJ-ad-tcY"/>
                         <outlet property="nutritionFactsButton" destination="Dq2-Lt-V51" id="m21-0d-ozl"/>
                         <outlet property="previewView" destination="LK3-IK-J1a" id="d3g-TG-3f7"/>
-                        <outlet property="scanningView" destination="fRh-tC-Al6" id="e6r-wg-IEZ"/>
                         <outlet property="wholeFoodsButton" destination="P5v-lb-9Q1" id="XoM-cg-JAM"/>
+                        <outlet property="zoomSlider" destination="BcR-Ua-yhI" id="Hgy-eV-atM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -308,7 +312,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="-30" translatesAutoresizingMaskIntoConstraints="NO" id="aXv-CN-A9z">
                                         <rect key="frame" x="16" y="335" width="361" height="29"/>
                                         <subviews>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9CI-X0-8i6">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9CI-X0-8i6">
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="29"/>
                                                 <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="14"/>
                                                 <color key="tintColor" name="indigo-600"/>
@@ -1475,6 +1479,8 @@
         <image name="barcode_detected" width="38" height="30"/>
         <image name="barcode_error" width="40" height="40"/>
         <image name="barcode_small" width="24" height="24"/>
+        <image name="flashlight.off.fill" catalog="system" width="72" height="128"/>
+        <image name="focus_off_icon" width="32" height="32"/>
         <image name="green-check" width="40" height="40"/>
         <image name="nutritionFacts" width="40" height="40"/>
         <image name="nutritionFacts_small" width="24" height="24"/>

@@ -21,6 +21,7 @@ protocol DetectedFoodResultViewDelegate: NSObjectProtocol {
     func didViewExpanded(isExpanded: Bool)
     func didScannedWrongBarcode()
     func didTaponAlternative(dataset: (any FoodRecognitionDataSet)?)
+    func didViewStartedDragging(isDragging: Bool)
 }
 
 class DetectedFoodResultView: CustomModalViewController {
@@ -51,6 +52,12 @@ class DetectedFoodResultView: CustomModalViewController {
     override var isExpanded: Bool {
         didSet {
             delegate?.didViewExpanded(isExpanded: isExpanded)
+        }
+    }
+
+    override var isDraggingStarted: Bool {
+        didSet {
+            delegate?.didViewStartedDragging(isDragging: isDraggingStarted)
         }
     }
 
