@@ -281,7 +281,7 @@ extension HomeTabBarController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
-        let editVC = EditRecordViewController()
+        let editVC = FoodDetailsViewController()
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             self.navigationController?.pushViewController(editVC, animated: true)
@@ -291,7 +291,7 @@ extension HomeTabBarController: AdvancedTextSearchViewDelegate {
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
         let foodRecord = FoodRecordV3(foodItem: foodItem)
-        let editVC = EditRecordViewController()
+        let editVC = FoodDetailsViewController()
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             self.navigationController?.pushViewController(editVC, animated: true)

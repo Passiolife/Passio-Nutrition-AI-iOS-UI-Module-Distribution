@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import CoreGraphics
-import CoreText
 
 public enum FontError: Swift.Error {
     case failedToRegisterFont

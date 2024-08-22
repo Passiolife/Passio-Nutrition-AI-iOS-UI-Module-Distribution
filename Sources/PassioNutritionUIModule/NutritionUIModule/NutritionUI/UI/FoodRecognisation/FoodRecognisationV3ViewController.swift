@@ -488,9 +488,9 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                 }
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
-                PassioInternalConnector.shared.updateRecord(foodRecord: record, isNew: true)
+                PassioInternalConnector.shared.updateRecord(foodRecord: record)
                 DispatchQueue.main.async {
-                    self.showMessage(msg: "Added to log", alignment: .center)
+                    self.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
                 }
             }
         }
@@ -517,7 +517,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                 newFoodRecord.uuid = UUID().uuidString
                 newFoodRecord.createdAt = Date()
                 newFoodRecord.mealLabel = MealLabel.mealLabelBy(time: Date())
-                connector.updateRecord(foodRecord: newFoodRecord, isNew: true)
+                connector.updateRecord(foodRecord: newFoodRecord)
 
                 let popup = FoodRecognisationPopUpController.present(on: self.navigationController,
                                                                      launchOption: .loggedSuccessfully)
@@ -607,7 +607,7 @@ extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
 
     private func navigateToEditViewContorller(_ record: FoodRecordV3) {
 
-        let editVC = EditRecordViewController()
+        let editVC = FoodDetailsViewController()
         editVC.foodRecord = record
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in

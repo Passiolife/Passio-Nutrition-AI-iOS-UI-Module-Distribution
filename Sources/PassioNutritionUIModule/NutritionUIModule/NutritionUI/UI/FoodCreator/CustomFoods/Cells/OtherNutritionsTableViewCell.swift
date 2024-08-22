@@ -340,47 +340,47 @@ extension OtherNutritionsTableViewCell: UITextFieldDelegate {
         switch textField {
 
         case satFatTextField:
-            let satFatText = satFatTextField.text ?? ""
+            let satFatText = satFatTextField.replaceCommaWithDot
             satFatTextField.text = satFatText == "" ? foodDataSet?.saturatedFat?.stringValue : "\(satFatText) g"
 
         case transFatTextField:
-            let transFatText = transFatTextField.text ?? ""
+            let transFatText = transFatTextField.replaceCommaWithDot
             transFatTextField.text = transFatText == "" ? foodDataSet?.transFat?.stringValue : "\(transFatText) g"
 
         case cholesterolTextField:
-            let cholesterolText = cholesterolTextField.text ?? ""
+            let cholesterolText = cholesterolTextField.replaceCommaWithDot
             cholesterolTextField.text = cholesterolText == "" ? foodDataSet?.cholesterol?.stringValue : "\(cholesterolText) mg"
 
         case sodiumTextField:
-            let sodiumText = sodiumTextField.text ?? ""
+            let sodiumText = sodiumTextField.replaceCommaWithDot
             sodiumTextField.text = sodiumText == "" ? foodDataSet?.sodium?.stringValue : "\(sodiumText) mg"
 
         case dietaryFiberTextField:
-            let dietaryFiberText = dietaryFiberTextField.text ?? ""
+            let dietaryFiberText = dietaryFiberTextField.replaceCommaWithDot
             dietaryFiberTextField.text = dietaryFiberText == "" ? foodDataSet?.dietaryFiber?.stringValue : "\(dietaryFiberText) g"
 
         case totalSugarsTextField:
-            let totalSugarsText = totalSugarsTextField.text ?? ""
+            let totalSugarsText = totalSugarsTextField.replaceCommaWithDot
             totalSugarsTextField.text = totalSugarsText == "" ? foodDataSet?.totalSugars?.stringValue : "\(totalSugarsText) g"
 
         case addedSugarTextField:
-            let addedSugarText = addedSugarTextField.text ?? ""
+            let addedSugarText = addedSugarTextField.replaceCommaWithDot
             addedSugarTextField.text = addedSugarText == "" ? foodDataSet?.addedSugar?.stringValue : "\(addedSugarText) g"
 
         case vitaminDTextField:
-            let vitaminDText = vitaminDTextField.text ?? ""
+            let vitaminDText = vitaminDTextField.replaceCommaWithDot
             vitaminDTextField.text = vitaminDText == "" ? foodDataSet?.vitaminD?.stringValue : "\(vitaminDText) mcg"
 
         case calciumTextField:
-            let calciumText = calciumTextField.text ?? ""
+            let calciumText = calciumTextField.replaceCommaWithDot
             calciumTextField.text = calciumText == "" ? foodDataSet?.calcium?.stringValue : "\(calciumText) mg"
 
         case ironTextField:
-            let ironText = ironTextField.text ?? ""
+            let ironText = ironTextField.replaceCommaWithDot
             ironTextField.text = ironText == "" ? foodDataSet?.iron?.stringValue : "\(ironText) mg"
 
         case potassiumTextField:
-            let potassiumText = potassiumTextField.text ?? ""
+            let potassiumText = potassiumTextField.replaceCommaWithDot
             potassiumTextField.text = potassiumText == "" ? foodDataSet?.potassium?.stringValue : "\(potassiumText) mg"
 
         default:

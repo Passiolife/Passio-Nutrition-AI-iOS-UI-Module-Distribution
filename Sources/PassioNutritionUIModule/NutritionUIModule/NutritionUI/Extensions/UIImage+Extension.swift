@@ -392,8 +392,11 @@ public extension UIImageView {
 
         if id.contains("userFood") || id.contains("Recipe") {
             connector.fetchUserFoodImage(with: id) { foodImage in
-                completion(foodImage ??
-                           UIImage.imageFromBundle(named: id.contains("Recipe") ? "userRecipe" : "createFood") ?? UIImage())
+                completion(
+                    foodImage ?? UIImage.imageFromBundle(
+                        named: id.contains("Recipe") ? "userRecipe" : "createFood"
+                    ) ?? UIImage()
+                )
             }
         } else {
             loadPassioIconBy(passioID: passioID,

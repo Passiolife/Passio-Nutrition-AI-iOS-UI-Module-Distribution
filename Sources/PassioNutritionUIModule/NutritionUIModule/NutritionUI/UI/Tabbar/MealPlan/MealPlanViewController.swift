@@ -229,7 +229,7 @@ extension MealPlanViewController: MealPlanSectionHeaderCellDelegate {
         case .snack: snacksMealPlanItem
         }
         logMultipleFood(mealPlanItems: mealPlanItem) { [weak self] in
-            self?.showMessage(msg: "Added to log")
+            self?.showMessage(msg: ToastMessages.addedToLog)
         }
     }
 }
@@ -243,16 +243,16 @@ extension MealPlanViewController {
         getFoodRecord(from: mealPlanItem) { [weak self] record in
             guard let self, let record else { return }
             if !isEdit {
-                PassioInternalConnector.shared.updateRecord(foodRecord: record, isNew: true)
+                PassioInternalConnector.shared.updateRecord(foodRecord: record)
             }
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
                 if isEdit {
-                    let editVC = EditRecordViewController()
+                    let editVC = FoodDetailsViewController()
                     editVC.foodRecord = record
                     self.parent?.navigationController?.pushViewController(editVC, animated: true)
                 } else {
-                    self.showMessage(msg: "Added to log")
+                    self.showMessage(msg: ToastMessages.addedToLog)
                 }
             }
         }
@@ -271,7 +271,7 @@ extension MealPlanViewController {
                         group.leave()
                         return
                     }
-                    PassioInternalConnector.shared.updateRecord(foodRecord: record, isNew: true)
+                    PassioInternalConnector.shared.updateRecord(foodRecord: record)
                     group.leave()
                 }
             }

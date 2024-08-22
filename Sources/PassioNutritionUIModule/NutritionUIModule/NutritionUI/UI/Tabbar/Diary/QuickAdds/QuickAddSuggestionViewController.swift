@@ -90,10 +90,10 @@ extension QuickAddSuggestionViewController {
             if var record = foodRecord {
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
-                PassioInternalConnector.shared.updateRecord(foodRecord: record, isNew: true)
+                PassioInternalConnector.shared.updateRecord(foodRecord: record)
                 DispatchQueue.main.async {
                     self?.getQuickSuggestion()
-                    self?.showMessage(msg: "Added to log", alignment: .center)
+                    self?.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
                     self?.delegate?.refreshFoodRecord()
                 }
             }

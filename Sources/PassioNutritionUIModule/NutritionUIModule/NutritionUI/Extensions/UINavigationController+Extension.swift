@@ -31,7 +31,9 @@ extension UINavigationController: UIGestureRecognizerDelegate {
         }
     }
     
-    func pushViewController(viewController: UIViewController, animated: Bool, completion: @escaping () -> Void) {
+    func pushViewController(viewController: UIViewController,
+                            animated: Bool,
+                            completion: @escaping () -> Void) {
         pushViewController(viewController, animated: animated)
 
         if animated, let coordinator = transitionCoordinator {

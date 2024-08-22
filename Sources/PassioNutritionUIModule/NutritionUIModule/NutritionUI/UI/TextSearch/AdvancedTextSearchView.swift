@@ -254,9 +254,9 @@ private extension AdvancedTextSearchView {
             } else {
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
-                connecter.updateRecord(foodRecord: record, isNew: true)
+                connecter.updateRecord(foodRecord: record)
                 DispatchQueue.main.async { [weak self] in
-                    self?.findViewController()?.showMessage(msg: "Added to log", alignment: .center)
+                    self?.findViewController()?.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
                 }
             }
         }

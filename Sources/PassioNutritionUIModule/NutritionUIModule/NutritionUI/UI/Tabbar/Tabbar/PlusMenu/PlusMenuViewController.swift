@@ -130,7 +130,7 @@ final class PlusMenuViewController: InstantiableViewController {
                 view.frame.origin.x = 0
                 view.layoutSubviews()
             }
-            delay += 0.08
+            delay += 0.053
         }
     }
 }

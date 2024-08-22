@@ -264,7 +264,7 @@ extension RequiredNutritionsTableViewCell: UITextFieldDelegate {
             break
 
         case weightTextField:
-            let weightText = weightTextField.text ?? ""
+            let weightText = weightTextField.replaceCommaWithDot
             let weightType = weightLabel.text ?? g == ml ? ml : g
             let weight = foodDataSet?.nutritionFacts?.servingSizeGram.roundDigits(afterDecimal: 2)?.clean ?? ""
             let servingSizeGram = if weight == "" {
@@ -276,19 +276,19 @@ extension RequiredNutritionsTableViewCell: UITextFieldDelegate {
             weightTextField.text = weightText == "" ? servingSizeGram : "\(weightTextField.text ?? "") \(weightType)"
 
         case caloriesTextField:
-            let caloriesText = caloriesTextField.text ?? ""
+            let caloriesText = caloriesTextField.replaceCommaWithDot
             caloriesTextField.text = caloriesText == "" ? foodDataSet?.calories?.stringValue : "\(caloriesText) kcal"
 
         case carbsTextField:
-            let carbsText = carbsTextField.text ?? ""
+            let carbsText = carbsTextField.replaceCommaWithDot
             carbsTextField.text = carbsText == "" ? foodDataSet?.carbs?.stringValue : "\(carbsText) \(g)"
 
         case proteinTextField:
-            let proteinText = proteinTextField.text ?? ""
+            let proteinText = proteinTextField.replaceCommaWithDot
             proteinTextField.text = proteinText == "" ? foodDataSet?.protein?.stringValue : "\(proteinText) \(g)"
 
         case fatTextField:
-            let fatText = fatTextField.text ?? ""
+            let fatText = fatTextField.replaceCommaWithDot
             fatTextField.text = fatText == "" ? foodDataSet?.fat?.stringValue : "\(fatText) \(g)"
 
         default:

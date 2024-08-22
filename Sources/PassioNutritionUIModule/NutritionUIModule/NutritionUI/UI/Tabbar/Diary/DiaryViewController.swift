@@ -107,10 +107,10 @@ class DiaryViewController: UIViewController {
     // MARK: Helper
     func setTitle() {
         if selectedDate.isToday {
-            dateButton.setTitle("Today".localized, for: .normal)
+            dateButton.setTitle(ButtonTexts.today, for: .normal)
         } else {
             let dateFormatterPrint = DateFormatter()
-            dateFormatterPrint.dateFormat = "MMMM dd, yyyy"
+            dateFormatterPrint.dateFormat = DateFormatString.mmmm_dd_yyyy
             let newTitle = dateFormatterPrint.string(for: selectedDate)
             dateButton.setTitle(newTitle, for: .normal)
         }
@@ -153,6 +153,14 @@ class DiaryViewController: UIViewController {
         }
     }
 
+    func navigateToEditor(foodRecord: FoodRecordV3) {
+        let editVC = FoodDetailsViewController()
+        editVC.foodRecord = foodRecord
+        editVC.isEditingRecord = true
+        editVC.foodDetailsControllerDelegate = self
+        parent?.navigationController?.pushViewController(editVC, animated: true)
+    }
+
     func refreshData() {
         setTitle()
         connector.dateForLogging = selectedDate
@@ -193,7 +201,7 @@ extension DiaryViewController: UICollectionViewDataSource {
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 
-        let decorationItem = NSCollectionLayoutDecorationItem.background(elementKind: "SectionDecorationView")
+        let decorationItem = NSCollectionLayoutDecorationItem.background(elementKind: SectionDecorationView.className)
         decorationItem.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
         section.decorationItems = [decorationItem]
 
@@ -216,8 +224,8 @@ extension DiaryViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if sections[indexPath.section].0 == .dailyNutrition {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DailyNutritionWithDateCollectionViewCell",
-                                                          for: indexPath) as! DailyNutritionWithDateCollectionViewCell
+            let cell = collectionView.dequeueCell(cellClass: DailyNutritionWithDateCollectionViewCell.self,
+                                                  forIndexPath: indexPath)
             let userProfile = UserManager.shared.user ?? UserProfileModel()
             let (calories, carbs, protein, fat) = getNutritionSummaryfor(foodRecords: displayedRecords)
             let nuData = NutritionDataModal(
@@ -231,10 +239,8 @@ extension DiaryViewController: UICollectionViewDataSource {
 
         switch indexPath.row {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SectionOnOffCollectionViewCell",
-                                                                for: indexPath) as? SectionOnOffCollectionViewCell else {
-                return UICollectionViewCell()
-            }
+            let cell = collectionView.dequeueCell(cellClass: SectionOnOffCollectionViewCell.self,
+                                                  forIndexPath: indexPath)
             let mealForSection =  sections[indexPath.section].0.mealForSection
             cell.mealLabel = mealForSection
             cell.labelMealTime.text = mealForSection.rawValue
@@ -243,11 +249,11 @@ extension DiaryViewController: UICollectionViewDataSource {
             return cell
 
         default:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FoodRecordCollectionViewCell",
-                                                                for: indexPath) as? FoodRecordCollectionViewCell,
-                  let foodRecord = getRecordFor(indexPath: indexPath) else {
+            guard let foodRecord = getRecordFor(indexPath: indexPath) else {
                 return UICollectionViewCell()
             }
+            let cell = collectionView.dequeueCell(cellClass: FoodRecordCollectionViewCell.self,
+                                                  forIndexPath: indexPath)
             cell.setup(foodRecord.0)
             cell.delegate = self
             return cell
@@ -262,8 +268,8 @@ extension DiaryViewController: UICollectionViewDelegate {
 
         selectedMeal = sections[indexPath.section].0.mealForSection
         if indexPath.row == 0 {
-            self.sections[indexPath.section].1 = !self.sections[indexPath.section].1
-            self.collectionView.reloadData()
+            sections[indexPath.section].1 = !sections[indexPath.section].1
+            collectionView.reloadData()
             return
         }
 
@@ -274,7 +280,7 @@ extension DiaryViewController: UICollectionViewDelegate {
 
     func getRecordFor(indexPath: IndexPath) -> (FoodRecordV3,Bool)? {
         let indexdjusted = indexPath.row - numberSectionCellsAbove
-        switch sections[indexPath.section].0{
+        switch sections[indexPath.section].0 {
         case .dailyNutrition: return nil
         case .bf:
             return (dayLog.breakfastArray[indexdjusted], indexdjusted == dayLog.breakfastArray.count - 1)
@@ -285,14 +291,6 @@ extension DiaryViewController: UICollectionViewDelegate {
         case .s:
             return (dayLog.snackArray[indexdjusted], indexdjusted == dayLog.snackArray.count - 1)
         }
-    }
-
-    func navigateToEditor(foodRecord: FoodRecordV3) {
-        let editVC = EditRecordViewController()
-        editVC.foodRecord = foodRecord
-        editVC.isEditingRecord = true
-        editVC.delegateDelete = self
-        self.parent?.navigationController?.pushViewController(editVC, animated: true)
     }
 }
 
@@ -305,7 +303,7 @@ extension DiaryViewController: SwipeCollectionViewCellDelegate {
             return nil
         }
 
-        let deleteAction = SwipeAction(style: .default, title: "Delete".localized) { [weak self] action, indexPath in
+        let deleteAction = SwipeAction(style: .default, title: ButtonTexts.delete) { [weak self] action, indexPath in
             guard let self else { return }
             connector.deleteRecord(foodRecord: record)
             dayLog = DayLog(date: self.dayLog.date,
@@ -315,13 +313,13 @@ extension DiaryViewController: SwipeCollectionViewCellDelegate {
         }
         deleteAction.backgroundColor = .red500
 
-        let editAction = SwipeAction(style: .default, title: "Edit".localized) { [weak self] action, indexPath in
+        let editAction = SwipeAction(style: .default, title: ButtonTexts.details) { [weak self] action, indexPath in
             guard let `self` = self else { return }
             self.navigateToEditor(foodRecord: record)
         }
         editAction.backgroundColor = .primaryColor
 
-        return [deleteAction,editAction]
+        return [deleteAction, editAction]
     }
 
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
@@ -338,9 +336,9 @@ extension DiaryViewController: DateSelectorUIViewDelegate {
     @IBAction func showDateSelector(_ sender: Any) {
         dateSelector = DateSelectorViewController()
         dateSelector?.delegate = self
-        dateSelector?.dateForPicker = self.selectedDate
+        dateSelector?.dateForPicker = selectedDate
         dateSelector?.modalPresentationStyle = .overFullScreen
-        self.parent?.present(dateSelector!, animated: false)
+        parent?.present(dateSelector!, animated: false)
     }
 
     func removeDateSelector(remove: Bool) {
@@ -348,12 +346,19 @@ extension DiaryViewController: DateSelectorUIViewDelegate {
     }
 
     func dateFromPicker(date: Date) {
-        self.selectedDate = date
+        selectedDate = date
     }
 }
 
 // MARK: - EditRecordViewController Delegate
-extension DiaryViewController: EditRecordViewControllerDelegate {
+extension DiaryViewController: FoodDetailsControllerDelegate {
+
+    func navigateToMyFoods(index: Int) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.21) { [weak self] in
+            self?.parent?.navigationController?.pushViewController(MyFoodsSelectionViewController(),
+                                                                  animated: true)
+        }
+    }
 
     func deleteFromEdit(foodRecord: FoodRecordV3) {
         connector.deleteRecord(foodRecord: foodRecord)
@@ -365,11 +370,8 @@ extension DiaryViewController: EditRecordViewControllerDelegate {
 // MARK: - FavoritesView Delegate
 extension DiaryViewController: FavoritesViewDelegate {
 
-    func userSelectedFavorite(favorite: FoodRecordV3) { }
-    func numberOfFavotires(number: Int) { }
-
     func userAddedToLog(foodRecord: FoodRecordV3) {
-        connector.updateRecord(foodRecord: foodRecord, isNew: true)
+        connector.updateRecord(foodRecord: foodRecord)
         setDayLogFor(date: dayLog.date)
     }
 }
@@ -392,7 +394,7 @@ extension DiaryViewController: QuickAddSuggestionViewDelegate {
             guard let self else { return }
 
             DispatchQueue.main.async {
-                let editVC = EditRecordViewController()
+                let editVC = FoodDetailsViewController()
                 editVC.foodRecord = foodRecord
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self.parent?.navigationController?.pushViewController(editVC, animated: true)
@@ -407,21 +409,21 @@ extension DiaryViewController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
-        connector.updateRecord(foodRecord: foodRecord, isNew: true)
+        connector.updateRecord(foodRecord: foodRecord)
         setDayLogFor(date: dayLog.date)
     }
 
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
         let foodRecord = FoodRecordV3(foodItem: foodItem)
-        connector.updateRecord(foodRecord: foodRecord, isNew: true)
+        connector.updateRecord(foodRecord: foodRecord)
         setDayLogFor(date: dayLog.date)
     }
 }
 
+// MARK: - UICollectionReusableView
 class SectionDecorationView: UICollectionReusableView {
 
-    // MARK: MAIN
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()

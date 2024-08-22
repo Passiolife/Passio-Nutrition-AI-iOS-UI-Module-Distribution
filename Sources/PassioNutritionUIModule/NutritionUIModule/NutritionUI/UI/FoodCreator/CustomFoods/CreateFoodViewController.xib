@@ -17,9 +17,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreateFoodViewController" customModule="PassioNutritionUIModule">
             <connections>
-                <outlet property="activityIndicatorView" destination="yfu-QF-uXA" id="2ON-EU-ify"/>
                 <outlet property="cancelButton" destination="jer-F5-ybw" id="35a-as-8D8"/>
                 <outlet property="createFoodTableView" destination="9td-EA-rKm" id="7zY-3S-hCH"/>
+                <outlet property="deleteButton" destination="2Gl-Kc-AwL" id="E6f-f8-Mnj"/>
                 <outlet property="saveButton" destination="4Rh-Sw-140" id="cxE-VB-z5l"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -62,6 +62,30 @@
                                 <action selector="onCancel:" destination="-1" eventType="touchUpInside" id="cTC-57-qvQ"/>
                             </connections>
                         </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Gl-Kc-AwL">
+                            <rect key="frame" x="180.66666666666666" y="0.0" width="0.0" height="50"/>
+                            <color key="backgroundColor" name="red-500"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="KaO-5b-okc"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Delete">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="isRoundedCorner" value="NO"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                    <color key="value" name="indigo-600"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onDelete:" destination="-1" eventType="touchUpInside" id="fhO-go-TMH"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Rh-Sw-140">
                             <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="50"/>
                             <color key="backgroundColor" name="indigo-600"/>
@@ -82,10 +106,6 @@
                         </button>
                     </subviews>
                 </stackView>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="yfu-QF-uXA">
-                    <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
-                    <color key="color" name="indigo-600"/>
-                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="gray-50"/>
@@ -96,8 +116,6 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9td-EA-rKm" secondAttribute="trailing" id="kZt-rS-K0W"/>
                 <constraint firstItem="FRP-aV-Fhj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="o4b-tV-f3P"/>
                 <constraint firstItem="FRP-aV-Fhj" firstAttribute="top" secondItem="9td-EA-rKm" secondAttribute="bottom" constant="40" id="o6h-Ve-CIS"/>
-                <constraint firstItem="yfu-QF-uXA" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="oic-s7-obD"/>
-                <constraint firstItem="yfu-QF-uXA" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="rgZ-4L-1ps"/>
                 <constraint firstItem="9td-EA-rKm" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="uay-GU-F2s"/>
             </constraints>
             <point key="canvasLocation" x="-185" y="-35"/>
@@ -109,6 +127,9 @@
         </namedColor>
         <namedColor name="indigo-600">
             <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="red-500">
+            <color red="0.93725490196078431" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

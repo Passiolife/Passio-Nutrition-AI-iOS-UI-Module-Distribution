@@ -50,11 +50,11 @@ class FoodRecognitionDataSetConnector {
         var entityType = foodRecord?.entityType ?? .item
 
         switch dataType {
-        case let dataType as VisualFoodDataSet:
+        case is VisualFoodDataSet:
             entityType = .item
-        case let dataType as BarcodeDataSet:
+        case is BarcodeDataSet:
             entityType = .barcode
-        case let dataType as PackageFoodDataSet:
+        case is PackageFoodDataSet:
             entityType = .packagedFoodCode
         default:
             entityType = .nutritionFacts

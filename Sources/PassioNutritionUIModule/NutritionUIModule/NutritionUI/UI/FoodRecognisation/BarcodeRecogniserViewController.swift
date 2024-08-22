@@ -138,7 +138,8 @@ final class BarcodeRecogniserViewController: UIViewController {
 
     @IBAction func onViewSystemBarcode(_ sender: UIButton) {
         guard let foodRecord else { return }
-        let editVC = EditRecordViewController()
+        let editVC = FoodDetailsViewController()
+        editVC.isFromBarcode = true
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
             guard let self else { return }

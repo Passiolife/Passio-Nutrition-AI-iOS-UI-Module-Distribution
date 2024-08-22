@@ -8,115 +8,122 @@
 
 import Foundation
 
+typealias MeasurementValue = (value: Double, unit: String)
+
 // MARK: MicroNutrients
 extension FoodRecordV3 {
 
-    var totalSugar: Double {
-        ingredients.map {$0.nutrients.sugars()?.value ?? 0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    private func getMeasurement(for nutrient: [Measurement<UnitMass>?]) -> MeasurementValue {
+        return (value: nutrient.map { $0?.value ?? 0 }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                unit: nutrient.first??.unit.symbol ?? UnitsTexts.g)
     }
 
-    var saturatedFat: Double {
-        ingredients.map {$0.nutrients.satFat()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var totalSugar: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.sugars() })
     }
 
-    var transFat: Double {
-        ingredients.map {$0.nutrients.transFat()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var addedSugar: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.sugarsAdded() })
     }
 
-    var monounsaturatedFat: Double {
-        ingredients.map {$0.nutrients.monounsaturatedFat()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var saturatedFat: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.satFat() })
     }
 
-    var polyunsaturatedFat: Double {
-        ingredients.map {$0.nutrients.polyunsaturatedFat()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var transFat: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.transFat() })
     }
 
-    var cholesterol: Double {
-        ingredients.map {$0.nutrients.cholesterol()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var monounsaturatedFat: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.monounsaturatedFat() })
     }
 
-    var sodium: Double {
-        ingredients.map {$0.nutrients.sodium()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var polyunsaturatedFat: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.polyunsaturatedFat() })
     }
 
-    var fibers: Double {
-        ingredients.map {$0.nutrients.fibers()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var cholesterol: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.cholesterol() })
     }
 
-    var vitaminD: Double {
-        ingredients.map {$0.nutrients.vitaminD()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var sodium: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.sodium() })
     }
 
-    var calcium: Double {
-        ingredients.map {$0.nutrients.calcium()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var fibers: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.fibers() })
     }
 
-    var iron: Double {
-        ingredients.map {$0.nutrients.iron()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var vitaminD: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminD() })
     }
 
-    var potassium: Double {
-        ingredients.map {$0.nutrients.potassium()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var calcium: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.calcium() })
+    }
+
+    var iron: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.iron() })
+    }
+
+    var potassium: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.potassium() })
     }
 
     var vitaminA: Double {
-        ingredients.map {$0.nutrients.vitaminA() ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+        ingredients.map { $0.nutrients.vitaminA() ?? 0 }.reduce(0.0, +).roundDigits(afterDecimal: 2)
     }
 
-    var vitaminC: Double {
-        ingredients.map {$0.nutrients.vitaminC()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var vitaminC: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminC() })
     }
 
-    var alcohol: Double {
-        ingredients.map {$0.nutrients.alcohol()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var alcohol: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.alcohol() })
     }
 
-    var sugarAlcohol: Double {
-        ingredients.map {$0.nutrients.sugarAlcohol()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var sugarAlcohol: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.sugarAlcohol() })
     }
 
-    var vitaminB12: Double {
-        ingredients.map {$0.nutrients.vitaminB12()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var vitaminB12: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminB12() })
     }
 
-    var vitaminB6: Double {
-        ingredients.map {$0.nutrients.vitaminB6()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var vitaminB6: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminB6() })
     }
 
-    var vitaminE: Double {
-        ingredients.map {$0.nutrients.vitaminE()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var vitaminE: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminE() })
     }
 
-    var magnesium: Double {
-        ingredients.map {$0.nutrients.magnesium()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var magnesium: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.magnesium() })
     }
 
-    var phosphorus: Double {
-        ingredients.map {$0.nutrients.phosphorus()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var phosphorus: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.phosphorus() })
     }
 
-    var iodine: Double {
-        ingredients.map {$0.nutrients.iodine()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var iodine: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.iodine() })
     }
 
-    var selenium: Double {
-        ingredients.map {$0.nutrients.selenium()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var selenium: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.selenium() })
     }
 
-    var zinc: Double {
-        ingredients.map {$0.nutrients.zinc()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var zinc: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.zinc() })
     }
 
-    var folicAcid: Double {
-        ingredients.map {$0.nutrients.folicAcid()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var folicAcid: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.folicAcid() })
     }
 
-    var chromium: Double {
-        ingredients.map {$0.nutrients.chromium()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
-    }
-
-    var addedSugar: Double {
-        ingredients.map {$0.nutrients.sugarsAdded()?.value ?? 0.0}.reduce(0.0, +).roundDigits(afterDecimal: 2)
+    var chromium: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.chromium() })
     }
 }
 
@@ -130,56 +137,103 @@ struct MicroNutirents {
 
     static func getMicroNutrientsFromFood(records: [FoodRecordV3]) -> [MicroNutirents] {
 
-        let fiber = records.map { $0.fibers }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let sugar = records.map { $0.totalSugar }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let addedSugar = records.map { $0.addedSugar }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let saturatedFat = records.map { $0.saturatedFat }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let transFat = records.map { $0.transFat }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let polyunsatFat = records.map { $0.polyunsaturatedFat }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let monounsatFat = records.map { $0.monounsaturatedFat }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let cholesterol = records.map { $0.cholesterol }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let sodium = records.map { $0.sodium }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let potassium = records.map { $0.potassium }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let iron = records.map { $0.iron }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let magnesium = records.map { $0.magnesium }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let iodine = records.map { $0.iodine }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let vitaminA = records.map { $0.vitaminA }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let vitaminB6 = records.map { $0.vitaminB6 }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let vitaminB12 = records.map { $0.vitaminB12 }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let vitaminC = records.map { $0.vitaminC }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let vitaminD = records.map { $0.vitaminD }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let vitaminE = records.map { $0.vitaminE }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let calcium = records.map { $0.calcium }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let selenium = records.map { $0.selenium }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let zinc = records.map { $0.zinc }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let folicAcid = records.map { $0.folicAcid }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-        let chromium = records.map { $0.chromium }.reduce(0.0, +).roundDigits(afterDecimal: 2)
-
         return [
-            MicroNutirents(name: "Saturated Fat", value: saturatedFat, unit: Localized.gramUnit, recommendedValue: 20),
-            MicroNutirents(name: "Trans Fat", value: transFat, unit: Localized.gramUnit, recommendedValue: 2.2),
-            MicroNutirents(name: "Cholesterol", value: cholesterol, unit: Localized.mgUnit, recommendedValue: 300),
-            MicroNutirents(name: "Sodium", value: sodium, unit: Localized.mgUnit, recommendedValue: 2300),
-            MicroNutirents(name: "Dietary Fiber", value: fiber, unit: Localized.gramUnit, recommendedValue: 28),
-            MicroNutirents(name: "Total Sugar", value: sugar, unit: Localized.gramUnit, recommendedValue: 50),
-            MicroNutirents(name: "Added Sugar", value: addedSugar, unit: Localized.gramUnit, recommendedValue: 50),
-            MicroNutirents(name: "Vitamin D", value: vitaminD, unit: Localized.mcgUnit, recommendedValue: 20),
-            MicroNutirents(name: "Calcium", value: calcium, unit: Localized.mgUnit, recommendedValue: 1000),
-            MicroNutirents(name: "Iron", value: iron, unit: Localized.mgUnit, recommendedValue: 18),
-            MicroNutirents(name: "Potassium", value: potassium, unit: Localized.mgUnit, recommendedValue: 4700),
-            MicroNutirents(name: "Polyunsaturated Fat", value: polyunsatFat, unit: Localized.gramUnit, recommendedValue: 22),
-            MicroNutirents(name: "Monounsaturated Fat", value: monounsatFat, unit: Localized.gramUnit, recommendedValue: 44),
-            MicroNutirents(name: "Magnesium", value: magnesium, unit: Localized.mgUnit, recommendedValue: 420),
-            MicroNutirents(name: "Iodine", value: iodine, unit: Localized.mcgUnit, recommendedValue: 150),
-            MicroNutirents(name: "Vitamin B6", value: vitaminB6, unit: Localized.mgUnit, recommendedValue: 1.7),
-            MicroNutirents(name: "Vitamin B12", value: vitaminB12, unit: Localized.mcgUnit, recommendedValue: 2.4),
-            MicroNutirents(name: "Vitamin E", value: vitaminE, unit: Localized.mgUnit, recommendedValue: 15),
-            MicroNutirents(name: "Vitamin A", value: vitaminA, unit: "IU", recommendedValue: 3000),
-            MicroNutirents(name: "Vitamin C", value: vitaminC, unit: Localized.mgUnit, recommendedValue: 90),
-            MicroNutirents(name: "Zinc", value: zinc, unit: Localized.mgUnit, recommendedValue: 10),
-            MicroNutirents(name: "Selenium", value: selenium, unit: Localized.mcgUnit, recommendedValue: 55),
-            MicroNutirents(name: "Folic Acid", value: folicAcid, unit: Localized.mcgUnit, recommendedValue: 400),
-            MicroNutirents(name: "Chromium", value: chromium, unit: Localized.mcgUnit, recommendedValue: 35)
+            MicroNutirents(name: "Saturated Fat",
+                           value: records.map { $0.saturatedFat.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.saturatedFat.unit ?? UnitsTexts.g,
+                           recommendedValue: 20),
+            MicroNutirents(name: "Trans Fat",
+                           value: records.map { $0.transFat.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.transFat.unit ?? UnitsTexts.g,
+                           recommendedValue: 2.2),
+            MicroNutirents(name: "Cholesterol",
+                           value: records.map { $0.cholesterol.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.cholesterol.unit ?? UnitsTexts.mg,
+                           recommendedValue: 300),
+            MicroNutirents(name: "Sodium",
+                           value: records.map { $0.sodium.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.sodium.unit ?? UnitsTexts.mg,
+                           recommendedValue: 2300),
+            MicroNutirents(name: "Dietary Fiber",
+                           value: records.map { $0.fibers.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.fibers.unit ?? UnitsTexts.g,
+                           recommendedValue: 28),
+            MicroNutirents(name: "Total Sugar",
+                           value: records.map { $0.totalSugar.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.totalSugar.unit ?? UnitsTexts.g,
+                           recommendedValue: 50),
+            MicroNutirents(name: "Added Sugar",
+                           value: records.map { $0.addedSugar.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.addedSugar.unit ?? UnitsTexts.g,
+                           recommendedValue: 50),
+            MicroNutirents(name: "Vitamin D",
+                           value: records.map { $0.vitaminD.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.vitaminD.unit ?? UnitsTexts.mcg,
+                           recommendedValue: 20),
+            MicroNutirents(name: "Calcium",
+                           value: records.map { $0.calcium.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.calcium.unit ?? UnitsTexts.mg,
+                           recommendedValue: 1000),
+            MicroNutirents(name: "Iron",
+                           value: records.map { $0.iron.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.iron.unit ?? UnitsTexts.mg,
+                           recommendedValue: 18),
+            MicroNutirents(name: "Potassium",
+                           value: records.map { $0.potassium.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.potassium.unit ?? UnitsTexts.mg,
+                           recommendedValue: 4700),
+            MicroNutirents(name: "Polyunsaturated Fat",
+                           value: records.map { $0.polyunsaturatedFat.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.polyunsaturatedFat.unit ?? UnitsTexts.g,
+                           recommendedValue: 22),
+            MicroNutirents(name: "Monounsaturated Fat",
+                           value: records.map { $0.monounsaturatedFat.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.monounsaturatedFat.unit ?? UnitsTexts.g,
+                           recommendedValue: 44),
+            MicroNutirents(name: "Magnesium",
+                           value: records.map { $0.magnesium.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.magnesium.unit ?? UnitsTexts.mg,
+                           recommendedValue: 420),
+            MicroNutirents(name: "Iodine",
+                           value: records.map { $0.iodine.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.iodine.unit ?? UnitsTexts.mcg,
+                           recommendedValue: 150),
+            MicroNutirents(name: "Vitamin B6",
+                           value: records.map { $0.vitaminB6.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.vitaminB6.unit ?? UnitsTexts.mg,
+                           recommendedValue: 1.7),
+            MicroNutirents(name: "Vitamin B12",
+                           value: records.map { $0.vitaminB12.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.vitaminB12.unit ?? UnitsTexts.mcg,
+                           recommendedValue: 2.4),
+            MicroNutirents(name: "Vitamin E",
+                           value: records.map { $0.vitaminE.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.vitaminE.unit ?? UnitsTexts.mg,
+                           recommendedValue: 15),
+            MicroNutirents(name: "Vitamin A",
+                           value: records.map { $0.vitaminA }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: UnitsTexts.iu,
+                           recommendedValue: 3000),
+            MicroNutirents(name: "Vitamin C",
+                           value: records.map { $0.vitaminC.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.vitaminC.unit ?? UnitsTexts.mg,
+                           recommendedValue: 90),
+            MicroNutirents(name: "Zinc",
+                           value: records.map { $0.zinc.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.zinc.unit ?? UnitsTexts.mg,
+                           recommendedValue: 10),
+            MicroNutirents(name: "Selenium",
+                           value: records.map { $0.selenium.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.selenium.unit ?? UnitsTexts.mcg,
+                           recommendedValue: 55),
+            MicroNutirents(name: "Folic Acid",
+                           value: records.map { $0.folicAcid.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.folicAcid.unit ?? UnitsTexts.mcg,
+                           recommendedValue: 400),
+            MicroNutirents(name: "Chromium",
+                           value: records.map { $0.chromium.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.chromium.unit ?? UnitsTexts.mcg,
+                           recommendedValue: 35)
         ]
     }
 }

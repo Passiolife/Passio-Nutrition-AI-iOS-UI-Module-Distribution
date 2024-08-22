@@ -65,26 +65,27 @@ extension CustomFoodsViewController {
         foodRecord.uuid = UUID().uuidString
         foodRecord.createdAt = Date()
         foodRecord.mealLabel = .mealLabelBy()
-        connector.updateRecord(foodRecord: foodRecord, isNew: true)
-        showMessage(msg: "Added to Log")
+        connector.updateRecord(foodRecord: foodRecord)
+        showMessage(msg: ToastMessages.addedToLog)
     }
 
-    private func navigateToEdit(with record: FoodRecordV3) {
-        let createFoodVC = CreateFoodViewController(nibName: CreateFoodViewController.className,
-                                                    bundle: .module)
-        createFoodVC.loadViewIfNeeded()
-        createFoodVC.isCreateNewFood = false
-        createFoodVC.foodRecord = record
-        navigationController?.pushViewController(createFoodVC, animated: true)
-    }
-
-    private func navigateToEditViewContorller(record: FoodRecordV3) {
-        let editVC = EditRecordViewController()
+    private func navigateToFoodDetails(with record: FoodRecordV3) {
+        let editVC = FoodDetailsViewController()
+        editVC.isFromCustomFoodList = true
         editVC.foodRecord = record
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             navigationController?.pushViewController(editVC, animated: true)
         }
+    }
+
+    private func navigateToCreateFood(with record: FoodRecordV3) {
+        let createFoodVC = CreateFoodViewController()
+        createFoodVC.isFromCustomFoodList = true
+        createFoodVC.isCreateNewFood = false
+        createFoodVC.loadViewIfNeeded()
+        createFoodVC.foodRecord = record
+        navigationController?.pushViewController(createFoodVC, animated: true)
     }
 }
 
@@ -107,19 +108,19 @@ extension CustomFoodsViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigateToEditViewContorller(record: customFoods[indexPath.row])
+        navigateToFoodDetails(with: customFoods[indexPath.row])
     }
 
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) ->
     UISwipeActionsConfiguration? {
 
-        let editItem = UIContextualAction(style: .normal, title: "Edit".localized) {  (_, _, _) in
-            self.navigateToEdit(with: self.customFoods[indexPath.row])
+        let editItem = UIContextualAction(style: .normal, title: ButtonTexts.edit) { (_, _, _) in
+            self.navigateToCreateFood(with: self.customFoods[indexPath.row])
         }
         editItem.backgroundColor = .primaryColor
 
-        let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) { (_, _, _) in
+        let deleteItem = UIContextualAction(style: .destructive, title: ButtonTexts.delete) { (_, _, _) in
             self.connector.deleteUserFood(record: self.customFoods[indexPath.row])
             DispatchQueue.main.async { [self] in
                 if customFoods.indices.contains(indexPath.row) {

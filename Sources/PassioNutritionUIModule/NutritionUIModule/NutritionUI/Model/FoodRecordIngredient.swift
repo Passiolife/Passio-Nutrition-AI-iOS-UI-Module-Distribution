@@ -124,7 +124,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
 
     mutating func setSelectedUnit(unit: String) -> Bool {
 
-        var unit = if unit == "Gram" {
+        let unit = if unit == "Gram" {
             unit.lowercased()
         } else {
             unit
