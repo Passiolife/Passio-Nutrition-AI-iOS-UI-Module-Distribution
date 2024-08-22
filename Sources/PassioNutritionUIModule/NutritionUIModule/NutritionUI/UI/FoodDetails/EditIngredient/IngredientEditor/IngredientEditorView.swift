@@ -124,6 +124,9 @@ extension IngredientEditorView: UITableViewDataSource {
             cell.openFoodFactsButton.addTarget(self,
                                                action: #selector(onOpenFoodFacts),
                                                for: .touchUpInside)
+            cell.moreDetailsButton.addTarget(self,
+                                             action: #selector(onMoreDetails),
+                                             for: .touchUpInside)
             return cell
 
         case 1:
@@ -146,6 +149,28 @@ extension IngredientEditorView: UITableViewDataSource {
         popUpVC.modalTransitionStyle = .crossDissolve
         popUpVC.modalPresentationStyle = .overFullScreen
         findViewController()?.present(popUpVC, animated: true)
+    }
+
+    @objc private func onMoreDetails() {
+        let nutritionInfoVC = NutritionInformationViewController()
+        nutritionInfoVC.loadViewIfNeeded()
+        nutritionInfoVC.foodData = getFoodData
+        findViewController()?.navigationController?.pushViewController(nutritionInfoVC, animated: true)
+    }
+
+    var getFoodData: FoodData? {
+        if let foodRecordIngredient {
+            return FoodData(name: foodRecordIngredient.name,
+                            barcode: foodRecordIngredient.barcode ?? "",
+                            icon: getFoodImage,
+                            nutritionInfo: MicroNutirents.getMicroNutrientsFromFood(records: [FoodRecordV3(foodRecordIngredient: foodRecordIngredient)]))
+        }
+        return nil
+    }
+
+    var getFoodImage: UIImage {
+        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? FoodInfoTableViewCell
+        return cell?.imageFood.image ?? UIImage()
     }
 
     @objc func dissmissPhoto(recognizer: UITapGestureRecognizer) {

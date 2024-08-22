@@ -50,6 +50,13 @@ public struct UnitsTexts {
     public static let iu = "IU"
 }
 
+public struct NutritionsTexts {
+    public static let calories = "Calories"
+    public static let carbs = "Carbs"
+    public static let protein = "Protein"
+    public static let fat = "Fat"
+}
+
 public struct RecipeTexts {
     public static let recipeTitle = "Recipe"
     public static let createRecipe = "Create Recipe"

@@ -191,6 +191,8 @@ public struct FoodRecordV3: Codable, Equatable {
         nutrients = foodRecordIngredient.nutrients
         openFoodLicense = foodRecordIngredient.openFoodLicense
 
+        ingredients = [foodRecordIngredient]
+
         _ = setFoodRecordServing(unit: selectedUnit, quantity: selectedQuantity)
     }
 

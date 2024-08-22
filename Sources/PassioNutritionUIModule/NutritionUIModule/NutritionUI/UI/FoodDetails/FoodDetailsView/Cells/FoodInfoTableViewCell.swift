@@ -89,21 +89,18 @@ class FoodInfoTableViewCell: UITableViewCell {
                                                 fatG: foodRecord.totalFat,
                                                 proteinG: foodRecord.totalProteins,
                                                 totalCalories: foodRecord.totalCalories)
-        let c = DonutProgressView.Datasource.init(label: "carbs",
-                                                  color: .lightBlue,
-                                                  percent: percents.carbPercentage)
-        let p = DonutProgressView.Datasource.init(label: "protein",
-                                                  color: .green500,
-                                                  percent: percents.proteinPercentage)
-        let f = DonutProgressView.Datasource.init(label: "Fat",
-                                                  color: .purple500,
-                                                  percent: percents.fatPercentage)
+        let c = DonutProgressView.Datasource(color: .lightBlue,
+                                             percent: percents.carbPercentage)
+        let p = DonutProgressView.Datasource(color: .green500,
+                                             percent: percents.proteinPercentage)
+        let f = DonutProgressView.Datasource(color: .purple500,
+                                             percent: percents.fatPercentage)
 
         nutritionView.updateData(data: [c,p,f])
         caloriesLabel.text = foodRecord.totalCalories.roundDigits(afterDecimal: 0).clean
-        carbsLabel.text = foodRecord.totalCarbs.roundDigits(afterDecimal: 1).clean + " g"
-        protienLabel.text = foodRecord.totalProteins.roundDigits(afterDecimal: 1).clean + " g"
-        fatLabel.text = foodRecord.totalFat.roundDigits(afterDecimal: 1).clean + " g"
+        carbsLabel.text = foodRecord.totalCarbs.roundDigits(afterDecimal: 1).clean + " \(UnitsTexts.g)"
+        protienLabel.text = foodRecord.totalProteins.roundDigits(afterDecimal: 1).clean + " \(UnitsTexts.g)"
+        fatLabel.text = foodRecord.totalFat.roundDigits(afterDecimal: 1).clean + " \(UnitsTexts.g)"
 
         let total = [c,p,f].reduce(0, { $0 + $1.percent })
         if total > 0 {
@@ -144,21 +141,18 @@ class FoodInfoTableViewCell: UITableViewCell {
                                                 fatG: foodIngrident.totalFat,
                                                 proteinG: foodIngrident.totalProteins,
                                                 totalCalories: foodIngrident.totalCalories)
-        let c = DonutProgressView.Datasource.init(label: "carbs",
-                                                  color: .lightBlue,
+        let c = DonutProgressView.Datasource.init(color: .lightBlue,
                                                   percent: percents.carbPercentage)
-        let p = DonutProgressView.Datasource.init(label: "protein",
-                                                  color: .green500,
+        let p = DonutProgressView.Datasource.init(color: .green500,
                                                   percent: percents.proteinPercentage)
-        let f = DonutProgressView.Datasource.init(label: "Fat",
-                                                  color: .purple500,
+        let f = DonutProgressView.Datasource.init(color: .purple500,
                                                   percent: percents.fatPercentage)
 
         nutritionView.updateData(data: [c,p,f])
         caloriesLabel.text = foodIngrident.totalCalories.roundDigits(afterDecimal: 0).clean
-        carbsLabel.text = foodIngrident.totalCarbs.roundDigits(afterDecimal: 1).clean + " g"
-        protienLabel.text = foodIngrident.totalProteins.roundDigits(afterDecimal: 1).clean + " g"
-        fatLabel.text = foodIngrident.totalFat.roundDigits(afterDecimal: 1).clean + " g"
+        carbsLabel.text = foodIngrident.totalCarbs.roundDigits(afterDecimal: 1).clean + " \(UnitsTexts.g)"
+        protienLabel.text = foodIngrident.totalProteins.roundDigits(afterDecimal: 1).clean + " \(UnitsTexts.g)"
+        fatLabel.text = foodIngrident.totalFat.roundDigits(afterDecimal: 1).clean + " \(UnitsTexts.g)"
 
         let total = [c,p,f].reduce(0, {$0 + $1.percent})
         if total > 0 {

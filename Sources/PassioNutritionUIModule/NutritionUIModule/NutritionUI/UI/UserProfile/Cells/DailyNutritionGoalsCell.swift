@@ -46,17 +46,14 @@ final class DailyNutritionGoalsCell: UITableViewCell {
         proteinValueLabel.text = "\(userProfile.proteinGrams) \(Localized.gramUnit)"
         fatPercentLabel.text = "\(userProfile.fatPercent)%"
         fatValueLabel.text = "\(userProfile.fatGrams) \(Localized.gramUnit)"
-
-        let carbs = DonutProgressView.Datasource.init(label: "carbs",
-                                                  color: .lightBlue,
-                                                  percent: Double(userProfile.carbsPercent))
-        let protein = DonutProgressView.Datasource.init(label: "protein",
-                                                  color: .green500,
-                                                  percent: Double(userProfile.proteinPercent))
-        let fat = DonutProgressView.Datasource.init(label: "Fat",
-                                                  color: .purple500,
-                                                  percent: Double(userProfile.fatPercent))
-
+        
+        let carbs = DonutProgressView.Datasource(color: .lightBlue,
+                                                 percent: Double(userProfile.carbsPercent))
+        let protein = DonutProgressView.Datasource(color: .green500,
+                                                   percent: Double(userProfile.proteinPercent))
+        let fat = DonutProgressView.Datasource(color: .purple500,
+                                               percent: Double(userProfile.fatPercent))
+        
         nutritionView.updateData(data: [carbs, protein, fat])
     }
 }
