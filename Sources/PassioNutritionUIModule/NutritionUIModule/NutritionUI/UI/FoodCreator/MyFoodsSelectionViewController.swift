@@ -44,8 +44,8 @@ class MyFoodsSelectionViewController: InstantiableViewController {
         pageCollectionView.titles = ["Custom Foods", "Recipes"]
         pageCollectionView.pageCollectionDelegate = self
 
-        let customFoodsVC = CustomFoodsViewController(nibName: "CustomFoodsViewController", bundle: .module)
-        let recipesVC = RecipesViewController(nibName: "RecipesViewController", bundle: .module)
+        let customFoodsVC = CustomFoodsViewController()
+        let recipesVC = RecipesViewController()
         viewControllers = [customFoodsVC, recipesVC]
         pageViewController.pageDelegate = self
         pageViewController.isSwipeGestureEnabled(false)

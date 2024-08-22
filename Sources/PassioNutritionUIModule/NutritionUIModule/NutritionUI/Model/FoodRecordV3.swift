@@ -94,7 +94,7 @@ public struct FoodRecordV3: Codable, Equatable {
     init(foodItem: PassioFoodItem,
          barcode: String = "",
          scannedWeight: Double? = nil,
-         entityType: PassioIDEntityType = .item,
+         entityType: PassioIDEntityType? = nil,
          confidence: Double? = nil) {
 
         id = foodItem.id
@@ -110,9 +110,6 @@ public struct FoodRecordV3: Codable, Equatable {
         mealLabel = MealLabel.mealLabelBy(time: now)
         uuid = UUID().uuidString
 
-        self.entityType = entityType
-        self.confidence = confidence
-
         servingSizes = foodItem.amount.servingSizes
         servingUnits = foodItem.amount.servingUnits
         selectedUnit = foodItem.amount.selectedUnit
@@ -121,6 +118,10 @@ public struct FoodRecordV3: Codable, Equatable {
         openFoodLicense = foodItem.licenseCopy
 
         ingredients = foodItem.ingredients.map { FoodRecordIngredient(ingredient: $0) }
+
+        self.confidence = confidence
+        self.entityType = entityType ?? (ingredients.count > 1 ? .recipe : .item)
+
         calculateQuantityForIngredients()
 
         if let scannedWeight = scannedWeight {
@@ -133,7 +134,7 @@ public struct FoodRecordV3: Codable, Equatable {
     init(ingredient: PassioIngredient,
          barcode: String = "",
          scannedWeight: Double? = nil,
-         entityType: PassioIDEntityType = .item,
+         entityType: PassioIDEntityType? = nil,
          confidence: Double? = nil) {
 
         passioID = ingredient.id
@@ -147,9 +148,6 @@ public struct FoodRecordV3: Codable, Equatable {
         mealLabel = MealLabel.mealLabelBy(time: now)
         uuid = UUID().uuidString
 
-        self.entityType = entityType
-        self.confidence = confidence
-
         servingSizes = ingredient.amount.servingSizes
         servingUnits = ingredient.amount.servingUnits
         selectedUnit = ingredient.amount.selectedUnit
@@ -159,6 +157,9 @@ public struct FoodRecordV3: Codable, Equatable {
         openFoodLicense = ingredient.metadata.foodOrigins?.first(where: { 
             $0.source == "openfood"
         })?.licenseCopy
+
+        self.entityType = entityType ?? (ingredients.count > 1 ? .recipe : .item)
+        self.confidence = confidence
 
         if let scannedWeight = scannedWeight {
             addScannedAmount(scannedWeight: scannedWeight)
@@ -189,6 +190,8 @@ public struct FoodRecordV3: Codable, Equatable {
 
         nutrients = foodRecordIngredient.nutrients
         openFoodLicense = foodRecordIngredient.openFoodLicense
+
+        ingredients = [foodRecordIngredient]
 
         _ = setFoodRecordServing(unit: selectedUnit, quantity: selectedQuantity)
     }
@@ -261,7 +264,7 @@ public struct FoodRecordV3: Codable, Equatable {
     // MARK: Helper for qty, unit, servingsize & servingUnit
     private mutating func calculateQuantity() {
         let totalWeight = ingredients.map { $0.computedWeight.value }.reduce(0, +)
-        if let servingSizeUnit = servingUnits.filter { $0.unitName == selectedUnit }.first {
+        if let servingSizeUnit = servingUnits.filter({ $0.unitName == selectedUnit }).first {
             selectedQuantity = totalWeight/servingSizeUnit.weight.value
         }
     }
@@ -278,7 +281,7 @@ public struct FoodRecordV3: Codable, Equatable {
 
         let gramUnit = "gram"
         let cGramUnit = "Gram"
-        var unit = if unit == cGramUnit {
+        let unit = if unit == cGramUnit {
             gramUnit
         } else {
             unit

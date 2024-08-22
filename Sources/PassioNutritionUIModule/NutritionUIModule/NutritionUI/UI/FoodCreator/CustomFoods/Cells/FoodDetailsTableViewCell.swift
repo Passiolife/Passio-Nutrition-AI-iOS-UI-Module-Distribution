@@ -19,6 +19,8 @@ final class FoodDetailsTableViewCell: UITableViewCell {
     @IBOutlet weak var barcodeTextField: UITextField!
     @IBOutlet weak var barcodeTapView: UIView!
 
+    private let connector = PassioInternalConnector.shared
+
     var onCreateFoodImage: ((UIImagePickerController.SourceType) -> Void)?
     var onBarcode: (() -> Void)?
     var isCreateNewFood = true
@@ -62,23 +64,27 @@ extension FoodDetailsTableViewCell {
         let image: UIImage
     }
 
-    func configureCell(with record: FoodRecordV3) {
+    func configureCell(with record: FoodRecordV3, barcode: String) {
+
         isCreateNewFood = false
-        nameTextField.text = record.name
-        brandTextField.text = record.details
-        barcodeTextField.text = record.barcode
-        PassioInternalConnector.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
+
+        nameTextField.text = record.name.capitalized
+        brandTextField.text = record.details.capitalized
+        barcodeTextField.text = barcode
+
+        connector.fetchUserFoodImage(with: record.iconId) { [weak self] image in
             if let image {
                 DispatchQueue.main.async {
                     self?.createFoodImageView.image = image
                 }
             } else {
-                self?.createFoodImageView.setFoodImage(id: record.iconId,
+                guard let self else { return }
+                createFoodImageView.setFoodImage(id: record.iconId,
                                                  passioID: record.iconId,
                                                  entityType: record.entityType,
-                                                 connector: PassioInternalConnector.shared) { image in
+                                                 connector: connector) { image in
                     DispatchQueue.main.async {
-                        self?.createFoodImageView.image = image
+                        self.createFoodImageView.image = image
                     }
                 }
             }

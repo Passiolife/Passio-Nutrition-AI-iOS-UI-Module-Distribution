@@ -34,6 +34,8 @@ class RecipeDetailsCell: UITableViewCell {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let name = (recipeNameTextField.text ?? "").trimmingCharacters(in: .whitespaces)
+        recipeName?(name)
         endEditing(true)
     }
 
@@ -71,7 +73,7 @@ class RecipeDetailsCell: UITableViewCell {
 
     func configureCell(with record: FoodRecordV3, isCreate: Bool) {
 
-        recipeNameTextField.text = record.name
+        recipeNameTextField.text = record.name.capitalized
 
         if !isCreate {
             PassioInternalConnector.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
@@ -103,6 +105,7 @@ extension RecipeDetailsCell: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        recipeName?(textField.text ?? "")
+        let name = (textField.text ?? "").trimmingCharacters(in: .whitespaces)
+        recipeName?(name)
     }
 }

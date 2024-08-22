@@ -17,15 +17,16 @@ public protocol PassioConnector: AnyObject {
     func fetchUserProfile(completion: @escaping (UserProfileModel?) -> Void)
 
     // Records
-    func updateRecord(foodRecord: FoodRecordV3, isNew: Bool)
+    func updateRecord(foodRecord: FoodRecordV3)
     func deleteRecord(foodRecord: FoodRecordV3)
     func fetchDayRecords(date: Date, completion: @escaping ([FoodRecordV3]) -> Void)
     func fetchMealLogsJson(daysBack: Int) -> String
 
     // User Foods
-    func updateUserFood(record: FoodRecordV3, isNew: Bool)
+    func updateUserFood(record: FoodRecordV3)
     func deleteUserFood(record: FoodRecordV3)
     func fetchUserFoods(barcode: String, completion: @escaping ([FoodRecordV3]) -> Void)
+    func fetchUserFoods(refCode: String, completion: @escaping ([FoodRecordV3]) -> Void)
     func fetchAllUserFoods(completion: @escaping ([FoodRecordV3]) -> Void)
     func deleteAllUserFood()
 
@@ -145,9 +146,9 @@ extension PassioInternalConnector: PassioConnector {
     }
 
     // MARK: FoodRecordV3
-    public func updateRecord(foodRecord: FoodRecordV3, isNew: Bool) {
+    public func updateRecord(foodRecord: FoodRecordV3) {
         guard let connector = passioExternalConnector else { return }
-        connector.updateRecord(foodRecord: foodRecord, isNew: isNew)
+        connector.updateRecord(foodRecord: foodRecord)
     }
 
     public func deleteRecord(foodRecord: FoodRecordV3) {
@@ -179,9 +180,9 @@ extension PassioInternalConnector: PassioConnector {
     }
 
     // MARK: UserFood
-    public func updateUserFood(record: FoodRecordV3, isNew: Bool) {
+    public func updateUserFood(record: FoodRecordV3) {
         guard let connector = passioExternalConnector else { return }
-        connector.updateUserFood(record: record, isNew: isNew)
+        connector.updateUserFood(record: record)
     }
 
     public func deleteUserFood(record: FoodRecordV3) {
@@ -201,6 +202,16 @@ extension PassioInternalConnector: PassioConnector {
         }
         connector.fetchUserFoods(barcode: barcode) { barcodeFood in
             completion(barcodeFood)
+        }
+    }
+
+    public func fetchUserFoods(refCode: String, completion: @escaping ([FoodRecordV3]) -> Void) {
+        guard let connector = passioExternalConnector else {
+            completion([])
+            return
+        }
+        connector.fetchUserFoods(refCode: refCode) { userFood in
+            completion(userFood)
         }
     }
 

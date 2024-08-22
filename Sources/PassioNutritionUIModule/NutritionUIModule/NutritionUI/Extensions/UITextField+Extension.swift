@@ -69,4 +69,8 @@ extension UITextField {
     func getText(replacing unit: String) -> String? {
         text?.replacingOccurrences(of: " \(unit)", with: "")
     }
+
+    var replaceCommaWithDot: String {
+        text?.replacingOccurrences(of: ",", with: ".") ?? ""
+    }
 }

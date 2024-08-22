@@ -35,6 +35,6 @@ class MealPlanSectionHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func onClickLogEntireMeal() {
-        self.delegate?.onClickLog(mealLabel: self.mealLabel)
+        delegate?.onClickLog(mealLabel: self.mealLabel)
     }
 }

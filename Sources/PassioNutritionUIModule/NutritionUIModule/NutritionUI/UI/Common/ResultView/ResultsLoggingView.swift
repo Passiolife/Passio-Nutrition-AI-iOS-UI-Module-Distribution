@@ -142,7 +142,7 @@ class ResultsLoggingView: UIView {
                     if let foodItem {
                         var foodRecord = FoodRecordV3(foodItem: foodItem)
                         foodRecord.mealLabel = MealLabel(mealTime: food.foodData.meal ?? PassioMealTime.currentMealTime())
-                        PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord, isNew: true)
+                        PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord)
                         dispatchGroup.leave()
                     } else {
                         dispatchGroup.leave()

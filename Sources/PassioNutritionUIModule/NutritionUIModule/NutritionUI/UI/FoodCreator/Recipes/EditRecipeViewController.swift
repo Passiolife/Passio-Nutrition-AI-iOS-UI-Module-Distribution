@@ -9,23 +9,36 @@ import UIKit
 
 class EditRecipeViewController: InstantiableViewController {
 
+    @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var editRecipeTableView: UITableView!
 
+    private let connector = PassioInternalConnector.shared
     private var isAddIngredient = true
     private var cachedMaxForSlider: [String: Float] = [:]
+
     private enum EditRecipeCell: String, CaseIterable {
         case recipeDetailsCell,
-             amountSliderFullTableViewCell,
-             ingredientAddTableViewCell,
-             ingredientHeaderTableViewCell
+             servingSizeTableViewCell,
+             ingredientsTableViewCell,
+             ingredientInfoTableViewCell
     }
     private let editRecipeSections: [EditRecipeCell] = [.recipeDetailsCell,
-                                                        .amountSliderFullTableViewCell,
-                                                        .ingredientAddTableViewCell,
-                                                        .ingredientHeaderTableViewCell]
+                                                        .servingSizeTableViewCell,
+                                                        .ingredientsTableViewCell,
+                                                        .ingredientInfoTableViewCell]
     var isCreate = true
+    var vcTitle = RecipeTexts.editRecipe
+    var isUpdateLog = true
+    var isFromRecipeList = false
+    var isFromUserFoodsList = false
+    var isEditingExistingRecipe = false
+    var isFromFoodDetails = false
+    var loggedFoodRecord: FoodRecordV3?
+
+    weak var delegate: NavigateToDiaryDelegate?
+
     var recipe: FoodRecordV3? {
         didSet {
             DispatchQueue.main.async { [self] in
@@ -41,7 +54,9 @@ class EditRecipeViewController: InstantiableViewController {
         }
     }
     private var isSaveRecipe: Bool {
-        (recipe?.ingredients.count ?? 1 >= 2) && (recipeName != "")
+        (recipe?.ingredients.count ?? 1 >= 2) &&
+        (recipeName != "") &&
+        !(recipeName.trimmingCharacters(in: .whitespaces).isEmpty)
     }
 
     override func viewDidLoad() {
@@ -62,81 +77,75 @@ class EditRecipeViewController: InstantiableViewController {
 
         recipe?.name = recipeName
     }
+}
+
+// MARK: - @IBAction & objc
+extension EditRecipeViewController {
+
+    @IBAction func onSave(_ sender: UIButton) {
+
+        if var recipe, let getRecipeDetailsCell {
+
+            recipe.name = recipeName
+            recipe.iconId = recipe.iconId.contains("Recipe") ? recipe.iconId : "Recipe.\(recipe.iconId)"
+            connector.updateRecipe(record: recipe)
+            connector.updateUserFoodImage(
+                with: recipe.iconId,
+                image: getRecipeDetailsCell.recipeImageView.image?.get180pImage ?? UIImage()
+            )
+
+            if isFromUserFoodsList || isFromRecipeList {
+                navigationController?.popToSpecificViewController(MyFoodsSelectionViewController.self)
+
+            } else if isFromFoodDetails {
+
+                if isUpdateLog {
+
+                    if let loggedFoodRecord {
+                        recipe.uuid = loggedFoodRecord.uuid
+                        recipe.createdAt = loggedFoodRecord.createdAt
+                        recipe.mealLabel = loggedFoodRecord.mealLabel
+                        connector.deleteRecord(foodRecord: loggedFoodRecord)
+                    } else {
+                        connector.deleteRecord(foodRecord: recipe)
+                    }
+
+                    DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 0.2) {
+                        self.connector.updateRecord(foodRecord: recipe)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.navigationController?.popToSpecificViewController(HomeTabBarController.self)
+                    }
+
+                } else {
+                    delegate?.onSaveNavigateToDiary(isUpdateLog: false)
+                    navigationController?.popToSpecificViewController(HomeTabBarController.self)
+                }
+
+            } else {
+                navigationController?.popViewController(animated: true)
+            }
+        }
+    }
 
     @IBAction func onCancel(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func onSave(_ sender: UIButton) {
-        if var recipe, let getRecipeDetailsCell {
-            recipe.name = recipeName
-            recipe.iconId = recipe.iconId.contains("Recipe") ? recipe.iconId : "Recipe.\(recipe.iconId)"
-            PassioInternalConnector.shared.updateRecipe(record: recipe)
-            PassioInternalConnector.shared.updateUserFoodImage(
-                with: recipe.iconId,
-                image: getRecipeDetailsCell.recipeImageView.image?.get180pImage ?? UIImage()
-            )
-            navigationController?.popViewController(animated: true)
+    @IBAction func onDelete(_ sender: UIButton) {
+        if let recipe {
+            connector.deleteRecipe(record: recipe)
+            navigationController?.popToSpecificViewController(MyFoodsSelectionViewController.self)
         }
     }
-}
 
-// MARK: - Configure
-extension EditRecipeViewController {
+    @objc private func onChangeUnit(sender: UIButton) {
 
-    private func configureUI() {
-
-        title = "Edit Recipe"
-        editRecipeTableView.dataSource = self
-        editRecipeTableView.delegate = self
-        EditRecipeCell.allCases.forEach {
-            editRecipeTableView.register(nibName: $0.rawValue.capitalizingFirst())
-        }
-        cancelButton.applyBorder(width: 2, color: .primaryColor)
-        cancelButton.setTitleColor(.primaryColor, for: .normal)
-        saveButton.backgroundColor = .primaryColor
-    }
-
-    private var getRecipeDetailsCell: RecipeDetailsCell? {
-        editRecipeTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RecipeDetailsCell
-    }
-
-    // MARK: Cell Helper
-    private func getAmountsforCell(slider: UISlider) -> (quantity: Double,
-                                                         unitName: String,
-                                                         weight: String) {
-        slider.minimumValue = 0.0
-        guard let foodRecord = recipe else { return(0, "error", "0") }
-        let sliderMultiplier: Float = 5.0
-        let maxSliderFromData = Float(1) * sliderMultiplier
-        let currentValue = Float(foodRecord.selectedQuantity)
-
-        if cachedMaxForSlider[foodRecord.selectedUnit] == nil {
-            cachedMaxForSlider = [foodRecord.selectedUnit: sliderMultiplier * currentValue]
-            slider.maximumValue = sliderMultiplier * currentValue
-        } else if let maxFromCache = cachedMaxForSlider[foodRecord.selectedUnit],
-                  maxFromCache > maxSliderFromData, maxFromCache > currentValue {
-            slider.maximumValue = maxFromCache
-        } else if maxSliderFromData > currentValue {
-            slider.maximumValue = maxSliderFromData
-        } else {
-            slider.maximumValue = currentValue
-            cachedMaxForSlider = [foodRecord.selectedUnit: currentValue]
-        }
-        slider.value = currentValue
-        return (Double(currentValue),
-                foodRecord.selectedUnit.capitalizingFirst(),
-                String(foodRecord.computedWeight.value.roundDigits(afterDecimal: 1).clean))
-    }
-
-    @objc private func changeLabel(sender: UIButton) {
         guard let servingUnits = recipe?.servingUnits else { return }
         let items = servingUnits.map { return $0.unitName }
         let customPickerViewController = CustomPickerViewController()
         customPickerViewController.loadViewIfNeeded()
-        customPickerViewController.pickerItems = items.map({ item in
-            return PickerElement.init(title: item)
-        })
+        customPickerViewController.pickerItems = items.map { PickerElement(title: $0) }
         if let frame = sender.superview?.convert(sender.frame, to: nil) {
             customPickerViewController.pickerFrame = CGRect(x: frame.origin.x - 5,
                                                             y: frame.origin.y + 50,
@@ -149,7 +158,7 @@ extension EditRecipeViewController {
         present(customPickerViewController, animated: true, completion: nil)
     }
 
-    @objc func sliderAmountValueDidChange(sender: UISlider) {
+    @objc func onChangeQuantity(sender: UISlider) {
 
         let maxSlider = Int(sender.maximumValue)
         var sizeOfAtTick: Double
@@ -177,11 +186,65 @@ extension EditRecipeViewController {
     @objc func addIngredients() {
         isAddIngredient = true
         let plusMenuVC = PlusMenuViewController()
-        plusMenuVC.menuData = [.scan, .search, .voiceLogging]
+        plusMenuVC.menuData = [.search]
         plusMenuVC.delegate = self
         plusMenuVC.modalTransitionStyle = .crossDissolve
         plusMenuVC.modalPresentationStyle = .overFullScreen
         navigationController?.present(plusMenuVC, animated: true)
+    }
+}
+
+// MARK: - Edit Recipe Helper
+extension EditRecipeViewController {
+
+    private func configureUI() {
+
+        title = vcTitle
+
+        deleteButton.isHidden = !isFromRecipeList
+        cancelButton.applyBorder(width: 2, color: .primaryColor)
+        cancelButton.setTitleColor(.primaryColor, for: .normal)
+        saveButton.backgroundColor = .primaryColor
+
+        editRecipeTableView.dataSource = self
+        editRecipeTableView.delegate = self
+        EditRecipeCell.allCases.forEach {
+            editRecipeTableView.register(nibName: $0.rawValue.capitalizingFirst())
+        }
+    }
+
+    private var getRecipeDetailsCell: RecipeDetailsCell? {
+        editRecipeTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RecipeDetailsCell
+    }
+
+    // MARK: Cell Helper
+    private func getAmountsforCell(slider: UISlider) -> (quantity: Double,
+                                                         unitName: String,
+                                                         weight: String) {
+        slider.minimumValue = 0.0
+        guard let foodRecord = recipe,
+              foodRecord.ingredients.count > 0,
+              foodRecord.selectedQuantity > 0 else { return(100, UnitsTexts.gram, "100") }
+        let sliderMultiplier: Float = 5.0
+        let maxSliderFromData = Float(1) * sliderMultiplier
+        let currentValue = Float(foodRecord.selectedQuantity)
+
+        if cachedMaxForSlider[foodRecord.selectedUnit] == nil {
+            cachedMaxForSlider = [foodRecord.selectedUnit: sliderMultiplier * currentValue]
+            slider.maximumValue = sliderMultiplier * currentValue
+        } else if let maxFromCache = cachedMaxForSlider[foodRecord.selectedUnit],
+                  maxFromCache > maxSliderFromData, maxFromCache > currentValue {
+            slider.maximumValue = maxFromCache
+        } else if maxSliderFromData > currentValue {
+            slider.maximumValue = maxSliderFromData
+        } else {
+            slider.maximumValue = currentValue
+            cachedMaxForSlider = [foodRecord.selectedUnit: currentValue]
+        }
+        slider.value = currentValue
+        return (Double(currentValue),
+                foodRecord.selectedUnit.capitalizingFirst(),
+                String(foodRecord.computedWeight.value.roundDigits(afterDecimal: 1).clean))
     }
 
     private func goToEditIngredient(foodRecordIngredient: FoodRecordIngredient, indexOfIngredient: Int) {
@@ -210,6 +273,23 @@ extension EditRecipeViewController {
             }
         }
     }
+
+    private func createRecipe(from item: PassioFoodItem?, record: FoodRecordV3?) {
+        if let item {
+            var record = FoodRecordV3(foodItem: item,
+                                      barcode: "",
+                                      scannedWeight: nil,
+                                      entityType: .recipe,
+                                      confidence: nil)
+            record.name = recipeName
+            record.iconId = item.iconId
+            recipe = record
+        } else if var record {
+            record.name = recipeName
+            record.ingredients[0].iconId = record.iconId
+            recipe = record
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource & UITableViewDelegate
@@ -221,8 +301,8 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch editRecipeSections[section] {
-        case .recipeDetailsCell, .amountSliderFullTableViewCell, .ingredientAddTableViewCell: 1
-        case .ingredientHeaderTableViewCell: recipe?.ingredients.count ?? 1
+        case .recipeDetailsCell, .servingSizeTableViewCell, .ingredientsTableViewCell: 1
+        case .ingredientInfoTableViewCell: recipe?.ingredients.count ?? 0
         }
     }
 
@@ -235,41 +315,46 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
                                              forIndexPath: indexPath)
             if let recipe {
                 cell.configureCell(with: recipe, isCreate: isCreate)
-                cell.recipeName = { [weak self] (recipeName) in
-                    guard let self else { return }
-                    self.recipeName = recipeName
-                }
-                cell.onCreateFoodImage = { [weak self] (sourceType) in
-                    guard let self else { return }
-                    self.presentImagePicker(withSourceType: sourceType, delegate: self)
-                }
+            }
+            cell.recipeName = { [weak self] (recipeName) in
+                guard let self else { return }
+                self.recipeName = recipeName
+                self.recipe?.name = recipeName
+            }
+            cell.onCreateFoodImage = { [weak self] (sourceType) in
+                guard let self else { return }
+                self.presentImagePicker(withSourceType: sourceType, delegate: self)
             }
             return cell
 
-        case .amountSliderFullTableViewCell:
-            let cell = tableView.dequeueCell(cellClass: AmountSliderFullTableViewCell.self,
+        case .servingSizeTableViewCell:
+            let cell = tableView.dequeueCell(cellClass: ServingSizeTableViewCell.self,
                                              forIndexPath: indexPath)
             let (qty, unitName, weight) = getAmountsforCell(slider: cell.sliderAmount)
             cell.setup(quantity: qty, unitName: unitName, weight: weight)
             cell.textAmount.delegate = self
             cell.buttonUnits.addTarget(self,
-                                       action: #selector(changeLabel(sender:)),
+                                       action: #selector(onChangeUnit(sender:)),
                                        for: .touchUpInside)
             cell.sliderAmount.addTarget(self,
-                                        action: #selector(sliderAmountValueDidChange(sender:)),
+                                        action: #selector(onChangeQuantity(sender:)),
                                         for: .valueChanged)
             return cell
 
-        case .ingredientAddTableViewCell:
-            let cell = tableView.dequeueCell(cellClass: IngredientAddTableViewCell.self,
+        case .ingredientsTableViewCell:
+            let cell = tableView.dequeueCell(cellClass: IngredientsTableViewCell.self,
                                              forIndexPath: indexPath)
-            cell.buttonAddIngredients.addTarget(self,
+            cell.makeRecipeButton.backgroundColor = .white
+            cell.makeRecipeButton.setTitle("", for: .normal)
+            cell.makeRecipeWidthConstraint.constant = 30
+            cell.makeRecipeButton.setImage(UIImage(systemName: "plus"), for: .normal)
+            cell.makeRecipeButton.addTarget(self,
                                                 action: #selector(addIngredients),
                                                 for: .touchUpInside)
             return cell
 
-        case .ingredientHeaderTableViewCell:
-            let cell = tableView.dequeueCell(cellClass: IngredientHeaderTableViewCell.self,
+        case .ingredientInfoTableViewCell:
+            let cell = tableView.dequeueCell(cellClass: IngredientInfoTableViewCell.self,
                                              forIndexPath: indexPath)
             if let recipe {
                 cell.setup(ingredient: recipe.ingredients[indexPath.row],
@@ -282,10 +367,10 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         switch editRecipeSections[indexPath.section] {
-        case .recipeDetailsCell, .amountSliderFullTableViewCell, .ingredientAddTableViewCell:
+        case .recipeDetailsCell, .servingSizeTableViewCell, .ingredientsTableViewCell:
             break
-        case .ingredientHeaderTableViewCell:
-            if let recipe, recipe.ingredients.count > 1 {
+        case .ingredientInfoTableViewCell:
+            if let recipe, recipe.ingredients.count >= 1 {
                 isAddIngredient = false
                 goToEditIngredient(foodRecordIngredient: recipe.ingredients[indexPath.row],
                                    indexOfIngredient: indexPath.row)
@@ -298,12 +383,12 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch editRecipeSections[indexPath.section] {
 
-        case .recipeDetailsCell, .amountSliderFullTableViewCell, .ingredientAddTableViewCell:
+        case .recipeDetailsCell, .servingSizeTableViewCell, .ingredientsTableViewCell:
             return UISwipeActionsConfiguration(actions: [])
 
-        case .ingredientHeaderTableViewCell:
+        case .ingredientInfoTableViewCell:
             let deleteItem = UIContextualAction(style: .destructive,
-                                                title: "Delete") { [weak self] (_, _, _) in
+                                                title: ButtonTexts.delete) { [weak self] (_, _, _) in
                 _ = self?.recipe?.removeIngredient(atIndex: indexPath.row)
                 tableView.reloadData()
             }
@@ -316,8 +401,8 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
                    editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
 
         switch editRecipeSections[indexPath.section] {
-        case .recipeDetailsCell, .amountSliderFullTableViewCell, .ingredientAddTableViewCell: .none
-        case .ingredientHeaderTableViewCell: .delete
+        case .recipeDetailsCell, .servingSizeTableViewCell, .ingredientsTableViewCell: .none
+        case .ingredientInfoTableViewCell: .delete
         }
     }
 }
@@ -417,6 +502,8 @@ extension EditRecipeViewController: AdvancedTextSearchViewDelegate {
             updateRecipe(for: FoodRecordV3(foodItem: item),
                          isPlusAction: isPlusAction,
                          indexOfIngredient: recipe.ingredients.count)
+        } else if let item {
+            createRecipe(from: item, record: nil)
         }
     }
 
@@ -425,6 +512,8 @@ extension EditRecipeViewController: AdvancedTextSearchViewDelegate {
             updateRecipe(for: record,
                          isPlusAction: isPlusAction,
                          indexOfIngredient: recipe.ingredients.count)
+        } else if let record {
+            createRecipe(from: nil, record: record)
         }
     }
 }

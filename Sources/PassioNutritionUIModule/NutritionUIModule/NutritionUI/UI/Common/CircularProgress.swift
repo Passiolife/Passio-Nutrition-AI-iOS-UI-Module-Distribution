@@ -12,7 +12,6 @@ class DonutProgressView: UIView {
     var datasource: [Datasource] = []
 
     struct Datasource {
-        var label: String
         var color: UIColor
         var percent: Double
     }

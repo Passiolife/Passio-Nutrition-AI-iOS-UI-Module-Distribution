@@ -24,6 +24,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
     public var nutrients: PassioNutrients
     public var openFoodLicense: String? = ""
     public var details: String = ""
+    public var barcode: String? = ""
     public var entityType: PassioIDEntityType
     public var computedWeight: Measurement<UnitMass> {
         guard let weight2QuantityRatio = (servingUnits.filter {$0.unitName == selectedUnit}).first?.weight.value else {
@@ -67,6 +68,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
         details = foodRecord.details
         iconId = foodRecord.iconId
         refCode = foodRecord.refCode
+        barcode = foodRecord.barcode
 
         self.entityType = entityType
 
@@ -86,6 +88,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
         name = ingredient.name
         iconId = ingredient.iconId
         refCode = ingredient.refCode ?? ""
+        barcode = ""
 
         self.entityType = entityType
 
@@ -124,7 +127,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
 
     mutating func setSelectedUnit(unit: String) -> Bool {
 
-        var unit = if unit == "Gram" {
+        let unit = if unit == "Gram" {
             unit.lowercased()
         } else {
             unit

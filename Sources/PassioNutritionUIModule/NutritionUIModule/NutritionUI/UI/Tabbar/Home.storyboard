@@ -172,7 +172,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="uDD-YR-DKt"/>
-                        <color key="backgroundColor" systemColor="systemBrownColor"/>
+                        <color key="backgroundColor" name="gray-50"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Diary" image="Book open" id="xVC-YF-hHO"/>
                 </viewController>
@@ -188,9 +188,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="P16-0c-L73"/>
-                        <color key="backgroundColor" systemColor="systemFillColor"/>
+                        <color key="backgroundColor" name="gray-50"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Meal Plan" image="Clipboard list" id="ewQ-VR-tLr"/>
+                    <tabBarItem key="tabBarItem" title="Meal Plan" image="diet" id="ewQ-VR-tLr"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BlS-uJ-5IU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -204,7 +204,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="769"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="HfG-lq-I25"/>
-                        <color key="backgroundColor" systemColor="systemGrayColor"/>
+                        <color key="backgroundColor" name="gray-50"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Report" image="Chart pie" id="Zaj-me-5Z7"/>
                 </viewController>
@@ -227,13 +227,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Book open" width="24.333333969116211" height="24"/>
-        <image name="Chart pie" width="24.333333969116211" height="24"/>
-        <image name="Clipboard list" width="24.333333969116211" height="24"/>
-        <image name="Home" width="24.333333969116211" height="24"/>
+        <image name="Book open" width="25" height="24"/>
+        <image name="Chart pie" width="25" height="24"/>
+        <image name="Home" width="25" height="24"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
-        <image name="date_icon" width="20" height="20"/>
+        <image name="date_icon" width="24" height="24"/>
+        <image name="diet" width="24" height="24"/>
         <namedColor name="gray-50">
             <color red="0.97647058823529409" green="0.98039215686274506" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
@@ -243,15 +243,6 @@
         <namedColor name="indigo-600">
             <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBrownColor">
-            <color red="0.63529411759999999" green="0.51764705879999995" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemFillColor">
-            <color red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGrayColor">
-            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

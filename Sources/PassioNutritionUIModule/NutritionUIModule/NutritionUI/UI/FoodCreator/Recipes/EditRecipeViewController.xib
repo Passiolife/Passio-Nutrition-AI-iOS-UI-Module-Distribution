@@ -18,8 +18,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditRecipeViewController" customModule="PassioNutritionUIModule">
             <connections>
                 <outlet property="cancelButton" destination="Urp-i6-naC" id="MQj-7r-Tt8"/>
+                <outlet property="deleteButton" destination="koa-3P-1in" id="jFp-JU-jf3"/>
                 <outlet property="editRecipeTableView" destination="N9d-x3-Vi1" id="BT5-8m-rQf"/>
-                <outlet property="saveButton" destination="koa-3P-1in" id="xcq-Ev-CRW"/>
+                <outlet property="saveButton" destination="PIB-CR-qwE" id="J4d-2N-ujv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -36,7 +37,7 @@
                     <rect key="frame" x="16" y="762" width="361" height="50"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urp-i6-naC">
-                            <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="50"/>
+                            <rect key="frame" x="0.0" y="0.0" width="109.66666666666667" height="50"/>
                             <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="Cancel">
@@ -58,10 +59,30 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="koa-3P-1in">
-                            <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="50"/>
-                            <color key="backgroundColor" name="indigo-600"/>
+                            <rect key="frame" x="125.66666666666666" y="0.0" width="109.66666666666666" height="50"/>
+                            <color key="backgroundColor" name="red-500"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="hWE-pf-ZUm"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Delete">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onDelete:" destination="-1" eventType="touchUpInside" id="hQy-zy-hXQ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PIB-CR-qwE">
+                            <rect key="frame" x="251.33333333333329" y="0.0" width="109.66666666666666" height="50"/>
+                            <color key="backgroundColor" name="indigo-600"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="IM5-rx-VjW"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -74,7 +95,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="onSave:" destination="-1" eventType="touchUpInside" id="lC9-9p-vrG"/>
+                                <action selector="onSave:" destination="-1" eventType="touchUpInside" id="03f-Sg-LrF"/>
                             </connections>
                         </button>
                     </subviews>
@@ -97,6 +118,9 @@
     <resources>
         <namedColor name="indigo-600">
             <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="red-500">
+            <color red="0.93725490196078431" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
