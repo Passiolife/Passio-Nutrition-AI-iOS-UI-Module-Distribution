@@ -25,6 +25,12 @@ class MyFoodsSelectionViewController: InstantiableViewController {
     private let pageViewController = PageViewController([])
     private var viewControllers: [UIViewController] = []
 
+    var selectedIndex = 0 {
+        didSet {
+            setTabBarIndex(selectedIndex)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -55,16 +61,6 @@ class MyFoodsSelectionViewController: InstantiableViewController {
         indicatorWidthConstraint.constant = ScreenSize.width/2
         indicatorView.backgroundColor = .primaryColor
     }
-}
-
-// MARK: - PageViewDelegate
-extension MyFoodsSelectionViewController: PageViewDelegate {
-
-    func pageController(_ controller: PageViewController, didChangePage page: Int) {
-        pageCollectionView.selectedCellIndexPath = IndexPath(item: page, section: 0)
-        pageCollectionView.reloadData()
-        setTabBarIndex(page)
-    }
 
     // Helper
     private func setTabBarIndex(_ selectedIndex : Int) {
@@ -80,6 +76,16 @@ extension MyFoodsSelectionViewController: PageViewDelegate {
             },
             completion: nil
         )
+    }
+}
+
+// MARK: - PageViewDelegate
+extension MyFoodsSelectionViewController: PageViewDelegate {
+
+    func pageController(_ controller: PageViewController, didChangePage page: Int) {
+        pageCollectionView.selectedCellIndexPath = IndexPath(item: page, section: 0)
+        pageCollectionView.reloadData()
+        setTabBarIndex(page)
     }
 }
 

@@ -16,6 +16,7 @@ class EditRecipeViewController: InstantiableViewController {
 
     private let connector = PassioInternalConnector.shared
     private var isAddIngredient = true
+    private var isReplaceIngredient = true
     private var cachedMaxForSlider: [String: Float] = [:]
 
     private enum EditRecipeCell: String, CaseIterable {
@@ -35,6 +36,7 @@ class EditRecipeViewController: InstantiableViewController {
     var isFromUserFoodsList = false
     var isEditingExistingRecipe = false
     var isFromFoodDetails = false
+    var isShowFoodIcon = false
     var loggedFoodRecord: FoodRecordV3?
 
     weak var delegate: NavigateToDiaryDelegate?
@@ -87,7 +89,7 @@ extension EditRecipeViewController {
         if var recipe, let getRecipeDetailsCell {
 
             recipe.name = recipeName
-            recipe.iconId = recipe.iconId.contains("Recipe") ? recipe.iconId : "Recipe.\(recipe.iconId)"
+            recipe.iconId = recipe.iconId.contains("Recipe") ? recipe.iconId : "Recipe.\(recipe.iconId).\(recipe.createdAt)"
             connector.updateRecipe(record: recipe)
             connector.updateUserFoodImage(
                 with: recipe.iconId,
@@ -113,7 +115,7 @@ extension EditRecipeViewController {
                     DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 0.2) {
                         self.connector.updateRecord(foodRecord: recipe)
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         self.navigationController?.popToSpecificViewController(HomeTabBarController.self)
                     }
 
@@ -183,7 +185,7 @@ extension EditRecipeViewController {
         recipe = tempFoodRecord
     }
 
-    @objc func addIngredients() {
+    @objc func onAddIngredients() {
         isAddIngredient = true
         let plusMenuVC = PlusMenuViewController()
         plusMenuVC.menuData = [.search]
@@ -224,7 +226,7 @@ extension EditRecipeViewController {
         slider.minimumValue = 0.0
         guard let foodRecord = recipe,
               foodRecord.ingredients.count > 0,
-              foodRecord.selectedQuantity > 0 else { return(100, UnitsTexts.gram, "100") }
+              foodRecord.selectedQuantity > 0 else { return(100, UnitsTexts.cGrams, "100") }
         let sliderMultiplier: Float = 5.0
         let maxSliderFromData = Float(1) * sliderMultiplier
         let currentValue = Float(foodRecord.selectedQuantity)
@@ -274,19 +276,27 @@ extension EditRecipeViewController {
         }
     }
 
-    private func createRecipe(from item: PassioFoodItem?, record: FoodRecordV3?) {
+    private func createRecipe(from item: PassioFoodItem?,
+                              record: FoodRecordV3?,
+                              isPlusAction: Bool) {
         if let item {
-            var record = FoodRecordV3(foodItem: item,
-                                      barcode: "",
-                                      scannedWeight: nil,
-                                      entityType: .recipe,
-                                      confidence: nil)
+            var record = FoodRecordV3(foodItem: item, entityType: .recipe)
+            if !isPlusAction {
+                goToEditIngredient(foodRecordIngredient: FoodRecordIngredient(foodRecord: record),
+                                   indexOfIngredient: 0)
+            }
             record.name = recipeName
             record.iconId = item.iconId
+            record.updateServingSizeAndUnitsForRecipe()
             recipe = record
         } else if var record {
+            if !isPlusAction {
+                goToEditIngredient(foodRecordIngredient: FoodRecordIngredient(foodRecord: record),
+                                   indexOfIngredient: 0)
+            }
             record.name = recipeName
             record.ingredients[0].iconId = record.iconId
+            record.updateServingSizeAndUnitsForRecipe()
             recipe = record
         }
     }
@@ -314,7 +324,7 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueCell(cellClass: RecipeDetailsCell.self,
                                              forIndexPath: indexPath)
             if let recipe {
-                cell.configureCell(with: recipe, isCreate: isCreate)
+                cell.configureCell(with: recipe, isShowFoodIcon: isShowFoodIcon)
             }
             cell.recipeName = { [weak self] (recipeName) in
                 guard let self else { return }
@@ -349,7 +359,7 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
             cell.makeRecipeWidthConstraint.constant = 30
             cell.makeRecipeButton.setImage(UIImage(systemName: "plus"), for: .normal)
             cell.makeRecipeButton.addTarget(self,
-                                                action: #selector(addIngredients),
+                                                action: #selector(onAddIngredients),
                                                 for: .touchUpInside)
             return cell
 
@@ -451,14 +461,11 @@ extension EditRecipeViewController: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if let textGerman = textField.text {
-            let text = textGerman.replacingOccurrences(of: ",", with: ".")
-            if let quantity = Double(text),
-               var tempfoodRecord = recipe {
-                _ = tempfoodRecord.setFoodRecordServing(unit: tempfoodRecord.selectedUnit,
-                                                        quantity: quantity)
-                recipe = tempfoodRecord
-            }
+        if let quantity = Double(textField.replaceCommaWithDot),
+           var tempRecipe = recipe {
+            _ = tempRecipe.setFoodRecordServing(unit: tempRecipe.selectedUnit,
+                                                quantity: quantity)
+            recipe = tempRecipe
         }
         editRecipeTableView.reloadData()
     }
@@ -482,15 +489,15 @@ extension EditRecipeViewController: PlusMenuDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func onScanSelected() {}
+    func onFoodScannerSelected() {}
 
     func onFavouritesSelected() {}
 
     func onVoiceLoggingSelected() {}
 
-    func takePhotosSelected() {}
+    func onTakePhotosSelected() {}
 
-    func selectPhotosSelected() {}
+    func onSelectPhotosSelected() {}
 }
 
 // MARK: - AdvancedTextSearch ViewDelegate
@@ -499,21 +506,25 @@ extension EditRecipeViewController: AdvancedTextSearchViewDelegate {
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
 
         if let item, let recipe {
+            isReplaceIngredient = false
             updateRecipe(for: FoodRecordV3(foodItem: item),
                          isPlusAction: isPlusAction,
                          indexOfIngredient: recipe.ingredients.count)
         } else if let item {
-            createRecipe(from: item, record: nil)
+            isReplaceIngredient = !isPlusAction
+            createRecipe(from: item, record: nil, isPlusAction: isPlusAction)
         }
     }
 
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         if let record, let recipe {
+            isReplaceIngredient = false
             updateRecipe(for: record,
                          isPlusAction: isPlusAction,
                          indexOfIngredient: recipe.ingredients.count)
         } else if let record {
-            createRecipe(from: nil, record: record)
+            isReplaceIngredient = !isPlusAction
+            createRecipe(from: nil, record: record, isPlusAction: isPlusAction)
         }
     }
 }
@@ -522,7 +533,7 @@ extension EditRecipeViewController: AdvancedTextSearchViewDelegate {
 extension EditRecipeViewController: IngredientEditorViewDelegate {
 
     func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
-        if isAddIngredient {
+        if isAddIngredient, !isReplaceIngredient {
             recipe?.addIngredient(ingredient: ingredient)
         } else {
             recipe?.replaceIngredient(updatedIngredient: ingredient, atIndex: atIndex)

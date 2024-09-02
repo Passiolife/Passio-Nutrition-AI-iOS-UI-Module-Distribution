@@ -28,10 +28,12 @@ class CreateFoodAlertViewController: InstantiableViewController {
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var uponLogLabel: UILabel!
     @IBOutlet weak var logSwitch: UISwitch!
-
+    @IBOutlet weak var updateLogStackView: UIStackView!
+    
     var isUserFood = false
     var isUserRecipe = false
     var isRecipe = false
+    var isHideLogSwitch = false
 
     weak var delegate: CreateFoodAlertDelegate?
 
@@ -56,6 +58,8 @@ class CreateFoodAlertViewController: InstantiableViewController {
     }
 
     private func setTitleAndButtons() {
+
+        updateLogStackView.isHidden = isHideLogSwitch
 
         if isRecipe {
             titleLabel.text = isUserRecipe ? RecipeTexts.createOrEditUserRecipeTitle : RecipeTexts.createUserRecipeTitle

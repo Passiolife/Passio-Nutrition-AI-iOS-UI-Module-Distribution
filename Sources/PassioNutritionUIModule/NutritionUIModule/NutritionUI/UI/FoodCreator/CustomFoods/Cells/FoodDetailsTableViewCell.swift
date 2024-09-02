@@ -45,8 +45,10 @@ final class FoodDetailsTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        backgroundShadowView.layer.shadowPath = UIBezierPath(roundedRect: backgroundShadowView.bounds,
-                                                             cornerRadius: 8).cgPath
+        DispatchQueue.main.async { [self] in
+            backgroundShadowView.layer.shadowPath = UIBezierPath(roundedRect: backgroundShadowView.bounds,
+                                                                 cornerRadius: 8).cgPath
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

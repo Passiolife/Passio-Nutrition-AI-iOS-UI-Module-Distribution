@@ -155,7 +155,7 @@ final class OtherNutritionsTableViewCell: UITableViewCell {
         if let text,
            !text.contains("-"),
            let textValue = Double(text.separateStringUsingSpace.0 ?? ""),
-           textValue != 0 {
+           textValue != 0.000000 {
             textField.text = text
             addedNutrients.append(title)
             manageNutrientViews(selectedIndex: index, text: text, isHidden: false)

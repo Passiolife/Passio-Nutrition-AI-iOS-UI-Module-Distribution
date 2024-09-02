@@ -71,6 +71,7 @@ extension UITextField {
     }
 
     var replaceCommaWithDot: String {
-        text?.replacingOccurrences(of: ",", with: ".") ?? ""
+        let matchedComma = [",", "，", "、", "٬", "٫"].first(where: { (text ?? "").contains($0) }) ?? ""
+        return text?.replacingOccurrences(of: matchedComma, with: ".") ?? ""
     }
 }

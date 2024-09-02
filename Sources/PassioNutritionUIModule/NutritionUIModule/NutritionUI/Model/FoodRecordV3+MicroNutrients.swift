@@ -13,9 +13,10 @@ typealias MeasurementValue = (value: Double, unit: String)
 // MARK: MicroNutrients
 extension FoodRecordV3 {
 
-    private func getMeasurement(for nutrient: [Measurement<UnitMass>?]) -> MeasurementValue {
+    private func getMeasurement(for nutrient: [Measurement<UnitMass>?],
+                                unit: String = UnitsTexts.g) -> MeasurementValue {
         return (value: nutrient.map { $0?.value ?? 0 }.reduce(0.0, +).roundDigits(afterDecimal: 2),
-                unit: nutrient.first??.unit.symbol ?? UnitsTexts.g)
+                unit: nutrient.first??.unit.symbol ?? unit)
     }
 
     var totalSugar: MeasurementValue {
@@ -43,11 +44,11 @@ extension FoodRecordV3 {
     }
 
     var cholesterol: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.cholesterol() })
+        getMeasurement(for: ingredients.map { $0.nutrients.cholesterol() }, unit: UnitsTexts.mg)
     }
 
     var sodium: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.sodium() })
+        getMeasurement(for: ingredients.map { $0.nutrients.sodium() }, unit: UnitsTexts.mg)
     }
 
     var fibers: MeasurementValue {
@@ -55,19 +56,19 @@ extension FoodRecordV3 {
     }
 
     var vitaminD: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.vitaminD() })
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminD() }, unit: UnitsTexts.mcg)
     }
 
     var calcium: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.calcium() })
+        getMeasurement(for: ingredients.map { $0.nutrients.calcium() }, unit: UnitsTexts.mg)
     }
 
     var iron: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.iron() })
+        getMeasurement(for: ingredients.map { $0.nutrients.iron() }, unit: UnitsTexts.mg)
     }
 
     var potassium: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.potassium() })
+        getMeasurement(for: ingredients.map { $0.nutrients.potassium() }, unit: UnitsTexts.mg)
     }
 
     var vitaminA: Double {
@@ -75,7 +76,7 @@ extension FoodRecordV3 {
     }
 
     var vitaminC: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.vitaminC() })
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminC() }, unit: UnitsTexts.mg)
     }
 
     var alcohol: MeasurementValue {
@@ -87,43 +88,47 @@ extension FoodRecordV3 {
     }
 
     var vitaminB12: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.vitaminB12() })
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminB12() }, unit: UnitsTexts.mcg)
     }
 
     var vitaminB6: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.vitaminB6() })
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminB6() }, unit: UnitsTexts.mg)
     }
 
     var vitaminE: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.vitaminE() })
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminE() }, unit: UnitsTexts.mg)
     }
 
     var magnesium: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.magnesium() })
+        getMeasurement(for: ingredients.map { $0.nutrients.magnesium() }, unit: UnitsTexts.mg)
     }
 
     var phosphorus: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.phosphorus() })
+        getMeasurement(for: ingredients.map { $0.nutrients.phosphorus() }, unit: UnitsTexts.mg)
     }
 
     var iodine: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.iodine() })
+        getMeasurement(for: ingredients.map { $0.nutrients.iodine() }, unit: UnitsTexts.mcg)
     }
 
     var selenium: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.selenium() })
+        getMeasurement(for: ingredients.map { $0.nutrients.selenium() }, unit: UnitsTexts.mcg)
     }
 
     var zinc: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.zinc() })
+        getMeasurement(for: ingredients.map { $0.nutrients.zinc() }, unit: UnitsTexts.mg)
     }
 
     var folicAcid: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.folicAcid() })
+        getMeasurement(for: ingredients.map { $0.nutrients.folicAcid() }, unit: UnitsTexts.mcg)
     }
 
     var chromium: MeasurementValue {
-        getMeasurement(for: ingredients.map { $0.nutrients.chromium() })
+        getMeasurement(for: ingredients.map { $0.nutrients.chromium() }, unit: UnitsTexts.mcg)
+    }
+
+    var getAllNutrients: [MicroNutirents] {
+        [MicroNutirents]()
     }
 }
 

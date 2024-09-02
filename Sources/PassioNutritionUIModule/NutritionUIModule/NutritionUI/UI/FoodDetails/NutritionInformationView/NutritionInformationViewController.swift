@@ -1,6 +1,6 @@
 //
 //  NutritionInformationViewController.swift
-//  
+//
 //
 //  Created by Nikunj Prajapati on 21/08/24.
 //
@@ -28,7 +28,7 @@ class NutritionInformationViewController: InstantiableViewController {
     @IBOutlet weak var barcodeValueLabel: UILabel!
     @IBOutlet weak var foodImageView: UIImageView!
     @IBOutlet weak var nutritionInfoCollectionView: UICollectionView!
-    
+
     var foodData: FoodData? {
         didSet {
             setFoodData()
@@ -62,15 +62,15 @@ class NutritionInformationViewController: InstantiableViewController {
                                       shadowRadius: 2,
                                       shadowOpacity: 1)
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         DispatchQueue.main.async { [self] in
             foodInfoView.layer.shadowPath = UIBezierPath(roundedRect: foodInfoView.bounds,
-                                                                cornerRadius: 8).cgPath
-            pleaseNoteInfoView.layer.shadowPath = UIBezierPath(roundedRect: pleaseNoteInfoView.bounds,
                                                          cornerRadius: 8).cgPath
+            pleaseNoteInfoView.layer.shadowPath = UIBezierPath(roundedRect: pleaseNoteInfoView.bounds,
+                                                               cornerRadius: 8).cgPath
         }
     }
 
@@ -80,7 +80,7 @@ class NutritionInformationViewController: InstantiableViewController {
             if foodData.barcode != "" {
                 barcodeValueLabel.text = "UPC: \(foodData.barcode)"
             } else {
-                barcodeValueLabel.text = ""
+                barcodeValueLabel.isHidden = true
             }
             foodImageView.image = foodData.icon
             nutritionInfoCollectionView.reloadData()
@@ -98,7 +98,7 @@ extension NutritionInformationViewController: UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         foodData?.nutritionInfo.count ?? 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueCell(cellClass: NutritionInfoCollectionViewCell.self,

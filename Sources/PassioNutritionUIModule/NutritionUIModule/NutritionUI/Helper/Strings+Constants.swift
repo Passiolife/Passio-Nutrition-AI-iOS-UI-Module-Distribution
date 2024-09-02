@@ -43,11 +43,14 @@ public struct ButtonTexts {
 }
 
 public struct UnitsTexts {
-    public static let gram = "Grams"
+    public static let cGrams = "Grams"
+    public static let grams = "grams"
+    public static let gram = "gram"
     public static let g = "g"
     public static let mg = "mg"
-    public static let mcg = "mcg"
+    public static let mcg = "μg"
     public static let iu = "IU"
+    public static let cal = "cal"
 }
 
 public struct NutritionsTexts {

@@ -9,23 +9,23 @@
 import UIKit
 
 protocol PlusMenuDelegate: AnyObject {
-    func onScanSelected()
+    func onFoodScannerSelected()
     func onSearchSelected()
     func onFavouritesSelected()
     func onMyFoodsSelected()
     func onVoiceLoggingSelected()
-    func takePhotosSelected()
-    func selectPhotosSelected()
+    func onTakePhotosSelected()
+    func onSelectPhotosSelected()
 }
 
 extension PlusMenuDelegate {
-    func onScanSelected() { }
+    func onFoodScannerSelected() { }
     func onSearchSelected() { }
     func onFavouritesSelected() { }
     func onMyFoodsSelected() { }
     func onVoiceLoggingSelected() { }
-    func takePhotosSelected() { }
-    func selectPhotosSelected() { }
+    func onTakePhotosSelected() { }
+    func onSelectPhotosSelected() { }
 }
 
 final class PlusMenuViewController: InstantiableViewController {
@@ -171,7 +171,7 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         case .favourite:
             delegate?.onFavouritesSelected()
         case .scan:
-            delegate?.onScanSelected()
+            delegate?.onFoodScannerSelected()
         case .search:
             delegate?.onSearchSelected()
         case .myFoods:
@@ -179,9 +179,9 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         case .voiceLogging:
             delegate?.onVoiceLoggingSelected()
         case .takePhotos:
-            delegate?.takePhotosSelected()
+            delegate?.onTakePhotosSelected()
         case .selectPhotos:
-            delegate?.selectPhotosSelected()
+            delegate?.onSelectPhotosSelected()
         case .useImage:
             menuData = menuData.filter { $0 == .takePhotos || $0 == .selectPhotos }
             menuTableView.reloadWithAnimations(withDuration: 0.12)

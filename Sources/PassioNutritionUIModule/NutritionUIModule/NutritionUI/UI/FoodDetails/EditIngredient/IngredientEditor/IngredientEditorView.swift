@@ -181,7 +181,7 @@ extension IngredientEditorView: UITableViewDataSource {
     (quantity: Double, unitName: String, weight: String) {
         slider.minimumValue = 0.0
         slider.tag = tableRowOrCollectionTag
-        guard let foodItemData = foodRecordIngredient else { return(100, UnitsTexts.gram, "100") }
+        guard let foodItemData = foodRecordIngredient else { return(100, UnitsTexts.cGrams, "100") }
         let sliderMultiplier: Float = 5.0
         let maxSliderFromData = Float(1) * sliderMultiplier
         let currentValue = Float(foodItemData.selectedQuantity)
@@ -257,14 +257,11 @@ extension IngredientEditorView: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         frame.origin.y += 180
-        if let textGerman = textField.text {
-            let text = textGerman.replacingOccurrences(of: ",", with: ".")
-            if let quantity = Double(text),
-               var tempfoodItemData = foodRecordIngredient {
-                _ = tempfoodItemData.setFoodIngredientServing(unit: tempfoodItemData.selectedUnit,
-                                                                quantity: quantity)
-                foodRecordIngredient = tempfoodItemData
-            }
+        if let quantity = Double(textField.replaceCommaWithDot),
+           var tempfoodItemData = foodRecordIngredient {
+            _ = tempfoodItemData.setFoodIngredientServing(unit: tempfoodItemData.selectedUnit,
+                                                          quantity: quantity)
+            foodRecordIngredient = tempfoodItemData
         }
         tableView.reloadData()
     }

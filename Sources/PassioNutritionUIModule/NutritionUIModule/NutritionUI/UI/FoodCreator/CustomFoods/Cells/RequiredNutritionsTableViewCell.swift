@@ -260,7 +260,11 @@ extension RequiredNutritionsTableViewCell: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
 
         switch textField {
-        case servingSizeTextField, unitsTextField:
+
+        case servingSizeTextField:
+            servingSizeTextField.text = servingSizeTextField.replaceCommaWithDot
+
+        case unitsTextField:
             break
 
         case weightTextField:

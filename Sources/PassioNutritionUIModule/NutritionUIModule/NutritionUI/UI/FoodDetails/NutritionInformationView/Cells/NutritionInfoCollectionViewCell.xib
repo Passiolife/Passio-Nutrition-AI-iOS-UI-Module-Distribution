@@ -35,33 +35,28 @@
                                 <color key="textColor" name="gray-900"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="g" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="slT-sH-iml">
-                                <rect key="frame" x="88" y="80.666666666666671" width="9.3333333333333286" height="18.666666666666671"/>
-                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
-                                <color key="textColor" name="gray-500"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000.00" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lx9-3o-jsd">
+                                <rect key="frame" x="16" y="74" width="92" height="26"/>
+                                <fontDescription key="fontDescription" name="Inter-ExtraBold" family="Inter" pointSize="30"/>
+                                <color key="textColor" name="indigo-600"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lx9-3o-jsd">
-                                <rect key="frame" x="50.333333333333343" y="74" width="33.666666666666657" height="26"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="10">
-                                        <attributes>
-                                            <color key="NSColor" name="indigo-600"/>
-                                            <font key="NSFont" size="30" name="Inter-ExtraBold"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="g" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="slT-sH-iml">
+                                <rect key="frame" x="112" y="80.666666666666671" width="6" height="18.666666666666671"/>
+                                <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
+                                <color key="textColor" name="gray-500"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="TEf-Oi-ZTw" firstAttribute="top" secondItem="hGq-ef-QCb" secondAttribute="top" constant="16" id="BgB-jk-K3g"/>
+                            <constraint firstItem="Lx9-3o-jsd" firstAttribute="leading" secondItem="TEf-Oi-ZTw" secondAttribute="leading" id="CFt-lV-CGN"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="slT-sH-iml" secondAttribute="trailing" constant="16" id="Fj1-3d-dA8"/>
                             <constraint firstItem="TEf-Oi-ZTw" firstAttribute="leading" secondItem="hGq-ef-QCb" secondAttribute="leading" constant="16" id="KNQ-7m-sJ0"/>
                             <constraint firstItem="slT-sH-iml" firstAttribute="centerY" secondItem="Lx9-3o-jsd" secondAttribute="centerY" constant="3" id="Mx4-0i-9nu"/>
                             <constraint firstItem="Lx9-3o-jsd" firstAttribute="top" secondItem="TEf-Oi-ZTw" secondAttribute="bottom" constant="16" id="NKL-28-09E"/>
                             <constraint firstAttribute="trailing" secondItem="TEf-Oi-ZTw" secondAttribute="trailing" constant="16" id="SvI-Um-VT7"/>
-                            <constraint firstItem="Lx9-3o-jsd" firstAttribute="centerX" secondItem="hGq-ef-QCb" secondAttribute="centerX" id="TKM-Du-sHs"/>
                             <constraint firstAttribute="bottom" secondItem="Lx9-3o-jsd" secondAttribute="bottom" constant="16" id="Vut-wX-L1F"/>
                             <constraint firstItem="slT-sH-iml" firstAttribute="leading" secondItem="Lx9-3o-jsd" secondAttribute="trailing" constant="4" id="b84-TI-v0c"/>
                         </constraints>

@@ -35,7 +35,7 @@
                                 <color key="textColor" name="gray-900"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Yz-4i-NuH">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Yz-4i-NuH">
                                 <rect key="frame" x="16" y="16" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="1M4-YX-VpZ"/>
@@ -91,7 +91,7 @@
                 <outlet property="labelName" destination="iY4-2V-gn5" id="2Ci-Uk-Y6X"/>
                 <outlet property="labelServing" destination="ynZ-ZT-66q" id="YYF-ud-93B"/>
             </connections>
-            <point key="canvasLocation" x="-838.40579710144937" y="-133.59375"/>
+            <point key="canvasLocation" x="-82" y="-65"/>
         </tableViewCell>
     </objects>
     <resources>

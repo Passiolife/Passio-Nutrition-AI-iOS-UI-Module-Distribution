@@ -14,7 +14,7 @@ public class NutritionUICoordinator {
                            controllerName: HomeTabBarController.className) as! HomeTabBarController
     }
 
-    class func getScanningViewController() -> FoodRecognitionV3ViewController {
+    class func getFoodRecognitionV3ViewController() -> FoodRecognitionV3ViewController {
         loadViewController(storyboardName: "FoodRecognisation",
                            controllerName: FoodRecognitionV3ViewController.className) as! FoodRecognitionV3ViewController
     }

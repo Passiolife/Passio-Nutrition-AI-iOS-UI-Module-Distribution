@@ -17,6 +17,9 @@ protocol FoodDataSetCellDelegate: AnyObject {
 protocol NavigateToDiaryDelegate: AnyObject {
     func onSaveNavigateToDiary(isUpdateLog: Bool)
 }
+protocol NavigateToMyFoodsDelegate: AnyObject {
+    func onNavigateToMyFoods()
+}
 
 final class CreateFoodViewController: InstantiableViewController {
 
@@ -46,15 +49,16 @@ final class CreateFoodViewController: InstantiableViewController {
     var isEditingExistingFood = false
     var isUpdateLog = true
     var isFromNutritionFacts = false
+    var isBarcodeExistInFoodList = false
+
     var foodRecord: FoodRecordV3? {
         didSet {
-            DispatchQueue.main.async {
-                self.createFoodTableView.reloadData()
-            }
+            configureUserFood()
         }
     }
 
     weak var delegate: NavigateToDiaryDelegate?
+    weak var navigateToMyFoodsDelegate: NavigateToMyFoodsDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,7 +112,13 @@ final class CreateFoodViewController: InstantiableViewController {
 
             if isCreateNewFood {
                 createNewFoodRecord(foodDetails: foodDetails)
-                navigationController?.popViewController(animated: true)
+                if isFromNutritionFacts {
+                    navigateToMyFoodsDelegate?.onNavigateToMyFoods()
+                    navigationController?.popViewController(animated: true)
+                } else {
+                    navigationController?.popViewController(animated: true)
+                }
+
             } else {
                 editSaveFoodRecord(foodDetails: foodDetails)
             }
@@ -149,7 +159,7 @@ extension CreateFoodViewController {
             var record = FoodRecordV3(foodItem: foodItem,
                                       barcode: foodDetails.barcode ?? "",
                                       entityType: .item)
-            record.iconId = record.iconId.contains("userFood") ? record.iconId : "userFood.\(record.iconId)"
+            record.iconId = record.iconId.contains("userFood") ? record.iconId : "userFood.\(record.iconId).\(record.createdAt)"
             connector.updateUserFood(record: record)
             connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image.get180pImage)
         }
@@ -225,6 +235,33 @@ extension CreateFoodViewController {
         navigationController?.pushViewController(barcodeRecogniserVC, animated: true)
     }
 
+    private func configureUserFood() {
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            guard let self else { return }
+            checkIsBarcodeAlreadyExistsForAFood { isBarcodeExist in
+                self.isBarcodeExistInFoodList = isBarcodeExist
+                DispatchQueue.main.async {
+                    self.createFoodTableView.reloadData()
+                }
+            }
+        }
+    }
+
+    private func checkIsBarcodeAlreadyExistsForAFood(completion: @escaping (Bool) -> Void) {
+
+        if let barcode = foodRecord?.barcode, barcode != "" {
+            connector.fetchUserFoods(barcode: barcode) { userFoods in
+                if let matcedFood = userFoods.first {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+        } else {
+            completion(false)
+        }
+    }
+
     private var getFoodDataSet: NutritionFactsDataSet {
         if isCreateNewFood {
             foodDataSet ?? NutritionFactsDataSet(nutritionFacts: PassioNutritionFacts())
@@ -277,8 +314,9 @@ extension CreateFoodViewController: UITableViewDataSource {
         case .foodDetailsTableViewCell:
             let cell = tableView.dequeueCell(cellClass: FoodDetailsTableViewCell.self, forIndexPath: indexPath)
             if !isCreateNewFood, let foodRecord {
+                
                 cell.configureCell(with: foodRecord,
-                                   barcode: !isEditingExistingFood && !isFromCustomFoodList ? "" : foodRecord.barcode)
+                                   barcode: isBarcodeExistInFoodList && !isEditingExistingFood ? "" : foodRecord.barcode)
             }
             cell.onBarcode = { [weak self] in
                 self?.navigateToBarcodeViewController()

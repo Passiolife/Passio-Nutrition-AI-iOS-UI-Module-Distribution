@@ -16,6 +16,7 @@ protocol FoodDetailsControllerDelegate: AnyObject {
 }
 
 extension FoodDetailsControllerDelegate {
+    func deleteFromEdit(foodRecord: FoodRecordV3) { }
     func navigateToMyFoods(index: Int) { }
 }
 
@@ -35,6 +36,7 @@ final class FoodDetailsViewController: UIViewController {
     var foodRecord: FoodRecordV3?
     var isEditingFavorite = false
     var isEditingRecord = false
+    var isFromSearch = false
     var isFromCustomFoodList = false
     var isFromBarcode = false
     var isFromRecipeList = false
@@ -68,12 +70,12 @@ final class FoodDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        fetchUserFoods(isDone: { (_, _) in })
-        fetchRecipes(isDone: { (_, _) in })
+        guard let foodRecord = foodRecord else { return }
 
         foodDetailsView?.frame = view.bounds
 
-        guard let foodRecord = foodRecord else { return }
+        fetchUserFoods(completion: { _ in })
+        fetchRecipes(completion: { _ in })
 
         isRecipe = foodRecord.entityType == .recipe && foodRecord.ingredients.count > 1
 
@@ -87,15 +89,18 @@ final class FoodDetailsViewController: UIViewController {
 private extension FoodDetailsViewController {
 
     func setupRightNavigationButton() {
-        let rightButton = UIBarButtonItem(image: UIImage.imageFromBundle(named: "edit_icon"),
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(onEditFood))
+        let editFoodAction = UIAction(title: "") { [weak self] (action) in
+            self?.onEditFood(isEditFood: true)
+        }
+        let rightButton = UIBarButtonItem(title: "",
+                                          image: UIImage.imageFromBundle(named: "edit_icon"),
+                                          primaryAction: editFoodAction,
+                                          menu: nil)
         rightButton.tintColor = .gray400
         navigationItem.rightBarButtonItem = rightButton
     }
 
-    @objc func onEditFood() {
+    func onEditFood(isEditFood: Bool) {
 
         if let foodRecord {
 
@@ -111,32 +116,30 @@ private extension FoodDetailsViewController {
                 }
 
             } else {
+
+                isMakeRecipe = !isEditFood && !isRecipe
+
                 activityIndicator?.startAnimating()
                 let createFoodAlertVC = CreateFoodAlertViewController()
                 createFoodAlertVC.delegate = self
+                createFoodAlertVC.isHideLogSwitch = !isEditingRecord
 
                 if isRecipe || isMakeRecipe {
-                    fetchRecipes { [weak self] (isRecipe, recipes) in
-                        guard let self else { return }
-                        if isRecipe,
-                           let matchedRecipe = recipes?.filter({ $0.refCode == foodRecord.refCode }).first {
-                               recipe = matchedRecipe
-                               createFoodAlertVC.isUserRecipe = true
-                        }
-                        createFoodAlertVC.isRecipe = true
-                        showCreateFoodAlert(createFoodAlertVC: createFoodAlertVC)
+
+                    createFoodAlertVC.isRecipe = true
+
+                    if let _ = recipe {
+                        createFoodAlertVC.isUserRecipe = true
+                    } else if isMakeRecipe, let _ = userFood {
+                        createFoodAlertVC.isUserRecipe = false
                     }
+                    showCreateFoodAlert(createFoodAlertVC: createFoodAlertVC)
 
                 } else {
-                    fetchUserFoods { [weak self] (isUserFood, userFoods) in
-                        guard let self else { return }
-                        if isUserFood,
-                           let matchUserFood = userFoods {
-                               userFood = matchUserFood
-                               createFoodAlertVC.isUserFood = true
-                           }
-                        showCreateFoodAlert(createFoodAlertVC: createFoodAlertVC)
+                    if let _ = userFood {
+                        createFoodAlertVC.isUserFood = true
                     }
+                    showCreateFoodAlert(createFoodAlertVC: createFoodAlertVC)
                 }
             }
         }
@@ -152,20 +155,60 @@ private extension FoodDetailsViewController {
         }
     }
 
-    func fetchUserFoods(isDone: @escaping (Bool, FoodRecordV3?) -> Void) {
+    func fetchUserFoods(completion: @escaping (FoodRecordV3?) -> Void) {
+
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+
             guard let self else { return }
-            connector.fetchUserFoods(refCode: foodRecord?.refCode ?? "") { userFoods in
-                isDone(userFoods.count > 0, userFoods.first)
+
+            if let foodRecord {
+                if foodRecord.refCode != "" {
+                    connector.fetchUserFoods(refCode: foodRecord.refCode) { [weak self] userFoods in
+                        guard let self,
+                              let matchedUserFood = userFoods.first else {
+                            completion(nil)
+                            return
+                        }
+                        self.userFood = matchedUserFood
+                        completion(matchedUserFood)
+                    }
+                } else {
+                    connector.fetchAllUserFoodsMatching(name: foodRecord.name) { [weak self] userFoods in
+                        guard let self,
+                              let matchedUserFood = userFoods.first else {
+                            completion(nil)
+                            return
+                        }
+                        self.userFood = matchedUserFood
+                        completion(matchedUserFood)
+                    }
+                }
+            } else {
+                completion(nil)
             }
         }
     }
 
-    func fetchRecipes(isDone: @escaping (Bool, [FoodRecordV3]?) -> Void) {
+    func fetchRecipes(completion: @escaping (FoodRecordV3?) -> Void) {
+
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+
             guard let self else { return }
-            connector.fetchRecipes { recipes in
-                isDone(recipes.count > 0, recipes)
+
+            if let foodRecord {
+                connector.fetchRecipes { [weak self] recipes in
+                    guard let self,
+                          let matchedRecipe = recipes.filter({ $0.refCode == foodRecord.refCode }).first else {
+                        completion(nil)
+                        return
+                    }
+                    if foodRecord.entityType == .recipe {
+                        self.recipe = matchedRecipe
+                    }
+                    completion(matchedRecipe)
+                }
+            } else {
+                completion(nil)
             }
         }
     }
@@ -192,7 +235,8 @@ private extension FoodDetailsViewController {
                               loggedFoodRecord: FoodRecordV3? = nil,
                               vcTitle: String,
                               isFromCustomFood: Bool = false,
-                              isEditingExistingRecipe: Bool) {
+                              isEditingExistingRecipe: Bool,
+                              isShowFoodIcon: Bool = true) {
 
         let editRecipeVC = EditRecipeViewController()
         editRecipeVC.vcTitle = vcTitle
@@ -201,9 +245,11 @@ private extension FoodDetailsViewController {
         editRecipeVC.isFromRecipeList = isFromRecipeList
         editRecipeVC.isFromUserFoodsList = isFromCustomFood
         editRecipeVC.isFromFoodDetails = true
+        editRecipeVC.isShowFoodIcon = isShowFoodIcon
         editRecipeVC.loadViewIfNeeded()
         editRecipeVC.recipe = record
         editRecipeVC.loggedFoodRecord = loggedFoodRecord
+        editRecipeVC.delegate = self
         navigationController?.pushViewController(editRecipeVC, animated: true)
     }
 }
@@ -251,13 +297,17 @@ extension FoodDetailsViewController: FoodDetailsDelegate {
 
     func onMakeRecipe() {
         if isFromCustomFoodList {
-            navigateToEditRecipe(with: foodRecord,
+            var recipeFoodRecord = foodRecord
+            let iconId = foodRecord?.iconId ?? ""
+            recipeFoodRecord?.name = ""
+            recipeFoodRecord?.ingredients[0].iconId = iconId
+            navigateToEditRecipe(with: recipeFoodRecord,
                                  vcTitle: RecipeTexts.createRecipe,
                                  isFromCustomFood: true,
-                                 isEditingExistingRecipe: false)
+                                 isEditingExistingRecipe: false,
+                                 isShowFoodIcon: false)
         } else {
-            isMakeRecipe = true
-            onEditFood()
+            onEditFood(isEditFood: false)
         }
     }
 }
@@ -266,11 +316,25 @@ extension FoodDetailsViewController: FoodDetailsDelegate {
 extension FoodDetailsViewController: CreateFoodAlertDelegate {
 
     func onCreate() {
+        var recipeFoodRecord = foodRecord
         if isRecipe || isMakeRecipe {
-            navigateToEditRecipe(with: foodRecord,
+            if isMakeRecipe {
+                let iconId = foodRecord?.iconId ?? ""
+                recipeFoodRecord?.name = ""
+                recipeFoodRecord?.ingredients[0].iconId = iconId
+                recipeFoodRecord?.updateServingSizeAndUnitsForRecipe()
+            } else if isFromSearch {
+                isUpdateLogUponCreating = false
+                recipeFoodRecord?.updateServingSizeAndUnitsForRecipe()
+            }
+            navigateToEditRecipe(with: recipeFoodRecord,
                                  vcTitle: RecipeTexts.createRecipe,
-                                 isEditingExistingRecipe: false)
+                                 isEditingExistingRecipe: false,
+                                 isShowFoodIcon: !isMakeRecipe)
         } else {
+            if isFromSearch {
+                isUpdateLogUponCreating = false
+            }
             navigateToCreateFood(with: foodRecord,
                                  isFromCustomFoodsList: false,
                                  isEditingExistingFood: false)
@@ -280,6 +344,7 @@ extension FoodDetailsViewController: CreateFoodAlertDelegate {
     func onEdit() {
         if isRecipe, let recipe {
             navigateToEditRecipe(with: recipe,
+                                 loggedFoodRecord: foodRecord,
                                  vcTitle: RecipeTexts.editRecipe,
                                  isEditingExistingRecipe: true)
 
@@ -352,13 +417,12 @@ extension FoodDetailsViewController: AdvancedTextSearchViewDelegate {
     }
 }
 
-
 // MARK: - CreateFood Delegate
 extension FoodDetailsViewController: NavigateToDiaryDelegate {
 
     func onSaveNavigateToDiary(isUpdateLog: Bool) {
         if !isUpdateLog {
-            foodDetailsControllerDelegate?.navigateToMyFoods(index: 0)
+            foodDetailsControllerDelegate?.navigateToMyFoods(index: isRecipe || isMakeRecipe ? 1 : 0)
         }
     }
 }
