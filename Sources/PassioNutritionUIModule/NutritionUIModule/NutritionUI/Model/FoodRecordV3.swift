@@ -53,8 +53,7 @@ public struct FoodRecordV3: Codable, Equatable {
     public let confidence: Double?
 
     public var isOpenFood: Bool {
-        //openFoodLicense == "" ? false : true
-        self.ingredients.first(where: {$0.isOpenFood}) != nil
+        self.ingredients.first(where: { $0.isOpenFood }) != nil
     }
 
     public var totalCalories: Double {
@@ -72,7 +71,7 @@ public struct FoodRecordV3: Codable, Equatable {
     public var totalFat: Double {
         ingredients.map { $0.totalFat }.reduce(0.0, +).roundDigits(afterDecimal: 1)
     }
-    
+
     public var totalFiber: Double {
         ingredients.map { $0.totalFiber }.reduce(0.0, +).roundDigits(afterDecimal: 1)
     }
@@ -91,11 +90,11 @@ public struct FoodRecordV3: Codable, Equatable {
     }
 
     // MARK: init
-    init(foodItem: PassioFoodItem,
-         barcode: String = "",
-         scannedWeight: Double? = nil,
-         entityType: PassioIDEntityType? = nil,
-         confidence: Double? = nil) {
+    public init(foodItem: PassioFoodItem,
+                barcode: String = "",
+                scannedWeight: Double? = nil,
+                entityType: PassioIDEntityType? = nil,
+                confidence: Double? = nil) {
 
         id = foodItem.id
         passioID = foodItem.scannedId
@@ -103,7 +102,7 @@ public struct FoodRecordV3: Codable, Equatable {
         name = foodItem.name
         details = foodItem.details
         iconId = foodItem.iconId
-        self.barcode = barcode
+        self.barcode = barcode == "" ? foodItem.ingredients.first?.metadata.barcode ?? "" : ""
 
         let now = Date()
         createdAt = now
@@ -131,17 +130,17 @@ public struct FoodRecordV3: Codable, Equatable {
         }
     }
 
-    init(ingredient: PassioIngredient,
-         barcode: String = "",
-         scannedWeight: Double? = nil,
-         entityType: PassioIDEntityType? = nil,
-         confidence: Double? = nil) {
+    public init(ingredient: PassioIngredient,
+                barcode: String = "",
+                scannedWeight: Double? = nil,
+                entityType: PassioIDEntityType? = nil,
+                confidence: Double? = nil) {
 
         passioID = ingredient.id
         name = ingredient.name
         iconId = ingredient.iconId
         refCode = ingredient.refCode ?? ""
-        self.barcode = barcode
+        self.barcode = barcode == "" ? ingredient.metadata.barcode ?? "" : ""
 
         let now = Date()
         createdAt = now
@@ -154,7 +153,7 @@ public struct FoodRecordV3: Codable, Equatable {
         selectedQuantity = ingredient.amount.selectedQuantity
 
         nutrients = ingredient.referenceNutrients
-        openFoodLicense = ingredient.metadata.foodOrigins?.first(where: { 
+        openFoodLicense = ingredient.metadata.foodOrigins?.first(where: {
             $0.source == "openfood"
         })?.licenseCopy
 
@@ -168,20 +167,21 @@ public struct FoodRecordV3: Codable, Equatable {
         }
     }
 
-    init(foodRecordIngredient: FoodRecordIngredient) {
+    public init(foodRecordIngredient: FoodRecordIngredient) {
 
         passioID = foodRecordIngredient.passioID
         name = foodRecordIngredient.name
         iconId = foodRecordIngredient.iconId
         refCode = foodRecordIngredient.refCode
+        self.barcode = foodRecordIngredient.barcode ?? ""
 
         let now = Date()
         createdAt = now
         mealLabel = MealLabel.mealLabelBy(time: now)
         uuid = UUID().uuidString
 
-        self.entityType = foodRecordIngredient.entityType
-        self.confidence = nil
+        entityType = foodRecordIngredient.entityType
+        confidence = nil
 
         servingSizes = foodRecordIngredient.servingSizes
         servingUnits = foodRecordIngredient.servingUnits
@@ -190,8 +190,6 @@ public struct FoodRecordV3: Codable, Equatable {
 
         nutrients = foodRecordIngredient.nutrients
         openFoodLicense = foodRecordIngredient.openFoodLicense
-
-        ingredients = [foodRecordIngredient]
 
         _ = setFoodRecordServing(unit: selectedUnit, quantity: selectedQuantity)
     }
@@ -203,16 +201,18 @@ public struct FoodRecordV3: Codable, Equatable {
 
         if ingredients.count == 1 { // this is when a food Item become a recipe
             var ingredientsAtZero = ingredients[0]
-            // ingredientsAtZero.iconId = ingredientsAtZero.passioID
             ingredientsAtZero.details = details
             ingredients[0] = ingredientsAtZero
         }
+
         if let ingredient {
             ingredients.append(ingredient)
         } else if let record {
             ingredients.append(contentsOf: record.ingredients)
         }
-        self.updateServingSizeAndUnitsForRecipe()
+
+        updateServingSizeAndUnitsForRecipe()
+
         if ingredients.count > 1 {
             entityType = .recipe
         }
@@ -232,13 +232,14 @@ public struct FoodRecordV3: Codable, Equatable {
         updateServingSizeAndUnitsForRecipe()
         return true
     }
-    
+
     mutating func updateServingSizeAndUnitsForRecipe() {
         let totalWeight = ingredients.map { $0.computedWeight.value }.reduce(0, +)
         servingUnits = [
-            PassioServingUnit(unitName: "gram", weight: Measurement<UnitMass>(value: 1, unit: .grams)),
+            PassioServingUnit(unitName: UnitsTexts.cGrams, weight: Measurement<UnitMass>(value: 1, unit: .grams)),
             PassioServingUnit(unitName: PassioFoodAmount.SERVING_UNIT_NAME,
-                                   weight: Measurement<UnitMass>(value: totalWeight, unit: .grams))
+                              weight: Measurement<UnitMass>(value: totalWeight != 0 ? totalWeight : 1,
+                                                            unit: .grams))
         ]
         _ = setSelectedUnitKeepWeight(unitName: PassioFoodAmount.SERVING_UNIT_NAME)
         servingSizes = [PassioServingSize(quantity: selectedQuantity, unitName: selectedUnit)]
@@ -273,16 +274,20 @@ public struct FoodRecordV3: Codable, Equatable {
         if selectedQuantity == quantity {
             return
         }
-        selectedQuantity = (quantity != 0.0) ? quantity : 0.000001
+        selectedQuantity = (quantity != 0.0) ? quantity : 1
         calculateQuantityForIngredients()
     }
 
     mutating func setSelectedUnit(unit: String) -> Bool {
 
-        let gramUnit = "gram"
-        let cGramUnit = "Gram"
-        let unit = if unit == cGramUnit {
-            gramUnit
+        let cGramsUnit = UnitsTexts.cGrams
+        let gramsUnit = UnitsTexts.grams
+        let gramUnit = UnitsTexts.gram
+
+        let unit = if unit == UnitsTexts.cGrams ||
+        unit == gramUnit ||
+        unit == gramsUnit {
+            cGramsUnit
         } else {
             unit
         }
@@ -290,15 +295,19 @@ public struct FoodRecordV3: Codable, Equatable {
         if selectedUnit == unit {
             return true
         }
-        if let index = servingUnits.firstIndex(where: { $0.unitName == cGramUnit }) {
-            servingUnits[index] = PassioServingUnit(unitName: gramUnit,
+        if let index = servingUnits.firstIndex(where: {
+            $0.unitName == cGramsUnit ||
+            $0.unitName == gramUnit ||
+            $0.unitName == gramsUnit
+        }) {
+            servingUnits[index] = PassioServingUnit(unitName: cGramsUnit,
                                                     weight: servingUnits[index].weight)
         }
         if servingUnits.first(where: { $0.unitName == unit }) == nil {
             return false
         }
         selectedUnit = unit
-        selectedQuantity = unit == gramUnit ? 100 : 1
+        selectedQuantity = unit == cGramsUnit ? 100 : 1
         calculateQuantityForIngredients()
         return true
     }
@@ -312,7 +321,7 @@ public struct FoodRecordV3: Codable, Equatable {
             return false
         }
         selectedUnit = unitName
-        selectedQuantity = ingredientWeight().value / servingWeight.value
+        selectedQuantity = ingredients.count == 0 ? 1 : ingredientWeight().value / servingWeight.value
         return true
     }
 
@@ -322,7 +331,7 @@ public struct FoodRecordV3: Codable, Equatable {
             return false
         }
         selectedUnit = unit
-        selectedQuantity = quantity != 0 ? quantity : 0.0001
+        selectedQuantity = quantity != 0 ? quantity : 1
         calculateQuantityForIngredients()
         return true
     }
@@ -340,13 +349,13 @@ public struct FoodRecordV3: Codable, Equatable {
     }
 
     func ingredientWeight() -> Measurement<UnitMass> {
-        return ingredients.map { 
+        return ingredients.map {
             $0.computedWeight
         }.reduce(Measurement<UnitMass>(value: 0.0, unit: .grams)) { $0 + $1 }
     }
 
     // MARK: Get PassioNutrients
-    func getNutrients() -> PassioNutrients {
+    public func getNutrients() -> PassioNutrients {
         let currentWeight = ingredientWeight()
         let ingredientNutrients = ingredients.map { (ingredient) in
             (ingredient.nutrients, ingredient.computedWeight.value / currentWeight.value)
@@ -378,7 +387,7 @@ public struct FoodRecordV3: Codable, Equatable {
         nutritionFacts.calcium = nutrients.calcium()?.value
         nutritionFacts.iron = nutrients.iron()?.value
         nutritionFacts.potassium = nutrients.potassium()?.value
-        
+
         return nutritionFacts
     }
 }
@@ -393,7 +402,7 @@ extension FoodRecordV3 {
         let weight = String(Int(computedWeight.value))
         let textAmount = quantity == Double(Int(quantity)) ? String(Int(quantity)) :
         String(quantity.roundDigits(afterDecimal: 1))
-        let weightText = title == Localized.gramUnit ? "" : "(" + weight + " " + Localized.gramUnit + ") "
+        let weightText = title == UnitsTexts.g ? "" : "(" + weight + " " + UnitsTexts.g + ") "
         return textAmount + " " + title + " " + weightText
     }
 
@@ -403,7 +412,7 @@ extension FoodRecordV3 {
         if 0 < cal, cal < 1e6 {
             calStr = String(cal.roundDigits(afterDecimal: 2))
         }
-        return calStr + " " + "kcal"
+        return calStr + " " + UnitsTexts.cal
     }
 
     var getCarbs: String {
@@ -444,4 +453,3 @@ extension FoodRecordV3 {
         }
     }
 }
-

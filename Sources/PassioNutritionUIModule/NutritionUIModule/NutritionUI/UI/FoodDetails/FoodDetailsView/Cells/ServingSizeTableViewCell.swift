@@ -51,7 +51,7 @@ class ServingSizeTableViewCell: UITableViewCell {
         String(quantity.roundDigits(afterDecimal: 2))
         self.textAmount.text = textAmount
         self.textAmount.backgroundColor = .white
-        labelAmount.text = unitName == "g" ? "" : "(" + weight + " " + "g".localized + ") "
+        labelAmount.text = unitName ==  UnitsTexts.g ? "" : "(" + weight + " " + UnitsTexts.g + ") "
         let newTitle = " " + unitName
         labelAmount.textColor = .gray900
         buttonUnits.setTitle(newTitle, for: .normal)

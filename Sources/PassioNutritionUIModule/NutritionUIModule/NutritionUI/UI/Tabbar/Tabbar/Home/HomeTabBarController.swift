@@ -235,8 +235,9 @@ extension HomeTabBarController {
 // MARK: - Plusbutton Navigation
 extension HomeTabBarController: PlusMenuDelegate {
 
-    func onScanSelected() {
-        let vc = NutritionUICoordinator.getScanningViewController()
+    func onFoodScannerSelected() {
+        let vc = NutritionUICoordinator.getFoodRecognitionV3ViewController()
+        vc.navigateToMyFoodsDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -266,22 +267,34 @@ extension HomeTabBarController: PlusMenuDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func takePhotosSelected() {
+    func onTakePhotosSelected() {
         let vc = TakePhotosViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func selectPhotosSelected() {
+    func onSelectPhotosSelected() {
         let vc = SelectPhotosViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
+// MARK: - Plusbutton Navigation
+extension HomeTabBarController: NavigateToMyFoodsDelegate {
+
+    func onNavigateToMyFoods() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+            self.navigationController?.pushViewController(MyFoodsSelectionViewController(), animated: true)
+        })
+    }
+}
+
+// MARK: - AdvancedTextSearchView Delegate
 extension HomeTabBarController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
         let editVC = FoodDetailsViewController()
+        editVC.foodDetailsControllerDelegate = self
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             self.navigationController?.pushViewController(editVC, animated: true)
@@ -292,10 +305,24 @@ extension HomeTabBarController: AdvancedTextSearchViewDelegate {
         guard let foodItem = item else { return }
         let foodRecord = FoodRecordV3(foodItem: foodItem)
         let editVC = FoodDetailsViewController()
+        editVC.foodDetailsControllerDelegate = self
+        editVC.isFromSearch = true
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             self.navigationController?.pushViewController(editVC, animated: true)
         })
+    }
+}
+// MARK: - FoodDetails Delegate
+extension HomeTabBarController: FoodDetailsControllerDelegate {
+
+    func navigateToMyFoods(index: Int) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            let vc = MyFoodsSelectionViewController()
+            vc.loadViewIfNeeded()
+            vc.selectedIndex = index
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 

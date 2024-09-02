@@ -58,8 +58,8 @@ class FoodInfoTableViewCell: UITableViewCell {
 
     func setup(foodRecord: FoodRecordV3) {
 
-        labelName.text = foodRecord.name.capitalized
-        labelShortName.text = foodRecord.details.capitalized
+        labelName.text = foodRecord.name
+        labelShortName.text = foodRecord.details
 
         if labelName.text?.lowercased() == self.labelShortName.text?.lowercased()
             || foodRecord.entityType == .recipe {

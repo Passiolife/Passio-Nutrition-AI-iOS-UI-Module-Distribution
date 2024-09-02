@@ -372,7 +372,7 @@ private extension FoodDetailsView {
                                                  weight: String) {
         slider.minimumValue = 0.0
         slider.tag = tableRowOrCollectionTag
-        guard let foodRecord = foodRecord else { return(100, UnitsTexts.gram, "100") }
+        guard let foodRecord = foodRecord else { return(100, UnitsTexts.cGrams, "100") }
         let sliderMultiplier: Float = 5.0
         let maxSliderFromData = Float(1) * sliderMultiplier
         let currentValue = Float(foodRecord.selectedQuantity)
@@ -423,8 +423,8 @@ extension FoodDetailsView: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let text = textField.replaceCommaWithDot
-        if let quantity = Double(text), var tempfoodRecord = foodRecord {
+        if let quantity = Double(textField.replaceCommaWithDot),
+           var tempfoodRecord = foodRecord {
             _ = tempfoodRecord.setFoodRecordServing(unit: tempfoodRecord.selectedUnit,
                                                     quantity: quantity)
             foodRecord = tempfoodRecord

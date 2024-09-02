@@ -71,11 +71,11 @@ class RecipeDetailsCell: UITableViewCell {
         )
     }
 
-    func configureCell(with record: FoodRecordV3, isCreate: Bool) {
+    func configureCell(with record: FoodRecordV3, isShowFoodIcon: Bool) {
 
-        recipeNameTextField.text = record.name.capitalized
+        recipeNameTextField.text = record.name
 
-        if !isCreate {
+        if isShowFoodIcon {
             PassioInternalConnector.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
                 if let image {
                     DispatchQueue.main.async {

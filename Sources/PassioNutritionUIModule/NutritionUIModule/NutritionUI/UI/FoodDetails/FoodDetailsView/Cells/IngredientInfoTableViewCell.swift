@@ -58,23 +58,24 @@ class IngredientInfoTableViewCell: UITableViewCell {
         let weight = String(Int(ingredient.computedWeight.value))
         let textAmount = quantity == Double(Int(quantity)) ? String(Int(quantity)) :
         String(quantity.roundDigits(afterDecimal: 2))
-        let weightText = unitName == "g" ? "" : "(" + weight + " " + "g".localized + ") "
+        let weightText = unitName == UnitsTexts.g ? "" : "(" + weight + " " + UnitsTexts.g + ") "
         labelServing.text = textAmount + " " + unitName + " " + weightText
 
         var calStr = "0"
         if let cal = ingredient.nutrients.calories()?.value, 0 < cal, cal < 1e6 {
             calStr = cal.roundDigits(afterDecimal: 0).clean
         }
-        labelCalories.text = calStr + " cal"
+        labelCalories.text = calStr + " \(UnitsTexts.cal)"
+
         let imageId = ingredient.iconId
         passioIDForCell = imageId
-        imageFood.loadPassioIconBy(passioID: imageId,
-                                        entityType: ingredient.entityType) { [weak self] passioIDForImage, image in
-            guard let self else { return }
-            if passioIDForImage == self.passioIDForCell {
-                DispatchQueue.main.async {
-                    self.imageFood.image = image
-                }
+
+        imageFood.setFoodImage(id: imageId,
+                               passioID: imageId,
+                               entityType: ingredient.entityType,
+                               connector: PassioInternalConnector.shared) { image in
+            DispatchQueue.main.async {
+                self.imageFood.image = image
             }
         }
     }

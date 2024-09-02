@@ -26,9 +26,9 @@ extension UIButton {
     }
 
     public func enableDisableButton(with animation: UIView.AnimationOptions = .transitionCrossDissolve,
-                             duration: TimeInterval = 0.3,
-                             opacity: CGFloat = 0.8,
-                             isEnabled: Bool) {
+                                    duration: TimeInterval = 0.3,
+                                    opacity: CGFloat = 0.8,
+                                    isEnabled: Bool) {
         alpha = isEnabled ? opacity : 1
         self.isEnabled = isEnabled
         UIView.animate(withDuration: duration, delay: 0, options: animation) {

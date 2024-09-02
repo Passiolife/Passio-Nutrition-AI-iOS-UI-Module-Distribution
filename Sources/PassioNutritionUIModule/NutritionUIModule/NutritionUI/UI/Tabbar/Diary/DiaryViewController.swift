@@ -153,7 +153,7 @@ class DiaryViewController: UIViewController {
         }
     }
 
-    func navigateToEditor(foodRecord: FoodRecordV3) {
+    func navigateToFoodDetails(foodRecord: FoodRecordV3) {
         let editVC = FoodDetailsViewController()
         editVC.foodRecord = foodRecord
         editVC.isEditingRecord = true
@@ -273,8 +273,8 @@ extension DiaryViewController: UICollectionViewDelegate {
             return
         }
 
-        if let record = getRecordFor(indexPath: indexPath)?.0{
-            navigateToEditor(foodRecord: record)
+        if let record = getRecordFor(indexPath: indexPath)?.0 {
+            navigateToFoodDetails(foodRecord: record)
         }
     }
 
@@ -315,7 +315,7 @@ extension DiaryViewController: SwipeCollectionViewCellDelegate {
 
         let editAction = SwipeAction(style: .default, title: ButtonTexts.details) { [weak self] action, indexPath in
             guard let `self` = self else { return }
-            self.navigateToEditor(foodRecord: record)
+            self.navigateToFoodDetails(foodRecord: record)
         }
         editAction.backgroundColor = .primaryColor
 
@@ -354,9 +354,11 @@ extension DiaryViewController: DateSelectorUIViewDelegate {
 extension DiaryViewController: FoodDetailsControllerDelegate {
 
     func navigateToMyFoods(index: Int) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.21) { [weak self] in
-            self?.parent?.navigationController?.pushViewController(MyFoodsSelectionViewController(),
-                                                                  animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            let vc = MyFoodsSelectionViewController()
+            vc.loadViewIfNeeded()
+            vc.selectedIndex = index
+            self?.parent?.navigationController?.pushViewController(vc, animated: true)
         }
     }
 

@@ -37,6 +37,8 @@ final class FoodRecognitionV3ViewController: UIViewController {
     private let white40Color = UIColor.white.withAlphaComponent(0.40)
     private var detectionConfig: FoodDetectionConfiguration!
 
+    weak var navigateToMyFoodsDelegate: NavigateToMyFoodsDelegate?
+
     private var scanMode: ScanMode = .wholeFoods {
         didSet {
             setupScanModeButtonsUI()
@@ -554,6 +556,7 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
         createFoodVC.vcTitle = "Edit Nutrition Facts"
         createFoodVC.isFromNutritionFacts = true
         createFoodVC.foodDataSet = dataset
+        createFoodVC.navigateToMyFoodsDelegate = self
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
             guard let self else { return }
@@ -570,6 +573,15 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
 
     func didNutriFactViewExpanded(isExpanded: Bool) {
         isExpanded ? pauseDetection() : configureFoodDetection()
+    }
+}
+
+// MARK: - DetectedNutriFactResultViewController Delegate
+extension FoodRecognitionV3ViewController: NavigateToMyFoodsDelegate {
+
+    func onNavigateToMyFoods() {
+        navigateToMyFoodsDelegate?.onNavigateToMyFoods()
+        navigationController?.popViewController(animated: true)
     }
 }
 

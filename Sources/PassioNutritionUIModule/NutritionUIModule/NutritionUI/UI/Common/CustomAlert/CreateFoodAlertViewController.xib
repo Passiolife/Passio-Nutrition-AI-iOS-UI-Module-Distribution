@@ -29,6 +29,7 @@
                 <outlet property="logSwitch" destination="TA9-vz-M51" id="mgj-oZ-wiD"/>
                 <outlet property="subTitleLabel" destination="shU-cL-qiI" id="vst-SA-HiN"/>
                 <outlet property="titleLabel" destination="owX-gB-fbE" id="Gtb-a8-y2e"/>
+                <outlet property="updateLogStackView" destination="jkL-4P-etp" id="qNl-ed-4er"/>
                 <outlet property="uponLogLabel" destination="FDl-hm-yuN" id="7nT-My-J8v"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
