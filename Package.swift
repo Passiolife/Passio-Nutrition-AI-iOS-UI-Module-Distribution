@@ -41,7 +41,12 @@ let package = Package(
                 "SwiftyMarkdown",
                 .product(name: "Lottie", package: "lottie-spm")
             ],
-            resources: [.process("NutritionUIModule/VoiceLogging.json")] // Lottie Animation
+            resources: [.process("NutritionUIModule/VoiceLogging.json"), // Lottie Animation
+                        .copy("CoreSDK/ServicesVolume/VolumeKernels/FindMode.metal"), // VolumeKernels
+                        .copy("CoreSDK/ServicesVolume/VolumeKernels/HeightToVolume.metal"),
+                        .copy("CoreSDK/ServicesVolume/VolumeKernels/KalmanStatic1D.metal"),
+                        .copy("CoreSDK/ServicesVolume/VolumeKernels/MakeHeightMap.metal"),
+                        .copy("CoreSDK/ServicesVolume/VolumeKernels/volume_metal.h")]
         ),
     ]
 )
