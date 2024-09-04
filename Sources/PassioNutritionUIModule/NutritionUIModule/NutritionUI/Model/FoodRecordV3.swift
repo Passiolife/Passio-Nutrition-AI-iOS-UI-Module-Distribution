@@ -398,7 +398,7 @@ extension FoodRecordV3 {
     var getServingInfo: String {
 
         let quantity = selectedQuantity
-        let title = selectedUnit.capitalizingFirst()
+        let title = selectedUnit.capitalized
         let weight = String(Int(computedWeight.value))
         let textAmount = quantity == Double(Int(quantity)) ? String(Int(quantity)) :
         String(quantity.roundDigits(afterDecimal: 1))

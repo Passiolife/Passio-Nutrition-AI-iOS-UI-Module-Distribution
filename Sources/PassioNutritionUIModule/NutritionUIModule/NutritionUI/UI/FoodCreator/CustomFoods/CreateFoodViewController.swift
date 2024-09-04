@@ -193,7 +193,7 @@ extension CreateFoodViewController {
         connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image.get180pImage)
 
         if isFromCustomFoodList {
-            navigationController?.popViewController(animated: true)
+            navigationController?.popToSpecificViewController(MyFoodsSelectionViewController.self)
 
         } else if isFromBarcode {
             navigationController?.popToSpecificViewController(MyFoodsSelectionViewController.self)

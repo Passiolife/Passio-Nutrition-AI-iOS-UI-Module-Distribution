@@ -132,12 +132,12 @@ extension IngredientEditorView: UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueCell(cellClass: ServingSizeTableViewCell.self, forIndexPath: indexPath)
             let (quantity, unitName, weight) = getAmountsforCell(tableRowOrCollectionTag: indexPath.row,
-                                                                 slider: cell.sliderAmount)
+                                                                 slider: cell.quantitySlider)
             cell.setup(quantity: quantity, unitName: unitName, weight: weight)
-            cell.textAmount.delegate = self
-            cell.textAmount.addOkButtonToToolbar(target: self, action: #selector(closeKeyBoard), forEvent: .touchUpInside)
-            cell.buttonUnits.addTarget(self, action: #selector(changeLabel(sender:)), for: .touchUpInside)
-            cell.sliderAmount.addTarget(self, action: #selector(sliderAmountValueDidChange(sender:)), for: .valueChanged)
+            cell.quantityTextField.delegate = self
+            cell.quantityTextField.addOkButtonToToolbar(target: self, action: #selector(closeKeyBoard), forEvent: .touchUpInside)
+            cell.unitButton.addTarget(self, action: #selector(changeLabel(sender:)), for: .touchUpInside)
+            cell.quantitySlider.addTarget(self, action: #selector(sliderAmountValueDidChange(sender:)), for: .valueChanged)
             return cell
         default:
            return UITableViewCell()
@@ -163,7 +163,7 @@ extension IngredientEditorView: UITableViewDataSource {
             return FoodData(name: foodRecordIngredient.name,
                             barcode: foodRecordIngredient.barcode ?? "",
                             icon: getFoodImage,
-                            nutritionInfo: MicroNutirents.getMicroNutrientsFromFood(records: [FoodRecordV3(foodRecordIngredient: foodRecordIngredient)]))
+                            nutritionInfo: MicroNutirents.getMicroNutrientsFromIngredient(record: foodRecordIngredient))
         }
         return nil
     }

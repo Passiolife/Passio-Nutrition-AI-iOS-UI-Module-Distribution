@@ -61,6 +61,8 @@ class RecipeDetailsCell: UITableViewCell {
 
     private func configureImageViewWithMenu() {
 
+        recipeName?(recipeNameTextField.text ?? "")
+
         recipeImageButton.showImagePickerMenu(
             cameraAction: { [weak self] _ in
                 self?.onCreateFoodImage?(.camera)

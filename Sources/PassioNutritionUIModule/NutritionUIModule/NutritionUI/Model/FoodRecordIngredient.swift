@@ -27,7 +27,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
     public var barcode: String? = ""
     public var entityType: PassioIDEntityType
     public var computedWeight: Measurement<UnitMass> {
-        guard let weight2QuantityRatio = (servingUnits.filter {$0.unitName == selectedUnit}).first?.weight.value else {
+        guard let weight2QuantityRatio = (servingUnits.filter { $0.unitName == selectedUnit }).first?.weight.value else {
             return Measurement<UnitMass>(value: 0, unit: .grams)
         }
         return Measurement<UnitMass>(value: weight2QuantityRatio * selectedQuantity, unit: .grams)

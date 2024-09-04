@@ -291,13 +291,13 @@ extension FoodDetailsView {
         let cell = foodDetailsTableView.dequeueCell(cellClass: ServingSizeTableViewCell.self,
                                          forIndexPath: indexPath)
         let (quantity, unitName, weight) = getAmountsforCell(tableRowOrCollectionTag: indexPath.row,
-                                                             slider: cell.sliderAmount)
+                                                             slider: cell.quantitySlider)
         cell.setup(quantity: quantity, unitName: unitName, weight: weight)
-        cell.textAmount.delegate = self
-        cell.buttonUnits.addTarget(self,
+        cell.quantityTextField.delegate = self
+        cell.unitButton.addTarget(self,
                                    action: #selector(onChangeUnit(sender:)),
                                    for: .touchUpInside)
-        cell.sliderAmount.addTarget(self,
+        cell.quantitySlider.addTarget(self,
                                     action: #selector(onChangeQuantity(sender:)),
                                     for: .valueChanged)
         return cell
