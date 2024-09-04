@@ -10,28 +10,30 @@ import UIKit
 
 class ServingSizeTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var labelAmount: UILabel!
-    @IBOutlet weak var sliderAmount: UISlider!
-    @IBOutlet weak var buttonUnits: UIButton!
-    @IBOutlet weak var textAmount: UITextField!
+    @IBOutlet weak var weightLabel: UILabel!
+    @IBOutlet weak var quantitySlider: UISlider!
+    @IBOutlet weak var unitButton: UIButton!
+    @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var insetBackground: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        sliderAmount.isContinuous = false
-        textAmount.addOkButtonToToolbar(target: self,
+        quantitySlider.isContinuous = false
+        quantityTextField.addOkButtonToToolbar(target: self,
                                         action: #selector(endViewEditing),
                                         forEvent: .touchUpInside)
-        buttonUnits.roundMyCornerWith(radius: Custom.buttonCornerRadius)
+        unitButton.roundMyCornerWith(radius: Custom.buttonCornerRadius)
         insetBackground.roundMyCornerWith(radius: 8)
         insetBackground.dropShadow(radius: 8,
                                    offset: CGSize(width: 0, height: 1),
                                    color: .black.withAlphaComponent(0.06),
                                    shadowRadius: 2,
                                    shadowOpacity: 1)
-        sliderAmount.tintColor = .primaryColor
-        sliderAmount.thumbTintColor = .primaryColor
+        quantitySlider.tintColor = .primaryColor
+        quantitySlider.thumbTintColor = .primaryColor
+        weightLabel.textColor = .gray900
+        quantityTextField.backgroundColor = .white
     }
 
     override func layoutSubviews() {
@@ -49,12 +51,11 @@ class ServingSizeTableViewCell: UITableViewCell {
 
         let textAmount = quantity == Double(Int(quantity)) ? String(Int(quantity)) :
         String(quantity.roundDigits(afterDecimal: 2))
-        self.textAmount.text = textAmount
-        self.textAmount.backgroundColor = .white
-        labelAmount.text = unitName ==  UnitsTexts.g ? "" : "(" + weight + " " + UnitsTexts.g + ") "
-        let newTitle = " " + unitName
-        labelAmount.textColor = .gray900
-        buttonUnits.setTitle(newTitle, for: .normal)
+        quantityTextField.text = textAmount
+        quantityTextField.backgroundColor = .white
+        weightLabel.text = unitName ==  UnitsTexts.g ? "" : "(" + weight + " " + UnitsTexts.g + ") "
+        let newTitle = " " + unitName.capitalized
+        unitButton.setTitle(newTitle, for: .normal)
     }
 
     @objc private func endViewEditing() {

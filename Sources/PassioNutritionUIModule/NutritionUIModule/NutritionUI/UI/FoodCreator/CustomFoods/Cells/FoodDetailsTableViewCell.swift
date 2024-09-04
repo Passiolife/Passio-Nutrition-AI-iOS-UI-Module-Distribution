@@ -70,8 +70,8 @@ extension FoodDetailsTableViewCell {
 
         isCreateNewFood = false
 
-        nameTextField.text = record.name.capitalized
-        brandTextField.text = record.details.capitalized
+        nameTextField.text = record.name
+        brandTextField.text = record.details
         barcodeTextField.text = barcode
 
         connector.fetchUserFoodImage(with: record.iconId) { [weak self] image in

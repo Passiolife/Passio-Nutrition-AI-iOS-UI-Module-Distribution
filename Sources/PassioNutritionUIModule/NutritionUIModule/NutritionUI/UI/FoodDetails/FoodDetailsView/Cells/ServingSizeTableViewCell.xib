@@ -18,15 +18,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ServingSizeTableViewCell" rowHeight="406" id="3x8-Vd-FiN" customClass="ServingSizeTableViewCell" customModule="PassioNutritionUIModule">
-            <rect key="frame" x="0.0" y="0.0" width="463" height="344"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="ServingSizeTableViewCell" rowHeight="170" id="3x8-Vd-FiN" customClass="ServingSizeTableViewCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="463" height="170"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3x8-Vd-FiN" id="xqM-FP-2o8">
-                <rect key="frame" x="0.0" y="0.0" width="463" height="344"/>
+                <rect key="frame" x="0.0" y="0.0" width="463" height="170"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ad-en-AVG">
-                        <rect key="frame" x="16" y="8" width="431" height="158"/>
+                        <rect key="frame" x="16" y="8" width="431" height="154"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="TJq-uw-eur">
                                 <rect key="frame" x="16" y="51" width="399" height="42"/>
@@ -79,7 +79,7 @@
                                 </constraints>
                             </stackView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0cO-r7-Z5B">
-                                <rect key="frame" x="14" y="109" width="403" height="34"/>
+                                <rect key="frame" x="14" y="109" width="403" height="30"/>
                                 <color key="tintColor" name="indigo-600"/>
                                 <color key="thumbTintColor" name="indigo-600"/>
                             </slider>
@@ -134,11 +134,11 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="buttonUnits" destination="Whg-S9-6Vc" id="pn1-my-8x2"/>
                 <outlet property="insetBackground" destination="6ad-en-AVG" id="rqv-E2-yM0"/>
-                <outlet property="labelAmount" destination="ye9-uE-GQX" id="HPl-nK-cUj"/>
-                <outlet property="sliderAmount" destination="0cO-r7-Z5B" id="kJK-By-i6w"/>
-                <outlet property="textAmount" destination="JBc-5u-gVR" id="WAg-yS-QfC"/>
+                <outlet property="quantitySlider" destination="0cO-r7-Z5B" id="WYY-sO-0pd"/>
+                <outlet property="quantityTextField" destination="JBc-5u-gVR" id="aE4-eh-fq1"/>
+                <outlet property="unitButton" destination="Whg-S9-6Vc" id="CgV-zf-qnK"/>
+                <outlet property="weightLabel" destination="ye9-uE-GQX" id="Be7-iz-Ep9"/>
             </connections>
             <point key="canvasLocation" x="38.405797101449281" y="2.6785714285714284"/>
         </tableViewCell>

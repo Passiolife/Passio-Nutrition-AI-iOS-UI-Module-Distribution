@@ -51,6 +51,23 @@ public struct UnitsTexts {
     public static let mcg = "μg"
     public static let iu = "IU"
     public static let cal = "cal"
+    public static let ml = "ml"
+    public static let serving = "Serving"
+    public static let piece = "Piece"
+    public static let cup = "Cup"
+    public static let oz = "Oz"
+    public static let small = "Small"
+    public static let medium = "Medium"
+    public static let large = "Large"
+    public static let handful = "Handful"
+    public static let scoop = "Scoop"
+    public static let tbsp = "Tbsp"
+    public static let tsp = "Tsp"
+    public static let slice = "Slice"
+    public static let can = "Can"
+    public static let bottle = "Bottle"
+    public static let bar = "Bar"
+    public static let packet = "Packet"
 }
 
 public struct NutritionsTexts {

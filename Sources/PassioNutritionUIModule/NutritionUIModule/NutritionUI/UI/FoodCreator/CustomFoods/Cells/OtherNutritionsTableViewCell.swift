@@ -154,8 +154,7 @@ final class OtherNutritionsTableViewCell: UITableViewCell {
     private func setTextField(_ textField: UITextField, text: String?, title: String, index: Int) {
         if let text,
            !text.contains("-"),
-           let textValue = Double(text.separateStringUsingSpace.0 ?? ""),
-           textValue != 0.000000 {
+           let textValue = Double(text.separateStringUsingSpace.0 ?? "") {
             textField.text = text
             addedNutrients.append(title)
             manageNutrientViews(selectedIndex: index, text: text, isHidden: false)
@@ -258,67 +257,67 @@ final class OtherNutritionsTableViewCell: UITableViewCell {
 
     private func updateDataset(isHidden: Bool = false) {
 
-        if let satFatString = satFatTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let satFatString = satFatTextField.text?.replacingOccurrences(of: " \(UnitsTexts.g)", with: ""),
            let satFat = Double(satFatString) {
             foodDataSet?.updatedNutritionFacts?.saturatedFat = satFat
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.saturatedFat = nil
         }
-        if let transFatString = transFatTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let transFatString = transFatTextField.text?.replacingOccurrences(of: " \(UnitsTexts.g)", with: ""),
            let transFat = Double(transFatString) {
             foodDataSet?.updatedNutritionFacts?.transFat = transFat
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.transFat = nil
         }
-        if let cholesterolString = cholesterolTextField.text?.replacingOccurrences(of: " mg", with: ""),
+        if let cholesterolString = cholesterolTextField.text?.replacingOccurrences(of: " \(UnitsTexts.mg)", with: ""),
            let cholesterol = Double(cholesterolString) {
             foodDataSet?.updatedNutritionFacts?.cholesterol = cholesterol
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.cholesterol = nil
         }
-        if let sodiumString = sodiumTextField.text?.replacingOccurrences(of: " mg", with: ""),
+        if let sodiumString = sodiumTextField.text?.replacingOccurrences(of: " \(UnitsTexts.mg)", with: ""),
            let sodium = Double(sodiumString) {
             foodDataSet?.updatedNutritionFacts?.sodium = sodium
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.sodium = nil
         }
-        if let dietaryFiberString = dietaryFiberTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let dietaryFiberString = dietaryFiberTextField.text?.replacingOccurrences(of: " \(UnitsTexts.g)", with: ""),
            let dietaryFiber = Double(dietaryFiberString) {
             foodDataSet?.updatedNutritionFacts?.dietaryFiber = dietaryFiber
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.dietaryFiber = nil
         }
-        if let totalSugarsString = totalSugarsTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let totalSugarsString = totalSugarsTextField.text?.replacingOccurrences(of: " \(UnitsTexts.g)", with: ""),
            let totalSugars = Double(totalSugarsString) {
             foodDataSet?.updatedNutritionFacts?.totalSugars = totalSugars
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.totalSugars = nil
         }
-        if let addedSugarString = addedSugarTextField.text?.replacingOccurrences(of: " g", with: ""),
+        if let addedSugarString = addedSugarTextField.text?.replacingOccurrences(of: " \(UnitsTexts.g)", with: ""),
            let addedSugar = Double(addedSugarString) {
             foodDataSet?.updatedNutritionFacts?.addedSugar = addedSugar
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.addedSugar = nil
         }
-        if let vitaminDString = vitaminDTextField.text?.replacingOccurrences(of: " mcg", with: ""),
+        if let vitaminDString = vitaminDTextField.text?.replacingOccurrences(of: " \(UnitsTexts.mcg)", with: ""),
            let vitaminD = Double(vitaminDString) {
             foodDataSet?.updatedNutritionFacts?.vitaminD = vitaminD
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.vitaminD = nil
         }
-        if let calciumString = calciumTextField.text?.replacingOccurrences(of: " mg", with: ""),
+        if let calciumString = calciumTextField.text?.replacingOccurrences(of: " \(UnitsTexts.mg)", with: ""),
            let calcium = Double(calciumString) {
             foodDataSet?.updatedNutritionFacts?.calcium = calcium
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.calcium = nil
         }
-        if let ironString = ironTextField.text?.replacingOccurrences(of: " mg", with: ""),
+        if let ironString = ironTextField.text?.replacingOccurrences(of: " \(UnitsTexts.mg)", with: ""),
            let iron = Double(ironString) {
             foodDataSet?.updatedNutritionFacts?.iron = iron
         } else if isHidden {
             foodDataSet?.updatedNutritionFacts?.iron = nil
         }
-        if let potassiumString = potassiumTextField.text?.replacingOccurrences(of: " mg", with: ""),
+        if let potassiumString = potassiumTextField.text?.replacingOccurrences(of: " \(UnitsTexts.mg)", with: ""),
            let potassium = Double(potassiumString) {
             foodDataSet?.updatedNutritionFacts?.potassium = potassium
         } else if isHidden {
@@ -341,47 +340,47 @@ extension OtherNutritionsTableViewCell: UITextFieldDelegate {
 
         case satFatTextField:
             let satFatText = satFatTextField.replaceCommaWithDot
-            satFatTextField.text = satFatText == "" ? foodDataSet?.saturatedFat?.stringValue : "\(satFatText) g"
+            satFatTextField.text = satFatText == "" ? foodDataSet?.saturatedFat?.stringValue : "\(satFatText) \(UnitsTexts.g)"
 
         case transFatTextField:
             let transFatText = transFatTextField.replaceCommaWithDot
-            transFatTextField.text = transFatText == "" ? foodDataSet?.transFat?.stringValue : "\(transFatText) g"
+            transFatTextField.text = transFatText == "" ? foodDataSet?.transFat?.stringValue : "\(transFatText) \(UnitsTexts.g)"
 
         case cholesterolTextField:
             let cholesterolText = cholesterolTextField.replaceCommaWithDot
-            cholesterolTextField.text = cholesterolText == "" ? foodDataSet?.cholesterol?.stringValue : "\(cholesterolText) mg"
+            cholesterolTextField.text = cholesterolText == "" ? foodDataSet?.cholesterol?.stringValue : "\(cholesterolText) \(UnitsTexts.mg)"
 
         case sodiumTextField:
             let sodiumText = sodiumTextField.replaceCommaWithDot
-            sodiumTextField.text = sodiumText == "" ? foodDataSet?.sodium?.stringValue : "\(sodiumText) mg"
+            sodiumTextField.text = sodiumText == "" ? foodDataSet?.sodium?.stringValue : "\(sodiumText) \(UnitsTexts.mg)"
 
         case dietaryFiberTextField:
             let dietaryFiberText = dietaryFiberTextField.replaceCommaWithDot
-            dietaryFiberTextField.text = dietaryFiberText == "" ? foodDataSet?.dietaryFiber?.stringValue : "\(dietaryFiberText) g"
+            dietaryFiberTextField.text = dietaryFiberText == "" ? foodDataSet?.dietaryFiber?.stringValue : "\(dietaryFiberText) \(UnitsTexts.mg)"
 
         case totalSugarsTextField:
             let totalSugarsText = totalSugarsTextField.replaceCommaWithDot
-            totalSugarsTextField.text = totalSugarsText == "" ? foodDataSet?.totalSugars?.stringValue : "\(totalSugarsText) g"
+            totalSugarsTextField.text = totalSugarsText == "" ? foodDataSet?.totalSugars?.stringValue : "\(totalSugarsText) \(UnitsTexts.g)"
 
         case addedSugarTextField:
             let addedSugarText = addedSugarTextField.replaceCommaWithDot
-            addedSugarTextField.text = addedSugarText == "" ? foodDataSet?.addedSugar?.stringValue : "\(addedSugarText) g"
+            addedSugarTextField.text = addedSugarText == "" ? foodDataSet?.addedSugar?.stringValue : "\(addedSugarText) \(UnitsTexts.g)"
 
         case vitaminDTextField:
             let vitaminDText = vitaminDTextField.replaceCommaWithDot
-            vitaminDTextField.text = vitaminDText == "" ? foodDataSet?.vitaminD?.stringValue : "\(vitaminDText) mcg"
+            vitaminDTextField.text = vitaminDText == "" ? foodDataSet?.vitaminD?.stringValue : "\(vitaminDText) \(UnitsTexts.mcg)"
 
         case calciumTextField:
             let calciumText = calciumTextField.replaceCommaWithDot
-            calciumTextField.text = calciumText == "" ? foodDataSet?.calcium?.stringValue : "\(calciumText) mg"
+            calciumTextField.text = calciumText == "" ? foodDataSet?.calcium?.stringValue : "\(calciumText) \(UnitsTexts.mg)"
 
         case ironTextField:
             let ironText = ironTextField.replaceCommaWithDot
-            ironTextField.text = ironText == "" ? foodDataSet?.iron?.stringValue : "\(ironText) mg"
+            ironTextField.text = ironText == "" ? foodDataSet?.iron?.stringValue : "\(ironText) \(UnitsTexts.mg)"
 
         case potassiumTextField:
             let potassiumText = potassiumTextField.replaceCommaWithDot
-            potassiumTextField.text = potassiumText == "" ? foodDataSet?.potassium?.stringValue : "\(potassiumText) mg"
+            potassiumTextField.text = potassiumText == "" ? foodDataSet?.potassium?.stringValue : "\(potassiumText) \(UnitsTexts.mg)"
 
         default:
             break

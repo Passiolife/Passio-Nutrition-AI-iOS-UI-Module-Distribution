@@ -76,7 +76,7 @@ class NutritionInformationViewController: InstantiableViewController {
 
     private func setFoodData() {
         if let foodData {
-            foodNameLabel.text = foodData.name.capitalized
+            foodNameLabel.text = foodData.name
             if foodData.barcode != "" {
                 barcodeValueLabel.text = "UPC: \(foodData.barcode)"
             } else {

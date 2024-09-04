@@ -38,7 +38,7 @@ class FoodRecordCollectionViewCell: SwipeCollectionViewCell {
 
     func setup(_ foodRecord: FoodRecordV3) {
 
-        labelName.text = foodRecord.name.capitalized
+        labelName.text = foodRecord.name
         labelServing.text = foodRecord.getServingInfo
         labelCalories.text = foodRecord.getCalories
 
