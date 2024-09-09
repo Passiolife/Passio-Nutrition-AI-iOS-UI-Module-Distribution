@@ -136,17 +136,21 @@ class ResultsLoggingView: UIView {
 
                 let advisorFoodInfo = food.foodData.advisorFoodInfo
 
-                PassioNutritionAI.shared.fetchFoodItemFor(foodItem: advisorFoodInfo.foodDataInfo,
-                                                          weightGrams: advisorFoodInfo.weightGrams) { (foodItem) in
+                if let foodDataInfo = advisorFoodInfo.foodDataInfo {
+                    PassioNutritionAI.shared.fetchFoodItemFor(foodItem: foodDataInfo,
+                                                              weightGrams: advisorFoodInfo.weightGrams) { (foodItem) in
 
-                    if let foodItem {
-                        var foodRecord = FoodRecordV3(foodItem: foodItem)
-                        foodRecord.mealLabel = MealLabel(mealTime: food.foodData.meal ?? PassioMealTime.currentMealTime())
-                        PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord)
-                        dispatchGroup.leave()
-                    } else {
-                        dispatchGroup.leave()
+                        if let foodItem {
+                            var foodRecord = FoodRecordV3(foodItem: foodItem)
+                            foodRecord.mealLabel = MealLabel(mealTime: food.foodData.meal ?? PassioMealTime.currentMealTime())
+                            PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord)
+                            dispatchGroup.leave()
+                        } else {
+                            dispatchGroup.leave()
+                        }
                     }
+                } else {
+                    dispatchGroup.leave()
                 }
             }
         }
