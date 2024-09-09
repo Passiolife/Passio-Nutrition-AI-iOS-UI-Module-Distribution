@@ -26,8 +26,7 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var imageCollectionView: UICollectionView!
-    
-    private let cellId = "ThumbnailImageCollectionCell"
+
     private var captureSession: AVCaptureSession!
     private var backCamera: AVCaptureDevice?
     private var backInput: AVCaptureInput!
@@ -220,7 +219,7 @@ extension TakePhotosViewController {
 extension TakePhotosViewController {
 
     private func configureCollectionView() {
-        imageCollectionView.register(nibName: cellId)
+        imageCollectionView.register(nibName: ThumbnailImageCollectionCell.className)
         imageCollectionView.dataSource = self
         imageCollectionView.delegate = self
     }

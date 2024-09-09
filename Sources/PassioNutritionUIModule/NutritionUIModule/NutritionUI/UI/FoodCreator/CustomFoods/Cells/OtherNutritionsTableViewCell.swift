@@ -152,9 +152,7 @@ final class OtherNutritionsTableViewCell: UITableViewCell {
     }
 
     private func setTextField(_ textField: UITextField, text: String?, title: String, index: Int) {
-        if let text,
-           !text.contains("-"),
-           let textValue = Double(text.separateStringUsingSpace.0 ?? "") {
+        if let text, !text.contains("-") {
             textField.text = text
             addedNutrients.append(title)
             manageNutrientViews(selectedIndex: index, text: text, isHidden: false)

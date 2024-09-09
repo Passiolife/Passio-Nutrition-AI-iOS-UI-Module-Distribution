@@ -251,7 +251,7 @@ extension CreateFoodViewController {
 
         if let barcode = foodRecord?.barcode, barcode != "" {
             connector.fetchUserFoods(barcode: barcode) { userFoods in
-                if let matcedFood = userFoods.first {
+                if let _ = userFoods.first {
                     completion(true)
                 } else {
                     completion(false)
