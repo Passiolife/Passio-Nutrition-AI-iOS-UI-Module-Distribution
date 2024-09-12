@@ -66,8 +66,14 @@ public actor SpeechRecognizer: ObservableObject {
      */
     public init() {
         delegationRetroreflector = nil
-        recognizer = SFSpeechRecognizer()
-
+        
+        if let language = PassioUserDefaults.getLanguage() {
+            let locale = Locale.init(identifier: language.ISOCode)
+            recognizer = SFSpeechRecognizer(locale: locale)
+        } else {
+            recognizer = SFSpeechRecognizer()
+        }
+        
         guard recognizer != nil else {
             transcribe(RecognizerError.nilRecognizer)
             return

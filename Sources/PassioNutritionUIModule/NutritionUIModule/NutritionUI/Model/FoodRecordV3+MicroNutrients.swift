@@ -74,6 +74,10 @@ extension FoodRecordV3 {
     var vitaminA: Double {
         ingredients.map { $0.nutrients.vitaminA() ?? 0 }.reduce(0.0, +).roundDigits(afterDecimal: 2)
     }
+    
+    var vitaminA_RAE: MeasurementValue {
+        getMeasurement(for: ingredients.map { $0.nutrients.vitaminA_REA() }, unit: UnitsTexts.mcg)
+    }
 
     var vitaminC: MeasurementValue {
         getMeasurement(for: ingredients.map { $0.nutrients.vitaminC() }, unit: UnitsTexts.mg)
@@ -215,6 +219,10 @@ struct MicroNutirents {
                            value: records.map { $0.vitaminA }.reduce(0.0, +).roundDigits(afterDecimal: 2),
                            unit: UnitsTexts.iu,
                            recommendedValue: 3000),
+            MicroNutirents(name: "Vitamin A, RAE",
+                           value: records.map { $0.vitaminA_RAE.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
+                           unit: records.first?.vitaminA_RAE.unit ?? UnitsTexts.mcg,
+                           recommendedValue: 900),
             MicroNutirents(name: "Vitamin C",
                            value: records.map { $0.vitaminC.value }.reduce(0.0, +).roundDigits(afterDecimal: 2),
                            unit: records.first?.vitaminC.unit ?? UnitsTexts.mg,
@@ -317,6 +325,10 @@ struct MicroNutirents {
                            value: record.vitaminA,
                            unit: UnitsTexts.iu,
                            recommendedValue: 3000),
+            MicroNutirents(name: "Vitamin A, RAE",
+                           value: record.vitaminA_RAE.value,
+                           unit: record.vitaminA_RAE.unit,
+                           recommendedValue: 900),
             MicroNutirents(name: "Vitamin C",
                            value: record.vitaminC.value,
                            unit: record.vitaminC.unit,
