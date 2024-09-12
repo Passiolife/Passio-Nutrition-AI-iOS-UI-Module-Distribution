@@ -98,10 +98,19 @@ class AdvancedTextSearchCell: UITableViewCell {
     func setup(foodRecord: FoodRecordV3,
                isFromSearch: Bool = false,
                isFavorite: Bool = false,
+               isUserFood: Bool = false,
                isRecipe: Bool = false) {
 
         if isFromSearch {
-            foodTypeImageView.image = isFavorite ? UIImage(resource: .favorites) : isRecipe ? UIImage(resource: .recipeSmall) : nil
+            foodTypeImageView.image = if isFavorite {
+                UIImage(resource: .favorites)
+            } else if isRecipe {
+                UIImage(resource: .recipeSmall)
+            } else if isUserFood {
+                UIImage(resource: .customFood)
+            } else {
+                nil
+            }
         } else {
             foodTypeImageView.image = nil
         }
