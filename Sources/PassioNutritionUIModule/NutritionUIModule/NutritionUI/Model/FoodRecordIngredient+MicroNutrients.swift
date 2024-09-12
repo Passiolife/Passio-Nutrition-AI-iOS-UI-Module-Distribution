@@ -71,6 +71,10 @@ extension FoodRecordIngredient {
     var vitaminA: Double {
         (nutrients.vitaminA() ?? 0).roundDigits(afterDecimal: 2)
     }
+    
+    var vitaminA_RAE: MeasurementValue {
+        getMeasurement(for: nutrients.vitaminA_REA(), unit: UnitsTexts.mcg)
+    }
 
     var vitaminC: MeasurementValue {
         getMeasurement(for: nutrients.vitaminC(), unit: UnitsTexts.mg)

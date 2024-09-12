@@ -11,6 +11,49 @@ import UIKit
 import PassioNutritionAISDK
 #endif
 
+public enum Language: String, CaseIterable {
+    
+    case english
+    case german
+    case french
+    case spanish
+    case hindi
+    
+    public static var `default`: Language {
+        return .english
+    }
+    
+    public var label: String {
+        switch self {
+        case .english:
+            "English"
+        case .german:
+            "German"
+        case .french:
+            "French"
+        case .spanish:
+            "Spanish"
+        case .hindi:
+            "Hindi"
+        }
+    }
+    
+    public var ISOCode: String {
+        switch self {
+        case .english:
+            "en"
+        case .german:
+            "de"
+        case .french:
+            "fr"
+        case .spanish:
+            "es"
+        case .hindi:
+            "hi"
+        }
+    }
+}
+
 class EditSettingsViewController: UIViewController {
 
     @IBOutlet weak var heightUnitTextfield: UITextField!
@@ -27,10 +70,15 @@ class EditSettingsViewController: UIViewController {
     @IBOutlet weak var enableTokenTrackingLabel: UILabel!
     @IBOutlet weak var tokenTrackingSwitch: UISwitch!
 
+    @IBOutlet weak var languageContainerView: UIView!
+    @IBOutlet weak var languageTextfield: UITextField!
+    @IBOutlet weak var languageButton: UIButton!
+
     var userProfile: UserProfileModel?
     let connector = PassioInternalConnector.shared
     var unitType = UnitSelection.allCases
-
+    var languages = Language.allCases
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +90,7 @@ class EditSettingsViewController: UIViewController {
 
         userProfile = UserManager.shared.user
         setupProfile()
+        setupLanguage()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,13 +106,13 @@ class EditSettingsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        [unitContainerView, reminderContainerView, tokenTrackingContainerView].forEach {
+        [unitContainerView, reminderContainerView, tokenTrackingContainerView, languageContainerView].forEach {
             $0.layer.shadowPath = UIBezierPath(roundedRect: $0.bounds, cornerRadius: 8).cgPath
         }
     }
 
     private func setupUI() {
-        [unitTextfield, heightUnitTextfield].forEach { textField in
+        [unitTextfield, heightUnitTextfield, languageTextfield].forEach { textField in
             textField?.configureTextField()
             textField?.addImageInTextField(isLeftImg: false,
                                            image: UIImage(systemName: "chevron.down")?
@@ -72,8 +121,9 @@ class EditSettingsViewController: UIViewController {
         }
         unitButton.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
         heightUnitButtom.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
-
-        [unitContainerView, reminderContainerView, tokenTrackingContainerView].forEach{
+        languageButton.addTarget(self, action: #selector(showLanguages), for: .touchUpInside)
+        
+        [unitContainerView, reminderContainerView, tokenTrackingContainerView, languageContainerView].forEach{
             $0?.dropShadow(radius: 8,
                            offset: CGSize(width: 0, height: 1),
                            color: .black.withAlphaComponent(0.06),
@@ -102,6 +152,17 @@ class EditSettingsViewController: UIViewController {
         reminderDinnerSwitch.isOn = userProfile?.reminderSettings?.dinner ?? false
         tokenTrackingSwitch.isOn = PassioUserDefaults.bool(for: .trackingEnabled)
     }
+    
+    private func setupLanguage() {
+        let savedLanguage = PassioUserDefaults.getLanguage() ?? Language.default
+        languageTextfield.text = savedLanguage.label
+    }
+    
+    private func didUpdateLanguage(_ language: Language) {
+        PassioUserDefaults.setLanguage(language)
+        PassioNutritionAI.shared.updateLanguage(languageCode: language.ISOCode)
+        languageTextfield.text = language.label
+    }
 
     @objc private func showUnit(_ sender: UIButton) {
         let items: [String] = switch sender.tag {
@@ -112,6 +173,11 @@ class EditSettingsViewController: UIViewController {
         default:
             []
         }
+        showPicker(sender: sender, items: items, viewTag: sender.tag)
+    }
+    
+    @objc private func showLanguages(_ sender: UIButton) {
+        let items: [String] = languages.map { $0.label }
         showPicker(sender: sender, items: items, viewTag: sender.tag)
     }
 
@@ -145,12 +211,15 @@ extension EditSettingsViewController: CustomPickerSelectionDelegate {
         switch viewTag {
         case 0:
             userProfile?.heightUnits = unitType[selectedIndex]
+            setupProfile()
         case 1:
             userProfile?.units = unitType[selectedIndex]
+            setupProfile()
+        case 2:
+            didUpdateLanguage(languages[selectedIndex])
         default:
             break
         }
-        setupProfile()
     }
 
     @IBAction func onSwitchValueChanged() {

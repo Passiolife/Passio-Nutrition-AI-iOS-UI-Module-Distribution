@@ -14,6 +14,7 @@ final class PassioUserDefaults {
         case scanningOnboardingCompleted
         case dragTrayForFirstTime
         case trackingEnabled
+        case savedLanguage
     }
 
     class func store(for key: PassioUserDefaults.Key, value: Any?) {
@@ -24,5 +25,19 @@ final class PassioUserDefaults {
     class func bool(for key: PassioUserDefaults.Key) -> Bool {
         let defaults = UserDefaults.standard
         return defaults.bool(forKey: key.rawValue)
+    }
+    
+    class func setLanguage(_ language: Language?) {
+        let defaults = UserDefaults.standard
+        defaults.set(language?.rawValue, forKey: Key.savedLanguage.rawValue)
+        defaults.synchronize()
+    }
+    
+    class func getLanguage() -> Language? {
+        let defaults = UserDefaults.standard
+        guard let language = defaults.value(forKey: Key.savedLanguage.rawValue) as? String else {
+            return nil
+        }
+        return Language(rawValue: language)
     }
 }
