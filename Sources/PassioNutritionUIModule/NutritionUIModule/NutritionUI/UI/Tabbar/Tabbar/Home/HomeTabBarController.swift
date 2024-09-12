@@ -295,6 +295,7 @@ extension HomeTabBarController: AdvancedTextSearchViewDelegate {
         guard let foodRecord = record else { return }
         let editVC = FoodDetailsViewController()
         editVC.foodDetailsControllerDelegate = self
+        editVC.isFromSearch = true
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             self.navigationController?.pushViewController(editVC, animated: true)

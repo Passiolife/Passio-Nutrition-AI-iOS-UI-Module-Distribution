@@ -468,7 +468,7 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
 
             if let userFoods = userFoods?[safe: indexPath.row] {
 
-                cell.setup(foodRecord: userFoods, isFromSearch: true)
+                cell.setup(foodRecord: userFoods, isFromSearch: true, isUserFood: true)
                 cell.onQuickAddFood = { [weak self] in
                     guard let self else { return }
                     getFoodRecord(foodData: nil, record: userFoods) { foodRecord in
@@ -517,6 +517,11 @@ extension AdvancedTextSearchView: UITableViewDataSource, UITableViewDelegate {
         case .userFoods:
             if let userFoods {
                 navigateToEditFood(foodRecord: userFoods[indexPath.row])
+            }
+
+        case .recipes:
+            if let recipes {
+                navigateToEditFood(foodRecord: recipes[indexPath.row])
             }
 
         default:

@@ -50,6 +50,7 @@ final class CreateFoodViewController: InstantiableViewController {
     var isUpdateLog = true
     var isFromNutritionFacts = false
     var isBarcodeExistInFoodList = false
+    var isFromSearch = false
 
     var foodRecord: FoodRecordV3? {
         didSet {
@@ -186,6 +187,8 @@ extension CreateFoodViewController {
         }
 
         record.iconId = record.iconId.contains("userFood") ? record.iconId : "userFood.\(record.iconId)"
+        record.refCode = record.refCode.contains("userFood") ? record.refCode : "userFood.\(record.refCode)"
+
         if isEditingExistingFood {
             connector.deleteUserFood(record: record)
         }

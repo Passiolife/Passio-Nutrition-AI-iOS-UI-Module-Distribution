@@ -36,6 +36,7 @@ class EditRecipeViewController: InstantiableViewController {
     var isFromUserFoodsList = false
     var isEditingExistingRecipe = false
     var isFromFoodDetails = false
+    var isFromSearch = false
     var isShowFoodIcon = false
     var loggedFoodRecord: FoodRecordV3?
     var tempRecipe: FoodRecordV3?
@@ -44,10 +45,7 @@ class EditRecipeViewController: InstantiableViewController {
 
     var recipe: FoodRecordV3? {
         didSet {
-            DispatchQueue.main.async { [self] in
-                saveButton.enableDisableButton(duration: 0.21, isEnabled: isSaveRecipe)
-                editRecipeTableView.reloadData()
-            }
+            refreshRecipe()
         }
     }
 
@@ -93,6 +91,7 @@ extension EditRecipeViewController {
 
             recipe.name = recipeName
             recipe.iconId = recipe.iconId.contains("Recipe") ? recipe.iconId : "Recipe.\(recipe.iconId).\(recipe.createdAt)"
+            recipe.refCode = recipe.refCode.contains("Recipe") ? recipe.refCode : "Recipe.\(recipe.refCode)"
             connector.updateRecipe(record: recipe)
             connector.updateUserFoodImage(
                 with: recipe.iconId,
@@ -220,6 +219,13 @@ extension EditRecipeViewController {
 
     private var getRecipeDetailsCell: RecipeDetailsCell? {
         editRecipeTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RecipeDetailsCell
+    }
+
+    private func refreshRecipe() {
+        DispatchQueue.main.async { [self] in
+            saveButton.enableDisableButton(duration: 0.21, isEnabled: isSaveRecipe)
+            editRecipeTableView.reloadData()
+        }
     }
 
     // MARK: Cell Helper
@@ -551,6 +557,7 @@ extension EditRecipeViewController: IngredientEditorViewDelegate {
         if isAddIngredient, !isReplaceIngredient {
             if var recipe {
                 recipe.addIngredient(ingredient: ingredient)
+                self.recipe = recipe
             } else if let tempRecipe {
                 var record = tempRecipe
                 record.addIngredient(ingredient: ingredient)
@@ -565,9 +572,12 @@ extension EditRecipeViewController: IngredientEditorViewDelegate {
         } else {
             if var recipe {
                 recipe.replaceIngredient(updatedIngredient: ingredient, atIndex: atIndex)
+                self.recipe = recipe
             } else if let tempRecipe {
                 var record = tempRecipe
-                record.replaceIngredient(updatedIngredient: ingredient, atIndex: atIndex)
+                if record.ingredients.count == 1 {
+                    record.replaceIngredient(updatedIngredient: ingredient, atIndex: atIndex)
+                }
                 record.name = recipeName
                 record.iconId = tempRecipe.iconId
                 record.updateServingSizeAndUnitsForRecipe()

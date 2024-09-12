@@ -224,6 +224,7 @@ private extension FoodDetailsViewController {
         createFoodVC.isFromCustomFoodList = isFromCustomFoodsList
         createFoodVC.isFromBarcode = isFromBarcode
         createFoodVC.isUpdateLog = isUpdateLogUponCreating
+        createFoodVC.isFromSearch = isFromSearch
         createFoodVC.foodRecord = record
         createFoodVC.loggedFoodRecord = loggedFoodRecord
         createFoodVC.loadViewIfNeeded()
@@ -245,6 +246,7 @@ private extension FoodDetailsViewController {
         editRecipeVC.isFromRecipeList = isFromRecipeList
         editRecipeVC.isFromUserFoodsList = isFromCustomFood
         editRecipeVC.isFromFoodDetails = true
+        editRecipeVC.isFromSearch = isFromSearch
         editRecipeVC.isShowFoodIcon = isShowFoodIcon
         editRecipeVC.loadViewIfNeeded()
         editRecipeVC.recipe = record
@@ -332,7 +334,7 @@ extension FoodDetailsViewController: CreateFoodAlertDelegate {
                                  isEditingExistingRecipe: false,
                                  isShowFoodIcon: !isMakeRecipe)
         } else {
-            if isFromSearch {
+            if isFromSearch && !isEditingRecord {
                 isUpdateLogUponCreating = false
             }
             navigateToCreateFood(with: foodRecord,
@@ -342,6 +344,11 @@ extension FoodDetailsViewController: CreateFoodAlertDelegate {
     }
 
     func onEdit() {
+
+        if isFromSearch && !isEditingRecord {
+            isUpdateLogUponCreating = false
+        }
+
         if isRecipe, let recipe {
             navigateToEditRecipe(with: recipe,
                                  loggedFoodRecord: foodRecord,
