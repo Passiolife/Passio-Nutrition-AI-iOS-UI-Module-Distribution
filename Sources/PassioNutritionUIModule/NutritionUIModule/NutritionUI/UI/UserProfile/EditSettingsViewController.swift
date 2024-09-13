@@ -17,7 +17,6 @@ public enum Language: String, CaseIterable {
     case german
     case french
     case spanish
-    case hindi
     
     public static var `default`: Language {
         return .english
@@ -33,8 +32,6 @@ public enum Language: String, CaseIterable {
             "French"
         case .spanish:
             "Spanish"
-        case .hindi:
-            "Hindi"
         }
     }
     
@@ -48,8 +45,6 @@ public enum Language: String, CaseIterable {
             "fr"
         case .spanish:
             "es"
-        case .hindi:
-            "hi"
         }
     }
 }
