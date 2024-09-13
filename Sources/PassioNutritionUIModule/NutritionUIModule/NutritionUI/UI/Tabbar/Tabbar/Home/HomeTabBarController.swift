@@ -70,7 +70,6 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         addTabBarControllers()
         configureUI()
         UserManager.shared.configure()
-        showTokenUsageUI()
         DispatchQueue.global(qos: .background).async {
             FileManager.default.clearTempDirectory()
         }
@@ -212,15 +211,6 @@ extension HomeTabBarController {
         customPickerViewController.modalPresentationStyle = .overFullScreen
         self.navigationController?.present(customPickerViewController, animated: true, completion: nil)
     }
-
-    private func showTokenUsageUI() {
-        PassioNutritionAI.shared.accountDelegate = self
-        if PassioUserDefaults.bool(for: .trackingEnabled) {
-            TokenUsageOverlayManager.shared.showOverlay()
-        } else {
-            TokenUsageOverlayManager.shared.hideOverlay()
-        }
-    }
 }
 
 // MARK: - TabBar delegate
@@ -345,13 +335,5 @@ extension HomeTabBarController: CustomPickerSelectionDelegate {
             break
         default: break
         }
-    }
-}
-
-// MARK: - PassioAccount Delegate
-extension HomeTabBarController: PassioAccountDelegate {
-
-    func tokenBudgetUpdated(tokenBudget: PassioTokenBudget) {
-        TokenUsageOverlayManager.shared.updateOverlay(withBudget: tokenBudget)
     }
 }

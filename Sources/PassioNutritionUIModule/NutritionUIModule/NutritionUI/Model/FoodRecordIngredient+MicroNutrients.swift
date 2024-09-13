@@ -73,7 +73,7 @@ extension FoodRecordIngredient {
     }
     
     var vitaminA_RAE: MeasurementValue {
-        getMeasurement(for: nutrients.vitaminA_REA(), unit: UnitsTexts.mcg)
+        getMeasurement(for: nutrients.vitaminA_RAE(), unit: UnitsTexts.mcg)
     }
 
     var vitaminC: MeasurementValue {
