@@ -65,11 +65,6 @@ class EditSettingsViewController: UIViewController {
     @IBOutlet weak var reminderDinnerSwitch: UISwitch!
     @IBOutlet weak var unitContainerView: UIView!
     @IBOutlet weak var reminderContainerView: UIView!
-    @IBOutlet weak var tokenTrackingContainerView: UIView!
-    @IBOutlet weak var tokenTrackingLabel: UILabel!
-    @IBOutlet weak var enableTokenTrackingLabel: UILabel!
-    @IBOutlet weak var tokenTrackingSwitch: UISwitch!
-
     @IBOutlet weak var languageContainerView: UIView!
     @IBOutlet weak var languageTextfield: UITextField!
     @IBOutlet weak var languageButton: UIButton!
@@ -106,7 +101,7 @@ class EditSettingsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        [unitContainerView, reminderContainerView, tokenTrackingContainerView, languageContainerView].forEach {
+        [unitContainerView, reminderContainerView, languageContainerView].forEach {
             $0.layer.shadowPath = UIBezierPath(roundedRect: $0.bounds, cornerRadius: 8).cgPath
         }
     }
@@ -123,7 +118,7 @@ class EditSettingsViewController: UIViewController {
         heightUnitButtom.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
         languageButton.addTarget(self, action: #selector(showLanguages), for: .touchUpInside)
         
-        [unitContainerView, reminderContainerView, tokenTrackingContainerView, languageContainerView].forEach{
+        [unitContainerView, reminderContainerView, languageContainerView].forEach{
             $0?.dropShadow(radius: 8,
                            offset: CGSize(width: 0, height: 1),
                            color: .black.withAlphaComponent(0.06),
@@ -131,7 +126,7 @@ class EditSettingsViewController: UIViewController {
                            shadowOpacity: 1)
         }
 
-        [reminderBreakfastSwitch, reminderDinnerSwitch, reminderLunchSwitch, tokenTrackingSwitch].forEach({
+        [reminderBreakfastSwitch, reminderDinnerSwitch, reminderLunchSwitch].forEach({
             $0?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         })
 
@@ -140,7 +135,6 @@ class EditSettingsViewController: UIViewController {
         reminderBreakfastSwitch.onTintColor = .primaryColor
         reminderLunchSwitch.onTintColor = .primaryColor
         reminderDinnerSwitch.onTintColor = .primaryColor
-        tokenTrackingSwitch.onTintColor = .primaryColor
     }
 
     private func setupProfile() {
@@ -150,7 +144,6 @@ class EditSettingsViewController: UIViewController {
         reminderBreakfastSwitch.isOn = userProfile?.reminderSettings?.breakfast ?? false
         reminderLunchSwitch.isOn = userProfile?.reminderSettings?.lunch ?? false
         reminderDinnerSwitch.isOn = userProfile?.reminderSettings?.dinner ?? false
-        tokenTrackingSwitch.isOn = PassioUserDefaults.bool(for: .trackingEnabled)
     }
     
     private func setupLanguage() {
@@ -228,12 +221,5 @@ extension EditSettingsViewController: CustomPickerSelectionDelegate {
         reminderSettings.lunch = reminderLunchSwitch.isOn
         reminderSettings.dinner = reminderDinnerSwitch.isOn
         userProfile?.reminderSettings = reminderSettings
-    }
-
-    @IBAction func onTokenTrackingChanged(_ sender: UISwitch) {
-
-        PassioUserDefaults.store(for: .trackingEnabled, value: sender.isOn)
-        let tokenOverlay = TokenUsageOverlayManager.shared
-        sender.isOn ? tokenOverlay.showOverlay() : tokenOverlay.hideOverlay()
     }
 }

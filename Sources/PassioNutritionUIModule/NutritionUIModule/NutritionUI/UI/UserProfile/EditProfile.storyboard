@@ -732,58 +732,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9aw-eN-46c">
-                                <rect key="frame" x="16" y="471.33333333333326" width="361" height="99"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Token Tracking" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RY9-IM-tcY">
-                                        <rect key="frame" x="16" y="16" width="329" height="18.666666666666671"/>
-                                        <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="16"/>
-                                        <color key="textColor" name="gray-900"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="OEX-Q9-RZf">
-                                        <rect key="frame" x="16" y="50.666666666666686" width="329" height="31"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EaY-oR-ZtQ">
-                                                <rect key="frame" x="0.0" y="0.0" width="264" height="31"/>
-                                                <attributedString key="attributedText">
-                                                    <fragment content="Enable token tracking">
-                                                        <attributes>
-                                                            <color key="NSColor" name="gray-500"/>
-                                                            <font key="NSFont" metaFont="system" size="14"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SY5-Jh-cA7">
-                                                <rect key="frame" x="280" y="0.0" width="51" height="31"/>
-                                                <color key="onTintColor" name="indigo-600"/>
-                                                <connections>
-                                                    <action selector="onTokenTrackingChanged:" destination="Khq-aa-WOm" eventType="valueChanged" id="fx0-zD-zjc"/>
-                                                </connections>
-                                            </switch>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="RY9-IM-tcY" firstAttribute="leading" secondItem="9aw-eN-46c" secondAttribute="leading" constant="16" id="6Cf-1t-18s"/>
-                                    <constraint firstAttribute="bottom" secondItem="OEX-Q9-RZf" secondAttribute="bottom" constant="17.329999999999998" id="J3r-Bm-qbS"/>
-                                    <constraint firstAttribute="trailing" secondItem="RY9-IM-tcY" secondAttribute="trailing" constant="16" id="TDI-49-yi6"/>
-                                    <constraint firstItem="OEX-Q9-RZf" firstAttribute="top" secondItem="RY9-IM-tcY" secondAttribute="bottom" constant="16" id="Y73-2H-6GG"/>
-                                    <constraint firstItem="OEX-Q9-RZf" firstAttribute="leading" secondItem="9aw-eN-46c" secondAttribute="leading" constant="16" id="hUV-ih-eJD"/>
-                                    <constraint firstAttribute="trailing" secondItem="OEX-Q9-RZf" secondAttribute="trailing" constant="16" id="ngx-r4-dC2"/>
-                                    <constraint firstItem="RY9-IM-tcY" firstAttribute="top" secondItem="9aw-eN-46c" secondAttribute="top" constant="16" id="xyY-LG-ZFR"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
-                                        <real key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sO7-GX-vBj">
-                                <rect key="frame" x="16" y="586.33333333333337" width="361" height="109.66666666666663"/>
+                                <rect key="frame" x="16" y="471.33333333333331" width="361" height="109.66666666666669"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Language" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DtW-HX-187">
                                         <rect key="frame" x="15" y="16" width="331" height="18.666666666666671"/>
@@ -792,7 +742,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="THl-O9-Y1M">
-                                        <rect key="frame" x="15" y="49.666666666666629" width="331" height="40"/>
+                                        <rect key="frame" x="15" y="49.666666666666686" width="331" height="40"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cGQ-RT-SQx">
                                                 <rect key="frame" x="0.0" y="0.0" width="331" height="40"/>
@@ -830,7 +780,7 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wlk-Zp-Ngg">
-                                        <rect key="frame" x="156" y="49.666666666666629" width="190" height="40"/>
+                                        <rect key="frame" x="156" y="49.666666666666686" width="190" height="40"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     </button>
                                 </subviews>
@@ -858,22 +808,18 @@
                         <viewLayoutGuide key="safeArea" id="u69-bX-bkR"/>
                         <color key="backgroundColor" name="gray-50"/>
                         <constraints>
-                            <constraint firstItem="9aw-eN-46c" firstAttribute="leading" secondItem="u69-bX-bkR" secondAttribute="leading" constant="16" id="0CU-RZ-OU1"/>
                             <constraint firstItem="244-aB-baR" firstAttribute="top" secondItem="u69-bX-bkR" secondAttribute="top" constant="16" id="8cZ-Pg-AYV"/>
                             <constraint firstItem="cXi-HL-SRi" firstAttribute="top" secondItem="244-aB-baR" secondAttribute="bottom" constant="16" id="9o5-Uq-ffj"/>
                             <constraint firstItem="u69-bX-bkR" firstAttribute="trailing" secondItem="244-aB-baR" secondAttribute="trailing" constant="16" id="EmD-Op-eSH"/>
                             <constraint firstItem="u69-bX-bkR" firstAttribute="trailing" secondItem="cXi-HL-SRi" secondAttribute="trailing" constant="16" id="PGS-g8-8a6"/>
-                            <constraint firstItem="u69-bX-bkR" firstAttribute="trailing" secondItem="9aw-eN-46c" secondAttribute="trailing" constant="16" id="aTj-Pa-zKy"/>
                             <constraint firstItem="244-aB-baR" firstAttribute="leading" secondItem="24o-dR-lkg" secondAttribute="leading" constant="16" id="bMv-2P-8Je"/>
                             <constraint firstItem="sO7-GX-vBj" firstAttribute="leading" secondItem="u69-bX-bkR" secondAttribute="leading" constant="16" id="eir-G8-89r"/>
                             <constraint firstItem="cXi-HL-SRi" firstAttribute="leading" secondItem="u69-bX-bkR" secondAttribute="leading" constant="16" id="fp8-xq-cv6"/>
                             <constraint firstItem="u69-bX-bkR" firstAttribute="trailing" secondItem="sO7-GX-vBj" secondAttribute="trailing" constant="16" id="gYL-Ch-pEi"/>
-                            <constraint firstItem="9aw-eN-46c" firstAttribute="top" secondItem="cXi-HL-SRi" secondAttribute="bottom" constant="16" id="m1j-d4-v6r"/>
-                            <constraint firstItem="sO7-GX-vBj" firstAttribute="top" secondItem="9aw-eN-46c" secondAttribute="bottom" constant="16" id="v4W-kF-kLo"/>
+                            <constraint firstItem="sO7-GX-vBj" firstAttribute="top" secondItem="cXi-HL-SRi" secondAttribute="bottom" constant="16" id="ynP-Ol-IpC"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="enableTokenTrackingLabel" destination="EaY-oR-ZtQ" id="r1t-rn-kkt"/>
                         <outlet property="heightUnitButtom" destination="Nwk-vx-eLT" id="F3a-nQ-CIU"/>
                         <outlet property="heightUnitTextfield" destination="H5N-bd-gMO" id="hcw-g9-SCA"/>
                         <outlet property="languageButton" destination="Wlk-Zp-Ngg" id="gIh-wA-ySx"/>
@@ -883,9 +829,6 @@
                         <outlet property="reminderContainerView" destination="cXi-HL-SRi" id="URx-bV-bOC"/>
                         <outlet property="reminderDinnerSwitch" destination="Ycb-Ng-t4O" id="4KL-TV-aPA"/>
                         <outlet property="reminderLunchSwitch" destination="ypj-KP-4pz" id="dXn-c0-3PY"/>
-                        <outlet property="tokenTrackingContainerView" destination="9aw-eN-46c" id="2xf-ze-s0V"/>
-                        <outlet property="tokenTrackingLabel" destination="RY9-IM-tcY" id="woW-PA-YVF"/>
-                        <outlet property="tokenTrackingSwitch" destination="SY5-Jh-cA7" id="1Ww-qx-KbX"/>
                         <outlet property="unitButton" destination="4sN-1s-DtS" id="iZW-AN-jyc"/>
                         <outlet property="unitContainerView" destination="244-aB-baR" id="Mtn-mf-qgG"/>
                         <outlet property="unitTextfield" destination="Tgy-n4-pTg" id="V3K-KX-0xc"/>
@@ -905,9 +848,6 @@
         </namedColor>
         <namedColor name="gray-50">
             <color red="0.97647058823529409" green="0.98039215686274506" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
-        <namedColor name="gray-500">
-            <color red="0.41960784313725491" green="0.44705882352941179" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="gray-500-bg">
             <color red="0.41960784313725491" green="0.44705882352941179" blue="0.50196078431372548" alpha="0.75" colorSpace="custom" customColorSpace="displayP3"/>
