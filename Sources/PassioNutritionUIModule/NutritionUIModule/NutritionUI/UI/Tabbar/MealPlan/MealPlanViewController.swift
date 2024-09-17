@@ -291,28 +291,19 @@ extension MealPlanViewController {
             return
         }
 
-        PassioNutritionAI.shared.fetchFoodItemFor(foodItem: passioFoodDataInfo) { (foodItem) in
+        PassioNutritionAI.shared.fetchFoodItemFor(
+            foodDataInfo: passioFoodDataInfo,
+            servingQuantity: passioFoodDataInfo.nutritionPreview?.servingQuantity,
+            servingUnit: passioFoodDataInfo.nutritionPreview?.servingUnit
+        ) { (foodItem) in
 
             DispatchQueue.main.async {
-
-                guard let foodItem = foodItem else {
+                guard let foodItem else {
                     completion(nil)
                     return
                 }
-
-                let nutritionPreview = passioFoodDataInfo.nutritionPreview
                 var foodRecord = FoodRecordV3(foodItem: foodItem)
                 foodRecord.mealLabel = MealLabel.init(mealTime: mealPlanItem.mealTime ?? .snack)
-
-                if foodRecord.setSelectedUnit(unit: nutritionPreview?.servingUnit ?? ""),
-                   let quantity = nutritionPreview?.servingQuantity {
-                    foodRecord.setSelectedQuantity(quantity: quantity)
-                } else {
-                    let weight = nutritionPreview?.weightQuantity ?? 0
-                    if foodRecord.setSelectedUnit(unit: "gram") {
-                        foodRecord.setSelectedQuantity(quantity: weight)
-                    }
-                }
                 completion(foodRecord)
             }
         }

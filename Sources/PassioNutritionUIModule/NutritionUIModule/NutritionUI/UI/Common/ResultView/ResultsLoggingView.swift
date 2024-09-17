@@ -137,8 +137,12 @@ class ResultsLoggingView: UIView {
                 let advisorFoodInfo = food.foodData.advisorFoodInfo
 
                 if let foodDataInfo = advisorFoodInfo.foodDataInfo {
-                    PassioNutritionAI.shared.fetchFoodItemFor(foodItem: foodDataInfo,
-                                                              weightGrams: advisorFoodInfo.weightGrams) { (foodItem) in
+
+                    PassioNutritionAI.shared.fetchFoodItemFor(
+                        foodDataInfo: foodDataInfo,
+                        servingQuantity: foodDataInfo.nutritionPreview?.servingQuantity,
+                        servingUnit: foodDataInfo.nutritionPreview?.servingUnit
+                    ) { (foodItem) in
 
                         if let foodItem {
                             var foodRecord = FoodRecordV3(foodItem: foodItem)
@@ -172,7 +176,7 @@ extension ResultsLoggingView: UITableViewDataSource, UITableViewDelegate {
 
         let cell = tableView.dequeueCell(cellClass: VoiceLoggingCell.self, forIndexPath: indexPath)
         let foodLog = foodLogs[indexPath.row]
-        cell.configureUI(with: foodLog)
+        cell.configureCell(with: foodLog)
         return cell
     }
 
