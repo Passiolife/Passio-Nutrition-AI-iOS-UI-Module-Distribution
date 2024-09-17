@@ -39,7 +39,11 @@ struct SuggestedFoods {
                 completion(nil)
                 return
             }
-            PassioNutritionAI.shared.fetchFoodItemFor(foodItem: searchResult) { (foodItem) in
+            PassioNutritionAI.shared.fetchFoodItemFor(
+                foodDataInfo: searchResult,
+                servingQuantity: searchResult.nutritionPreview?.servingQuantity,
+                servingUnit: searchResult.nutritionPreview?.servingUnit
+            ) { (foodItem) in
                 guard let foodItem else {
                     completion(nil)
                     return

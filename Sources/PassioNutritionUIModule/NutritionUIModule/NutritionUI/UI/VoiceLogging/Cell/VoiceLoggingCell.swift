@@ -2,7 +2,7 @@
 //  VoiceLoggingCell.swift
 //  
 //
-//  Created by nikunj Prajapati on 10/06/24.
+//  Created by Nikunj Prajapati on 10/06/24.
 //
 
 import UIKit
@@ -14,11 +14,12 @@ class VoiceLoggingCell: UITableViewCell {
     @IBOutlet weak var foodDetailsLabel: UILabel!
     @IBOutlet weak var checkImage: UIImageView!
 
-    func configureUI(with foodLog: FoodLog) {
+    func configureCell(with foodLog: FoodLog) {
 
         let advisorInfo = foodLog.foodData.advisorFoodInfo
 
         if let foodInfo = advisorInfo.foodDataInfo {
+            
             foodImageView.setFoodImage(id: foodInfo.iconID,
                                        passioID: foodInfo.iconID,
                                        entityType: .item,
@@ -31,16 +32,21 @@ class VoiceLoggingCell: UITableViewCell {
             foodNameLabel.text = foodInfo.foodName.capitalized
 
             if let nutritionPreview = foodInfo.nutritionPreview {
-
-                let ratio = (Double(nutritionPreview.calories) / nutritionPreview.weightQuantity).roundDigits(afterDecimal: 2)
-                foodDetailsLabel.text = "\(advisorInfo.weightGrams) g | \((ratio * advisorInfo.weightGrams).roundDigits(afterDecimal: 2)) cal"
-
+                foodDetailsLabel.text = "\(nutritionPreview.servingQuantity) \(nutritionPreview.servingUnit) | \(nutritionPreview.calories) \(UnitsTexts.cal)"
             } else {
                 foodDetailsLabel.text = ""
             }
 
             checkImage.image = UIImage(systemName: foodLog.isSelected ? "circle.fill" : "circle")
             checkImage.tintColor = foodLog.isSelected ? .primaryColor : .gray300
+
+        } else if let packagedFoodItem = advisorInfo.packagedFoodItem {
+
+            foodNameLabel.text = packagedFoodItem.name
+            foodDetailsLabel.text = packagedFoodItem.details
+            let calories = packagedFoodItem.nutrientsReference().calories()?.value.roundDigits(afterDecimal: 2) ?? 0
+            foodDetailsLabel.text = "\(packagedFoodItem.amount.selectedQuantity) \(packagedFoodItem.amount.selectedUnit) | \(calories) \(UnitsTexts.cal)"
+
         } else {
             foodNameLabel.text = ""
             foodDetailsLabel.text = ""
