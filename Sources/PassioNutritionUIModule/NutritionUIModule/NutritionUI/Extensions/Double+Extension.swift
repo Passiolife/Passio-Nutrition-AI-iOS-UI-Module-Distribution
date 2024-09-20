@@ -35,6 +35,16 @@ public extension Double {
         let formattedValue = formatter.string(from: number)!
         return "\(formattedValue)"
     }
+    
+    func roundTo(_ max: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = max
+        formatter.minimumFractionDigits = 0
+        guard let formattedString = formatter.string(for: self) else {
+            return ""
+        }
+        return formattedString
+    }
 }
 
 public extension Double {

@@ -42,6 +42,7 @@ let package = Package(
                 .product(name: "Lottie", package: "lottie-spm")
             ],
             resources: [.process("NutritionUIModule/VoiceLogging.json"), // Lottie Animation
+                        .process("NutritionUIModule/TypingIndicator.json"),
                         .copy("CoreSDK/ServicesVolume/VolumeKernels/FindMode.metal"), // VolumeKernels
                         .copy("CoreSDK/ServicesVolume/VolumeKernels/HeightToVolume.metal"),
                         .copy("CoreSDK/ServicesVolume/VolumeKernels/KalmanStatic1D.metal"),

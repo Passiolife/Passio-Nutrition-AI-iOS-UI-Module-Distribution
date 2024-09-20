@@ -266,6 +266,11 @@ extension HomeTabBarController: PlusMenuDelegate {
         let vc = SelectPhotosViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func onNutritionAdvisorSelected() {
+        let vc = NutritionAdvisorVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - Plusbutton Navigation
