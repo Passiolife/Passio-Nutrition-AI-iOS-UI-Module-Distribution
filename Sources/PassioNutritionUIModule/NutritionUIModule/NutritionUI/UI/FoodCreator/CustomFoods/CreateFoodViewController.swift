@@ -161,6 +161,7 @@ extension CreateFoodViewController {
                                       barcode: foodDetails.barcode ?? "",
                                       entityType: .item)
             record.iconId = record.iconId.contains("userFood") ? record.iconId : "userFood.\(record.iconId).\(record.createdAt)"
+            record.refCode = record.refCode.contains("userFood") ? record.refCode : "userFood.\(record.refCode)"
             connector.updateUserFood(record: record)
             connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image.get180pImage)
         }

@@ -355,11 +355,11 @@ class MealPlanManager {
     static var shared: MealPlanManager = MealPlanManager()
     var mealPlans: [PassioMealPlan] = []
 
-    init() {}
+    private init() {}
 
     func getMealPlans() {
-        PassioNutritionAI.shared.fetchMealPlans { mealPlans in
-            self.mealPlans = mealPlans
+        PassioNutritionAI.shared.fetchMealPlans { [weak self] mealPlans in
+            self?.mealPlans = mealPlans
         }
     }
 }
