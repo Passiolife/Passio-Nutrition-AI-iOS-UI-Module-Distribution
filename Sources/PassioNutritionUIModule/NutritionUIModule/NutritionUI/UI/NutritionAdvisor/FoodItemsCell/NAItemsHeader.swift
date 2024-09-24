@@ -12,17 +12,6 @@ class NAItemsHeader: UITableViewHeaderFooterView
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var messageLabel: UILabel!
 
-//    override init(reuseIdentifier: String?) {
-//        super.init(reuseIdentifier: reuseIdentifier)
-//        basicSetup()
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        print("Init header view: coder")
-//        basicSetup()
-//    }
-    
     func basicSetup() {
         messageLabel.font = .inter(type: .regular, size: 14)
         bgView.clipsToBounds = true
@@ -30,8 +19,12 @@ class NAItemsHeader: UITableViewHeaderFooterView
         bgView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
-    func load(title: String) {
+    func configure(isImageResult: Bool, logStatus: LogStatus) {
         basicSetup()
-        messageLabel.text = title
+        if logStatus == .logged {
+            messageLabel.text = NAFoodLoggedTitle
+        } else {
+            messageLabel.text = isImageResult ? NAImageSearchTitle: NATextSearchTitle
+        }
     }
 }

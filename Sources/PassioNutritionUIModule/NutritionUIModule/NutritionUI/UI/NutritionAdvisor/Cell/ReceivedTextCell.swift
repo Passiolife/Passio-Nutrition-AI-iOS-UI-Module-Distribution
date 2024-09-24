@@ -23,6 +23,7 @@ class ReceivedTextCell: UITableViewCell {
 
     func basicSetup() {
         self.selectionStyle = .none
+        messageLabel.font = .inter(type: .regular, size: 14)
         findFoodButton.titleLabel?.font = .inter(type: .regular, size: 14)
         bgView.clipsToBounds = true
         bgView.layer.cornerRadius = 8

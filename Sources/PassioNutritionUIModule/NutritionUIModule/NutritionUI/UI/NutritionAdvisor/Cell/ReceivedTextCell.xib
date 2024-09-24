@@ -24,19 +24,19 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KSc-CU-RZs">
-                        <rect key="frame" x="16" y="0.0" width="324" height="79.666666666666671"/>
+                        <rect key="frame" x="16" y="0.0" width="324" height="78.333333333333329"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="CgH-PM-DRZ">
-                                <rect key="frame" x="12" y="9.9999999999999964" width="300" height="59.666666666666657"/>
+                                <rect key="frame" x="12" y="10.000000000000004" width="300" height="58.333333333333343"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5zV-Od-ZHp">
-                                        <rect key="frame" x="143" y="0.0" width="14.333333333333343" height="17.666666666666668"/>
-                                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="15"/>
+                                        <rect key="frame" x="143.33333333333334" y="0.0" width="13.333333333333343" height="16.333333333333332"/>
+                                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9bb-wj-7nf">
-                                        <rect key="frame" x="108.66666666666666" y="29.666666666666664" width="83" height="30"/>
+                                        <rect key="frame" x="108.66666666666666" y="28.333333333333336" width="83" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="bbf-gp-nOu"/>

@@ -13,10 +13,6 @@ class NASingleImageCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        basicSetup()
-    }
-    
-    func basicSetup() {
         self.selectionStyle = .none
     }
     

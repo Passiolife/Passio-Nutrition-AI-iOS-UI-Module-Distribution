@@ -89,25 +89,35 @@ extension ImageCapture {
         case .authorized:
             setupAndStartCaptureSession()
         case .denied:
-            showAlertWith(titleKey: "Allow camera permission in settings to Identify foods in Image", view: self)
+            showPermissionAlert()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: AVMediaType.video) { [weak self] (authorized) in
                 guard let self else { return }
                 if !authorized {
-                    showAlertWith(titleKey: "Allow camera permission in settings to Identify foods in Image", view: self)
+                    showPermissionAlert()
                 } else {
                     setupAndStartCaptureSession()
                 }
             }
         case .restricted:
-            showAlertWith(titleKey: "Allow camera permission in settings to Identify foods in Image", view: self)
+            showPermissionAlert()
         @unknown default:
             fatalError()
         }
     }
+    
+    private func showPermissionAlert() {
+        DispatchQueue.main.async {
+            self.showAlertWith(titleKey: "Allow camera permission in settings to identify foods in Image", view: self) { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
 
     private func setupAndStartCaptureSession() {
-
+        DispatchQueue.main.async {
+            self.activityView.isHidden = false
+        }
         DispatchQueue.global(qos: .userInteractive).async { [self] in
             // Session Configuration
             captureSession = AVCaptureSession()

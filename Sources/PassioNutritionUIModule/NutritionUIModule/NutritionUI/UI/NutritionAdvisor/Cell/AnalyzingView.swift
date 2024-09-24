@@ -13,6 +13,7 @@ class AnalyzingView: UIView
     @IBOutlet var contentView: UIView!
     @IBOutlet var bgView: UIView!
     @IBOutlet weak var loader: LottieAnimationView!
+    @IBOutlet weak var titleLabel: UILabel!
 
     init(frame: CGRect, bundle: Bundle = PassioInternalConnector.shared.bundleForModule) {
         super.init(frame: frame)
@@ -40,5 +41,13 @@ class AnalyzingView: UIView
         loader.loopMode = .loop // .autoReverse
         loader.animationSpeed = 0.8
         loader.play(fromProgress: 0, toProgress: 0.5, loopMode: .loop)
+    }
+    
+    func updateUI(_ isAnalysing: Bool) {
+        if isAnalysing {
+            titleLabel.isHidden = false
+        } else {
+            titleLabel.isHidden = true
+        }
     }
 }

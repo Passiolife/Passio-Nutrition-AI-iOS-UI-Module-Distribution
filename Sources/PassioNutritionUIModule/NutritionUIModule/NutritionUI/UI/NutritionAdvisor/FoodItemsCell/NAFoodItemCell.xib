@@ -20,10 +20,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fEL-Gz-Z99">
-                        <rect key="frame" x="16" y="0.0" width="368" height="68.666666666666671"/>
+                        <rect key="frame" x="16" y="0.0" width="368" height="68.333333333333329"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xie-W9-iRj">
-                                <rect key="frame" x="8" y="0.0" width="352" height="60.666666666666664"/>
+                                <rect key="frame" x="8" y="0.0" width="352" height="60.333333333333336"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uYy-H8-kkz">
                                         <rect key="frame" x="10" y="10.333333333333336" width="40" height="40"/>
@@ -37,29 +37,29 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="X8s-Nf-1qe">
-                                        <rect key="frame" x="58" y="15.000000000000002" width="244" height="30.666666666666671"/>
+                                        <rect key="frame" x="58" y="14.999999999999998" width="249" height="30.333333333333329"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wYS-er-1um">
-                                                <rect key="frame" x="0.0" y="0.0" width="244" height="14.333333333333334"/>
-                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="249" height="14"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                                                <color key="textColor" name="gray-900"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="--" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYW-ox-nQ0">
-                                                <rect key="frame" x="0.0" y="16.333333333333332" width="244" height="14.333333333333332"/>
+                                                <rect key="frame" x="0.0" y="16" width="249" height="14.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" name="gray-700"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liR-e5-Ysr">
-                                        <rect key="frame" x="307" y="8" width="45" height="45"/>
+                                        <rect key="frame" x="312" y="10.333333333333336" width="40" height="40"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="45" id="ORF-3m-MVp"/>
+                                            <constraint firstAttribute="width" constant="40" id="ORF-3m-MVp"/>
                                             <constraint firstAttribute="width" secondItem="liR-e5-Ysr" secondAttribute="height" multiplier="1:1" id="v9C-1v-5cx"/>
                                         </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                         <state key="normal" image="radioNormal"/>
                                         <state key="selected" image="radioSelected"/>
                                         <connections>
@@ -128,6 +128,12 @@
         <image name="green-check" width="40" height="40"/>
         <image name="radioNormal" width="24" height="24"/>
         <image name="radioSelected" width="24" height="24"/>
+        <namedColor name="gray-700">
+            <color red="0.21568627450980393" green="0.25490196078431371" blue="0.31764705882352939" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
         <namedColor name="indigo-50">
             <color red="0.93333333333333335" green="0.94901960784313721" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

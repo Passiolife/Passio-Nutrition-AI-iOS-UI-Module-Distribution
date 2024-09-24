@@ -25,41 +25,72 @@ class NAFoodItemCell: UITableViewCell {
     
     func basicSetup() {
         self.selectionStyle = .none
-        foodNameLabel.font = .inter(type: .semiBold, size: 12)
+        foodNameLabel.font = .inter(type: .semiBold, size: 13)
         foodInfoLabel.font = .inter(type: .regular, size: 12)
     }
     
-    func load(advisorInfo: PassioAdvisorFoodInfo?) {
+    func load(foodItem: NAFoodItem, logStatus: LogStatus) {
         
-        if let advisorInfo = advisorInfo,
-           let foodInfo = advisorInfo.foodDataInfo {
-            
-            // 1. Image
-            foodImageView.setFoodImage(id: foodInfo.iconID,
-                                       passioID: foodInfo.iconID,
-                                       entityType: .item,
-                                       connector: PassioInternalConnector.shared) { [weak self] image in
-                DispatchQueue.main.async {
-                    self?.foodImageView.image = image
-                }
-            }
-            
-            // 2. Name
-            foodNameLabel.text = foodInfo.foodName.capitalized
-            
-            // 3. Info
-            if let nutritionPreview = foodInfo.nutritionPreview {
-                let ratio = (Double(nutritionPreview.calories) / nutritionPreview.weightQuantity).roundDigits(afterDecimal: 2)
-                foodInfoLabel.text = "\(advisorInfo.weightGrams) g | \((ratio * advisorInfo.weightGrams).roundDigits(afterDecimal: 2)) cal"
-            } else {
-                foodInfoLabel.text = ""
-            }
-        } 
-        else {
+        let advisorInfo = foodItem.food
+        guard let foodInfo = advisorInfo.foodDataInfo else {
             foodImageView.image = nil
             foodNameLabel.text = "--"
             foodInfoLabel.text = "--"
+            radioButton.isHidden = true
+            tickImageView.isHidden = true
+            return
         }
+
+        // 1. Image
+        foodImageView.setFoodImage(id: foodInfo.iconID,
+                                   passioID: foodInfo.iconID,
+                                   entityType: .item,
+                                   connector: PassioInternalConnector.shared) { [weak self] image in
+            DispatchQueue.main.async {
+                self?.foodImageView.image = image
+            }
+        }
+        
+        // 2. Name
+        foodNameLabel.text = foodInfo.foodName.capitalized
+        
+        // 3. Info
+        if let nutritionPreview = foodInfo.nutritionPreview {
+            let ratio = (Double(nutritionPreview.calories) / nutritionPreview.weightQuantity).roundDigits(afterDecimal: 2)
+            foodInfoLabel.text = "\(advisorInfo.weightGrams) g | \((ratio * advisorInfo.weightGrams).roundDigits(afterDecimal: 2)) cal"
+        } else {
+            foodInfoLabel.text = ""
+        }
+        
+        // 4. Radio button | Tick image
+        
+        switch logStatus {
+            
+        case .notLogged:
+            tickImageView.isHidden = true
+            radioButton.isHidden = false
+            radioButton.isEnabled = true
+            radioButton.isSelected = foodItem.isSelected
+        
+        case .logging:
+            tickImageView.isHidden = true
+            radioButton.isHidden = false
+            radioButton.isEnabled = false
+            radioButton.isSelected = foodItem.isSelected
+            
+        case .logged:
+            tickImageView.isHidden = false
+            radioButton.isHidden = true
+        }
+    }
+    
+    func updateRadioButton(isSelected: Bool) {
+        UIView.transition(with: radioButton,
+                          duration: 0.35,
+                          options: .transitionCrossDissolve,
+                          animations: {
+            self.radioButton.isSelected = isSelected
+        })
     }
 
     @IBAction func radioButtonTapped(_ sender: UIButton) {

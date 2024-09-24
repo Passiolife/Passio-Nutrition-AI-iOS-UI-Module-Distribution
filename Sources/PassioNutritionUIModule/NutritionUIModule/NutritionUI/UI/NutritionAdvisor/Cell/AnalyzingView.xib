@@ -14,6 +14,7 @@
                 <outlet property="bgView" destination="We9-KV-5Nm" id="tTa-s5-xte"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="A7v-9h-5JI"/>
                 <outlet property="loader" destination="AGs-SV-J5g" id="s7f-x8-DIo"/>
+                <outlet property="titleLabel" destination="qHe-Xn-tg8" id="4MU-uB-5hw"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -22,21 +23,21 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="We9-KV-5Nm">
-                    <rect key="frame" x="16" y="0.0" width="199.33333333333334" height="33"/>
+                    <rect key="frame" x="16" y="0.0" width="194.33333333333334" height="33"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FE6-on-Vmo">
-                            <rect key="frame" x="8" y="8" width="179.33333333333334" height="17"/>
+                            <rect key="frame" x="10" y="8" width="174.33333333333334" height="17"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AGs-SV-J5g" customClass="LottieAnimationView" customModule="Lottie">
-                                    <rect key="frame" x="0.0" y="0.66666666666666607" width="40" height="15.999999999999998"/>
+                                    <rect key="frame" x="0.0" y="0.66666666666666607" width="35" height="15.999999999999998"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="40" id="4a8-DA-OGc"/>
+                                        <constraint firstAttribute="width" constant="35" id="4a8-DA-OGc"/>
                                         <constraint firstAttribute="height" constant="16" id="uPU-jp-tBm"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Advisor is analysing..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qHe-Xn-tg8">
-                                    <rect key="frame" x="40" y="0.0" width="139.33333333333334" height="17"/>
+                                    <rect key="frame" x="35" y="0.0" width="139.33333333333334" height="17"/>
                                     <fontDescription key="fontDescription" type="italicSystem" pointSize="14"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -47,9 +48,9 @@
                     </subviews>
                     <color key="backgroundColor" name="indigo-500"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="FE6-on-Vmo" secondAttribute="trailing" constant="12" id="gA9-QA-LZL"/>
+                        <constraint firstAttribute="trailing" secondItem="FE6-on-Vmo" secondAttribute="trailing" constant="10" id="gA9-QA-LZL"/>
                         <constraint firstAttribute="bottom" secondItem="FE6-on-Vmo" secondAttribute="bottom" constant="8" id="gbD-zP-8mW"/>
-                        <constraint firstItem="FE6-on-Vmo" firstAttribute="leading" secondItem="We9-KV-5Nm" secondAttribute="leading" constant="8" id="iiM-5H-KRY"/>
+                        <constraint firstItem="FE6-on-Vmo" firstAttribute="leading" secondItem="We9-KV-5Nm" secondAttribute="leading" constant="10" id="iiM-5H-KRY"/>
                         <constraint firstItem="FE6-on-Vmo" firstAttribute="top" secondItem="We9-KV-5Nm" secondAttribute="top" constant="8" id="sF7-3b-5Z5"/>
                     </constraints>
                 </view>

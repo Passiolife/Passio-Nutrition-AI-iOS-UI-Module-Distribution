@@ -15,6 +15,7 @@ final class PassioUserDefaults {
         case dragTrayForFirstTime
         case trackingEnabled
         case savedLanguage
+        case savedAdvisorHistory
     }
 
     class func store(for key: PassioUserDefaults.Key, value: Any?) {
@@ -39,5 +40,27 @@ final class PassioUserDefaults {
             return nil
         }
         return Language(rawValue: language)
+    }
+    
+    class func saveAdvisorHistory(_ datasource: [NAMessageModel]) {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(datasource) {
+            let defaults = UserDefaults.standard
+            defaults.set(encoded, forKey: Key.savedAdvisorHistory.rawValue)
+            defaults.synchronize()
+        }
+    }
+    
+    class func fetchAdvisorHistory() -> [NAMessageModel]? {
+        let defaults = UserDefaults.standard
+        guard let history = defaults.object(forKey: Key.savedAdvisorHistory.rawValue) as? Data else { return nil }
+        let decoder = JSONDecoder()
+        guard let datasource = try? decoder.decode([NAMessageModel].self, from: history) else { return nil }
+        return datasource
+    }
+    
+    class func clearAdvisorHistory() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: Key.savedAdvisorHistory.rawValue)
     }
 }

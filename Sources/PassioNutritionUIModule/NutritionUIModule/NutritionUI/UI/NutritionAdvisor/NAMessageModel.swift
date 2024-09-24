@@ -19,7 +19,18 @@ enum MeassageType: Codable {
     case receivedFood
 }
 
-struct NAMessageModel: Codable {
+struct NAFoodItem: Codable {
+    let food: PassioAdvisorFoodInfo
+    var isSelected: Bool = true
+}
+
+enum LogStatus: Codable {
+    case notLogged
+    case logging
+    case logged
+}
+
+class NAMessageModel: Codable {
     
     var type: MeassageType?
     var content: String?
@@ -28,9 +39,10 @@ struct NAMessageModel: Codable {
     
     var canFindFood: Bool = false
     var isImageResult: Bool = false
-    var foodCount: Int {
-        response?.extractedIngredients?.count ?? 0
-    }
+    
+    var foodItems: [NAFoodItem] = []
+    var isLogged: Bool = false
+    var logStatus: LogStatus = .notLogged
     
     // Send Message
     init(content: String) {
@@ -58,17 +70,23 @@ struct NAMessageModel: Codable {
         }
     }
     
-    init(response: PassioAdvisorResponse?,
-         type: MeassageType,
-         isImageResult: Bool = false)
-    {
+    init(response: PassioAdvisorResponse?, type: MeassageType) {
         self.type = type
         self.response = response
-        self.isImageResult = isImageResult
         
         if type == .receivedMessage {
             canFindFood = self.response?.tools?.contains("SearchIngredientMatches") ?? false
         }
+    }
+    
+    init(foodItems: [NAFoodItem], 
+         response: PassioAdvisorResponse? = nil,
+         isImageResult: Bool = false)
+    {
+        self.type = .receivedFood
+        self.response = response
+        self.foodItems = foodItems
+        self.isImageResult = isImageResult
     }
     
     public static func saveImageInDocumentDirectory(image: UIImage, fileName: String) -> URL? {
@@ -86,21 +104,6 @@ struct NAMessageModel: Codable {
         }
         return nil
     }
-    
-//    public func image() -> UIImage? {
-//        guard let fileName = imageFileName,
-//              let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-//            return nil
-//        }
-//        let fileURL = documentsUrl.appendingPathComponent(fileName)
-//        do {
-//            let image = UIImage(contentsOfFile: fileURL.path)
-//            return image
-//        } catch {
-//            print("Error retrieving image: \(error.localizedDescription)")
-//        }
-//        return nil
-//    }
     
     public func image(atIndex index: Int) -> UIImage? {
         guard imageFileNames.count > index,

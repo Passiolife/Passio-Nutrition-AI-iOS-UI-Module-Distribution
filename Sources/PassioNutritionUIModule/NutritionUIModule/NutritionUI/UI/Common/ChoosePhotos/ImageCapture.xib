@@ -99,7 +99,7 @@
                         <constraint firstAttribute="width" secondItem="54z-kR-LOQ" secondAttribute="height" multiplier="1:1" id="rR8-cM-iTh"/>
                     </constraints>
                 </imageView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Axl-vp-FFf">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Axl-vp-FFf">
                     <rect key="frame" x="125.00000000000001" y="421.66666666666669" width="180.33333333333337" height="89"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="F5B-1o-dqM">
