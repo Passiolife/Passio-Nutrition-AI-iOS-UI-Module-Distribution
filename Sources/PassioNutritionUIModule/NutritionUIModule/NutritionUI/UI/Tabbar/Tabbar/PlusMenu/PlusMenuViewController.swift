@@ -16,6 +16,7 @@ protocol PlusMenuDelegate: AnyObject {
     func onVoiceLoggingSelected()
     func onTakePhotosSelected()
     func onSelectPhotosSelected()
+    func onNutritionAdvisorSelected()
 }
 
 extension PlusMenuDelegate {
@@ -26,6 +27,7 @@ extension PlusMenuDelegate {
     func onVoiceLoggingSelected() { }
     func onTakePhotosSelected() { }
     func onSelectPhotosSelected() { }
+    func onNutritionAdvisorSelected() { }
 }
 
 final class PlusMenuViewController: InstantiableViewController {
@@ -45,6 +47,7 @@ final class PlusMenuViewController: InstantiableViewController {
         case useImage
         case takePhotos
         case selectPhotos
+        case nutritionAdvisor
 
         var image: UIImage? {
             switch self {
@@ -56,6 +59,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .takePhotos: UIImage.imageFromBundle(named: "takePhotos")
             case .selectPhotos: UIImage.imageFromBundle(named: "selectPhotos")
             case .useImage: UIImage.imageFromBundle(named: "useImage")
+            case .nutritionAdvisor: UIImage.imageFromBundle(named: "aiAdvisor")
             }
         }
 
@@ -69,6 +73,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .takePhotos: "Take Photos"
             case .selectPhotos: "Select Photos"
             case .useImage: "Use Image"
+            case .nutritionAdvisor: "AI Advisor"
             }
         }
     }
@@ -76,6 +81,7 @@ final class PlusMenuViewController: InstantiableViewController {
     private let allRows: [Rows] = [.myFoods,
                                    .favourite,
                                    .voiceLogging,
+                                   .nutritionAdvisor,
                                    .useImage,
                                    .search,
                                    .scan,
@@ -84,6 +90,7 @@ final class PlusMenuViewController: InstantiableViewController {
     var menuData: [Rows] = [.myFoods,
                             .favourite,
                             .voiceLogging,
+                            .nutritionAdvisor,
                             .useImage,
                             .search,
                             .scan,
@@ -185,6 +192,8 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         case .useImage:
             menuData = menuData.filter { $0 == .takePhotos || $0 == .selectPhotos }
             menuTableView.reloadWithAnimations(withDuration: 0.12)
+        case .nutritionAdvisor:
+            delegate?.onNutritionAdvisorSelected()
         }
     }
 

@@ -18,6 +18,11 @@ extension UICollectionView {
         })
     }
 
+    func registerNib<T: UICollectionViewCell>(_ cellClass: T.Type) {
+        let nibName = "\(cellClass)"
+        register(UINib.nibFromBundle(nibName: nibName), forCellWithReuseIdentifier: nibName)
+    }
+    
     func dequeueCell<T: UICollectionViewCell>(cellClass: T.Type, forIndexPath indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableCell(withReuseIdentifier: T.identifier, for: indexPath) as? T else {
             fatalError("Unable to Dequeue Reusable CollectionView Cell")

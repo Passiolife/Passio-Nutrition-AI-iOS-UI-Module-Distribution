@@ -29,6 +29,18 @@ public extension UITableView {
         register(UINib.nibFromBundle(nibName: nibName, bundle: bundle), forCellReuseIdentifier: nibName)
     }
 
+    func registerHeaderFooter<T: UITableViewHeaderFooterView>(
+        _ viewClass: T.Type) {
+            self.register(UINib.nibFromBundle(nibName: "\(viewClass)"), forHeaderFooterViewReuseIdentifier: "\(viewClass)")
+        }
+    
+    func dequeueHeaderFooter<T: UITableViewHeaderFooterView>(_ view : T.Type) -> T {
+        guard let view = self.dequeueReusableHeaderFooterView(withIdentifier: "\(view)") as? T else {
+            fatalError("Error: cell with identifier: \(view) is not \(T.self)")
+        }
+        return view
+    }
+    
     func scrollToBottom() {
         DispatchQueue.main.async {
             let indexPath = IndexPath(

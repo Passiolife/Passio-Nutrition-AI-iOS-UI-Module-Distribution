@@ -73,6 +73,12 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         DispatchQueue.global(qos: .background).async {
             FileManager.default.clearTempDirectory()
         }
+        /** 
+         Remove Nutrition Advisor history.
+         We are storing history only for App session. Once App is re-opened,
+         we need to clear history.
+         */
+        PassioUserDefaults.clearAdvisorHistory()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -264,6 +270,11 @@ extension HomeTabBarController: PlusMenuDelegate {
 
     func onSelectPhotosSelected() {
         let vc = SelectPhotosViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func onNutritionAdvisorSelected() {
+        let vc = NutritionAdvisorVC()
         navigationController?.pushViewController(vc, animated: true)
     }
 }

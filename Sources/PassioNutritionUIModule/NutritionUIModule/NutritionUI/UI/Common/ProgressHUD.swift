@@ -10,7 +10,7 @@ import UIKit
 
 public final class ProgressHUD {
 
-    public static func show(presentingVC: UIViewController) {
+    public static func show(presentingVC: UIViewController, color: UIColor = .primaryColor) {
 
         DispatchQueue.main.async {
 
@@ -34,7 +34,7 @@ public final class ProgressHUD {
 
             presentingVC.present(viewController, animated: false)
             spinnerView.startAnimating()
-            spinnerView.color = .primaryColor
+            spinnerView.color = color
             spinnerView.style = .medium
         }
     }
