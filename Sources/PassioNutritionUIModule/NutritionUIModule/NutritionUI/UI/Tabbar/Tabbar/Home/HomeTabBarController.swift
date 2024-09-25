@@ -34,7 +34,7 @@ enum HemburgarMenuOptions: String {
 
 final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate {
 
-    private enum Tabs: String {
+    private enum NavigationTabs: String {
         case home = "Home"
         case diary = "Diary"
         case mealPlan = "Meal Plan"
@@ -62,7 +62,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         }
     }
 
-    private var tabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
+    private var navigationTabs: [NavigationTabs] = [.home, .diary, .mealPlan, .progress]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +84,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        title = tabs[selectedIndex].naviagationTitle
+        title = navigationTabs[selectedIndex].naviagationTitle
         configureNavBar()
     }
 
@@ -109,9 +109,9 @@ extension HomeTabBarController {
     private func setTabBarItemsTitleAndPosition() {
         guard let tabBarItems = tabBar.items else { return }
 
-        for i in 0..<tabs.count {
-            tabBarItems[i].title = tabs[i].rawValue
-            tabBarItems[i].image = tabs[i].tabImage
+        for i in 0..<navigationTabs.count {
+            tabBarItems[i].title = navigationTabs[i].rawValue
+            tabBarItems[i].image = navigationTabs[i].tabImage
         }
 
         tabBarItems[0].titlePositionAdjustment.horizontal = -6
@@ -134,9 +134,9 @@ extension HomeTabBarController {
 
     private func addTabBarControllers() {
 
-        for i in 0..<tabs.count {
+        for i in 0..<navigationTabs.count {
 
-            switch tabs[i] {
+            switch navigationTabs[i] {
 
             case .home:
                 let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
@@ -224,7 +224,7 @@ extension HomeTabBarController {
 
     func tabBarController(_ tabBarController: UITabBarController,
                           didSelect viewController: UIViewController) {
-        title = tabs[selectedIndex].naviagationTitle
+        title = navigationTabs[selectedIndex].naviagationTitle
     }
 }
 
