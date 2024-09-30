@@ -103,8 +103,14 @@ extension RequiredNutritionsTableViewCell {
         fatTextField.text = nutritionData.fat?.stringValue
     }
 
+    private func isGramsOrMl(unit: String) -> Bool {
+        let unitLowercased = unit.lowercased()
+        let result = unitLowercased == "\(UnitsTexts.gram)" || unitLowercased == "\(UnitsTexts.grams)" || unitLowercased == ml
+        return result
+    }
+    
     private func setWeightStackView(unit: String? = "") {
-        let isGramsOrMl = unit == "\(UnitsTexts.gram)" || unit == ml
+        let isGramsOrMl = isGramsOrMl(unit: unit ?? "")
         weightStackView.isHidden = isGramsOrMl
         weightButton.isHidden = isGramsOrMl
         weightLabel.isHidden = isGramsOrMl
