@@ -57,27 +57,57 @@ public struct FoodRecordV3: Codable, Equatable {
     }
 
     public var totalCalories: Double {
-        ingredients.map { $0.totalCalories }.reduce(0.0, +).roundDigits(afterDecimal: 0)
+        totalCalories()
     }
 
     public var totalCarbs: Double {
-        ingredients.map { $0.totalCarbs }.reduce(0.0, +).roundDigits(afterDecimal: 1)
+        totalCarbs()
     }
 
     public var totalProteins: Double {
-        ingredients.map { $0.totalProteins }.reduce(0.0, +).roundDigits(afterDecimal: 1)
+        totalProteins()
     }
 
     public var totalFat: Double {
-        ingredients.map { $0.totalFat }.reduce(0.0, +).roundDigits(afterDecimal: 1)
+        totalFat()
     }
 
     public var totalFiber: Double {
-        ingredients.map { $0.totalFiber }.reduce(0.0, +).roundDigits(afterDecimal: 1)
+        totalFiber()
     }
 
     public var nutritionSummary: NutritionSummary {
         (calories: totalCalories, carbs: totalCarbs, protein: totalProteins, fat: totalFat)
+    }
+    
+    // totalCalories
+    public func totalCalories(round: Bool = true, maxDigits: Int = 0) -> Double {
+        let value = ingredients.map { $0.totalCalories }.reduce(0.0, +)
+        return round ? value.roundDigits(afterDecimal: maxDigits) : value
+    }
+    
+    // totalCarbs
+    public func totalCarbs(round: Bool = true, maxDigits: Int = 1) -> Double {
+        let value = ingredients.map { $0.totalCarbs }.reduce(0.0, +)
+        return round ? value.roundDigits(afterDecimal: maxDigits) : value
+    }
+    
+    // totalProteins
+    public func totalProteins(round: Bool = true, maxDigits: Int = 1) -> Double {
+        let value = ingredients.map { $0.totalProteins }.reduce(0.0, +)
+        return round ? value.roundDigits(afterDecimal: maxDigits) : value
+    }
+    
+    // totalFat
+    public func totalFat(round: Bool = true, maxDigits: Int = 1) -> Double {
+        let value = ingredients.map { $0.totalFat }.reduce(0.0, +)
+        return round ? value.roundDigits(afterDecimal: maxDigits) : value
+    }
+    
+    // totalFiber
+    public func totalFiber(round: Bool = true, maxDigits: Int = 1) -> Double {
+        let value = ingredients.map { $0.totalFiber }.reduce(0.0, +)
+        return round ? value.roundDigits(afterDecimal: maxDigits) : value
     }
 
     public var computedWeight: Measurement<UnitMass> {
@@ -370,10 +400,10 @@ public struct FoodRecordV3: Codable, Equatable {
         nutritionFacts.servingSizeQuantity = selectedQuantity
         nutritionFacts.servingSizeUnitName = selectedUnit
         nutritionFacts.servingSizeGram = computedWeight.value
-        nutritionFacts.calories = totalCalories
-        nutritionFacts.carbs = totalCarbs
-        nutritionFacts.protein = totalProteins
-        nutritionFacts.fat = totalFat
+        nutritionFacts.calories = totalCalories(round: true, maxDigits: 4)
+        nutritionFacts.carbs = totalCarbs(round: true, maxDigits: 4)
+        nutritionFacts.protein = totalProteins(round: true, maxDigits: 4)
+        nutritionFacts.fat = totalFat(round: true, maxDigits: 4)
 
         let nutrients = getNutrients()
         nutritionFacts.saturatedFat = nutrients.satFat()?.value

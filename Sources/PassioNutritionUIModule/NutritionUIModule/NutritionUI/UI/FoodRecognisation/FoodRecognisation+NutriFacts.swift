@@ -157,6 +157,7 @@ extension NutritionFactsDataSet {
     }
 
     func getNutritionValue(with value: Double?, unit: String) -> String {
-        (value?.roundDigits(afterDecimal: 2).clean ?? "-") + " \(unit)"
+        (value?.roundDigits(afterDecimal: 4).clean ?? "-") + " \(unit)"
+        //value?.clean ?? "-"
     }
 }
