@@ -22,6 +22,7 @@ enum MeassageType: Codable {
 struct NAFoodItem: Codable {
     let food: PassioAdvisorFoodInfo
     var isSelected: Bool = true
+    var isLogged: Bool = false
 }
 
 enum LogStatus: Codable {
