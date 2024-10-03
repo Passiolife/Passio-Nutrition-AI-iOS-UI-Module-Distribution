@@ -328,19 +328,60 @@ extension NutritionAdvisorVC {
         }
     }
     
-    func logFood(atIndex index: Int) {
+//    func logFood(atIndex index: Int) {
+//        enableInteration(false)
+//        var message = datasource[index]
+//        let foodItems = message.foodItems.filter { $0.isSelected }
+//        
+//        var loggedFoodItems = [NAFoodItem]()
+//        let dispatchGroup = DispatchGroup()
+//
+//        foodItems.forEach { foodItem in
+//            dispatchGroup.enter()
+//            DispatchQueue.global(qos: .userInteractive).async {
+//                
+//                if let foodDataInfo = foodItem.food.foodDataInfo {
+//                    
+//                    PassioNutritionAI.shared.fetchFoodItemFor(
+//                        foodDataInfo: foodDataInfo,
+//                        servingQuantity: foodDataInfo.nutritionPreview?.servingQuantity,
+//                        servingUnit: foodDataInfo.nutritionPreview?.servingUnit
+//                    ) { passioFoodItem in
+//                        
+//                        if let passioFoodItem {
+//                            var foodRecord = FoodRecordV3(foodItem: passioFoodItem)
+//                            foodRecord.mealLabel = MealLabel(mealTime: PassioMealTime.currentMealTime())
+//                            PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord)
+//                            loggedFoodItems.append(foodItem)
+//                            dispatchGroup.leave()
+//                        } else {
+//                            dispatchGroup.leave()
+//                        }
+//                    }
+//                } else {
+//                    dispatchGroup.leave()
+//                }
+//            }
+//        }
+//        dispatchGroup.notify(queue: .main) {
+//            message.logStatus = .logged
+//            message.foodItems = loggedFoodItems
+//            self.tableView.reloadSections([index], with: .none)
+//            self.enableInteration(true)
+//        }
+//    }
+    
+    func logFood(atIndex sectionIndex: Int) {
         enableInteration(false)
-        var message = datasource[index]
-        let foodItems = message.foodItems.filter { $0.isSelected }
-        
-        var loggedFoodItems = [NAFoodItem]()
+        var message = datasource[sectionIndex]
+        var foodItems = message.foodItems.filter { $0.isSelected }
         let dispatchGroup = DispatchGroup()
-
-        foodItems.forEach { foodItem in
+        
+        for index in 0..<foodItems.count {
             dispatchGroup.enter()
             DispatchQueue.global(qos: .userInteractive).async {
                 
-                if let foodDataInfo = foodItem.food.foodDataInfo {
+                if let foodDataInfo = foodItems[index].food.foodDataInfo {
                     
                     PassioNutritionAI.shared.fetchFoodItemFor(
                         foodDataInfo: foodDataInfo,
@@ -352,7 +393,7 @@ extension NutritionAdvisorVC {
                             var foodRecord = FoodRecordV3(foodItem: passioFoodItem)
                             foodRecord.mealLabel = MealLabel(mealTime: PassioMealTime.currentMealTime())
                             PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord)
-                            loggedFoodItems.append(foodItem)
+                            foodItems[index].isLogged = true
                             dispatchGroup.leave()
                         } else {
                             dispatchGroup.leave()
@@ -365,8 +406,8 @@ extension NutritionAdvisorVC {
         }
         dispatchGroup.notify(queue: .main) {
             message.logStatus = .logged
-            message.foodItems = loggedFoodItems
-            self.tableView.reloadSections([index], with: .none)
+            message.foodItems = foodItems.filter { $0.isLogged == true }
+            self.reloadTable()
             self.enableInteration(true)
         }
     }
