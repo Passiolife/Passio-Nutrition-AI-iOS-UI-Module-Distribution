@@ -83,3 +83,13 @@ public extension CGFloat {
         return roundedValue > self ? roundedValue : roundedValue + CGFloat(multiple)
     }
 }
+
+public extension Float {
+    var clean: String {
+        let formatter = NumberFormatter()
+        let number = NSNumber(value: self)
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 1
+        return String(formatter.string(from: number) ?? "")
+    }
+}
