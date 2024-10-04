@@ -83,7 +83,10 @@ extension UserPreferencesCell {
             activityLvlTextField.text = activityLevel.rawValue.localized
         }
         if let goalWeightTimeLine = userProfile?.goalWeightTimeLine {
-            calorieDeficitTextField.text = goalWeightTimeLine.localized
+            //calorieDeficitTextField.text = goalWeightTimeLine.localized
+            guard let weightGoal = WeightGoal(rawValue: goalWeightTimeLine) else { return }
+            let isImperial = userProfile?.units == .imperial
+            calorieDeficitTextField.text = isImperial ? weightGoal.valueInLbs : weightGoal.valueInKg
         }
         if let mealPlan = userProfile?.mealPlan{
             dietTextField.text = mealPlan.mealPlanTitle ?? "" 
