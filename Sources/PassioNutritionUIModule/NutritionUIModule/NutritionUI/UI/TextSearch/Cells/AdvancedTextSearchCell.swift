@@ -115,7 +115,7 @@ class AdvancedTextSearchCell: UITableViewCell {
 
         passioIDForCell = passioFoodDataInfo.iconID
         foodImgView.loadPassioIconBy(passioID: passioFoodDataInfo.iconID,
-                                     entityType: .item) { passioIDForImage, image in
+                                     entityType: PassioIDEntityType.item) { passioIDForImage, image in
             if passioIDForImage == self.passioIDForCell {
                 DispatchQueue.main.async {
                     self.foodImgView.image = image

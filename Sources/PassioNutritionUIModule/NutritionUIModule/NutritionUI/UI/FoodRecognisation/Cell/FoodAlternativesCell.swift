@@ -31,7 +31,7 @@ class FoodAlternativesCell: UITableViewCell {
 
     func setupNameAndImage(name: String, passioID: String){
         self.labelFoodName.text = name.capitalized
-        self.imageFoodIcon.loadPassioIconBy(passioID: passioID, entityType: .item) { id, image in
+        self.imageFoodIcon.loadPassioIconBy(passioID: passioID, entityType: PassioIDEntityType.item) { id, image in
             DispatchQueue.main.async {
                 self.imageFoodIcon.image = image
             }
