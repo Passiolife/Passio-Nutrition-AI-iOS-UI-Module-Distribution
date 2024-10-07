@@ -6,7 +6,10 @@
 //
 
 import UIKit
-
+import PassioNutritionUIModule
+#if canImport(PassioNutritionAISDK)
+import PassioNutritionAISDK
+#endif
 class EditRecipeViewController: InstantiableViewController {
 
     @IBOutlet weak var deleteButton: UIButton!
