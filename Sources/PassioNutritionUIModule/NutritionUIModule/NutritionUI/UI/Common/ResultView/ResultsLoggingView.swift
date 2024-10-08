@@ -30,9 +30,13 @@ class ResultsLoggingView: UIView {
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var resultsLabel: UILabel!
     @IBOutlet weak var foodResultsTableView: UITableView!
-    @IBOutlet weak var logSelectedButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var logView: UIView!
+    @IBOutlet weak var logSelectedButton: UIButton!
+    @IBOutlet weak var logLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var recognitionData: [PassioSpeechRecognitionModel]? {
         didSet {
@@ -55,7 +59,7 @@ class ResultsLoggingView: UIView {
         didSet {
             let isEnabled = foodLogs.filter { $0.isSelected }.count > 0
             logSelectedButton.isEnabled = isEnabled
-            logSelectedButton.alpha = isEnabled ? 1 : 0.8
+            logView.alpha = isEnabled ? 1 : 0.8
             foodResultsTableView.reloadData()
             tableViewHeightConstraint.constant = foodResultsTableView.contentSize.height >= 200 ? 200 : foodResultsTableView.contentSize.height
         }
@@ -79,6 +83,8 @@ class ResultsLoggingView: UIView {
                                shadowOpacity: 1)
 
         resultsLabel.font = .inter(type: .bold, size: 20)
+        logLabel.font = .inter(type: .medium, size: 16)
+        
         let title = "Clear".toMutableAttributedString
         title.apply(attribute: [.foregroundColor: UIColor.primaryColor,
                                 .underlineColor: UIColor.primaryColor,
@@ -91,10 +97,12 @@ class ResultsLoggingView: UIView {
         clearButton.setAttributedTitle(title, for: .normal)
         cancelButton.applyBorder(width: 2, color: .primaryColor)
         cancelButton.setTitleColor(.primaryColor, for: .normal)
-        logSelectedButton.backgroundColor = .primaryColor
+        logView.backgroundColor = .primaryColor
         tryAgainButton.tintColor = .primaryColor
         tryAgainButton.setTitleColor(.primaryColor, for: .normal)
         tryAgainButton.applyBorder(width: 2, color: .primaryColor)
+        
+        updateLogUI(isLogging: false)
     }
 
     override func layoutSubviews() {
@@ -118,8 +126,22 @@ class ResultsLoggingView: UIView {
     }
 
     @IBAction func onLogSelected(_ sender: UIButton) {
+        updateLogUI(isLogging: true)
         getFoodRecord(foods: foodLogs.filter { $0.isSelected }) { [weak self] in
+            self?.updateLogUI(isLogging: false)
             self?.resultLoggingDelegate?.onLogSelectedTapped()
+        }
+    }
+    
+    func updateLogUI(isLogging: Bool) {
+        if isLogging {
+            self.isUserInteractionEnabled = false
+            logLabel.text = "Logging..."
+            activityIndicator.startAnimating()
+        } else {
+            self.isUserInteractionEnabled = true
+            logLabel.text = "Log Selected"
+            activityIndicator.stopAnimating()
         }
     }
 

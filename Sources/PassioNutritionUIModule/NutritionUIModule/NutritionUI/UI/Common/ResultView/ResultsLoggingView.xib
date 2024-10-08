@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Inter-Bold.ttf">
+            <string>Inter-Bold</string>
+        </array>
         <array key="Inter-Medium.ttf">
             <string>Inter-Medium</string>
         </array>
@@ -45,7 +48,7 @@
                                                     <fragment content="Clear">
                                                         <attributes>
                                                             <color key="NSColor" red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <font key="NSFont" size="14" name="Inter-Regular"/>
+                                                            <font key="NSFont" metaFont="system" size="14"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                             <integer key="NSUnderline" value="1"/>
                                                         </attributes>
@@ -151,26 +154,54 @@
                                                 <action selector="onTryAgain:" destination="iN0-l3-epB" eventType="touchUpInside" id="n7a-9Z-ZdU"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqP-JW-STv">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTZ-DD-FUd">
                                             <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="50"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ejb-hK-q0Q">
+                                                    <rect key="frame" x="23.33333333333335" y="15" width="125.66666666666669" height="20"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log Selected" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntR-Td-eSN">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100.66666666666667" height="20"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="StC-ca-x4L">
+                                                            <rect key="frame" x="105.66666666666669" y="0.0" width="20" height="20"/>
+                                                            <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </activityIndicatorView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </stackView>
+                                                <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AqP-JW-STv">
+                                                    <rect key="frame" x="0.0" y="0.0" width="172.33333333333334" height="50"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                            <real key="value" value="4"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="onLogSelected:" destination="iN0-l3-epB" eventType="touchUpInside" id="v8z-kT-JhD"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
                                             <color key="backgroundColor" name="indigo-600"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="50" id="Alk-Ns-9wY"/>
+                                                <constraint firstItem="Ejb-hK-q0Q" firstAttribute="centerY" secondItem="hTZ-DD-FUd" secondAttribute="centerY" id="0ao-dS-wLH"/>
+                                                <constraint firstAttribute="trailing" secondItem="AqP-JW-STv" secondAttribute="trailing" id="25j-BZ-Kqo"/>
+                                                <constraint firstItem="AqP-JW-STv" firstAttribute="leading" secondItem="hTZ-DD-FUd" secondAttribute="leading" id="5t9-2Z-Nyl"/>
+                                                <constraint firstAttribute="height" constant="50" id="NwW-4I-PTK"/>
+                                                <constraint firstItem="Ejb-hK-q0Q" firstAttribute="centerX" secondItem="hTZ-DD-FUd" secondAttribute="centerX" id="UO8-Nq-X5s"/>
+                                                <constraint firstAttribute="bottom" secondItem="AqP-JW-STv" secondAttribute="bottom" id="kqj-of-BBn"/>
+                                                <constraint firstItem="AqP-JW-STv" firstAttribute="top" secondItem="hTZ-DD-FUd" secondAttribute="top" id="z1T-dj-tjd"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
-                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal" title="Log Selected">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </state>
-                                            <userDefinedRuntimeAttributes>
-                                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
-                                                    <real key="value" value="4"/>
-                                                </userDefinedRuntimeAttribute>
-                                            </userDefinedRuntimeAttributes>
-                                            <connections>
-                                                <action selector="onLogSelected:" destination="iN0-l3-epB" eventType="touchUpInside" id="v8z-kT-JhD"/>
-                                            </connections>
-                                        </button>
+                                        </view>
                                     </subviews>
                                 </stackView>
                             </subviews>
@@ -195,18 +226,21 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="activityIndicator" destination="StC-ca-x4L" id="fBk-bs-MFc"/>
                 <outlet property="cancelButton" destination="szM-XN-zmb" id="Oig-pb-Ro4"/>
                 <outlet property="clearButton" destination="QnA-pt-rPg" id="YEY-MH-9s2"/>
                 <outlet property="contentView" destination="l0T-Sj-mjk" id="pky-P6-1Cc"/>
                 <outlet property="foodResultsTableView" destination="0TA-ey-tj2" id="bff-Oa-Vde"/>
+                <outlet property="logLabel" destination="ntR-Td-eSN" id="v6f-jQ-C30"/>
                 <outlet property="logSelectedButton" destination="AqP-JW-STv" id="E4W-tI-Zls"/>
+                <outlet property="logView" destination="hTZ-DD-FUd" id="vRh-cd-Wnu"/>
                 <outlet property="resultsLabel" destination="4yP-Zf-ohD" id="U9S-4f-QuC"/>
                 <outlet property="searchManuallyButton" destination="DhE-s9-RDY" id="tD7-h7-urE"/>
                 <outlet property="searchManuallyStackView" destination="tiL-OE-hhM" id="Dsb-Db-9Wx"/>
                 <outlet property="tableViewHeightConstraint" destination="Pex-x8-1wO" id="8ZI-YZ-Ywz"/>
                 <outlet property="tryAgainButton" destination="PBT-Fw-Jt6" id="Dyi-CM-ald"/>
             </connections>
-            <point key="canvasLocation" x="-196" y="-21"/>
+            <point key="canvasLocation" x="-196.18320610687022" y="-21.126760563380284"/>
         </view>
     </objects>
     <resources>

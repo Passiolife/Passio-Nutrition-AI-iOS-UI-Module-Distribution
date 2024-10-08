@@ -25,6 +25,7 @@ class NutritionAdvisorVC: InstantiableViewController {
     @IBOutlet weak var closeButton: UIButton!
     
     private var isReady: Bool = false
+    private var isProcessing: Bool = false
     private var datasource: [NAMessageModel] = []
     private var keyboardHeight: CGFloat = 0
     private var footerView: AnalyzingView?
@@ -81,6 +82,7 @@ class NutritionAdvisorVC: InstantiableViewController {
     }
     
     private func showFooterView(isAnalysing: Bool = false) {
+        isProcessing = true
         if let footerView = footerView {
             footerView.updateUI(isAnalysing)
             tableView.tableFooterView = footerView
@@ -90,6 +92,7 @@ class NutritionAdvisorVC: InstantiableViewController {
     }
     
     private func hideFooterView() {
+        isProcessing = false
         tableView.tableFooterView = nil
         enableInteration(true)
     }
@@ -328,49 +331,6 @@ extension NutritionAdvisorVC {
         }
     }
     
-//    func logFood(atIndex index: Int) {
-//        enableInteration(false)
-//        var message = datasource[index]
-//        let foodItems = message.foodItems.filter { $0.isSelected }
-//        
-//        var loggedFoodItems = [NAFoodItem]()
-//        let dispatchGroup = DispatchGroup()
-//
-//        foodItems.forEach { foodItem in
-//            dispatchGroup.enter()
-//            DispatchQueue.global(qos: .userInteractive).async {
-//                
-//                if let foodDataInfo = foodItem.food.foodDataInfo {
-//                    
-//                    PassioNutritionAI.shared.fetchFoodItemFor(
-//                        foodDataInfo: foodDataInfo,
-//                        servingQuantity: foodDataInfo.nutritionPreview?.servingQuantity,
-//                        servingUnit: foodDataInfo.nutritionPreview?.servingUnit
-//                    ) { passioFoodItem in
-//                        
-//                        if let passioFoodItem {
-//                            var foodRecord = FoodRecordV3(foodItem: passioFoodItem)
-//                            foodRecord.mealLabel = MealLabel(mealTime: PassioMealTime.currentMealTime())
-//                            PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord)
-//                            loggedFoodItems.append(foodItem)
-//                            dispatchGroup.leave()
-//                        } else {
-//                            dispatchGroup.leave()
-//                        }
-//                    }
-//                } else {
-//                    dispatchGroup.leave()
-//                }
-//            }
-//        }
-//        dispatchGroup.notify(queue: .main) {
-//            message.logStatus = .logged
-//            message.foodItems = loggedFoodItems
-//            self.tableView.reloadSections([index], with: .none)
-//            self.enableInteration(true)
-//        }
-//    }
-    
     func logFood(atIndex sectionIndex: Int) {
         enableInteration(false)
         var message = datasource[sectionIndex]
@@ -448,6 +408,9 @@ extension NutritionAdvisorVC: UITableViewDataSource, UITableViewDelegate {
             footerView.configure(logStatus: message.logStatus)
             footerView.actionButtonTap = { [weak self] sender in
                 guard let self else { return }
+                if message.logStatus == .logging {
+                    return
+                }
                 if message.logStatus == .logged {
                     self.navigateToDairy()
                 } else {
@@ -496,7 +459,8 @@ extension NutritionAdvisorVC: UITableViewDataSource, UITableViewDelegate {
             cell.load(message: message)
             cell.findFoodButtonTap = { [weak self] sender in
                 guard let self = self else { return }
-                findFood(for: message)
+                if self.isProcessing { return }
+                self.findFood(for: message)
             }
             return cell
             
