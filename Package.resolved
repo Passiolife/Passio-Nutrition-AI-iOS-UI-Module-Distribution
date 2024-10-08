@@ -19,15 +19,6 @@
       }
     },
     {
-      "identity" : "passio-nutrition-ai-ios-sdk-distribution",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
-      "state" : {
-        "revision" : "5b739922ae2af93eb0010d5f9f4877e2c39dc251",
-        "version" : "3.2.1"
-      }
-    },
-    {
       "identity" : "swiftymarkdown",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SimonFairbairn/SwiftyMarkdown",
