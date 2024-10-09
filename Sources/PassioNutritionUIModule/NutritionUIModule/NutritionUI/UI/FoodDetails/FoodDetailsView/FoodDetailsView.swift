@@ -113,10 +113,15 @@ class FoodDetailsView: UIView {
 // MARK: - @IBAction & @objc
 extension FoodDetailsView {
 
+    func enableInteration(_ isEnable: Bool) {
+        self.isUserInteractionEnabled = isEnable
+    }
+    
     @IBAction func onFoodLog(_ sender: UIButton) {
 
         guard var record = foodRecord else { return }
-
+        enableInteration(false)
+        
         if saveToConnector {
             if editedTimestamp != nil {
                 connector.deleteRecord(foodRecord: record)
@@ -127,6 +132,7 @@ extension FoodDetailsView {
             }
             connector.updateRecord(foodRecord: record)
         }
+        enableInteration(true)
         foodDetailsDelegate?.onAddFoodToLog(foodRecord: record)
     }
 

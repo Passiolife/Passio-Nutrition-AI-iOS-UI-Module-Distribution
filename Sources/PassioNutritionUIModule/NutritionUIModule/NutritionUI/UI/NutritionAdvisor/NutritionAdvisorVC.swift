@@ -98,6 +98,7 @@ class NutritionAdvisorVC: InstantiableViewController {
     }
     
     func enableInteration(_ isEnable: Bool) {
+        self.navigationController?.navigationBar.isUserInteractionEnabled = isEnable
         controlsContainer.isUserInteractionEnabled = isEnable
         controlsContainer.alpha = isEnable ? 1 : 0.5
         //tableView.isUserInteractionEnabled = isEnable
@@ -287,10 +288,14 @@ extension NutritionAdvisorVC {
                 }
                 switch advisorResponse {
                 case .success(let response):
-                    guard let foodInfo = response.extractedIngredients, foodInfo.count > 0 else { return }
-                    let foods = foodInfo.compactMap { NAFoodItem(food: $0) }
-                    foodItems.append(contentsOf: foods)
+                    if let foodInfo = response.extractedIngredients, foodInfo.count > 0 {
+                        let foods = foodInfo.compactMap { NAFoodItem(food: $0) }
+                        if foods.count > 0 {
+                            foodItems.append(contentsOf: foods)
+                        }
+                    }
                     group.leave()
+                    
                 case .failure(let error):
                     group.leave()
                 }
@@ -367,7 +372,8 @@ extension NutritionAdvisorVC {
         dispatchGroup.notify(queue: .main) {
             message.logStatus = .logged
             message.foodItems = foodItems.filter { $0.isLogged == true }
-            self.reloadTable()
+            //self.reloadTable()
+            self.tableView.reloadData()
             self.enableInteration(true)
         }
     }
@@ -420,7 +426,8 @@ extension NutritionAdvisorVC: UITableViewDataSource, UITableViewDelegate {
                         return
                     }
                     message.logStatus = .logging
-                    footerView.configure(logStatus: message.logStatus)
+                    //footerView.configure(logStatus: message.logStatus)
+                    tableView.reloadData()
                     self.logFood(atIndex: section)
                 }
             }
