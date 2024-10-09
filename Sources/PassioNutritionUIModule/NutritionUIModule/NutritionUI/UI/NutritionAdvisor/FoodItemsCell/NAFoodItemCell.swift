@@ -77,19 +77,19 @@ class NAFoodItemCell: UITableViewCell {
     }
     
     func updateLogUI(foodItem: NAFoodItem, logStatus: LogStatus) {
-
+        
         switch logStatus
         {
         case .notLogged:
             tickImageView.isHidden = true
             radioButton.isHidden = false
-            radioButton.isEnabled = true
+            radioButton.isUserInteractionEnabled = true
             radioButton.isSelected = foodItem.isSelected
             
         case .logging:
             tickImageView.isHidden = true
             radioButton.isHidden = false
-            radioButton.isEnabled = false
+            radioButton.isUserInteractionEnabled = false
             radioButton.isSelected = foodItem.isSelected
             
         case .logged:

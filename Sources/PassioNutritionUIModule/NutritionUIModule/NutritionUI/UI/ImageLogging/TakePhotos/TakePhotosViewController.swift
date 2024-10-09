@@ -92,6 +92,12 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     @IBAction func onCancel(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
+    
+    func enableInteration(_ isEnable: Bool) {
+        self.view.isUserInteractionEnabled = isEnable
+        nextButton.enableDisableButton(isEnabled: thumbnailImages.count == 0 ? false : isEnable)
+        cancelButton.enableDisableButton(isEnabled: isEnable)
+    }
 }
 
 // MARK: - Camera Configuration
@@ -234,9 +240,10 @@ extension TakePhotosViewController {
         activityView.isHidden = false
         activityIndicatorView.startAnimating()
         messageLabel.text = "Generating results..."
-
+        enableInteration(false)
         fetchFoodData(for: capturedImages) { [weak self] recognitionModel in
             guard let self else { return }
+            enableInteration(true)
             activityView.isHidden = true
             if recognitionModel.count == 0 {
                 showCustomAlert(title: CustomAlert.AlertTitle(titleText: "The system is unable to recognize images.",

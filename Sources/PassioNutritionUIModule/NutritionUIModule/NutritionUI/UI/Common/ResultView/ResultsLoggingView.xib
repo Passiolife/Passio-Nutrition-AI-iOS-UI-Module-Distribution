@@ -201,6 +201,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="AqP-JW-STv" secondAttribute="bottom" id="kqj-of-BBn"/>
                                                 <constraint firstItem="AqP-JW-STv" firstAttribute="top" secondItem="hTZ-DD-FUd" secondAttribute="top" id="z1T-dj-tjd"/>
                                             </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                    <real key="value" value="4"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </view>
                                     </subviews>
                                 </stackView>
