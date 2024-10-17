@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class PassioUserDefaults {
+final public class PassioUserDefaults {
 
     enum Key: String {
         case scanningOnboardingCompleted
@@ -28,13 +28,13 @@ final class PassioUserDefaults {
         return defaults.bool(forKey: key.rawValue)
     }
     
-    class func setLanguage(_ language: Language?) {
+    public class func setLanguage(_ language: Language?) {
         let defaults = UserDefaults.standard
         defaults.set(language?.rawValue, forKey: Key.savedLanguage.rawValue)
         defaults.synchronize()
     }
     
-    class func getLanguage() -> Language? {
+    public class func getLanguage() -> Language? {
         let defaults = UserDefaults.standard
         guard let language = defaults.value(forKey: Key.savedLanguage.rawValue) as? String else {
             return nil
