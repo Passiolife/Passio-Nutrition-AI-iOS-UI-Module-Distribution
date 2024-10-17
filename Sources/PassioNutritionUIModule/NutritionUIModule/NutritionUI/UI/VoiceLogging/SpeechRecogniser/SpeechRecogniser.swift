@@ -59,15 +59,15 @@ public actor SpeechRecognizer: ObservableObject {
     private var task: SFSpeechRecognitionTask?
     private let recognizer: SFSpeechRecognizer?
     private var delegationRetroreflector: SpeechRecognizerDelegationRetroreflector?
-
+    
     /**
      Initializes a new speech recognizer. If this is the first time you've used the class, it
      requests access to the speech recognizer and the microphone.
      */
-    public init() {
+    public init(isLocalisable: Bool = false) {
         delegationRetroreflector = nil
         
-        if let language = PassioUserDefaults.getLanguage() {
+        if isLocalisable, let language = PassioUserDefaults.getLanguage() {
             let locale = Locale.init(identifier: language.ISOCode)
             recognizer = SFSpeechRecognizer(locale: locale)
         } else {
