@@ -40,8 +40,8 @@ public struct FoodRecordV3: Codable, Equatable {
 
     public var ingredients: [FoodRecordIngredient] = []
 
-    public var servingSizes: [PassioServingSize]
-    public var servingUnits: [PassioServingUnit]
+    public var servingSizes: [PassioServingSize] = []
+    public var servingUnits: [PassioServingUnit] = []
 
     private(set) public var selectedUnit: String
     private(set) public var selectedQuantity: Double
@@ -482,4 +482,124 @@ extension FoodRecordV3 {
             return nil
         }
     }
+}
+
+
+
+extension FoodRecordV3 {
+    
+    internal init(foodRecordCore: TblFoodRecordV3) {
+        
+        passioID = (foodRecordCore.passioID ?? "") as PassioID
+        name = foodRecordCore.name ?? ""
+        details = foodRecordCore.details ?? ""
+        iconId = foodRecordCore.iconId ?? ""
+        refCode = ""
+        barcode = foodRecordCore.barcode ?? ""
+        
+        uuid = foodRecordCore.uuid ?? UUID().uuidString
+        let now = Date()
+        createdAt = foodRecordCore.createdAt ?? now
+        mealLabel = MealLabel(rawValue: foodRecordCore.mealLabel ?? "snack")
+        
+        let coreEntityType = PassioIDEntityType(rawValue: foodRecordCore.entityType ?? "barcode")
+        self.entityType = coreEntityType ?? .barcode
+        
+        confidence = foodRecordCore.confidence
+        
+        selectedUnit = foodRecordCore.selectedUnit ?? ""
+        
+        selectedQuantity = foodRecordCore.selectedQuantity
+        
+        if let foodRecordCoreServingSizes = foodRecordCore.servingSizes {
+            servingSizes = self.getServingSize(servingSizes: foodRecordCoreServingSizes)
+        }
+        else {
+            servingSizes = []
+        }
+        
+        if let foodRecordCoreServingUnits = foodRecordCore.servingUnits {
+            servingUnits = self.getServingUnit(servingUnit: foodRecordCoreServingUnits)
+        }
+        else {
+            servingUnits = []
+        }
+        
+        if let jsonStringNutrition = foodRecordCore.nutrients {
+            nutrients = self.getNutritions(nutrients: jsonStringNutrition)
+        }
+        else {
+            nutrients = PassioNutrients(weight: .init(value: 0, unit: .grams))
+        }
+        
+        openFoodLicense = foodRecordCore.openFoodLicense
+        
+        if let coreFoodIngredients = foodRecordCore.ingredients,
+           let arrIngredientsItem = coreFoodIngredients.allObjects as? [TblFoodRecordIngredient] {
+            self.ingredients = arrIngredientsItem.map { itemIngredient in
+                FoodRecordIngredient(coreFoodingredient: itemIngredient)
+            }
+        }
+        else {
+            self.ingredients = []
+        }
+        
+        self.setFoodRecordServing(unit: selectedUnit, quantity: selectedQuantity)
+    }
+    
+    fileprivate func getServingSize(servingSizes: String) -> [PassioServingSize] {
+        
+        if servingSizes.count == 0 {
+            return []
+        }
+        
+        if let jsonArray = "[\(servingSizes.replacingOccurrences(of: "}{", with: "},{"))]".data(using: .utf8) {
+            do {
+                let arrPassioServingSize = try JSONDecoder().decode([PassioServingSize].self, from: jsonArray)
+                return arrPassioServingSize
+            } catch let error {
+                print("Error while parsing PassioNutrients")
+            }
+        }
+        
+        
+        return []
+    }
+    
+    fileprivate func getServingUnit(servingUnit: String) -> [PassioServingUnit] {
+        
+        if servingUnit.count == 0 {
+            return []
+        }
+        
+        if let jsonArray = "[\(servingUnit.replacingOccurrences(of: "}{", with: "},{"))]".data(using: .utf8) {
+            do {
+                let arrPassioServingUnit = try JSONDecoder().decode([PassioServingUnit].self, from: jsonArray)
+                return arrPassioServingUnit
+            } catch let error {
+                print("Error while parsing PassioNutrients")
+            }
+        }
+        
+        return []
+    }
+    
+    fileprivate func getNutritions(nutrients: String) -> PassioNutrients? {
+        
+        if nutrients.count == 0 {
+            return nil
+        }
+        
+        if let jsonStringNutritionData = nutrients.data(using: .utf8) {
+            do {
+                let nutrientsParsed = try JSONDecoder().decode(PassioNutrients.self, from: jsonStringNutritionData)
+                return nutrientsParsed
+            } catch let error {
+                print("Error while parsing PassioNutrients")
+            }
+        }
+        
+        return nil
+    }
+    
 }

@@ -21,7 +21,8 @@ public class PassioInternalConnector
     }
     private init() {}
 
-    var connector: PassioConnector = JSONPassioConnector.shared
+//    var connector: PassioConnector = JSONPassioConnector.shared
+    var connector: PassioConnector = PassioFoodDataConnector.shared
 
     var dateForLogging: Date?
     var mealLabel: MealLabel?

@@ -19,8 +19,8 @@ public struct FoodRecordIngredient: Codable, Equatable {
     public var refCode: String = ""
     public var selectedUnit: String = ""
     public var selectedQuantity: Double = 0.0
-    public var servingSizes: [PassioServingSize]
-    public var servingUnits: [PassioServingUnit]
+    public var servingSizes: [PassioServingSize] = []
+    public var servingUnits: [PassioServingUnit] = []
     public var nutrients: PassioNutrients
     public var openFoodLicense: String? = ""
     public var details: String = ""
@@ -146,5 +146,88 @@ public struct FoodRecordIngredient: Codable, Equatable {
         unit == UnitsTexts.gram ||
         unit == UnitsTexts.grams ? 100 : 1
         return true
+    }
+}
+
+
+extension FoodRecordIngredient {
+    
+    internal init(coreFoodingredient: TblFoodRecordIngredient) {
+
+        passioID = coreFoodingredient.passioID ?? ""
+        name = coreFoodingredient.name ?? ""
+        iconId = coreFoodingredient.iconId ?? ""
+        refCode = coreFoodingredient.refCode ?? ""
+        barcode = ""
+
+        if let coreEntityType = coreFoodingredient.entityType,
+        let entityValue = PassioIDEntityType(rawValue: coreEntityType) {
+            self.entityType = entityValue
+        }
+        else {
+            self.entityType = .barcode
+        }
+        
+        selectedUnit = coreFoodingredient.selectedUnit ?? ""
+        
+        selectedQuantity = coreFoodingredient.selectedQuantity
+        
+        if let jsonStringNutrition = coreFoodingredient.nutrients {
+            if let jsonStringNutritionData = jsonStringNutrition.data(using: .utf8) {
+                do {
+                    let nutrientsParsed = try JSONDecoder().decode(PassioNutrients.self, from: jsonStringNutritionData)
+                    nutrients = nutrientsParsed
+                } catch let error {
+                    print("Error while parsing PassioNutrients")
+                    nutrients = PassioNutrients(weight: .init(value: 0, unit: .grams))
+                }
+            }
+            else {
+                nutrients = PassioNutrients(weight: .init(value: 0, unit: .grams))
+            }
+        }
+        else {
+            nutrients = PassioNutrients(weight: .init(value: 0, unit: .grams))
+        }
+        
+        if let foodRecordCoreServingSizes = coreFoodingredient.servingSizes {
+            
+            if let jsonArray = "[\(foodRecordCoreServingSizes.replacingOccurrences(of: "}{", with: "},{"))]".data(using: .utf8) {
+                do {
+                    let arrPassioServingSize = try JSONDecoder().decode([PassioServingSize].self, from: jsonArray)
+                    servingSizes = arrPassioServingSize
+                } catch let error {
+                    print("Error while parsing PassioNutrients")
+                    servingSizes = []
+                }
+            }
+            else {
+                servingSizes = []
+            }
+        }
+        else {
+            servingSizes = []
+        }
+        
+        if let coreFoodingredientServingUnits = coreFoodingredient.servingUnits {
+            
+            if let jsonArray = "[\(coreFoodingredientServingUnits.replacingOccurrences(of: "}{", with: "},{"))]".data(using: .utf8) {
+                do {
+                    let arrPassioServingUnit = try JSONDecoder().decode([PassioServingUnit].self, from: jsonArray)
+                    servingUnits = arrPassioServingUnit
+                } catch let error {
+                    print("Error while parsing PassioNutrients")
+                    servingUnits = []
+                }
+            }
+            else {
+                servingUnits = []
+            }
+        }
+        else {
+            servingUnits = []
+        }
+
+        openFoodLicense = coreFoodingredient.openFoodLicense
     }
 }
