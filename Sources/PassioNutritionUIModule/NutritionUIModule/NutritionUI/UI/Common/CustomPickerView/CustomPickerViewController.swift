@@ -8,27 +8,32 @@
 
 import UIKit
 
-protocol CustomPickerSelectionDelegate: AnyObject {
+public protocol CustomPickerSelectionDelegate: AnyObject {
     func onPickerSelection(value: String, selectedIndex: Int, viewTag: Int)
 }
 
-struct PickerElement {
+public struct PickerElement {
     var title: String?
     var image: UIImage?
+    
+    public init(title: String? = nil, image: UIImage? = nil) {
+        self.title = title
+        self.image = image
+    }
 }
 
-final class CustomPickerViewController: InstantiableViewController {
+final public class CustomPickerViewController: InstantiableViewController {
 
     @IBOutlet weak var pickerTableView: UITableView!
 
-    var viewTag = 0
-    var disableCapatlized: Bool = false
-    var pickerItems = [PickerElement]() {
+    public var viewTag = 0
+    public var disableCapatlized: Bool = false
+    public var pickerItems = [PickerElement]() {
         didSet {
             pickerTableView.reloadData()
         }
     }
-    var pickerFrame = CGRect(x: 110, y: 100, width: 288, height: 290) {
+    public var pickerFrame = CGRect(x: 110, y: 100, width: 288, height: 290) {
         didSet {
             pickerTableView.frame = pickerFrame.height > 358 ? CGRect(x: pickerFrame.origin.x,
                                                           y: pickerFrame.origin.y,
@@ -37,9 +42,9 @@ final class CustomPickerViewController: InstantiableViewController {
         }
     }
 
-    weak var delegate: CustomPickerSelectionDelegate?
+    public weak var delegate: CustomPickerSelectionDelegate?
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
@@ -66,11 +71,11 @@ extension CustomPickerViewController {
 // MARK: - UITableViewDataSource & UITableViewDelegate
 extension CustomPickerViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         pickerItems.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueCell(cellClass: CustomPickerCell.self, forIndexPath: indexPath)
         let element = pickerItems[indexPath.row]
@@ -82,7 +87,7 @@ extension CustomPickerViewController: UITableViewDataSource, UITableViewDelegate
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dismiss(animated: true) { [weak self] in
             guard let self else { return }
             delegate?.onPickerSelection(value: pickerItems[indexPath.row].title ?? "",
