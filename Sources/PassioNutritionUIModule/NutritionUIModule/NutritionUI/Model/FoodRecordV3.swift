@@ -533,9 +533,70 @@ extension FoodRecordV3 {
         }
         
         openFoodLicense = foodRecordCore.openFoodLicense
+        refCode = foodRecordCore.refCode ?? ""
         
         if let coreFoodIngredients = foodRecordCore.ingredients,
            let arrIngredientsItem = coreFoodIngredients.allObjects as? [TblFoodRecordIngredient] {
+            self.ingredients = arrIngredientsItem.map { itemIngredient in
+                FoodRecordIngredient(coreFoodingredient: itemIngredient)
+            }
+        }
+        else {
+            self.ingredients = []
+        }
+        
+        self.setFoodRecordServing(unit: selectedUnit, quantity: selectedQuantity)
+    }
+    
+    internal init(foodRecordCore: TblCustomFoodRecord) {
+        
+        passioID = (foodRecordCore.passioID ?? "") as PassioID
+        name = foodRecordCore.name ?? ""
+        details = foodRecordCore.details ?? ""
+        iconId = foodRecordCore.iconId ?? ""
+        refCode = foodRecordCore.refCode ?? ""
+        barcode = foodRecordCore.barcode ?? ""
+        
+        uuid = foodRecordCore.uuid ?? UUID().uuidString
+        let now = Date()
+        createdAt = foodRecordCore.createdAt ?? now
+        mealLabel = MealLabel(rawValue: foodRecordCore.mealLabel ?? "snack")
+        
+        let coreEntityType = PassioIDEntityType(rawValue: foodRecordCore.entityType ?? "barcode")
+        self.entityType = coreEntityType ?? .barcode
+        
+        confidence = foodRecordCore.confidence
+        
+        selectedUnit = foodRecordCore.selectedUnit ?? ""
+        
+        selectedQuantity = foodRecordCore.selectedQuantity
+        
+        if let foodRecordCoreServingSizes = foodRecordCore.servingSizes {
+            servingSizes = self.getServingSize(servingSizes: foodRecordCoreServingSizes)
+        }
+        else {
+            servingSizes = []
+        }
+        
+        if let foodRecordCoreServingUnits = foodRecordCore.servingUnits {
+            servingUnits = self.getServingUnit(servingUnit: foodRecordCoreServingUnits)
+        }
+        else {
+            servingUnits = []
+        }
+        
+        if let jsonStringNutrition = foodRecordCore.nutrients {
+            nutrients = self.getNutritions(nutrients: jsonStringNutrition)
+        }
+        else {
+            nutrients = PassioNutrients(weight: .init(value: 0, unit: .grams))
+        }
+        
+        openFoodLicense = foodRecordCore.openFoodLicense
+        refCode = foodRecordCore.refCode ?? ""
+        
+        if let coreFoodIngredients = foodRecordCore.ingredients,
+           let arrIngredientsItem = coreFoodIngredients.allObjects as? [TblCustomFoodRecordIngredient] {
             self.ingredients = arrIngredientsItem.map { itemIngredient in
                 FoodRecordIngredient(coreFoodingredient: itemIngredient)
             }
