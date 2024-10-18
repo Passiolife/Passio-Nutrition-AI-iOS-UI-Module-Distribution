@@ -1,5 +1,5 @@
 //
-//  CustomCustomFoodRecordOperations.swift
+//  FavouriteFoodRecordOperations.swift
 //
 //
 //  Created by Mindinventory on 16/10/24.
@@ -9,17 +9,17 @@ import Foundation
 import UIKit
 import CoreData
 
-internal class CustomFoodRecordOperations {
+internal class FavouriteFoodRecordOperations {
     
     private init() {}
     
-    private static var CustomFoodRecordOperations: CustomFoodRecordOperations = {
-        let CustomFoodRecordOperations = CustomFoodRecordOperations()
-        return CustomFoodRecordOperations
+    private static var favouriteFoodRecordOperations: FavouriteFoodRecordOperations = {
+        let favouriteFoodRecordOperations = FavouriteFoodRecordOperations()
+        return favouriteFoodRecordOperations
     }()
     
-    static var shared: CustomFoodRecordOperations = {
-        return CustomFoodRecordOperations
+    static var shared: FavouriteFoodRecordOperations = {
+        return favouriteFoodRecordOperations
     }()
  
     private func getMainContext() -> NSManagedObjectContext {
@@ -28,18 +28,18 @@ internal class CustomFoodRecordOperations {
     
     fileprivate let jsonConnector: PassioConnector = JSONPassioConnector.shared
     
-    //MARK: - Insert Custom food record
-    func insertFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
+    //MARK: - Insert Favourite food record
+    func insertFavouriteFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let context = self.getMainContext()
         
         context.perform {
             
-            var dbFoodRecordV3: TblCustomFoodRecord?
+            var dbFoodRecordV3: TblFavouriteFoodRecord?
             
             do {
                 
-                dbFoodRecordV3 = TblCustomFoodRecord(context: context)
+                dbFoodRecordV3 = TblFavouriteFoodRecord(context: context)
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else { return }
                 
                 dbFoodRecordV3.barcode = foodRecord.barcode
@@ -70,31 +70,31 @@ internal class CustomFoodRecordOperations {
                 
                 dbFoodRecordV3.uuid = foodRecord.uuid
                 
-                var foodIngredients: [TblCustomFoodRecordIngredient] = []
+                var foodIngredients: [TblFavouriteFoodRecordIngredient] = []
                 
                 foodRecord.ingredients.forEach { foodRecordIngredient in
-                    let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: context)
+                    let tblFavouriteFoodRecordIngredient = TblFavouriteFoodRecordIngredient(context: context)
                     
-                    tblCustomFoodRecordIngredient.details = foodRecordIngredient.details
-                    tblCustomFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
-                    tblCustomFoodRecordIngredient.iconId = foodRecordIngredient.iconId
-                    tblCustomFoodRecordIngredient.name = foodRecordIngredient.name
-                    tblCustomFoodRecordIngredient.nutrients = foodRecordIngredient.nutrients.toJsonString()
-                    tblCustomFoodRecordIngredient.openFoodLicense = foodRecordIngredient.openFoodLicense
-                    tblCustomFoodRecordIngredient.passioID = foodRecordIngredient.passioID
-                    tblCustomFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
-                    tblCustomFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
-                    tblCustomFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                    tblFavouriteFoodRecordIngredient.details = foodRecordIngredient.details
+                    tblFavouriteFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
+                    tblFavouriteFoodRecordIngredient.iconId = foodRecordIngredient.iconId
+                    tblFavouriteFoodRecordIngredient.name = foodRecordIngredient.name
+                    tblFavouriteFoodRecordIngredient.nutrients = foodRecordIngredient.nutrients.toJsonString()
+                    tblFavouriteFoodRecordIngredient.openFoodLicense = foodRecordIngredient.openFoodLicense
+                    tblFavouriteFoodRecordIngredient.passioID = foodRecordIngredient.passioID
+                    tblFavouriteFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
+                    tblFavouriteFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
+                    tblFavouriteFoodRecordIngredient.refCode = foodRecordIngredient.refCode
                     
                     var strIngredientServingSizes = ""
                     foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })
-                    tblCustomFoodRecordIngredient.servingSizes = strIngredientServingSizes
+                    tblFavouriteFoodRecordIngredient.servingSizes = strIngredientServingSizes
                     
                     var strIngredientServingUnits = ""
                     foodRecordIngredient.servingUnits.compactMap({$0}).forEach({ strIngredientServingUnits.append($0.toJsonString() ?? "") })
-                    tblCustomFoodRecordIngredient.servingUnits = strIngredientServingUnits
+                    tblFavouriteFoodRecordIngredient.servingUnits = strIngredientServingUnits
                     
-                    foodIngredients.append(tblCustomFoodRecordIngredient)
+                    foodIngredients.append(tblFavouriteFoodRecordIngredient)
                 }
                 
                 dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
@@ -110,18 +110,18 @@ internal class CustomFoodRecordOperations {
         }
     }
     
-    //MARK: - Insert OR Update Custom food record
-    func insertOrUpdateFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
+    //MARK: - Insert OR Update Favourite food record
+    func insertOrUpdateFavouriteFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let context = self.getMainContext()
         
         context.perform {
             
             // Create a fetch request for the Person entity
-            let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
+            let fetchRequest: NSFetchRequest<TblFavouriteFoodRecord> = TblFavouriteFoodRecord.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "uuid == %@", foodRecord.uuid)
             
-            var dbFoodRecordV3: TblCustomFoodRecord?
+            var dbFoodRecordV3: TblFavouriteFoodRecord?
             
             do {
                 
@@ -133,7 +133,7 @@ internal class CustomFoodRecordOperations {
                     print("Existing Record found to update")
                 }
                 else {
-                    dbFoodRecordV3 = TblCustomFoodRecord(context: context)
+                    dbFoodRecordV3 = TblFavouriteFoodRecord(context: context)
                     print("New Record is created for storage")
                 }
                 
@@ -183,31 +183,31 @@ internal class CustomFoodRecordOperations {
                 
                 dbFoodRecordV3.uuid = foodRecord.uuid
                 
-                var foodIngredients: [TblCustomFoodRecordIngredient] = []
+                var foodIngredients: [TblFavouriteFoodRecordIngredient] = []
                 
                 foodRecord.ingredients.forEach { foodRecordIngredient in
-                    let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: context)
+                    let tblFavouriteFoodRecordIngredient = TblFavouriteFoodRecordIngredient(context: context)
                     
-                    tblCustomFoodRecordIngredient.details = foodRecordIngredient.details
-                    tblCustomFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
-                    tblCustomFoodRecordIngredient.iconId = foodRecordIngredient.iconId
-                    tblCustomFoodRecordIngredient.name = foodRecordIngredient.name
-                    tblCustomFoodRecordIngredient.nutrients = foodRecordIngredient.nutrients.toJsonString()
-                    tblCustomFoodRecordIngredient.openFoodLicense = foodRecordIngredient.openFoodLicense
-                    tblCustomFoodRecordIngredient.passioID = foodRecordIngredient.passioID
-                    tblCustomFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
-                    tblCustomFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
-                    tblCustomFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                    tblFavouriteFoodRecordIngredient.details = foodRecordIngredient.details
+                    tblFavouriteFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
+                    tblFavouriteFoodRecordIngredient.iconId = foodRecordIngredient.iconId
+                    tblFavouriteFoodRecordIngredient.name = foodRecordIngredient.name
+                    tblFavouriteFoodRecordIngredient.nutrients = foodRecordIngredient.nutrients.toJsonString()
+                    tblFavouriteFoodRecordIngredient.openFoodLicense = foodRecordIngredient.openFoodLicense
+                    tblFavouriteFoodRecordIngredient.passioID = foodRecordIngredient.passioID
+                    tblFavouriteFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
+                    tblFavouriteFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
+                    tblFavouriteFoodRecordIngredient.refCode = foodRecordIngredient.refCode
                     
                     var strIngredientServingSizes = ""
                     foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })
-                    tblCustomFoodRecordIngredient.servingSizes = strIngredientServingSizes
+                    tblFavouriteFoodRecordIngredient.servingSizes = strIngredientServingSizes
                     
                     var strIngredientServingUnits = ""
                     foodRecordIngredient.servingUnits.compactMap({$0}).forEach({ strIngredientServingUnits.append($0.toJsonString() ?? "") })
-                    tblCustomFoodRecordIngredient.servingUnits = strIngredientServingUnits
+                    tblFavouriteFoodRecordIngredient.servingUnits = strIngredientServingUnits
                     
-                    foodIngredients.append(tblCustomFoodRecordIngredient)
+                    foodIngredients.append(tblFavouriteFoodRecordIngredient)
                 }
                 
                 dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
@@ -225,17 +225,17 @@ internal class CustomFoodRecordOperations {
         }
     }
     
-    //MARK: - Update Custom food records
-    func updateCustomFoodRecord(foodRecord: FoodRecordV3, whereClause udid: String, completion: @escaping ((Bool, Error?) -> Void)) {
+    //MARK: - Update Favourite food records
+    func updateFavouriteFoodRecord(foodRecord: FoodRecordV3, whereClause udid: String, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let context = self.getMainContext()
         
         context.perform {
             
             // Create a fetch request for the Person entity
-            let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
+            let fetchRequest: NSFetchRequest<TblFavouriteFoodRecord> = TblFavouriteFoodRecord.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "uuid == %@", udid)
-            var dbFoodRecordV3: TblCustomFoodRecord?
+            var dbFoodRecordV3: TblFavouriteFoodRecord?
             
             do {
                 
@@ -276,32 +276,32 @@ internal class CustomFoodRecordOperations {
                     
                     dbFoodRecordV3.uuid = foodRecord.uuid
                     
-                    var foodIngredients: [TblCustomFoodRecordIngredient] = []
+                    var foodIngredients: [TblFavouriteFoodRecordIngredient] = []
                     
                     foodRecord.ingredients.forEach { foodRecordIngredient in
                         
-                        let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: context)
+                        let tblFavouriteFoodRecordIngredient = TblFavouriteFoodRecordIngredient(context: context)
                         
-                        tblCustomFoodRecordIngredient.details = foodRecordIngredient.details
-                        tblCustomFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
-                        tblCustomFoodRecordIngredient.iconId = foodRecordIngredient.iconId
-                        tblCustomFoodRecordIngredient.name = foodRecordIngredient.name
-                        tblCustomFoodRecordIngredient.nutrients = foodRecordIngredient.nutrients.toJsonString()
-                        tblCustomFoodRecordIngredient.openFoodLicense = foodRecordIngredient.openFoodLicense
-                        tblCustomFoodRecordIngredient.passioID = foodRecordIngredient.passioID
-                        tblCustomFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
-                        tblCustomFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
-                        tblCustomFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                        tblFavouriteFoodRecordIngredient.details = foodRecordIngredient.details
+                        tblFavouriteFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
+                        tblFavouriteFoodRecordIngredient.iconId = foodRecordIngredient.iconId
+                        tblFavouriteFoodRecordIngredient.name = foodRecordIngredient.name
+                        tblFavouriteFoodRecordIngredient.nutrients = foodRecordIngredient.nutrients.toJsonString()
+                        tblFavouriteFoodRecordIngredient.openFoodLicense = foodRecordIngredient.openFoodLicense
+                        tblFavouriteFoodRecordIngredient.passioID = foodRecordIngredient.passioID
+                        tblFavouriteFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
+                        tblFavouriteFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
+                        tblFavouriteFoodRecordIngredient.refCode = foodRecordIngredient.refCode
                         
                         var strIngredientServingSizes = ""
                         foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })
-                        tblCustomFoodRecordIngredient.servingSizes = strIngredientServingSizes
+                        tblFavouriteFoodRecordIngredient.servingSizes = strIngredientServingSizes
                         
                         var strIngredientServingUnits = ""
                         foodRecordIngredient.servingUnits.compactMap({$0}).forEach({ strIngredientServingUnits.append($0.toJsonString() ?? "") })
-                        tblCustomFoodRecordIngredient.servingUnits = strIngredientServingUnits
+                        tblFavouriteFoodRecordIngredient.servingUnits = strIngredientServingUnits
                         
-                        foodIngredients.append(tblCustomFoodRecordIngredient)
+                        foodIngredients.append(tblFavouriteFoodRecordIngredient)
                     }
                     
                     dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
@@ -318,8 +318,8 @@ internal class CustomFoodRecordOperations {
         }
     }
     
-    //MARK: - Fetch all Custom food records
-    func fetchCustomFoodRecords(completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
+    //MARK: - Fetch all Favourite food records
+    func fetchFavouriteFoodRecords(completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let context = self.getMainContext()
         
@@ -327,11 +327,11 @@ internal class CustomFoodRecordOperations {
             
             do {
                 
-                let request: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
+                let request: NSFetchRequest<TblFavouriteFoodRecord> = TblFavouriteFoodRecord.fetchRequest()
                 let foodRecordResult = try context.fetch(request)
                 
-                let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblCustomFoodRecord in
-                    var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblCustomFoodRecord)
+                let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { tblFavouriteFoodRecord in
+                    var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: tblFavouriteFoodRecord)
                     return passioFoodRecordV3
                 }
                 
@@ -347,8 +347,8 @@ internal class CustomFoodRecordOperations {
         
     }
     
-    //MARK: - Fetch all Custom food records that matches with given name
-    func fetchCustomFoodRecords(whereClause name: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
+    //MARK: - Fetch all Favourite food records that matches with given name
+    func fetchFavouriteFoodRecords(whereClause name: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let context = self.getMainContext()
         
@@ -356,13 +356,13 @@ internal class CustomFoodRecordOperations {
             
             do {
                 
-                let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
+                let fetchRequest: NSFetchRequest<TblFavouriteFoodRecord> = TblFavouriteFoodRecord.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "name == %@", name)
                 
                 let foodRecordResult = try context.fetch(fetchRequest)
                 
-                let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblCustomFoodRecord in
-                    var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblCustomFoodRecord)
+                let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblFavouriteFoodRecord in
+                    var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblFavouriteFoodRecord)
                     return passioFoodRecordV3
                 }
                 
@@ -378,8 +378,8 @@ internal class CustomFoodRecordOperations {
         
     }
     
-    //MARK: - Fetch all Custom food records that matches with given barcode
-    func fetchCustomFoodRecords(whereClauseBarcode barcode: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
+    //MARK: - Fetch all Favourite food records that matches with given barcode
+    func fetchFavouriteFoodRecords(whereClauseBarcode barcode: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let context = self.getMainContext()
         
@@ -387,13 +387,13 @@ internal class CustomFoodRecordOperations {
             
             do {
                 
-                let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
+                let fetchRequest: NSFetchRequest<TblFavouriteFoodRecord> = TblFavouriteFoodRecord.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "barcode == %@", barcode)
                 
                 let foodRecordResult = try context.fetch(fetchRequest)
                 
-                let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblCustomFoodRecord in
-                    var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblCustomFoodRecord)
+                let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblFavouriteFoodRecord in
+                    var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblFavouriteFoodRecord)
                     return passioFoodRecordV3
                 }
                 
@@ -409,8 +409,8 @@ internal class CustomFoodRecordOperations {
         
     }
     
-    //MARK: - Fetch all Custom food records that matches with given refCode
-    func fetchCustomFoodRecords(whereClauseRefCode refCode: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
+    //MARK: - Fetch all Favourite food records that matches with given refCode
+    func fetchFavouriteFoodRecords(whereClauseRefCode refCode: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let context = self.getMainContext()
         
@@ -418,13 +418,13 @@ internal class CustomFoodRecordOperations {
             
             do {
                 
-                let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
+                let fetchRequest: NSFetchRequest<TblFavouriteFoodRecord> = TblFavouriteFoodRecord.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "refCode == %@", refCode)
                 
                 let foodRecordResult = try context.fetch(fetchRequest)
                 
-                let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblCustomFoodRecord in
-                    var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblCustomFoodRecord)
+                let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblFavouriteFoodRecord in
+                    var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblFavouriteFoodRecord)
                     return passioFoodRecordV3
                 }
                 
@@ -440,8 +440,8 @@ internal class CustomFoodRecordOperations {
         
     }
     
-    //MARK: - Delete food record with where clause of UUID
-    func deleteCustomFoodRecords(whereClauseUUID udid: String, completion: @escaping ((Bool, Error?) -> Void)) {
+    //MARK: - Delete food record with where clause of refCode
+    func deleteFavouriteFoodRecords(whereClauseRefCode refCode: String, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let context = self.getMainContext()
         
@@ -449,8 +449,8 @@ internal class CustomFoodRecordOperations {
             
             do {
                 
-                let deleteRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
-                deleteRequest.predicate = NSPredicate(format: "uuid == %@", udid)
+                let deleteRequest: NSFetchRequest<TblFavouriteFoodRecord> = TblFavouriteFoodRecord.fetchRequest()
+                deleteRequest.predicate = NSPredicate(format: "refCode == %@", refCode)
                 
                 let foodRecordResult = try context.fetch(deleteRequest)
                 
@@ -473,8 +473,8 @@ internal class CustomFoodRecordOperations {
         
     }
     
-    //MARK: - Delete Custom food record
-    func deleteAllCustomFoodRecords(completion: @escaping ((Bool, Error?) -> Void)) {
+    //MARK: - Delete Favourite food record
+    func deleteAllFavouriteFoodRecords(completion: @escaping ((Bool, Error?) -> Void)) {
         
         let context = self.getMainContext()
         
@@ -482,7 +482,7 @@ internal class CustomFoodRecordOperations {
             
             do {
                 
-                let deleteRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
+                let deleteRequest: NSFetchRequest<TblFavouriteFoodRecord> = TblFavouriteFoodRecord.fetchRequest()
                 
                 let foodRecordResult = try context.fetch(deleteRequest)
                 
@@ -505,19 +505,19 @@ internal class CustomFoodRecordOperations {
         
     }
     
-    //MARK: - CUSTOM FOOD IMAGE
-    //MARK: - Store User Created Custom Food Image
-    func saveUserCreatedCustomFoodImage(id: String, image: UIImage) {
+    //MARK: - Favourite Food Image
+    //MARK: - Store User Created Favourite Food Image
+    func saveUserCreatedFavouriteFoodImage(id: String, image: UIImage) {
         jsonConnector.updateUserFoodImage(with: id, image: image)
     }
     
-    //MARK: - Fetch User Created Custom Food Image
-    func fetchUserCreatedCustomFoodImage(id: String, completion: @escaping ((UIImage?) -> Void)) {
+    //MARK: - Fetch User Created Favourite Food Image
+    func fetchUserCreatedFavouriteFoodImage(id: String, completion: @escaping ((UIImage?) -> Void)) {
         jsonConnector.fetchUserFoodImage(with: id, completion: completion)
     }
     
-    //MARK: - Delete User Created Custom Food Image
-    func deleteUserCreatedCustomFoodImage(id: String) {
+    //MARK: - Delete User Created Favourite Food Image
+    func deleteUserCreatedFavouriteFoodImage(id: String) {
         jsonConnector.deleteUserFoodImage(with: id)
     }
     

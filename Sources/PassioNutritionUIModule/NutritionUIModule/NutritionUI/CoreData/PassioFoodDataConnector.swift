@@ -138,7 +138,7 @@ extension PassioFoodDataConnector: PassioConnector {
     }
     
     public func deleteUserFood(record: FoodRecordV3) {
-        CustomFoodRecordOperations.shared.deleteCustomFoodRecords(whereClauseUDID: record.uuid) { bResult, error in
+        CustomFoodRecordOperations.shared.deleteCustomFoodRecords(whereClauseUUID: record.uuid) { bResult, error in
             if error != nil {
                 print("Failed to delete CustomFood record :: \(error)")
             }
@@ -202,13 +202,36 @@ extension PassioFoodDataConnector: PassioConnector {
         CustomFoodRecordOperations.shared.fetchUserCreatedCustomFoodImage(id: id, completion: completion)
     }
     
-    //MARK: - Favorite Food Section
-    public func updateFavorite(foodRecord: FoodRecordV3) {}
+    //MARK: - Favourite Food Section
+    public func updateFavorite(foodRecord: FoodRecordV3) {
+        FavouriteFoodRecordOperations.shared.insertOrUpdateFavouriteFoodRecord(foodRecord: foodRecord) { (resultStatus, resultError) in
+            if let error = resultError {
+                print("Failed to save Favorite record :: \(error)")
+            }
+        }
+    }
     
-    public func deleteFavorite(foodRecord: FoodRecordV3) {}
+    public func deleteFavorite(foodRecord: FoodRecordV3) {
+        FavouriteFoodRecordOperations.shared.deleteFavouriteFoodRecords(whereClauseRefCode: foodRecord.refCode) { bResult, error in
+            if error != nil {
+                print("Failed to delete CustomFood record :: \(error)")
+            }
+        }
+    }
     
-    public func fetchFavorites(completion: @escaping ([FoodRecordV3]) -> Void) {}
+    public func fetchFavorites(completion: @escaping ([FoodRecordV3]) -> Void) {
+        FavouriteFoodRecordOperations.shared.fetchFavouriteFoodRecords { foodRecords, error in
+            if error != nil {
+                print("failed to fetch CustomFood records :: \(error)")
+                completion([])
+            }
+            else {
+                completion(foodRecords)
+            }
+        }
+    }
     
+    //MARK: - Recipe Section
     public func updateRecipe(record: FoodRecordV3) {}
     
     public func deleteRecipe(record: FoodRecordV3) {}
@@ -216,14 +239,5 @@ extension PassioFoodDataConnector: PassioConnector {
     public func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void) {
         
     }
-    
-    public var passioKeyForSDK: String {
-        ""
-    }
-    
-    public var offsetFoodEditor: CGFloat {
-        0
-    }
-    
     
 }
