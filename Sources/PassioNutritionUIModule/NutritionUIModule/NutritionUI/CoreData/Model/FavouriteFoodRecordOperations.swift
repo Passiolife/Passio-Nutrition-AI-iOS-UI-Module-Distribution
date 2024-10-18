@@ -85,6 +85,7 @@ internal class FavouriteFoodRecordOperations {
                     tblFavouriteFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
                     tblFavouriteFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
                     tblFavouriteFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                    tblFavouriteFoodRecordIngredient.barcode = foodRecordIngredient.barcode
                     
                     var strIngredientServingSizes = ""
                     foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })
@@ -198,6 +199,7 @@ internal class FavouriteFoodRecordOperations {
                     tblFavouriteFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
                     tblFavouriteFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
                     tblFavouriteFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                    tblFavouriteFoodRecordIngredient.barcode = foodRecordIngredient.barcode
                     
                     var strIngredientServingSizes = ""
                     foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })
@@ -292,6 +294,7 @@ internal class FavouriteFoodRecordOperations {
                         tblFavouriteFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
                         tblFavouriteFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
                         tblFavouriteFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                        tblFavouriteFoodRecordIngredient.barcode = foodRecordIngredient.barcode
                         
                         var strIngredientServingSizes = ""
                         foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })

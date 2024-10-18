@@ -158,7 +158,7 @@ extension FoodRecordIngredient {
         name = coreFoodingredient.name ?? ""
         iconId = coreFoodingredient.iconId ?? ""
         refCode = coreFoodingredient.refCode ?? ""
-        barcode = ""
+        barcode = coreFoodingredient.barcode ?? ""
 
         if let coreEntityType = coreFoodingredient.entityType,
         let entityValue = PassioIDEntityType(rawValue: coreEntityType) {
@@ -219,7 +219,7 @@ extension FoodRecordIngredient {
         name = coreFoodingredient.name ?? ""
         iconId = coreFoodingredient.iconId ?? ""
         refCode = coreFoodingredient.refCode ?? ""
-        barcode = ""
+        barcode = coreFoodingredient.barcode ?? ""
 
         if let coreEntityType = coreFoodingredient.entityType,
         let entityValue = PassioIDEntityType(rawValue: coreEntityType) {
@@ -279,7 +279,7 @@ extension FoodRecordIngredient {
         name = coreFoodingredient.name ?? ""
         iconId = coreFoodingredient.iconId ?? ""
         refCode = coreFoodingredient.refCode ?? ""
-        barcode = ""
+        barcode = coreFoodingredient.barcode ?? ""
 
         if let coreEntityType = coreFoodingredient.entityType,
         let entityValue = PassioIDEntityType(rawValue: coreEntityType) {

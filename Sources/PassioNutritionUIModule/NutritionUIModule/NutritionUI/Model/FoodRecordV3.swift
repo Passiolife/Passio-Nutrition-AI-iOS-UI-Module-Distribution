@@ -132,8 +132,9 @@ public struct FoodRecordV3: Codable, Equatable {
         name = foodItem.name
         details = foodItem.details
         iconId = foodItem.iconId
-        self.barcode = barcode == "" ? foodItem.ingredients.first?.metadata.barcode ?? "" : ""
-
+        //self.barcode = barcode == "" ? foodItem.ingredients.first?.metadata.barcode ?? "" : ""
+        self.barcode = barcode.count > 0 ? barcode : barcode == "" ? foodItem.ingredients.first?.metadata.barcode ?? "" : ""
+        
         let now = Date()
         createdAt = now
         mealLabel = MealLabel.mealLabelBy(time: now)

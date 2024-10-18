@@ -85,6 +85,7 @@ internal class CustomFoodRecordOperations {
                     tblCustomFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
                     tblCustomFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
                     tblCustomFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                    tblCustomFoodRecordIngredient.barcode = foodRecordIngredient.barcode
                     
                     var strIngredientServingSizes = ""
                     foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })
@@ -198,6 +199,7 @@ internal class CustomFoodRecordOperations {
                     tblCustomFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
                     tblCustomFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
                     tblCustomFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                    tblCustomFoodRecordIngredient.barcode = foodRecordIngredient.barcode
                     
                     var strIngredientServingSizes = ""
                     foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })
@@ -292,6 +294,7 @@ internal class CustomFoodRecordOperations {
                         tblCustomFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
                         tblCustomFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
                         tblCustomFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                        tblCustomFoodRecordIngredient.barcode = foodRecordIngredient.barcode
                         
                         var strIngredientServingSizes = ""
                         foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })

@@ -24,6 +24,7 @@
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TblCustomFoodRecordIngredient"/>
     </entity>
     <entity name="TblCustomFoodRecordIngredient" representedClassName="TblCustomFoodRecordIngredient" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
         <attribute name="iconId" optional="YES" attributeType="String"/>
@@ -61,6 +62,7 @@
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TblFavouriteFoodRecordIngredient"/>
     </entity>
     <entity name="TblFavouriteFoodRecordIngredient" representedClassName="TblFavouriteFoodRecordIngredient" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
         <attribute name="iconId" optional="YES" attributeType="String"/>
@@ -75,6 +77,7 @@
         <attribute name="servingUnits" optional="YES" attributeType="String"/>
     </entity>
     <entity name="TblFoodRecordIngredient" representedClassName="TblFoodRecordIngredient" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
         <attribute name="iconId" optional="YES" attributeType="String"/>
