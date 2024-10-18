@@ -171,7 +171,8 @@ public struct FoodRecordV3: Codable, Equatable {
         name = ingredient.name
         iconId = ingredient.iconId
         refCode = ingredient.refCode ?? ""
-        self.barcode = barcode == "" ? ingredient.metadata.barcode ?? "" : ""
+//        self.barcode = barcode == "" ? ingredient.metadata.barcode ?? "" : ""
+        self.barcode = barcode.count > 0 ? barcode : barcode == "" ? ingredient.metadata.barcode ?? "" : ""
 
         let now = Date()
         createdAt = now
