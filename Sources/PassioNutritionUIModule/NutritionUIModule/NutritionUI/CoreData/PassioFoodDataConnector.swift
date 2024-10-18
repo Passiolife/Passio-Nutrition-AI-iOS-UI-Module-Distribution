@@ -237,7 +237,7 @@ extension PassioFoodDataConnector: PassioConnector {
     public func deleteRecipe(record: FoodRecordV3) {}
     
     public func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void) {
-        
+        completion([])
     }
     
 }
