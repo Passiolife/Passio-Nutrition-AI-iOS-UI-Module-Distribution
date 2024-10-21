@@ -13,7 +13,7 @@ extension NSManagedObjectContext {
                 try save()
             }
             catch {
-                print("Error while saving the Single Change into NSManagedObjectContext :- \(error.localizedDescription)")
+                passioLog(message: "Error while saving the Single Change into NSManagedObjectContext :- \(error.localizedDescription)")
             }
         }
     }
@@ -31,7 +31,7 @@ extension NSManagedObjectContext {
                 self.saveChangesOnMediatorContext(mediatorMangedObjectContext: mediatorMangedObjectContext, privateManagedObjectContext: privateManagedObjectContext)
             }
             catch {
-                print("Error while saving the Changes into ChildNSManagedObjectContext :- (error.localizedDescription)")
+                passioLog(message: "Error while saving the Changes into ChildNSManagedObjectContext :- (error.localizedDescription)")
             }
         }
     }
@@ -45,7 +45,7 @@ extension NSManagedObjectContext {
                     self.saveChangesOnPrivateContext(privateManagedObjectContext: privateManagedObjectContext)
                 }
                 catch {
-                    print("Error while saving the Changes into MediatorNSManagedObjectContext :- (error.localizedDescription)")
+                    passioLog(message: "Error while saving the Changes into MediatorNSManagedObjectContext :- (error.localizedDescription)")
                 }
             }
         }
@@ -59,7 +59,7 @@ extension NSManagedObjectContext {
                     try privateManagedObjectContext.save()
                 }
                 catch {
-                    print("Error while saving the Changes into PrivateNSManagedObjectContext :- (error.localizedDescription)")
+                    passioLog(message: "Error while saving the Changes into PrivateNSManagedObjectContext :- (error.localizedDescription)")
                 }
             }
         }

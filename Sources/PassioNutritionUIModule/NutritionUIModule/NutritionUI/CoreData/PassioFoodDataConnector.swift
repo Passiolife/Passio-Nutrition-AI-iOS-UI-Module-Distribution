@@ -65,7 +65,7 @@ extension PassioFoodDataConnector: PassioConnector {
         }
     }
     
-    public func fetchDayLogRecursive(fromDate: Date, toDate: Date, currentLogs: [DayLog], completion: @escaping ([DayLog]) -> Void) {
+    public func fetchDayLogRecursive(fromDate: Date, toDate: Date, currentLogs: [DayLog] = [], completion: @escaping ([DayLog]) -> Void) {
         
         guard fromDate <= toDate else {
             completion(currentLogs)
@@ -138,7 +138,17 @@ extension PassioFoodDataConnector: PassioConnector {
     }
     
     public func fetchMealLogsJson(daysBack: Int) -> String {
-        return ""
+        
+        let toDate = Date()
+        let fromDate = Calendar.current.date(byAdding: .day, value: -daysBack, to: toDate) ?? Date()
+
+        var dayLogs = [DayLog]()
+        fetchDayLogRecursive(fromDate: fromDate, toDate: toDate) { dayLog in
+            dayLogs.append(contentsOf: dayLog)
+        }
+        let json = dayLogs.generateDataRequestJson()
+        return json
+        
     }
     
     //MARK: - Userfood Section

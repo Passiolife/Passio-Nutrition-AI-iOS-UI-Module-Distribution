@@ -105,7 +105,7 @@ internal class CustomFoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
-                print("Failed to fetch match delete and save as new recored: \(error)")
+                passioLog(message: "Failed to fetch match delete and save as new Custom recored: \(error)")
                 completion(false, error)
             }
         }
@@ -131,11 +131,11 @@ internal class CustomFoodRecordOperations {
                 
                 if let firstRecord = results.first {
                     dbFoodRecordV3 = firstRecord
-                    print("Existing Record found to update")
+                    passioLog(message: "Existing Custom Record found to update")
                 }
                 else {
                     dbFoodRecordV3 = TblCustomFoodRecord(context: mainContext)
-                    print("New Record is created for storage")
+                    passioLog(message: "New Custom Record is created for storage")
                 }
                 
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -219,7 +219,7 @@ internal class CustomFoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
-                print("Failed to fetch match and save as new recored: \(error)")
+                passioLog(message: "Failed to fetch match and save as new Custom recored: \(error)")
                 completion(false, error)
             }
             
@@ -245,7 +245,7 @@ internal class CustomFoodRecordOperations {
                 let results = try mainContext.fetch(fetchRequest)
                 
                 if let firstRecord = results.first {
-                    print("Existing Record found for storage and will update it")
+                    passioLog(message: "Existing Custom  Record found for storage and will update it")
                     dbFoodRecordV3 = firstRecord
                     
                     guard let dbFoodRecordV3 = dbFoodRecordV3 else { return }
@@ -314,7 +314,7 @@ internal class CustomFoodRecordOperations {
                     completion(true, nil)
                 }
             } catch let error {
-                print("Failed to fetch record to update: \(error)")
+                passioLog(message: "Failed to fetch Custom record to update: \(error)")
                 completion(false, error)
             }
             
@@ -343,7 +343,7 @@ internal class CustomFoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
-                print("Failed to fetch records: \(error)")
+                passioLog(message: "Failed to fetch Custom records: \(error)")
                 completion([], error)
             }
         }
@@ -374,7 +374,7 @@ internal class CustomFoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
-                print("Failed to fetch records: \(error)")
+                passioLog(message: "Failed to fetch Custom records: \(error)")
                 completion([], error)
             }
         }
@@ -405,7 +405,7 @@ internal class CustomFoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
-                print("Failed to fetch records: \(error)")
+                passioLog(message: "Failed to fetch Custom records: \(error)")
                 completion([], error)
             }
         }
@@ -436,7 +436,7 @@ internal class CustomFoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
-                print("Failed to fetch records: \(error)")
+                passioLog(message: "Failed to fetch Custom records: \(error)")
                 completion([], error)
             }
         }
@@ -467,7 +467,7 @@ internal class CustomFoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
-                print("Failed to fetch record to delete: \(error)")
+                passioLog(message: "Failed to fetch Custom record to delete: \(error)")
                 completion(false, error)
             }
             
@@ -499,7 +499,7 @@ internal class CustomFoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
-                print("Failed to fetch record to delete: \(error)")
+                passioLog(message: "Failed to fetch Custom record to delete: \(error)")
                 completion(false, error)
             }
             

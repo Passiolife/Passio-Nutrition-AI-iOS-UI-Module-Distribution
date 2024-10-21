@@ -102,7 +102,7 @@ internal class FoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
-                print("Failed to fetch match delete and save as new recored: \(error)")
+                passioLog(message: "Failed to fetch match delete and save as new recored: \(error)")
                 completion(false, error)
             }
         }
@@ -127,11 +127,11 @@ internal class FoodRecordOperations {
                 let results = try mainContext.fetch(fetchRequest)
                 if let firstRecord = results.first {
                     dbFoodRecordV3 = firstRecord
-                    print("Existing Record found to update")
+                    passioLog(message: "Existing FoodLog Record found to update")
                 }
                 else {
                     dbFoodRecordV3 = TblFoodRecordV3(context: mainContext)
-                    print("New Record is created for storage")
+                    passioLog(message: "New FoodLog Record is created for storage")
                 }
                 
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -215,7 +215,7 @@ internal class FoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
-                print("Failed to fetch match and save as new recored: \(error)")
+                passioLog(message: "Failed to fetch match and save as new FoodLog recored: \(error)")
                 completion(false, error)
             }
             
@@ -241,7 +241,7 @@ internal class FoodRecordOperations {
                 let results = try mainContext.fetch(fetchRequest)
                 
                 if let firstRecord = results.first {
-                    print("Existing Record found for storage and will update it")
+                    passioLog(message: "Existing FoodLog Record found for storage and will update it")
                     dbFoodRecordV3 = firstRecord
                     
                     guard let dbFoodRecordV3 = dbFoodRecordV3 else { return }
@@ -310,7 +310,7 @@ internal class FoodRecordOperations {
                     completion(true, nil)
                 }
             } catch let error {
-                print("Failed to fetch record to update: \(error)")
+                passioLog(message: "Failed to fetch FoodLog record to update: \(error)")
                 completion(false, error)
             }
             
@@ -339,7 +339,7 @@ internal class FoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
-                print("Failed to fetch records: \(error)")
+                passioLog(message: "Failed to FoodLog fetch records: \(error)")
                 completion([], error)
             }
         }
@@ -376,7 +376,7 @@ internal class FoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
-                print("Failed to fetch records: \(error)")
+                passioLog(message: "Failed to FoodLog fetch records: \(error)")
                 completion([], error)
             }
         }
@@ -408,7 +408,7 @@ internal class FoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
-                print("Failed to fetch records: \(error)")
+                passioLog(message: "Failed to FoodLog fetch records: \(error)")
                 completion([], error)
             }
         }
@@ -439,7 +439,7 @@ internal class FoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
-                print("Failed to fetch records: \(error)")
+                passioLog(message: "Failed to FoodLog fetch records: \(error)")
                 completion([], error)
             }
         }
@@ -470,7 +470,7 @@ internal class FoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
-                print("Failed to fetch record to delete: \(error)")
+                passioLog(message: "Failed to FoodLog fetch record to delete: \(error)")
                 completion(false, error)
             }
             
