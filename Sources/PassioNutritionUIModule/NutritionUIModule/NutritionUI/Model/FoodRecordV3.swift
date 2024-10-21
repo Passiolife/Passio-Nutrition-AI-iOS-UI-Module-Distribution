@@ -487,7 +487,7 @@ extension FoodRecordV3 {
 }
 
 
-
+// MARK: - CoreData Model to FoodRecordV3
 extension FoodRecordV3 {
     
     internal init(foodRecordCore: TblFoodRecordV3) {
@@ -635,6 +635,57 @@ extension FoodRecordV3 {
         self.ingredients = []
         if let coreFoodIngredients = foodRecordCore.ingredients,
            let arrIngredientsItem = coreFoodIngredients.allObjects as? [TblFavouriteFoodRecordIngredient] {
+            self.ingredients = arrIngredientsItem.map { itemIngredient in
+                FoodRecordIngredient(coreFoodingredient: itemIngredient)
+            }
+        }
+
+        self.setFoodRecordServing(unit: selectedUnit, quantity: selectedQuantity)
+    }
+    
+    internal init(foodRecordCore: TblFoodRecipeRecord) {
+        
+        passioID = (foodRecordCore.passioID ?? "") as PassioID
+        name = foodRecordCore.name ?? ""
+        details = foodRecordCore.details ?? ""
+        iconId = foodRecordCore.iconId ?? ""
+        barcode = foodRecordCore.barcode ?? ""
+        
+        uuid = foodRecordCore.uuid ?? UUID().uuidString
+        let now = Date()
+        createdAt = foodRecordCore.createdAt ?? now
+        mealLabel = MealLabel(rawValue: foodRecordCore.mealLabel ?? "snack")
+        
+        let coreEntityType = PassioIDEntityType(rawValue: foodRecordCore.entityType ?? "barcode")
+        self.entityType = coreEntityType ?? .barcode
+        
+        confidence = foodRecordCore.confidence
+        
+        selectedUnit = foodRecordCore.selectedUnit ?? ""
+        
+        selectedQuantity = foodRecordCore.selectedQuantity
+        
+        servingSizes = []
+        if let foodRecordCoreServingSizes = foodRecordCore.servingSizes {
+            servingSizes = self.getServingSize(servingSizes: foodRecordCoreServingSizes)
+        }
+        
+        servingUnits = []
+        if let foodRecordCoreServingUnits = foodRecordCore.servingUnits {
+            servingUnits = self.getServingUnit(servingUnit: foodRecordCoreServingUnits)
+        }
+        
+        nutrients = PassioNutrients(weight: .init(value: 0, unit: .grams))
+        if let jsonStringNutrition = foodRecordCore.nutrients {
+            nutrients = self.getNutritions(nutrients: jsonStringNutrition)
+        }
+        
+        openFoodLicense = foodRecordCore.openFoodLicense
+        refCode = foodRecordCore.refCode ?? ""
+        
+        self.ingredients = []
+        if let coreFoodIngredients = foodRecordCore.ingredients,
+           let arrIngredientsItem = coreFoodIngredients.allObjects as? [TblFoodRecipeRecordIngredient] {
             self.ingredients = arrIngredientsItem.map { itemIngredient in
                 FoodRecordIngredient(coreFoodingredient: itemIngredient)
             }

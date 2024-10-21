@@ -31,15 +31,15 @@ internal class CustomFoodRecordOperations {
     //MARK: - Insert Custom food record
     func insertFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             var dbFoodRecordV3: TblCustomFoodRecord?
             
             do {
                 
-                dbFoodRecordV3 = TblCustomFoodRecord(context: context)
+                dbFoodRecordV3 = TblCustomFoodRecord(context: mainContext)
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else { return }
                 
                 dbFoodRecordV3.barcode = foodRecord.barcode
@@ -73,7 +73,7 @@ internal class CustomFoodRecordOperations {
                 var foodIngredients: [TblCustomFoodRecordIngredient] = []
                 
                 foodRecord.ingredients.forEach { foodRecordIngredient in
-                    let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: context)
+                    let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: mainContext)
                     
                     tblCustomFoodRecordIngredient.details = foodRecordIngredient.details
                     tblCustomFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
@@ -100,7 +100,7 @@ internal class CustomFoodRecordOperations {
                 
                 dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
                 
-                context.saveChanges()
+                mainContext.saveChanges()
                 
                 completion(true, nil)
                 
@@ -114,9 +114,9 @@ internal class CustomFoodRecordOperations {
     //MARK: - Insert OR Update Custom food record
     func insertOrUpdateFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             // Create a fetch request for the Person entity
             let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
@@ -127,14 +127,14 @@ internal class CustomFoodRecordOperations {
             do {
                 
                 // Fetch existing records
-                let results = try context.fetch(fetchRequest)
+                let results = try mainContext.fetch(fetchRequest)
                 
                 if let firstRecord = results.first {
                     dbFoodRecordV3 = firstRecord
                     print("Existing Record found to update")
                 }
                 else {
-                    dbFoodRecordV3 = TblCustomFoodRecord(context: context)
+                    dbFoodRecordV3 = TblCustomFoodRecord(context: mainContext)
                     print("New Record is created for storage")
                 }
                 
@@ -187,7 +187,7 @@ internal class CustomFoodRecordOperations {
                 var foodIngredients: [TblCustomFoodRecordIngredient] = []
                 
                 foodRecord.ingredients.forEach { foodRecordIngredient in
-                    let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: context)
+                    let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: mainContext)
                     
                     tblCustomFoodRecordIngredient.details = foodRecordIngredient.details
                     tblCustomFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
@@ -214,7 +214,7 @@ internal class CustomFoodRecordOperations {
                 
                 dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
                 
-                context.saveChanges()
+                mainContext.saveChanges()
                 
                 completion(true, nil)
                 
@@ -230,9 +230,9 @@ internal class CustomFoodRecordOperations {
     //MARK: - Update Custom food records
     func updateCustomFoodRecord(foodRecord: FoodRecordV3, whereClause udid: String, completion: @escaping ((Bool, Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             // Create a fetch request for the Person entity
             let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
@@ -242,7 +242,7 @@ internal class CustomFoodRecordOperations {
             do {
                 
                 // Fetch existing records
-                let results = try context.fetch(fetchRequest)
+                let results = try mainContext.fetch(fetchRequest)
                 
                 if let firstRecord = results.first {
                     print("Existing Record found for storage and will update it")
@@ -282,7 +282,7 @@ internal class CustomFoodRecordOperations {
                     
                     foodRecord.ingredients.forEach { foodRecordIngredient in
                         
-                        let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: context)
+                        let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: mainContext)
                         
                         tblCustomFoodRecordIngredient.details = foodRecordIngredient.details
                         tblCustomFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
@@ -309,7 +309,7 @@ internal class CustomFoodRecordOperations {
                     
                     dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
                     
-                    context.saveChanges()
+                    mainContext.saveChanges()
                     
                     completion(true, nil)
                 }
@@ -324,21 +324,21 @@ internal class CustomFoodRecordOperations {
     //MARK: - Fetch all Custom food records
     func fetchCustomFoodRecords(completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             do {
                 
                 let request: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
-                let foodRecordResult = try context.fetch(request)
+                let foodRecordResult = try mainContext.fetch(request)
                 
                 let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblCustomFoodRecord in
                     var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblCustomFoodRecord)
                     return passioFoodRecordV3
                 }
                 
-                context.saveChanges()
+                mainContext.saveChanges()
                 
                 completion(arrFoodRecordV3, nil)
                 
@@ -353,23 +353,23 @@ internal class CustomFoodRecordOperations {
     //MARK: - Fetch all Custom food records that matches with given name
     func fetchCustomFoodRecords(whereClause name: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             do {
                 
                 let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "name == %@", name)
                 
-                let foodRecordResult = try context.fetch(fetchRequest)
+                let foodRecordResult = try mainContext.fetch(fetchRequest)
                 
                 let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblCustomFoodRecord in
                     var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblCustomFoodRecord)
                     return passioFoodRecordV3
                 }
                 
-                context.saveChanges()
+                mainContext.saveChanges()
                 
                 completion(arrFoodRecordV3, nil)
                 
@@ -384,23 +384,23 @@ internal class CustomFoodRecordOperations {
     //MARK: - Fetch all Custom food records that matches with given barcode
     func fetchCustomFoodRecords(whereClauseBarcode barcode: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             do {
                 
                 let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "barcode == %@", barcode)
                 
-                let foodRecordResult = try context.fetch(fetchRequest)
+                let foodRecordResult = try mainContext.fetch(fetchRequest)
                 
                 let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblCustomFoodRecord in
                     var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblCustomFoodRecord)
                     return passioFoodRecordV3
                 }
                 
-                context.saveChanges()
+                mainContext.saveChanges()
                 
                 completion(arrFoodRecordV3, nil)
                 
@@ -415,23 +415,23 @@ internal class CustomFoodRecordOperations {
     //MARK: - Fetch all Custom food records that matches with given refCode
     func fetchCustomFoodRecords(whereClauseRefCode refCode: String, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             do {
                 
                 let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "refCode == %@", refCode)
                 
-                let foodRecordResult = try context.fetch(fetchRequest)
+                let foodRecordResult = try mainContext.fetch(fetchRequest)
                 
                 let arrFoodRecordV3: [FoodRecordV3] = foodRecordResult.map { TblCustomFoodRecord in
                     var passioFoodRecordV3 = FoodRecordV3(foodRecordCore: TblCustomFoodRecord)
                     return passioFoodRecordV3
                 }
                 
-                context.saveChanges()
+                mainContext.saveChanges()
                 
                 completion(arrFoodRecordV3, nil)
                 
@@ -446,23 +446,23 @@ internal class CustomFoodRecordOperations {
     //MARK: - Delete food record with where clause of UUID
     func deleteCustomFoodRecords(whereClauseUUID udid: String, completion: @escaping ((Bool, Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             do {
                 
                 let deleteRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
                 deleteRequest.predicate = NSPredicate(format: "uuid == %@", udid)
                 
-                let foodRecordResult = try context.fetch(deleteRequest)
+                let foodRecordResult = try mainContext.fetch(deleteRequest)
                 
                 // Delete the event
                 foodRecordResult.forEach { recordToDelete in
-                    context.delete(recordToDelete)
+                    mainContext.delete(recordToDelete)
                 }
                 
-                context.saveChanges()
+                mainContext.saveChanges()
                 
                 completion(true, nil)
                 
@@ -479,22 +479,22 @@ internal class CustomFoodRecordOperations {
     //MARK: - Delete Custom food record
     func deleteAllCustomFoodRecords(completion: @escaping ((Bool, Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
             do {
                 
                 let deleteRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
                 
-                let foodRecordResult = try context.fetch(deleteRequest)
+                let foodRecordResult = try mainContext.fetch(deleteRequest)
                 
                 // Delete the event
                 foodRecordResult.forEach { recordToDelete in
-                    context.delete(recordToDelete)
+                    mainContext.delete(recordToDelete)
                 }
                 
-                context.saveChanges()
+                mainContext.saveChanges()
                 
                 completion(true, nil)
                 

@@ -28,11 +28,11 @@ public class UserProfileOperation {
     
     func updateUserProfile(userProfile: UserProfileModel, completion: @escaping ((Bool, Error?) -> Void)) {
         
-        let context = self.getMainContext()
+        let mainContext = self.getMainContext()
         
-        context.perform {
+        mainContext.perform {
             
-            let dbUserProfile = TblUserProfile(context: context)
+            let dbUserProfile = TblUserProfile(context: mainContext)
             
             dbUserProfile.activityLevel = userProfile.activityLevel?.rawValue
             dbUserProfile.age = userProfile.age.toInt16()
@@ -56,7 +56,7 @@ public class UserProfileOperation {
             dbUserProfile.waterUnit = userProfile.waterUnit?.rawValue
             dbUserProfile.weight = userProfile.weight ?? 0
             
-            context.saveChanges()
+            mainContext.saveChanges()
             
             completion(true, nil)
         }

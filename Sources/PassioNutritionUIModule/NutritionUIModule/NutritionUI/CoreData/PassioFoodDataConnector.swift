@@ -232,12 +232,32 @@ extension PassioFoodDataConnector: PassioConnector {
     }
     
     //MARK: - Recipe Section
-    public func updateRecipe(record: FoodRecordV3) {}
+    public func updateRecipe(record: FoodRecordV3) {
+        FoodRecipeRecordOperations.shared.insertOrUpdateFoodRecipeRecord(foodRecord: record) { (resultStatus, resultError) in
+            if let error = resultError {
+                print("Failed to save Favorite record :: \(error)")
+            }
+        }
+    }
     
-    public func deleteRecipe(record: FoodRecordV3) {}
+    public func deleteRecipe(record: FoodRecordV3) {
+        FoodRecipeRecordOperations.shared.deleteFoodRecipeRecords(whereClauseRefCode: record.refCode) { bResult, error in
+            if error != nil {
+                print("Failed to delete CustomFood record :: \(error)")
+            }
+        }
+    }
     
     public func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void) {
-        completion([])
+        FoodRecipeRecordOperations.shared.fetchFoodRecipeRecords { foodRecords, error in
+            if error != nil {
+                print("failed to fetch CustomFood records :: \(error)")
+                completion([])
+            }
+            else {
+                completion(foodRecords)
+            }
+        }
     }
     
 }

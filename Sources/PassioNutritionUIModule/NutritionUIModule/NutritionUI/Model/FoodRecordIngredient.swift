@@ -149,7 +149,7 @@ public struct FoodRecordIngredient: Codable, Equatable {
     }
 }
 
-
+// MARK: - CoreData Model to FoodRecordIngredient
 extension FoodRecordIngredient {
     
     internal init(coreFoodingredient: TblFoodRecordIngredient) {
@@ -274,6 +274,66 @@ extension FoodRecordIngredient {
     }
     
     internal init(coreFoodingredient: TblFavouriteFoodRecordIngredient) {
+
+        passioID = coreFoodingredient.passioID ?? ""
+        name = coreFoodingredient.name ?? ""
+        iconId = coreFoodingredient.iconId ?? ""
+        refCode = coreFoodingredient.refCode ?? ""
+        barcode = coreFoodingredient.barcode ?? ""
+
+        if let coreEntityType = coreFoodingredient.entityType,
+        let entityValue = PassioIDEntityType(rawValue: coreEntityType) {
+            self.entityType = entityValue
+        }
+        else {
+            self.entityType = .barcode
+        }
+        
+        selectedUnit = coreFoodingredient.selectedUnit ?? ""
+        
+        selectedQuantity = coreFoodingredient.selectedQuantity
+        
+        nutrients = PassioNutrients(weight: .init(value: 0, unit: .grams))
+        if let jsonStringNutrition = coreFoodingredient.nutrients {
+            if let jsonStringNutritionData = jsonStringNutrition.data(using: .utf8) {
+                do {
+                    let nutrientsParsed = try JSONDecoder().decode(PassioNutrients.self, from: jsonStringNutritionData)
+                    nutrients = nutrientsParsed
+                } catch let error {
+                    print("Error while parsing PassioNutrients")
+                }
+            }
+        }
+        
+        servingSizes = []
+        if let foodRecordCoreServingSizes = coreFoodingredient.servingSizes {
+            if let jsonArray = "[\(foodRecordCoreServingSizes.replacingOccurrences(of: "}{", with: "},{"))]".data(using: .utf8) {
+                do {
+                    let arrPassioServingSize = try JSONDecoder().decode([PassioServingSize].self, from: jsonArray)
+                    servingSizes = arrPassioServingSize
+                } catch let error {
+                    print("Error while parsing PassioNutrients")
+                }
+            }
+        }
+        
+        servingUnits = []
+        if let coreFoodingredientServingUnits = coreFoodingredient.servingUnits {
+            
+            if let jsonArray = "[\(coreFoodingredientServingUnits.replacingOccurrences(of: "}{", with: "},{"))]".data(using: .utf8) {
+                do {
+                    let arrPassioServingUnit = try JSONDecoder().decode([PassioServingUnit].self, from: jsonArray)
+                    servingUnits = arrPassioServingUnit
+                } catch let error {
+                    print("Error while parsing PassioNutrients")
+                }
+            }
+        }
+
+        openFoodLicense = coreFoodingredient.openFoodLicense
+    }
+    
+    internal init(coreFoodingredient: TblFoodRecipeRecordIngredient) {
 
         passioID = coreFoodingredient.passioID ?? ""
         name = coreFoodingredient.name ?? ""
