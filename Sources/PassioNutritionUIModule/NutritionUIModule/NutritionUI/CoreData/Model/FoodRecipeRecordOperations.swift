@@ -502,26 +502,8 @@ internal class FoodRecipeRecordOperations {
                 print("Failed to fetch record to delete: \(error)")
                 completion(false, error)
             }
-            
-            
         }
         
-    }
-    
-    //MARK: - Food Recipe Image
-    //MARK: - Store User Created Food Recipe Image
-    func saveUserCreatedFoodRecipeImage(id: String, image: UIImage) {
-        jsonConnector.updateUserFoodImage(with: id, image: image)
-    }
-    
-    //MARK: - Fetch User Created Food Recipe Image
-    func fetchUserCreatedFoodRecipeImage(id: String, completion: @escaping ((UIImage?) -> Void)) {
-        jsonConnector.fetchUserFoodImage(with: id, completion: completion)
-    }
-    
-    //MARK: - Delete User Created Food Recipe Image
-    func deleteUserCreatedFoodRecipeImage(id: String) {
-        jsonConnector.deleteUserFoodImage(with: id)
     }
     
 }

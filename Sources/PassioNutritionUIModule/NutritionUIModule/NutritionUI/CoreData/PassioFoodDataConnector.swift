@@ -89,9 +89,22 @@ extension PassioFoodDataConnector: PassioConnector {
     
     
     //MARK: - User Profile Section
-    public func updateUserProfile(userProfile: UserProfileModel) {}
+    public func updateUserProfile(userProfile: UserProfileModel) {
+        UserProfileOperation.shared.insertOrUpdateUserProfile(userProfile: userProfile) { (resultStatus, resultError) in
+            if let error = resultError {
+                print("Failed to save User Profile record: \(error)")
+            }
+        }
+    }
     
-    public func fetchUserProfile(completion: @escaping (UserProfileModel?) -> Void) {}
+    public func fetchUserProfile(completion: @escaping (UserProfileModel?) -> Void) {
+        UserProfileOperation.shared.fetchUserProfile { userProfileModel, error in
+            if error != nil {
+                print("Failed delete FoodLog record :: \(error)")
+            }
+            completion(userProfileModel)
+        }
+    }
     
     
     //MARK: - Foods for Logs Section

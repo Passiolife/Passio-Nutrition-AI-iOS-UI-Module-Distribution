@@ -111,7 +111,7 @@ final class EditProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        userProfile = UserManager.shared.user
+        userProfile = UserManager.shared.user ?? UserProfileModel()
         profileTableView.reloadData()
     }
 

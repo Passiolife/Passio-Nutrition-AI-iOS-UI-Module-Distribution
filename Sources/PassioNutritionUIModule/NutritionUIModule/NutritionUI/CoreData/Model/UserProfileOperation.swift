@@ -25,41 +25,119 @@ public class UserProfileOperation {
         CoreDataManager.shared.mainManagedObjectContext
     }
     
-    
-    func updateUserProfile(userProfile: UserProfileModel, completion: @escaping ((Bool, Error?) -> Void)) {
+    //MARK: - Fetch User records
+    func insertOrUpdateUserProfile(userProfile: UserProfileModel, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
         
         mainContext.perform {
             
-            let dbUserProfile = TblUserProfile(context: mainContext)
+            // Create a fetch request for the UserProfileModel entity
+            let fetchRequest: NSFetchRequest<TblUserProfile> = TblUserProfile.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "uuid == %@", userProfile.uuid)
             
-            dbUserProfile.activityLevel = userProfile.activityLevel?.rawValue
-            dbUserProfile.age = userProfile.age.toInt16()
-            dbUserProfile.birthday = userProfile.birthday
-            dbUserProfile.caloriesTarget = userProfile.caloriesTarget.toInt16()
-            dbUserProfile.carbsPercent = userProfile.carbsPercent.toInt16()
-            dbUserProfile.fatPercent = userProfile.fatPercent.toInt16()
-            dbUserProfile.firstName = userProfile.firstName
-            dbUserProfile.gender = userProfile.gender?.rawValue
-            dbUserProfile.goalWater = userProfile.goalWater ?? 0
-            dbUserProfile.goalWeight = userProfile.goalWeight ?? 0
-            dbUserProfile.goalWeightTimeLine = userProfile.goalWeightTimeLine
-            dbUserProfile.height = userProfile.height ?? 0
-            dbUserProfile.heightUnits = userProfile.heightUnits.toJsonString()
-            dbUserProfile.lastName = userProfile.lastName
-            dbUserProfile.mealPlan = userProfile.mealPlan?.toJsonString()
-            dbUserProfile.proteinPercent = userProfile.proteinPercent.toInt16()
-            dbUserProfile.recommendedCalories = userProfile.recommendedCalories.toInt16()
-            dbUserProfile.reminderSettings = userProfile.reminderSettings?.toJsonString()
-            dbUserProfile.units = userProfile.units.rawValue
-            dbUserProfile.waterUnit = userProfile.waterUnit?.rawValue
-            dbUserProfile.weight = userProfile.weight ?? 0
+            var dbUserProfile: TblUserProfile?
             
-            mainContext.saveChanges()
-            
-            completion(true, nil)
+            do {
+                
+                // Fetch existing records
+                let results = try mainContext.fetch(fetchRequest)
+                
+                if let firstRecord = results.first {
+                    dbUserProfile = firstRecord
+                    print("Existing Record found to update")
+                }
+                else {
+                    dbUserProfile = TblUserProfile(context: mainContext)
+                    print("New Record is created for storage")
+                }
+                
+                guard let dbUserProfile = dbUserProfile else {
+                    
+                    let errorDomain = "passio.food.record.operation"
+                    let errorCode = 7001
+                    
+                    // Create userInfo dictionary
+                    let userInfo: [String: Any] = [
+                        NSLocalizedDescriptionKey: "Failed to fetch object",
+                        NSLocalizedRecoverySuggestionErrorKey: "Food recrod is not found or object is in appropriate"
+                    ]
+                    
+                    // Create NSError
+                    let error = NSError(domain: errorDomain, code: errorCode, userInfo: userInfo)
+                    
+                    completion(false, error as Error)
+                    return
+                }
+                
+                dbUserProfile.activityLevel = userProfile.activityLevel?.rawValue
+                dbUserProfile.age = userProfile.age.toInt16()
+                dbUserProfile.birthday = userProfile.birthday
+                dbUserProfile.caloriesTarget = userProfile.caloriesTarget.toInt16()
+                dbUserProfile.carbsPercent = userProfile.carbsPercent.toInt16()
+                dbUserProfile.fatPercent = userProfile.fatPercent.toInt16()
+                dbUserProfile.firstName = userProfile.firstName
+                dbUserProfile.gender = userProfile.gender?.rawValue
+                dbUserProfile.goalWater = userProfile.goalWater ?? 0
+                dbUserProfile.goalWeight = userProfile.goalWeight ?? 0
+                dbUserProfile.goalWeightTimeLine = userProfile.goalWeightTimeLine
+                dbUserProfile.height = userProfile.height ?? 0
+                dbUserProfile.heightUnits = userProfile.heightUnits.toJsonString()
+                dbUserProfile.lastName = userProfile.lastName
+                dbUserProfile.mealPlan = userProfile.mealPlan?.toJsonString()
+                dbUserProfile.proteinPercent = userProfile.proteinPercent.toInt16()
+                dbUserProfile.recommendedCalories = userProfile.recommendedCalories.toInt16()
+                dbUserProfile.reminderSettings = userProfile.reminderSettings?.toJsonString()
+                dbUserProfile.units = userProfile.units.rawValue
+                dbUserProfile.waterUnit = userProfile.waterUnit?.rawValue
+                dbUserProfile.weight = userProfile.weight ?? 0
+                
+                mainContext.saveChanges()
+                
+                completion(true, nil)
+            }
+            catch let error {
+                print("Error while saving UserProfile data :: \(error)")
+                completion(false, error)
+            }
         }
+    }
+    
+    //MARK: - Fetch User records
+    func fetchUserProfile(completion: @escaping ((UserProfileModel?, Error?) -> Void)) {
+        
+        let mainContext = self.getMainContext()
+        
+        mainContext.perform {
+            
+            do {
+                
+                let fetchRequest: NSFetchRequest<TblUserProfile> = TblUserProfile.fetchRequest()
+                fetchRequest.fetchLimit = 1
+                
+                let userProfileResult = try mainContext.fetch(fetchRequest)
+                
+                if let firstRecord = userProfileResult.first {
+                    
+                    let userProfileModel: UserProfileModel = UserProfileModel(coreModel: firstRecord)
+                    
+                    mainContext.saveChanges()
+                    
+                    completion(userProfileModel, nil)
+                }
+                else {
+                    mainContext.saveChanges()
+                    completion(nil, nil)
+                }
+                
+                
+                
+            } catch let error {
+                print("Failed to fetch records: \(error)")
+                completion(nil, error)
+            }
+        }
+        
     }
     
 }

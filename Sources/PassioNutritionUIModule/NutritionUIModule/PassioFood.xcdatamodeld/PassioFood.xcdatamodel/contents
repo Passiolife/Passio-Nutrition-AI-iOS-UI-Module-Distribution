@@ -153,13 +153,13 @@
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TblFoodRecordIngredient"/>
     </entity>
     <entity name="TblUserProfile" representedClassName="TblUserProfile" syncable="YES" codeGenerationType="class">
-        <attribute name="activityLevel" optional="YES" attributeType="String"/>
+        <attribute name="activityLevel" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="age" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="caloriesTarget" optional="YES" attributeType="Integer 16" defaultValueString="2100" usesScalarValueType="YES"/>
         <attribute name="carbsPercent" optional="YES" attributeType="Integer 16" defaultValueString="50" usesScalarValueType="YES"/>
         <attribute name="fatPercent" optional="YES" attributeType="Integer 16" defaultValueString="25" usesScalarValueType="YES"/>
-        <attribute name="firstName" optional="YES" attributeType="String"/>
+        <attribute name="firstName" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="gender" optional="YES" attributeType="String"/>
         <attribute name="goalWater" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="goalWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -172,6 +172,7 @@
         <attribute name="recommendedCalories" optional="YES" attributeType="Integer 16" defaultValueString="2100" usesScalarValueType="YES"/>
         <attribute name="reminderSettings" optional="YES" attributeType="String"/>
         <attribute name="units" optional="YES" attributeType="String" defaultValueString="lbs"/>
+        <attribute name="uuid" optional="YES" attributeType="String" defaultValueString="B2B7EAB8-5C57-41B5-9F11-5F1922C63E34"/>
         <attribute name="waterUnit" optional="YES" attributeType="String" defaultValueString="oz"/>
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
