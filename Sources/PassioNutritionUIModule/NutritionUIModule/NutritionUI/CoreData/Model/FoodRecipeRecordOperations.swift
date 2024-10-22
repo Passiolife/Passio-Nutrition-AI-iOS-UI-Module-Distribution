@@ -115,7 +115,7 @@ internal class FoodRecipeRecordOperations {
     func insertOrUpdateFoodRecipeRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
-        
+        // let currentTime = Date()
         mainContext.perform {
             
             // Create a fetch request for the Person entity
@@ -215,6 +215,9 @@ internal class FoodRecipeRecordOperations {
                 dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
                 
                 mainContext.saveChanges()
+                
+                // let endTime = Date()
+                // print("Passio LogsLogs >>> Recipe Record inser/update: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
                 
                 completion(true, nil)
                 
@@ -325,7 +328,7 @@ internal class FoodRecipeRecordOperations {
     func fetchFoodRecipeRecords(completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
-        
+        // let currentTime = Date()
         mainContext.perform {
             
             do {
@@ -339,6 +342,9 @@ internal class FoodRecipeRecordOperations {
                 }
                 
                 mainContext.saveChanges()
+                
+                // let endTime = Date()
+                // print("Passio LogsLogs >>> Recipe Fetch All Record: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
                 
                 completion(arrFoodRecordV3, nil)
                 

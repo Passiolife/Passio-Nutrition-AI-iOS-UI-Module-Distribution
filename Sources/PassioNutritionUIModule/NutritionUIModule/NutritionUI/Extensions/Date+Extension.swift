@@ -122,4 +122,8 @@ extension Date {
         }
         return (startOfMonth, endOfMonth)
     }
+    
+    func getTimeIntervalInSeconds(fromTime: Date) -> String {
+        return "\(self.timeIntervalSince(fromTime).sdkRoundDigits(afterDecimal: 3)) Seconds"
+    }
 }

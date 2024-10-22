@@ -113,6 +113,8 @@ internal class FoodRecordOperations {
         
         let mainContext = self.getMainContext()
         
+        // let currentTime = Date()
+        
         mainContext.perform {
             
             // Create a fetch request for the Person entity
@@ -211,6 +213,9 @@ internal class FoodRecordOperations {
                 dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
                 
                 mainContext.saveChanges()
+                
+                // let endTime = Date()
+                // print("Passio Logs >>> Insert/Update Log Record: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
                 
                 completion(true, nil)
                 
@@ -321,7 +326,7 @@ internal class FoodRecordOperations {
     func fetchFoodRecords(completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
-        
+        // let currentTime = Date()
         mainContext.perform {
             
             do {
@@ -335,6 +340,9 @@ internal class FoodRecordOperations {
                 }
                 
                 mainContext.saveChanges()
+                
+                // let endTime = Date()
+                // print("Passio Logs >>> Fetch All Log Record: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
                 
                 completion(arrFoodRecordV3, nil)
                 
@@ -350,7 +358,7 @@ internal class FoodRecordOperations {
     func fetchFoodRecords(whereClause date: Date, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
-        
+        // let currentTime = Date()
         mainContext.perform {
             
             do {
@@ -373,6 +381,9 @@ internal class FoodRecordOperations {
                 
                 mainContext.saveChanges()
                 
+                // let endTime = Date()
+                // print("Passio Logs >>> Fetch Log Record Date wise: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
+                
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
@@ -387,7 +398,7 @@ internal class FoodRecordOperations {
     func fetchFoodRecords(whereClause fromDate: Date, endDate: Date, completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
-        
+        // let currentTime = Date()
         mainContext.perform {
             
             do {
@@ -404,6 +415,9 @@ internal class FoodRecordOperations {
                 }
                 
                 mainContext.saveChanges()
+                
+                // let endTime = Date()
+                // print("Passio Logs >>> Fetch Log Record Date Range wise: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
                 
                 completion(arrFoodRecordV3, nil)
                 
