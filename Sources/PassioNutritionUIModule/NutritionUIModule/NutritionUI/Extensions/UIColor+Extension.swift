@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension UIColor {
+public extension UIColor {
 
-    public convenience init?(hex: String) {
+    convenience init?(hex: String) {
         func toHexString() -> String {
             var r: CGFloat = 0
             var g: CGFloat = 0
@@ -45,7 +45,7 @@ extension UIColor {
     }
 }
 
-extension UIColor { // customized colors
+public extension UIColor { // customized colors
 
     static var customBase: UIColor {
         colorFromBundle(named: "CustomBase") ?? .blue
@@ -72,7 +72,7 @@ extension UIColor { // customized colors
     }
 }
 
-extension UIColor { // Marcro Graphs
+public extension UIColor { // Marcro Graphs
 
     static var gCaloriesN: UIColor {
         colorFromBundle(named: "GCalories") ?? .yellow

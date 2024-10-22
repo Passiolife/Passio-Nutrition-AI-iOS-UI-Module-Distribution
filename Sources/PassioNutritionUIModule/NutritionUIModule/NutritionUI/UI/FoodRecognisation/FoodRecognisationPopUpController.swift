@@ -37,7 +37,9 @@ final class FoodRecognisationPopUpController: UIViewController {
                        launchOption: FoodRecognisationPopUpController.LaunchOption) -> FoodRecognisationPopUpController {
 
         let foodRecoSB = UIStoryboard(name: "FoodRecognisation", bundle: .module)
-        let foodRecoVC = foodRecoSB.instantiateViewController(withIdentifier: "FoodRecognisationPopUpController") as! FoodRecognisationPopUpController
+        let foodRecoVC = foodRecoSB.instantiateViewController(
+            withIdentifier: FoodRecognisationPopUpController.className
+        ) as! FoodRecognisationPopUpController
         foodRecoVC.launchOption = launchOption
         foodRecoVC.modalTransitionStyle = .crossDissolve
         foodRecoVC.modalPresentationStyle = .overCurrentContext

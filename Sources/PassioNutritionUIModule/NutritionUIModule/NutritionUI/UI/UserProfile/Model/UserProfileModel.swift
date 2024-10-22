@@ -261,7 +261,7 @@ public struct UserProfileModel: Codable, Equatable {
         PassioInternalConnector.shared.updateUserProfile(userProfile: self)
     }
 
-    var getJSONDict: [String: Any]? {
+    public var getJSONDict: [String: Any]? {
         if let data = try? JSONEncoder().encode(self),
            let dic = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
             return dic
@@ -309,8 +309,7 @@ enum ActivityLevel: String, Codable, CaseIterable {
     case active = "Active"
 }
 
-//
-public struct ReminderSettings: Codable, Equatable{
+public struct ReminderSettings: Codable, Equatable {
     var breakfast: Bool?
     var lunch: Bool?
     var dinner: Bool?
@@ -319,8 +318,10 @@ public struct ReminderSettings: Codable, Equatable{
 public enum WaterUnit: String, Codable, CaseIterable {
     case oz, ml
     
-    static func convertWaterMeasurement(value: Double, from: WaterUnit, to: WaterUnit) -> Double {
-        
+    static func convertWaterMeasurement(value: Double,
+                                        from: WaterUnit,
+                                        to: WaterUnit) -> Double {
+
         let mlPerOunce = 29.5735  // 1 fluid ounce is approximately 29.5735 ml
         
         switch (from, to) {
@@ -334,8 +335,6 @@ public enum WaterUnit: String, Codable, CaseIterable {
             return value
         }
     }
-    
-    
 }
 
 var calorieDeficitArray: [String] {
@@ -356,11 +355,11 @@ class MealPlanManager {
     static var shared: MealPlanManager = MealPlanManager()
     var mealPlans: [PassioMealPlan] = []
 
-    init() {}
+    private init() {}
 
     func getMealPlans() {
-        PassioNutritionAI.shared.fetchMealPlans { mealPlans in
-            self.mealPlans = mealPlans
+        PassioNutritionAI.shared.fetchMealPlans { [weak self] mealPlans in
+            self?.mealPlans = mealPlans
         }
     }
 }

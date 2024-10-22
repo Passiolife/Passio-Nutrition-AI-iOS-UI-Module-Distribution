@@ -6,7 +6,6 @@
 //  Copyright © 2024 Passio Inc. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SwipeCellKit
 #if canImport(PassioNutritionAISDK)
@@ -20,8 +19,15 @@ class MealPlanViewController: UIViewController {
     var selectedMealPlan: PassioMealPlan?
     var selectedDay: Int?
 
+    private enum CellMealPlan: String, CaseIterable {
+        case MealPlanFoodCell,
+             MealPlanSectionHeaderCell,
+             MealPlanDietTypeCell
+    }
+
     enum Section {
-        case dietType,bf,l,d,s
+
+        case dietType, bf, l, d, s
 
         var mealForSection: MealLabel? {
             switch self {
@@ -39,7 +45,7 @@ class MealPlanViewController: UIViewController {
         }
     }
 
-    var sections: [Section] = [.dietType,.bf,.l,.d,.s]
+    var sections: [Section] = [.dietType, .bf, .l, .d, .s]
     var breakfastMealPlanItem: [PassioMealPlanItem] = []
     var lunchMealPlanItem: [PassioMealPlanItem] = []
     var dinnerMealPlanItem: [PassioMealPlanItem] = []
@@ -47,42 +53,53 @@ class MealPlanViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if MealPlanManager.shared.mealPlans.count == 0 {
+            MealPlanManager.shared.getMealPlans()
+        }
         registerCellsAndTableDelegates()
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         if let mealPlan = UserManager.shared.user?.mealPlan {
-            if self.selectedMealPlan != mealPlan {
-                self.selectedMealPlan = mealPlan
-                self.getMealPlanData()
+            if selectedMealPlan != mealPlan {
+                selectedMealPlan = mealPlan
+                getMealPlanData()
             }
         } else {
-            self.selectedMealPlan = MealPlanManager.shared.mealPlans.first
-            self.selectedDay = 1
-            self.getMealPlanData()
+            selectedMealPlan = MealPlanManager.shared.mealPlans.first
+            selectedDay = 1
+            getMealPlanData()
         }
     }
 
-    func getMealPlanData() {
+    private func getMealPlanData() {
+
         ProgressHUD.show(presentingVC: self)
         PassioNutritionAI.shared.fetchMealPlanForDay(mealPlanLabel: selectedMealPlan?.mealPlanLabel ?? "",
                                                      day: selectedDay ?? 1) { [weak self] mealPlanItems in
+
             guard let self else { return }
+
+            breakfastMealPlanItem = mealPlanItems.filter { $0.mealTime == .breakfast }
+            lunchMealPlanItem = mealPlanItems.filter { $0.mealTime == .lunch }
+            dinnerMealPlanItem = mealPlanItems.filter { $0.mealTime == .dinner }
+            snacksMealPlanItem = mealPlanItems.filter { $0.mealTime == .snack }
+
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
-                self.breakfastMealPlanItem = mealPlanItems.filter({$0.mealTime == .breakfast})
-                self.lunchMealPlanItem = mealPlanItems.filter({$0.mealTime == .lunch})
-                self.dinnerMealPlanItem = mealPlanItems.filter({$0.mealTime == .dinner})
-                self.snacksMealPlanItem = mealPlanItems.filter({$0.mealTime == .snack})
                 self.collectionView.reloadData()
             }
         }
     }
 
-    func registerCellsAndTableDelegates() {
+    private func registerCellsAndTableDelegates() {
+
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 120, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 40, right: 0)
 
         let layout = UICollectionViewCompositionalLayout { [weak self] (sectionNumber, env) in
             if sectionNumber == 0 {
@@ -91,8 +108,9 @@ class MealPlanViewController: UIViewController {
             return self?.collectionLayout(height: 60)
         }
 
-        layout.register(MealPlanSectionDecorationView.self, forDecorationViewOfKind: "MealPlanSectionDecorationView")
-        collectionView.setCollectionViewLayout(layout, animated: true )
+        layout.register(MealPlanSectionDecorationView.self,
+                        forDecorationViewOfKind: MealPlanSectionDecorationView.className)
+        collectionView.setCollectionViewLayout(layout, animated: true)
 
         CellMealPlan.allCases.forEach {
             collectionView.register(nibName: $0.rawValue.capitalizingFirst())
@@ -125,7 +143,9 @@ extension MealPlanViewController: UICollectionViewDataSource, UICollectionViewDe
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
 
-        let decorationItem = NSCollectionLayoutDecorationItem.background(elementKind: "MealPlanSectionDecorationView")
+        let decorationItem = NSCollectionLayoutDecorationItem.background(
+            elementKind: MealPlanSectionDecorationView.className
+        )
         decorationItem.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)
         section.decorationItems = [decorationItem]
 
@@ -148,10 +168,7 @@ extension MealPlanViewController: UICollectionViewDataSource, UICollectionViewDe
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if sections[indexPath.section] == .dietType {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MealPlanDietTypeCell",
-                                                                for: indexPath) as? MealPlanDietTypeCell else {
-                return UICollectionViewCell()
-            }
+            let cell = collectionView.dequeueCell(cellClass: MealPlanDietTypeCell.self, forIndexPath: indexPath)
             cell.selectedMealPlan = selectedMealPlan
             cell.selectedDay = selectedDay ?? 1
             cell.delegate = self
@@ -160,10 +177,7 @@ extension MealPlanViewController: UICollectionViewDataSource, UICollectionViewDe
 
         switch indexPath.row {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MealPlanSectionHeaderCell",
-                                                                for: indexPath) as? MealPlanSectionHeaderCell else {
-                return UICollectionViewCell()
-            }
+            let cell = collectionView.dequeueCell(cellClass: MealPlanSectionHeaderCell.self, forIndexPath: indexPath)
             guard let mealForSection =  sections[indexPath.section].mealForSection else {return UICollectionViewCell()}
             cell.mealLabel = mealForSection
             cell.labelMealTime.text = mealForSection.rawValue
@@ -171,10 +185,7 @@ extension MealPlanViewController: UICollectionViewDataSource, UICollectionViewDe
             return cell
 
         default:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MealPlanFoodCell",
-                                                                for: indexPath) as? MealPlanFoodCell else {
-                return UICollectionViewCell()
-            }
+            let cell = collectionView.dequeueCell(cellClass: MealPlanFoodCell.self, forIndexPath: indexPath)
             if let mealPlanItem = getMealPlanItem(indexPath: indexPath) {
                 if let foodSearchResult = mealPlanItem.meal {
                     cell.setup(foodResult: foodSearchResult)
@@ -218,7 +229,7 @@ extension MealPlanViewController: MealPlanSectionHeaderCellDelegate {
         case .snack: snacksMealPlanItem
         }
         logMultipleFood(mealPlanItems: mealPlanItem) { [weak self] in
-            self?.showMessage(msg: "Added to log")
+            self?.showMessage(msg: ToastMessages.addedToLog)
         }
     }
 }
@@ -232,16 +243,16 @@ extension MealPlanViewController {
         getFoodRecord(from: mealPlanItem) { [weak self] record in
             guard let self, let record else { return }
             if !isEdit {
-                PassioInternalConnector.shared.updateRecord(foodRecord: record, isNew: true)
+                PassioInternalConnector.shared.updateRecord(foodRecord: record)
             }
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
                 if isEdit {
-                    let editVC = EditRecordViewController()
+                    let editVC = FoodDetailsViewController()
                     editVC.foodRecord = record
                     self.parent?.navigationController?.pushViewController(editVC, animated: true)
                 } else {
-                    self.showMessage(msg: "Added to log")
+                    self.showMessage(msg: ToastMessages.addedToLog)
                 }
             }
         }
@@ -260,7 +271,7 @@ extension MealPlanViewController {
                         group.leave()
                         return
                     }
-                    PassioInternalConnector.shared.updateRecord(foodRecord: record, isNew: true)
+                    PassioInternalConnector.shared.updateRecord(foodRecord: record)
                     group.leave()
                 }
             }
@@ -272,31 +283,27 @@ extension MealPlanViewController {
         }
     }
 
-    func getFoodRecord(from mealPlanItem: PassioMealPlanItem, completion: @escaping (_ record: FoodRecordV3?) -> Void) {
+    func getFoodRecord(from mealPlanItem: PassioMealPlanItem,
+                       completion: @escaping (_ record: FoodRecordV3?) -> Void) {
 
-        guard let passioSearchResult = mealPlanItem.meal else {
+        guard let passioFoodDataInfo = mealPlanItem.meal else {
             completion(nil)
             return
         }
 
-        PassioNutritionAI.shared.fetchFoodItemFor(foodItem: passioSearchResult) { (foodItem) in
+        PassioNutritionAI.shared.fetchFoodItemFor(
+            foodDataInfo: passioFoodDataInfo,
+            servingQuantity: passioFoodDataInfo.nutritionPreview?.servingQuantity,
+            servingUnit: passioFoodDataInfo.nutritionPreview?.servingUnit
+        ) { (foodItem) in
+
             DispatchQueue.main.async {
-                guard let foodItem = foodItem else {
+                guard let foodItem else {
                     completion(nil)
                     return
                 }
-                let nutritionPreview = passioSearchResult.nutritionPreview
                 var foodRecord = FoodRecordV3(foodItem: foodItem)
                 foodRecord.mealLabel = MealLabel.init(mealTime: mealPlanItem.mealTime ?? .snack)
-                if foodRecord.setSelectedUnit(unit: nutritionPreview?.servingUnit ?? ""),
-                   let quantity = nutritionPreview?.servingQuantity {
-                    foodRecord.setSelectedQuantity(quantity: quantity)
-                } else {
-                    let weight = nutritionPreview?.weightQuantity ?? 0
-                    if foodRecord.setSelectedUnit(unit: "gram") {
-                        foodRecord.setSelectedQuantity(quantity: weight)
-                    }
-                }
                 completion(foodRecord)
             }
         }
@@ -340,7 +347,6 @@ extension MealPlanViewController: MealPlanDietSelectionDelegate, CustomPickerSel
 
 class MealPlanSectionDecorationView: UICollectionReusableView {
 
-    // MARK: MAIN
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpViews()
@@ -350,14 +356,13 @@ class MealPlanSectionDecorationView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: FUNCTIONS
-    func setUpViews(){
-        self.backgroundColor = .white//UIColor(red: 244/255, green: 243/255, blue: 245/255, alpha: 1)
+    func setUpViews() {
+        self.backgroundColor = .white
         self.layer.cornerRadius = 8
         self.clipsToBounds = true
-        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.5).cgColor
-        self.layer.shadowOffset = CGSize(width: 0.5, height: 1)
-        self.layer.shadowOpacity = 0.3
+        self.layer.shadowColor = UIColor.black.withAlphaComponent(0.06).cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
+        self.layer.shadowOpacity = 1
         self.layer.masksToBounds = false
     }
 }

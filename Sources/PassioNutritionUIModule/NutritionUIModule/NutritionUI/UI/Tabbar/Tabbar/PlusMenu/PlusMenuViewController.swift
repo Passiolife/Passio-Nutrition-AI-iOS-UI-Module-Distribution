@@ -9,11 +9,25 @@
 import UIKit
 
 protocol PlusMenuDelegate: AnyObject {
-    func onScanSelected()
+    func onFoodScannerSelected()
     func onSearchSelected()
     func onFavouritesSelected()
-    func onRecipesSelected()
     func onMyFoodsSelected()
+    func onVoiceLoggingSelected()
+    func onTakePhotosSelected()
+    func onSelectPhotosSelected()
+    func onNutritionAdvisorSelected()
+}
+
+extension PlusMenuDelegate {
+    func onFoodScannerSelected() { }
+    func onSearchSelected() { }
+    func onFavouritesSelected() { }
+    func onMyFoodsSelected() { }
+    func onVoiceLoggingSelected() { }
+    func onTakePhotosSelected() { }
+    func onSelectPhotosSelected() { }
+    func onNutritionAdvisorSelected() { }
 }
 
 final class PlusMenuViewController: InstantiableViewController {
@@ -25,43 +39,75 @@ final class PlusMenuViewController: InstantiableViewController {
 
     enum Rows: String {
 
-        case recipe
         case favourite
         case search
         case scan
-        case createFood
+        case myFoods
+        case voiceLogging
+        case useImage
+        case takePhotos
+        case selectPhotos
+        case nutritionAdvisor
 
         var image: UIImage? {
             switch self {
-            case .recipe: UIImage.imageFromBundle(named: "Recipes")
-            case .favourite: UIImage.imageFromBundle(named: "Heart")
-            case .search: UIImage.imageFromBundle(named: "Search")
-            case .scan: UIImage.imageFromBundle(named: "Scan")
-            case .createFood: UIImage.imageFromBundle(named: "myFoods")
+            case .favourite: UIImage.imageFromBundle(named: "favorites")
+            case .search: UIImage.imageFromBundle(named: "search")
+            case .scan: UIImage.imageFromBundle(named: "foodScanner")
+            case .myFoods: UIImage.imageFromBundle(named: "myFoods")
+            case .voiceLogging: UIImage.imageFromBundle(named: "voiceLogging")
+            case .takePhotos: UIImage.imageFromBundle(named: "takePhotos")
+            case .selectPhotos: UIImage.imageFromBundle(named: "selectPhotos")
+            case .useImage: UIImage.imageFromBundle(named: "useImage")
+            case .nutritionAdvisor: UIImage.imageFromBundle(named: "aiAdvisor")
             }
         }
+
         var title: String? {
-            switch self{
-            case .recipe: Localized.recipes
+            switch self {
             case .favourite: Localized.favorites
             case .search: Localized.textSearch
             case .scan: Localized.foodScan
-            case .createFood: "My Foods"
+            case .myFoods: "My Foods"
+            case .voiceLogging: "Voice Logging"
+            case .takePhotos: "Take Photos"
+            case .selectPhotos: "Select Photos"
+            case .useImage: "Use Image"
+            case .nutritionAdvisor: "AI Advisor"
             }
         }
     }
 
-    private var menuData: [Rows] = [.createFood, .favourite, .search, .scan]
+    private let allRows: [Rows] = [.myFoods,
+                                   .favourite,
+                                   .voiceLogging,
+                                   .nutritionAdvisor,
+                                   .useImage,
+                                   .search,
+                                   .scan,
+                                   .takePhotos,
+                                   .selectPhotos]
+    var menuData: [Rows] = [.myFoods,
+                            .favourite,
+                            .voiceLogging,
+                            .nutritionAdvisor,
+                            .useImage,
+                            .search,
+                            .scan,
+                            .takePhotos,
+                            .selectPhotos]
+    var bottomCountedValue: CGFloat = 70.0
 
     weak var delegate: PlusMenuDelegate?
-    var bottomCountedValue: CGFloat = 70.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureUI()
+        dismissButton.backgroundColor = .primaryColor
         menuTableView.isHidden = true
         menuTableView.clipsToBounds = true
+        menuData = menuData.filter { $0 != .takePhotos && $0 != .selectPhotos }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
             menuTableView.isHidden = false
@@ -91,7 +137,7 @@ final class PlusMenuViewController: InstantiableViewController {
                 view.frame.origin.x = 0
                 view.layoutSubviews()
             }
-            delay += 0.08
+            delay += 0.053
         }
     }
 }
@@ -117,24 +163,37 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueCell(cellClass: PlusMenuCell.self, forIndexPath: indexPath)
         let menu = menuData[indexPath.row]
         cell.menuImageView.image = menu.image
+        cell.menuImageView.tintColor = .primaryColor
         cell.menuNameLabel.text = menu.title
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let menu = menuData[indexPath.row]
-        dismiss(animated: true)
-        switch menu{
+        if menu != .useImage {
+            dismiss(animated: true)
+        }
+        menuData = allRows
+        switch menu {
         case .favourite:
             delegate?.onFavouritesSelected()
-        case .recipe:
-            delegate?.onRecipesSelected()
         case .scan:
-            delegate?.onScanSelected()
+            delegate?.onFoodScannerSelected()
         case .search:
             delegate?.onSearchSelected()
-        case .createFood:
+        case .myFoods:
             delegate?.onMyFoodsSelected()
+        case .voiceLogging:
+            delegate?.onVoiceLoggingSelected()
+        case .takePhotos:
+            delegate?.onTakePhotosSelected()
+        case .selectPhotos:
+            delegate?.onSelectPhotosSelected()
+        case .useImage:
+            menuData = menuData.filter { $0 == .takePhotos || $0 == .selectPhotos }
+            menuTableView.reloadWithAnimations(withDuration: 0.12)
+        case .nutritionAdvisor:
+            delegate?.onNutritionAdvisorSelected()
         }
     }
 

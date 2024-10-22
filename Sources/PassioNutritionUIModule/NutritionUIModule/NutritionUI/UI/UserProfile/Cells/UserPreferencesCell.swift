@@ -35,8 +35,25 @@ final class UserPreferencesCell: UITableViewCell {
             $0.configureTextField()
             $0.autocorrectionType = .no
         }
-        containerView1.dropShadow()
-        containerView2.dropShadow()
+        containerView1.dropShadow(radius: 8,
+                                  offset: CGSize(width: 0, height: 1),
+                                  color: .black.withAlphaComponent(0.06),
+                                  shadowRadius: 2,
+                                  shadowOpacity: 1)
+        containerView2.dropShadow(radius: 8,
+                                  offset: CGSize(width: 0, height: 1),
+                                  color: .black.withAlphaComponent(0.06),
+                                  shadowRadius: 2,
+                                  shadowOpacity: 1)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        containerView1.layer.shadowPath = UIBezierPath(roundedRect: containerView1.bounds,
+                                                       cornerRadius: 8).cgPath
+        containerView2.layer.shadowPath = UIBezierPath(roundedRect: containerView2.bounds,
+                                                       cornerRadius: 8).cgPath
     }
 }
 
@@ -66,7 +83,10 @@ extension UserPreferencesCell {
             activityLvlTextField.text = activityLevel.rawValue.localized
         }
         if let goalWeightTimeLine = userProfile?.goalWeightTimeLine {
-            calorieDeficitTextField.text = goalWeightTimeLine.localized
+            //calorieDeficitTextField.text = goalWeightTimeLine.localized
+            guard let weightGoal = WeightGoal(rawValue: goalWeightTimeLine) else { return }
+            let isImperial = userProfile?.units == .imperial
+            calorieDeficitTextField.text = isImperial ? weightGoal.valueInLbs : weightGoal.valueInKg
         }
         if let mealPlan = userProfile?.mealPlan{
             dietTextField.text = mealPlan.mealPlanTitle ?? "" 

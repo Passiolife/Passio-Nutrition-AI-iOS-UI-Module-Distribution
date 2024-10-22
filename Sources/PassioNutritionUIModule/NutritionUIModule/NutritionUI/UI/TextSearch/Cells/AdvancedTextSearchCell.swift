@@ -17,67 +17,131 @@ class AdvancedTextSearchCell: UITableViewCell {
     @IBOutlet weak var foodTypeImageView: UIImageView!
     @IBOutlet weak var foodNameLabel: UILabel!
     @IBOutlet weak var brandNameLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var insetBackground: UIView!
     @IBOutlet weak var plusButton: UIButton!
 
     var passioIDForCell: PassioID?
     var onQuickAddFood: (() -> Void)?
+    private var isFirstTime = true
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        foodNameLabel.font = .inter(type: .semiBold, size: 14)
+        foodNameLabel.textColor = .gray900
+        brandNameLabel.font = .inter(type: .regular, size: 14)
+        brandNameLabel.textColor = .gray500
         insetBackground.roundMyCornerWith(radius: 8)
         foodImgView.roundMyCorner()
-        insetBackground.dropShadow()
+        insetBackground.dropShadow(radius: 8,
+                              offset: CGSize(width: 0, height: 1),
+                              color: .black.withAlphaComponent(0.06),
+                              shadowRadius: 2,
+                              shadowOpacity: 1)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        DispatchQueue.main.async { [self] in
+            insetBackground.layer.shadowPath = UIBezierPath(roundedRect: insetBackground.bounds,
+                                                            cornerRadius: 8).cgPath
+        }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        foodNameLabel.isHidden = false
+        brandNameLabel.isHidden = false
+        foodTypeImageView.image = nil
     }
 
     @IBAction func onQuickAddFood(_ sender: UIButton) {
         onQuickAddFood?()
     }
 
-    func setup(state: AdvancedTextSearchView.SearchState) {
+    // MARK: Configure Cell
 
+    // Searching state setup
+    func setup(state: SearchState) {
+
+        foodImgView.clipsToBounds = false
         brandNameLabel.isHidden = true
-        scoreLabel.isHidden = true
-        foodTypeImageView.image = nil
-
-        foodImgView.image = state.image
         foodNameLabel.text = state.message
-
-        if state == .searching {
-            activityIndicator.startRotating()
-        }
-
+        foodImgView.image = state.image
+        foodImgView.contentMode = .scaleAspectFit
+        foodImgView.tintColor = .primaryColor
+        foodTypeImageView.image = nil
         plusButton.isHidden = true
+
+        if #available(iOS 17.0, *) {
+
+            foodImgView.removeAllSymbolEffects()
+
+            switch state {
+            case .noResult, .searched:
+                break
+            case .startTyping:
+                foodImgView.addSymbolEffect(.bounce.down.wholeSymbol,
+                                            options: .speed(0.8))
+            case .typing:
+                foodImgView.addSymbolEffect(.variableColor.iterative.dimInactiveLayers.nonReversing,
+                                            options: .speed(0.8))
+            case .searching:
+                foodImgView.addSymbolEffect(.pulse.byLayer,
+                                            options: .repeating)
+            }
+        }
     }
 
-    func setup(foodResult: PassioFoodDataInfo) {
+    // Search Results
+    func setup(passioFoodDataInfo: PassioFoodDataInfo,
+               isFromSearch: Bool = false,
+               isRecipe: Bool = false) {
 
-        foodTypeImageView.image = nil
+        foodImgView.clipsToBounds = true
+        foodImgView.image = nil
 
-        passioIDForCell = foodResult.iconID
-        foodImgView.loadPassioIconBy(passioID: foodResult.iconID,
-                                     entityType: .item) { passioIDForImage, image in
+        if isFromSearch {
+            foodTypeImageView.image = if isRecipe {
+                UIImage(resource: .recipeSmall)
+            } else {
+                nil
+            }
+        } else {
+            foodTypeImageView.image = nil
+        }
+
+        passioIDForCell = passioFoodDataInfo.iconID
+        foodImgView.loadPassioIconBy(passioID: passioFoodDataInfo.iconID,
+                                     entityType: PassioIDEntityType.item) { passioIDForImage, image in
             if passioIDForImage == self.passioIDForCell {
                 DispatchQueue.main.async {
                     self.foodImgView.image = image
+                    self.foodImgView.contentMode = .scaleAspectFill
                 }
             }
         }
 
-        foodNameLabel.text = foodResult.foodName.capitalized
-        brandNameLabel.text = foodResult.brandName.capitalized
-        scoreLabel.isHidden = true
+        foodNameLabel.text = passioFoodDataInfo.foodName.capitalized
+        brandNameLabel.text = passioFoodDataInfo.brandName.capitalized
         plusButton.isHidden = false
     }
 
+    // My Foods
     func setup(foodRecord: FoodRecordV3,
                isFromSearch: Bool = false,
-               isFavorite: Bool = false) {
+               isRecipe: Bool = false) {
+
+        foodImgView.clipsToBounds = true
 
         if isFromSearch {
-            foodTypeImageView.image = isFavorite ? UIImage(resource: .favorites) : UIImage(resource: .customFood)
+            foodTypeImageView.image = if isRecipe {
+                UIImage(resource: .recipeSmall)
+            } else {
+                nil
+            }
         } else {
             foodTypeImageView.image = nil
         }
@@ -89,20 +153,12 @@ class AdvancedTextSearchCell: UITableViewCell {
                                connector: PassioInternalConnector.shared) { [weak self] foodImage in
             DispatchQueue.main.async {
                 self?.foodImgView.image = foodImage
+                self?.foodImgView.contentMode = .scaleAspectFill
             }
         }
 
         foodNameLabel.text = foodRecord.name
         brandNameLabel.text = foodRecord.details
-        scoreLabel.isHidden = true
         plusButton.isHidden = false
-    }
-
-    override func prepareForReuse() {
-        foodNameLabel.isHidden = false
-        brandNameLabel.isHidden = false
-        scoreLabel.isHidden = true
-        activityIndicator.isHidden = true
-        activityIndicator.stopAnimating()
     }
 }

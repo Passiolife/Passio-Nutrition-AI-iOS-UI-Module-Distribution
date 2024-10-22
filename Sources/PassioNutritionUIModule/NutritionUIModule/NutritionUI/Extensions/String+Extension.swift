@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension String {
+public extension String {
 
     var isValidEmail: Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -94,26 +94,75 @@ extension String {
         }
         return sizeForText
     }
-    
-        func attributedStringWithFont(for substring: String, font: UIFont) -> NSAttributedString {
-            let attributedString = NSMutableAttributedString(string: self)
-            let range = (self as NSString).range(of: substring)
-            attributedString.addAttribute(.font, value: font, range: range)
-            return attributedString
-        }
 
+    func attributedStringWithFont(for substring: String, font: UIFont) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: self)
+        let range = (self as NSString).range(of: substring)
+        attributedString.addAttribute(.font, value: font, range: range)
+        return attributedString
+    }
+
+    var toMutableAttributedString: NSMutableAttributedString {
+        NSMutableAttributedString(string: self)
+    }
+
+    var separateStringUsingSpace: (String?, String?) {
+        let parts = components(separatedBy: " ") // "1 bowl"
+        // Ensure the parts array has the expected components
+        if parts.count == 2 {
+            let number = parts[0] // "1"
+            let item = parts[1]   // "bowl"
+            return (number, item)
+        } else {
+            return (nil, nil)
+        }
+    }
+
+    func setAttributedString(font: UIFont, textColor: UIColor) -> NSAttributedString {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: textColor
+        ]
+        return NSAttributedString(string: self, attributes: attributes)
+    }
+}
+
+extension NSMutableAttributedString {
+
+    func apply(attribute: [NSAttributedString.Key: Any], subString: String) {
+        if let range = string.range(of: subString) {
+            apply(attribute: attribute, onRange: NSRange(range, in: self.string))
+        }
+    }
+
+    func apply(attribute: [NSAttributedString.Key: Any], onRange range: NSRange) {
+        if range.location != NSNotFound {
+            setAttributes(attribute, range: range)
+        }
+    }
+
+    func apply(font: UIFont, subString: String) {
+        if let range = string.range(of: subString) {
+            apply(font: font, onRange: NSRange(range, in: self.string))
+        }
+    }
+
+    func apply(font: UIFont, onRange: NSRange) {
+        addAttributes([NSAttributedString.Key.font: font], range: onRange)
+    }
 }
 
 extension UILabel {
+
     func setAttributedTextWithFont(for substring: String, font: UIFont) {
-        guard let labelText = self.text else {
+
+        guard let labelText = text else {
             return
         }
-        
         let attributedString = NSMutableAttributedString(string: labelText)
         let range = (labelText as NSString).range(of: substring)
         attributedString.addAttribute(.font, value: font, range: range)
-        
+
         self.attributedText = attributedString
     }
 }

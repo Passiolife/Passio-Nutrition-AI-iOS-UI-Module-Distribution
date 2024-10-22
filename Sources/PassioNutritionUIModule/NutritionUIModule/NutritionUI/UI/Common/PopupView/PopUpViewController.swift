@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-final class PopUpViewController: UIViewController {
+final class PopUpViewController: InstantiableViewController {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var infoTextView: UITextView!
@@ -23,7 +23,7 @@ final class PopUpViewController: UIViewController {
                                          hyperLinks: ["Open Food Facts": "https://en.openfoodfacts.org/",
                                                       "Open Database License.": "https://opendatacommons.org/licenses/odbl/1-0"],
                                          textColor: .gray900,
-                                         linkColor: .indigo600)
+                                         linkColor: .primaryColor)
     }
 
     @IBAction func onOkAction(_ sender: UIButton) {

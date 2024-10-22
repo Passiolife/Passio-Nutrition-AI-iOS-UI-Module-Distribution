@@ -25,14 +25,19 @@ class PickerMacrosViewController: UIViewController {
     @IBOutlet weak var carbsSlider         : UISlider!
     @IBOutlet weak var proteinSlider       : UISlider!
     @IBOutlet weak var fatSlider           : UISlider!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var okButton: UIButton!
+    
 
-    var modelMacros = Macros(caloriesTarget: 2100, carbsPercent: 0, proteinPercent: 0, fatPercent: 0)
+    var modelMacros = Macros(caloriesTarget: 2100,
+                             carbsPercent: 0,
+                             proteinPercent: 0,
+                             fatPercent: 0)
     weak var delegate: PickerMacroViewDelegate?
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupUI()
         setUIToMatchMacros()
     }
@@ -66,6 +71,16 @@ class PickerMacrosViewController: UIViewController {
             slider?.minimumValue = 0
             slider?.maximumValue = 100
         }
+
+        cancelButton.setTitleColor(.primaryColor, for: .normal)
+        cancelButton.applyBorder(width: 2, color: .primaryColor)
+        okButton.backgroundColor = .primaryColor
+        proteinSlider.thumbTintColor = .primaryColor
+        proteinSlider.minimumTrackTintColor = .primaryColor
+        carbsSlider.thumbTintColor = .primaryColor
+        carbsSlider.minimumTrackTintColor = .primaryColor
+        fatSlider.thumbTintColor = .primaryColor
+        fatSlider.minimumTrackTintColor = .primaryColor
     }
 
     @objc private func closeKeyBoard() {

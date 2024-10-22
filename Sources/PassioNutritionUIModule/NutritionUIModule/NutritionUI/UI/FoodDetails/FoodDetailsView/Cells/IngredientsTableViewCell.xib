@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="IngredientsTableViewCell" rowHeight="64" id="KGk-i7-Jjw" customClass="IngredientsTableViewCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="358" height="64"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="358" height="64"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rAR-yJ-sJB">
+                        <rect key="frame" x="16" y="8" width="326" height="56"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nvQ-fA-elq">
+                                <rect key="frame" x="170" y="13" width="140" height="30"/>
+                                <color key="backgroundColor" name="indigo-600"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="Auc-UQ-Cwj"/>
+                                    <constraint firstAttribute="height" constant="30" id="S8E-E7-7Ow"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="12"/>
+                                <color key="tintColor" name="gray-400"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Make custom Recipe">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eDK-H6-9d5">
+                                <rect key="frame" x="0.0" y="55" width="326" height="1"/>
+                                <color key="backgroundColor" name="gray-200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="6lV-Jx-lTq"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredients" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uvk-5V-Mc0">
+                                <rect key="frame" x="16" y="18.5" width="79.5" height="19"/>
+                                <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="16"/>
+                                <color key="textColor" name="gray-900"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="56" id="5mL-aN-iYg"/>
+                            <constraint firstAttribute="trailing" secondItem="nvQ-fA-elq" secondAttribute="trailing" constant="16" id="AAC-Yg-PfY"/>
+                            <constraint firstItem="eDK-H6-9d5" firstAttribute="leading" secondItem="rAR-yJ-sJB" secondAttribute="leading" id="JEf-S4-fgd"/>
+                            <constraint firstAttribute="bottom" secondItem="eDK-H6-9d5" secondAttribute="bottom" id="MPW-Uq-VqK"/>
+                            <constraint firstItem="nvQ-fA-elq" firstAttribute="centerY" secondItem="rAR-yJ-sJB" secondAttribute="centerY" id="RYu-kZ-Xi9"/>
+                            <constraint firstItem="Uvk-5V-Mc0" firstAttribute="leading" secondItem="rAR-yJ-sJB" secondAttribute="leading" constant="16" id="ZNj-fA-rNQ"/>
+                            <constraint firstAttribute="trailing" secondItem="eDK-H6-9d5" secondAttribute="trailing" id="eHi-Fw-aVs"/>
+                            <constraint firstItem="Uvk-5V-Mc0" firstAttribute="centerY" secondItem="rAR-yJ-sJB" secondAttribute="centerY" id="wXe-Cq-2Mu"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="rAR-yJ-sJB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="6X7-rD-njI"/>
+                    <constraint firstItem="rAR-yJ-sJB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="JqG-iE-USr"/>
+                    <constraint firstAttribute="trailing" secondItem="rAR-yJ-sJB" secondAttribute="trailing" constant="16" id="aTb-c4-qHQ"/>
+                    <constraint firstAttribute="bottom" secondItem="rAR-yJ-sJB" secondAttribute="bottom" id="rgB-O2-dtm"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="insetBackground" destination="rAR-yJ-sJB" id="6px-Lm-QGW"/>
+                <outlet property="makeRecipeButton" destination="nvQ-fA-elq" id="shB-wf-ssb"/>
+                <outlet property="makeRecipeWidthConstraint" destination="Auc-UQ-Cwj" id="gXT-ER-nyO"/>
+                <outlet property="titleLabel" destination="Uvk-5V-Mc0" id="3a0-zr-IdH"/>
+            </connections>
+            <point key="canvasLocation" x="-132" y="-55"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="gray-200">
+            <color red="0.89803921568627454" green="0.90588235294117647" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-400">
+            <color red="0.61176470588235299" green="0.63921568627450975" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

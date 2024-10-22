@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "Chart pie.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "Chart pie@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "Chart pie@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "Chart pie.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {

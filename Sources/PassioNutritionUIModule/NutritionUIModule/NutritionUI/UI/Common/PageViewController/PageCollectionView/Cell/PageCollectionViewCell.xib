@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-SemiBold.ttf">
+            <string>Inter-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PageCollectionViewCell" id="gTV-IL-0wX" customClass="PageCollectionViewCell" customModule="PassioNutritionUIModule">
+            <rect key="frame" x="0.0" y="0.0" width="147" height="30"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="147" height="30"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zHO-oE-PRS">
+                        <rect key="frame" x="0.0" y="0.0" width="147" height="30"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Custom Foods" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7D-38-XBE">
+                                <rect key="frame" x="0.0" y="8" width="147" height="21"/>
+                                <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="20"/>
+                                <color key="textColor" name="indigo-600"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="E7D-38-XBE" secondAttribute="bottom" constant="1" id="G6p-vh-AL8"/>
+                            <constraint firstItem="E7D-38-XBE" firstAttribute="top" secondItem="zHO-oE-PRS" secondAttribute="top" constant="8" id="IuQ-KO-FbF"/>
+                            <constraint firstAttribute="trailing" secondItem="E7D-38-XBE" secondAttribute="trailing" id="aNQ-Px-68a"/>
+                            <constraint firstItem="E7D-38-XBE" firstAttribute="leading" secondItem="zHO-oE-PRS" secondAttribute="leading" id="kT6-3x-Zsd"/>
+                            <constraint firstAttribute="height" constant="30" id="vxW-4d-2Mq"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="zHO-oE-PRS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="RWf-cD-vXZ"/>
+                <constraint firstAttribute="trailing" secondItem="zHO-oE-PRS" secondAttribute="trailing" id="ehi-Ae-4zw"/>
+                <constraint firstItem="zHO-oE-PRS" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="fUh-Y1-Cec"/>
+            </constraints>
+            <size key="customSize" width="147" height="28"/>
+            <connections>
+                <outlet property="bgView" destination="zHO-oE-PRS" id="qY2-j1-gcR"/>
+                <outlet property="titleLabel" destination="E7D-38-XBE" id="bt4-nU-ZJD"/>
+            </connections>
+            <point key="canvasLocation" x="220.61068702290075" y="-69.718309859154928"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

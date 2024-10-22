@@ -7,87 +7,102 @@
 //
 
 import Foundation
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 final class QuickAddService {
 
-    func getQuickAdds(mealTime: PassioMealTime, completion: @escaping ([SuggestedFoods]) -> Void)  {
+    func getQuickAdds(mealTime: PassioMealTime,
+                      completion: @escaping ([SuggestedFoods]) -> Void) {
 
         // Fetch Foodrecords for last 30 days
         let toDate = Date()
-        let fromDate = Calendar.current.date(byAdding: .day, value: -30, to: toDate) ?? Date()
+        guard let fromDate = Calendar.current.date(byAdding: .day, value: -30, to: toDate) else {
+            completion([])
+            return
+        }
         let maxSuggestedCount = 30
 
         PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
-                                                            toDate: toDate) { [weak self] (dayLogs) in
+                                                            toDate: toDate) { [weak self] dayLogs in
+            guard let self = self else { return }
 
-            let filterFoodRecords = dayLogs.map { $0.records }.flatMap { $0 }.filter { $0.mealLabel.mealTime == mealTime }
+            // Filter food records by mealTime
+            let filterFoodRecords = dayLogs.flatMap { $0.records }.filter { $0.mealLabel.mealTime == mealTime }
+
+            // Today's records, lowering their names for consistency
             let todayRecords = filterFoodRecords.filter { $0.createdAt.isToday }.map { $0.name.lowercased() }
+
+            // Filter out today's records from the finalFoodRecords
             let finalFoodRecords = filterFoodRecords.filter { !todayRecords.contains($0.name.lowercased()) }
 
-            guard let self = self,
-                  finalFoodRecords.count > 0 else {
-                self?.fetchSDKSuggestions(mealTime: mealTime,
-                                          todayRecords: todayRecords,
-                                          userSuggestedFoods: [SuggestedFoods](),
-                                          completion: { (sdkSuggestedFoods) in
-                    completion(sdkSuggestedFoods)
-                })
+            guard !finalFoodRecords.isEmpty else {
+                // Fetch suggestions from SDK if no records found
+                self.fetchSDKSuggestions(mealTime: mealTime,
+                                         todayRecords: todayRecords,
+                                         userSuggestedFoods: [],
+                                         completion: completion)
                 return
             }
 
-            let lowerCasedFoodRecords = finalFoodRecords.map { foodRecord in
-                var record = foodRecord
-                record.name = foodRecord.name.lowercased()
-                return record
+            // Convert food record names to lowercase and count occurrences
+            let lowerCasedFoodRecords = finalFoodRecords.map { record in
+                var recordCopy = record
+                recordCopy.name = record.name.lowercased()
+                return recordCopy
             }
 
-            // Dictionary to hold occurrences of properties
-            let foodNamesCount: [String: Int] = lowerCasedFoodRecords.reduce(into: [:]) { counts, foodRecord in
-                counts[foodRecord.name, default: 0] += 1
+            let foodNamesCount = lowerCasedFoodRecords.reduce(into: [String: Int]()) { counts, record in
+                counts[record.name, default: 0] += 1
             }
 
-            // Sort the items based on the occurrence of the foodrecord's name and also remove duplicated foodrecord
-            let sortedFoodRecords = lowerCasedFoodRecords.uniqued(on: \.name).sorted { foodRecord1, foodRecord2 in
-                return (foodNamesCount[foodRecord1.name] ?? 0) > (foodNamesCount[foodRecord2.name] ?? 0)
-            }
+            // Sort and remove duplicates, keeping the most frequent items first
+            let sortedFoodRecords = lowerCasedFoodRecords
+                .uniqued(on: \.name)
+                .sorted { foodNamesCount[$0.name] ?? 0 > foodNamesCount[$1.name] ?? 0 }
 
-            // Convert sortedFoodRecords to SuggestedFoods
             let userSuggestedFoods = sortedFoodRecords.map { SuggestedFoods(foodRecord: $0) }
 
-            // Show only first 30
-            if userSuggestedFoods.count > maxSuggestedCount {
-                // Show first 30 userSuggestedFoods
-                let maxuserSuggestedFoods = userSuggestedFoods.count > maxSuggestedCount
-                ? Array(userSuggestedFoods.prefix(maxSuggestedCount)) : userSuggestedFoods
-                completion(maxuserSuggestedFoods)
+            // Show the top 30 suggestions, if available
+            let finalSuggestedFoods = Array(userSuggestedFoods.prefix(maxSuggestedCount))
 
+            if finalSuggestedFoods.count < maxSuggestedCount {
+                // Fetch additional suggestions from SDK if user suggestions are fewer than 30
+                self.fetchSDKSuggestions(mealTime: mealTime, todayRecords: todayRecords, userSuggestedFoods: finalSuggestedFoods, completion: completion)
             } else {
-                self.fetchSDKSuggestions(mealTime: mealTime,
-                                         todayRecords: todayRecords,
-                                    userSuggestedFoods: userSuggestedFoods,
-                                    completion: { (sdkSuggestedFoods) in
-                    completion(sdkSuggestedFoods)
-                })
+                completion(finalSuggestedFoods)
             }
         }
     }
 
-    private func fetchSDKSuggestions(mealTime: PassioMealTime,
-                                     todayRecords: [String],
-                                     userSuggestedFoods: [SuggestedFoods],
-                                     completion: @escaping ([SuggestedFoods]) -> Void) {
+    private func fetchSDKSuggestions(
+        mealTime: PassioMealTime,
+        todayRecords: [String],
+        userSuggestedFoods: [SuggestedFoods],
+        completion: @escaping ([SuggestedFoods]) -> Void
+    ) {
         // Fetch SDK suggestions and add them into userSuggestedFoods
         PassioNutritionAI.shared.fetchSuggestions(mealTime: mealTime) { sdkSuggestionsResult in
-
-            guard sdkSuggestionsResult.count > 0 else {
+            // If no SDK suggestions, return userSuggestedFoods immediately
+            guard !sdkSuggestionsResult.isEmpty else {
                 completion(userSuggestedFoods)
                 return
             }
+
+            // Map SDK results to SuggestedFoods
             let sdkSuggestedFoods = sdkSuggestionsResult.map { SuggestedFoods(searchResult: $0) }
-            let finalSdkSuggestedFoods = Array((userSuggestedFoods + sdkSuggestedFoods).uniqued(on: \.name).prefix(30))
-            let finalFoodRecords = finalSdkSuggestedFoods.filter { !todayRecords.contains($0.name.lowercased()) }
-            completion(finalFoodRecords)
+
+            // Combine SDK suggestions with user suggestions and ensure uniqueness by food name
+            let combinedSuggestedFoods = (userSuggestedFoods + sdkSuggestedFoods)
+                .uniqued(on: \.name)
+                .filter { !todayRecords.contains($0.name.lowercased()) } // Exclude today's records
+
+            // Limit the results to 30 suggestions
+            let finalSuggestions = Array(combinedSuggestedFoods.prefix(30))
+
+            // Pass the final suggestions to the completion handler
+            completion(finalSuggestions)
         }
     }
 }

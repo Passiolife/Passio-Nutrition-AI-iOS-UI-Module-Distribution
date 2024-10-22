@@ -6,29 +6,29 @@
 //
 
 import UIKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 enum HemburgarMenuOptions: String {
 
     case profile = "My Profile"
-    case tutorials = "Tutorials"
     case settings = "Settings"
     case logout = "Log out"
 
     private var image: UIImage? {
         let name: String = {
             switch self {
-            case .profile: return "user_profile"
-            case .tutorials: return "Tutorials"
+            case .profile: return "userProfile"
             case .settings: return "settings"
-            case .logout  : return "logout"
+            case .logout  : return "logOut"
             }
         }()
         return UIImage.imageFromBundle(named: name)
     }
 
     var pickerElememt: PickerElement {
-        PickerElement.init(title: self.rawValue, image: image)
+        PickerElement(title: rawValue, image: image)
     }
 }
 
@@ -54,7 +54,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
                 switch self {
                 case .home: return "Home"
                 case .diary: return "Book open"
-                case .mealPlan: return "meal plan"
+                case .mealPlan: return "diet"
                 case .progress  : return "Chart pie"
                 }
             }()
@@ -62,60 +62,30 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         }
     }
 
-    private var tabs: [Tabs] = [.home,.diary,.mealPlan,.progress]
+    private var tabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        UserManager.shared.configure()
-
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        self.navigationController?.updateStatusBarColor(color: .white)
-
-        for i in 0..<tabs.count {
-
-            switch tabs[i] {
-
-            case .home:
-                let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
-                    .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
-                let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
-                dashboardNavVC.isNavigationBarHidden = true
-                self.viewControllers?[i] = dashboardNavVC
-
-            case .diary:
-                let diaryVC = UIStoryboard(name: "Diary", bundle: PassioInternalConnector.shared.bundleForModule)
-                    .instantiateViewController(identifier: "DiaryViewController") as! DiaryViewController
-                let macroNavVC = UINavigationController(rootViewController: diaryVC)
-                macroNavVC.isNavigationBarHidden = true
-                self.viewControllers?[i] = macroNavVC
-
-            case .progress:
-                let progressVC = UIStoryboard(name: "Progress", bundle: PassioInternalConnector.shared.bundleForModule)
-                    .instantiateViewController(identifier: "ProgressViewController") as! ProgressViewController
-                let progressNavVC = UINavigationController(rootViewController: progressVC)
-                progressNavVC.isNavigationBarHidden = true
-                self.viewControllers?[i] = progressNavVC
-
-            case .mealPlan:
-                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: PassioInternalConnector.shared.bundleForModule)
-                    .instantiateViewController(identifier: "MealPlanViewController") as! MealPlanViewController
-                let mealPlanNavVC = UINavigationController(rootViewController: mealPlanVC)
-                mealPlanNavVC.isNavigationBarHidden = true
-                self.viewControllers?[i] = mealPlanNavVC
-            }
-        }
-
+        addTabBarControllers()
         configureUI()
-        configureNavBar()
-        MealPlanManager.shared.getMealPlans()
+        UserManager.shared.configure()
+        DispatchQueue.global(qos: .background).async {
+            FileManager.default.clearTempDirectory()
+        }
+        /** 
+         Remove Nutrition Advisor history.
+         We are storing history only for App session. Once App is re-opened,
+         we need to clear history.
+         */
+        PassioUserDefaults.clearAdvisorHistory()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         title = tabs[selectedIndex].naviagationTitle
+        configureNavBar()
     }
 
     override func viewDidLayoutSubviews() {
@@ -155,27 +125,69 @@ extension HomeTabBarController {
         var tabFrame = tabBar.frame
         tabFrame.size.height = height
         tabFrame.origin.y = view.frame.size.height - height
+        tabBar.tintColor = .primaryColor
+        tabBar.unselectedItemTintColor = .secondaryTabColor
         tabBar.frame = tabFrame
         tabBar.setNeedsLayout()
         tabBar.layoutIfNeeded()
+    }
+
+    private func addTabBarControllers() {
+
+        for i in 0..<tabs.count {
+
+            switch tabs[i] {
+
+            case .home:
+                let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
+                    .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
+                let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
+                dashboardNavVC.isNavigationBarHidden = true
+                self.viewControllers?[i] = dashboardNavVC
+
+            case .diary:
+                let diaryVC = UIStoryboard(name: "Diary", bundle: PassioInternalConnector.shared.bundleForModule)
+                    .instantiateViewController(identifier: "DiaryViewController") as! DiaryViewController
+                let macroNavVC = UINavigationController(rootViewController: diaryVC)
+                macroNavVC.isNavigationBarHidden = true
+                self.viewControllers?[i] = macroNavVC
+
+            case .progress:
+                let progressVC = UIStoryboard(name: "Progress", bundle: PassioInternalConnector.shared.bundleForModule)
+                    .instantiateViewController(identifier: "ProgressViewController") as! ProgressViewController
+                let progressNavVC = UINavigationController(rootViewController: progressVC)
+                progressNavVC.isNavigationBarHidden = true
+                self.viewControllers?[i] = progressNavVC
+
+            case .mealPlan:
+                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: PassioInternalConnector.shared.bundleForModule)
+                    .instantiateViewController(identifier: "MealPlanViewController") as! MealPlanViewController
+                let mealPlanNavVC = UINavigationController(rootViewController: mealPlanVC)
+                mealPlanNavVC.isNavigationBarHidden = true
+                self.viewControllers?[i] = mealPlanNavVC
+            }
+        }
     }
 
     private func handlePlusButtonTap(_ sender: UIButton) {
 
         guard let parentView = self.navigationController?.view else { return }
         let frame = parentView.convert(sender.frame, from:sender.superview)
-        let countedY = parentView.frame.size.height - (64.0 + frame.origin.y)
+        let countedY = parentView.frame.size.height - (56.0 + frame.origin.y)
 
         let plusMenuVC = PlusMenuViewController()
         plusMenuVC.delegate = self
         plusMenuVC.bottomCountedValue = countedY
-        plusMenuVC.modalTransitionStyle = .crossDissolve
-        plusMenuVC.modalPresentationStyle = .overFullScreen
-        self.navigationController?.present(plusMenuVC, animated: true)
+        presentVC(vc: plusMenuVC)
     }
 
     private func configureNavBar() {
-        
+
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.isTranslucent = false
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.updateStatusBarColor(color: .statusBarColor)
+
         setupBackButton()
 
         let button = UIButton()
@@ -210,7 +222,8 @@ extension HomeTabBarController {
 // MARK: - TabBar delegate
 extension HomeTabBarController {
 
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    func tabBarController(_ tabBarController: UITabBarController,
+                          didSelect viewController: UIViewController) {
         title = tabs[selectedIndex].naviagationTitle
     }
 }
@@ -218,57 +231,104 @@ extension HomeTabBarController {
 // MARK: - Plusbutton Navigation
 extension HomeTabBarController: PlusMenuDelegate {
 
-    func onScanSelected() {
-        let vc = NutritionUICoordinator.getScanningViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+    func onFoodScannerSelected() {
+        let vc = NutritionUICoordinator.getFoodRecognitionV3ViewController()
+        vc.navigateToMyFoodsDelegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func onSearchSelected() {
         let vc = TextSearchViewController()
-        vc.dismmissToMyLog = true
-        vc.isAdvancedSearch = true
-        vc.modalPresentationStyle = .fullScreen
+        vc.shouldPopVC = false
         vc.advancedSearchDelegate = self
-        self.present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func onFavouritesSelected() {
         let vc = MyFavoritesViewController()
         vc.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func onMyFoodsSelected() {
-        let vc = CreateFoodViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func onRecipesSelected() { }
+    func onMyFoodsSelected() {
+        let vc = MyFoodsSelectionViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func onVoiceLoggingSelected() {
+        let vc = VoiceLoggingViewController()
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func onTakePhotosSelected() {
+        let vc = TakePhotosViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func onSelectPhotosSelected() {
+        let vc = SelectPhotosViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func onNutritionAdvisorSelected() {
+        let vc = NutritionAdvisorVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
+// MARK: - Plusbutton Navigation
+extension HomeTabBarController: NavigateToMyFoodsDelegate {
+
+    func onNavigateToMyFoods() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+            self.navigationController?.pushViewController(MyFoodsSelectionViewController(), animated: true)
+        })
+    }
+}
+
+// MARK: - AdvancedTextSearchView Delegate
 extension HomeTabBarController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFood(record: FoodRecordV3?) {
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
-        let editVC = EditRecordViewController()
+        let editVC = FoodDetailsViewController()
+        editVC.foodDetailsControllerDelegate = self
+        editVC.isFromSearch = true
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             self.navigationController?.pushViewController(editVC, animated: true)
         })
     }
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
-
         let foodRecord = FoodRecordV3(foodItem: foodItem)
-        let editVC = EditRecordViewController()
+        let editVC = FoodDetailsViewController()
+        editVC.foodDetailsControllerDelegate = self
+        editVC.isFromSearch = true
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
             self.navigationController?.pushViewController(editVC, animated: true)
         })
     }
 }
+// MARK: - FoodDetails Delegate
+extension HomeTabBarController: FoodDetailsControllerDelegate {
 
+    func navigateToMyFoods(index: Int) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            let vc = MyFoodsSelectionViewController()
+            vc.loadViewIfNeeded()
+            vc.selectedIndex = index
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+// MARK: - CustomPickerSelection Delegate
 extension HomeTabBarController: CustomPickerSelectionDelegate {
 
     func onPickerSelection(value: String, selectedIndex: Int, viewTag: Int) {

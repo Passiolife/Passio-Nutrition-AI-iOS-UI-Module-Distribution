@@ -14,9 +14,9 @@ import PassioNutritionAISDK
 public enum MealLabel: String, Comparable, Codable {
 
     case breakfast = "Breakfast",
-    lunch = "Lunch",
-    dinner = "Dinner",
-    snack = "Snack"
+         lunch = "Lunch",
+         dinner = "Dinner",
+         snack = "Snack"
 
     public init(rawValue: String) {
         switch rawValue {
@@ -26,14 +26,13 @@ public enum MealLabel: String, Comparable, Codable {
         default: self = .snack
         }
     }
-    
+
     public init(mealTime: PassioMealTime) {
         switch mealTime {
         case .breakfast: self = .breakfast
         case .lunch: self = .lunch
         case .dinner: self = .dinner
         case .snack: self = .snack
-        default: self = .snack
         }
     }
 
@@ -89,46 +88,46 @@ public enum MealLabel: String, Comparable, Codable {
 
     static func mealLabelBy(time: Date = Date()) -> MealLabel {
 
-            struct TimeRange {
-                var start: Date
-                var end: Date
-                func intersects( timestamp: Date) -> Bool {
-                    return start < timestamp && timestamp <= end
-                }
+        struct TimeRange {
+            var start: Date
+            var end: Date
+            func intersects( timestamp: Date) -> Bool {
+                return start < timestamp && timestamp <= end
             }
-
-            func getDateFor(hours: Int, minutes: Int) -> Date {
-                guard let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian) else {
-                    return Date()
-                }
-                // get the month/day/year componentsfor today's date.
-                var dateComponents = calendar.components(
-                    [NSCalendar.Unit.year,
-                     NSCalendar.Unit.month,
-                     NSCalendar.Unit.day],
-                    from: Date())
-                // Create an NSDate for the specified time today.
-                dateComponents.hour = hours
-                dateComponents.minute = minutes
-                dateComponents.second = 0
-
-                guard let newDate = calendar.date(from: dateComponents) else { return Date()
-                }
-                return newDate
-            }
-
-            let breakfast = TimeRange(start: getDateFor(hours: 4, minutes: 00),
-                                      end: getDateFor(hours: 10, minutes: 30))
-            let lunch = TimeRange(start: getDateFor(hours: 11, minutes: 30),
-                                  end: getDateFor(hours: 14, minutes: 00))
-            let dinner = TimeRange(start: getDateFor(hours: 17, minutes: 00),
-                                   end: getDateFor(hours: 21, minutes: 00))
-
-            if breakfast.intersects(timestamp: time) { return .breakfast }
-            if lunch.intersects(timestamp: time) { return .lunch }
-            if dinner.intersects(timestamp: time) { return .dinner }
-            return .snack
         }
+
+        func getDateFor(hours: Int, minutes: Int) -> Date {
+            guard let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian) else {
+                return Date()
+            }
+            // get the month/day/year componentsfor today's date.
+            var dateComponents = calendar.components(
+                [NSCalendar.Unit.year,
+                 NSCalendar.Unit.month,
+                 NSCalendar.Unit.day],
+                from: Date())
+            // Create an NSDate for the specified time today.
+            dateComponents.hour = hours
+            dateComponents.minute = minutes
+            dateComponents.second = 0
+
+            guard let newDate = calendar.date(from: dateComponents) else { return Date()
+            }
+            return newDate
+        }
+
+        let breakfast = TimeRange(start: getDateFor(hours: 4, minutes: 00),
+                                  end: getDateFor(hours: 10, minutes: 30))
+        let lunch = TimeRange(start: getDateFor(hours: 11, minutes: 30),
+                              end: getDateFor(hours: 14, minutes: 00))
+        let dinner = TimeRange(start: getDateFor(hours: 17, minutes: 00),
+                               end: getDateFor(hours: 21, minutes: 00))
+
+        if breakfast.intersects(timestamp: time) { return .breakfast }
+        if lunch.intersects(timestamp: time) { return .lunch }
+        if dinner.intersects(timestamp: time) { return .dinner }
+        return .snack
+    }
 
     var mealTime: PassioMealTime {
         switch self {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIView {
+public extension UIView {
 
     private static let kRotationAnimationKey = "rotationanimationkey"
 
@@ -70,9 +70,7 @@ extension UIView {
         self.clipsToBounds = true
     }
 
-    func roundMyCornerWith(radius: CGFloat, upper: Bool, down: Bool ) {
-        //  self.frame = self.frame.insetBy(dx: withInset, dy: withInset)
-        self.layer.cornerRadius = 0
+    func roundMyCornerWith(radius: CGFloat, upper: Bool, down: Bool) {
         self.layer.cornerRadius = radius
         self.layer.masksToBounds = true
         self.layer.maskedCorners = []
@@ -82,11 +80,6 @@ extension UIView {
         if down {
             self.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         }
-
-        //        if upper == down , !upper{
-        //            self.layer.cornerRadius = 0
-        //        }
-
         self.clipsToBounds = true
     }
 
@@ -140,10 +133,10 @@ extension UIView {
         }
     }
 
-    class func fromNib(named: String? = nil) -> Self {
+    class func fromNib(named: String? = nil, bundle: Bundle = .main) -> Self {
         let name = named ?? "\(Self.self)"
         guard
-            let nib = Bundle.main.loadNibNamed(name, owner: nil, options: nil)
+            let nib =  bundle.loadNibNamed(name, owner: nil, options: nil)
         else { fatalError("missing expected nib named: \(name)") }
         guard
             /// we're using `first` here because compact map chokes compiler on
@@ -170,63 +163,36 @@ extension UIView {
     }
 
     func applyBorder(width: CGFloat, color: UIColor) {
-
         layer.borderColor = color.cgColor
         layer.borderWidth = width
     }
 
-    func dropShadow() {
-
-        layer.shadowRadius = 2
-        layer.shadowOpacity = 0.125
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = .init(width: 1, height: 1)
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-        layer.masksToBounds = false
-    }
-
-    func dropShadow(radius: CGFloat) {
-
-        layer.cornerRadius = radius
-        layer.shadowRadius = 2
-        layer.shadowOpacity = 0.125
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = .init(width: 1, height: 1)
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-    }
-
+    /// Use this function to draw shadow
+    /// - Parameters:
+    ///   - radius: View's cornerRadius
+    ///   - offset: Shadow's offset
+    ///   - color: Shadow's color
+    ///   - shadowRadius: Shadow's radius (blur)
+    ///   - shadowOpacity: Shadow's opacity
     func dropShadow(radius: CGFloat,
                     offset: CGSize,
                     color: UIColor,
                     shadowRadius: CGFloat,
                     shadowOpacity: Float,
-                    useShadowPath: Bool = false) {
+                    istopBottomRadius: Bool = false,
+                    isUpperRadius: Bool = false,
+                    isDownRadius: Bool = false) {
 
-        layer.masksToBounds = false
-        layer.cornerRadius = radius
+        if istopBottomRadius {
+            roundMyCornerWith(radius: radius, upper: isUpperRadius, down: isDownRadius)
+        } else {
+            layer.cornerRadius = radius
+        }
+
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = shadowOpacity
         layer.shadowColor = color.cgColor
         layer.shadowOffset = offset
-        if useShadowPath {
-            layer.shadowPath = UIBezierPath(rect: layer.bounds).cgPath
-        }
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-    }
-
-    func addShadowAndCornerRadius(shadowColor: UIColor = .black,
-                                  shadowOffset: CGSize = CGSize(width: 1, height: 1),
-                                  shadowOpacity: Float = 0.125,
-                                  shadowRadius: CGFloat = 2,
-                                  cornerRadius: CGFloat = 8) {
-        layer.shadowColor = shadowColor.cgColor
-        layer.shadowOffset = shadowOffset
-        layer.shadowOpacity = shadowOpacity
-        layer.shadowRadius = shadowRadius
-        layer.cornerRadius = cornerRadius
         layer.masksToBounds = false
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
@@ -254,26 +220,55 @@ extension UIView {
     func showHideView(with animation: UIView.AnimationOptions = .transitionCrossDissolve,
                       duration: TimeInterval = 0.3,
                       isHidden: Bool) {
-        alpha = isHidden ? 0 : 1
+        alpha = isHidden ? 1 : 0
         self.isHidden = isHidden
         UIView.animate(withDuration: duration, delay: 0, options: animation) {
-            self.alpha = !isHidden ? 0 : 1
+            self.alpha = self.isHidden ? 0 : 1
         }
     }
 
-    func fitToSelf(childView: UIView) {
+    func animateBackgroundColor(color: UIColor,
+                                duration: TimeInterval = 0.3) {
+        UIView.transition(with: self,
+                          duration: 0.21,
+                          options: .curveEaseInOut,
+                          animations: {
+            self.backgroundColor = color
+        })
+    }
 
+    func fitToSelf(childView: UIView) {
         childView.translatesAutoresizingMaskIntoConstraints = false
         let bindings = ["childView": childView]
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat : "H:|[childView]|",
+                                                      options : [],
+                                                      metrics : nil,
+                                                      views : bindings))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat : "V:|[childView]|",
+                                                      options : [],
+                                                      metrics : nil,
+                                                      views : bindings))
+    }
 
-        self.addConstraints( NSLayoutConstraint.constraints( withVisualFormat : "H:|[childView]|",
-                                                             options : [],
-                                                             metrics : nil,
-                                                             views : bindings ))
-        self.addConstraints( NSLayoutConstraint.constraints( withVisualFormat : "V:|[childView]|",
-                                                             options : [],
-                                                             metrics : nil,
-                                                             views : bindings ))
+    func addConstraints(to view: UIView,
+                        attribute: NSLayoutConstraint.Attribute,
+                        constant: CGFloat) {
+        addConstraint(NSLayoutConstraint(item: view,
+                                         attribute: attribute,
+                                         relatedBy: .equal,
+                                         toItem: self,
+                                         attribute: attribute,
+                                         multiplier: 1,
+                                         constant: constant))
+    }
+
+    func configureSearchBarTextField(tintColor: UIColor = .primaryColor,
+                                     textAttr: [NSAttributedString.Key : Any] = [
+                                        .foregroundColor: UIColor.gray900,
+                                        .font: UIFont.inter(type: .regular, size: 16)
+                                     ]) {
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = tintColor
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = textAttr
     }
 }
 
@@ -288,5 +283,14 @@ class PassThroughView: UIView {
             }
         }
         return false
+    }
+}
+
+extension CALayer {
+    class func performWithoutAnimation(_ callback: () -> Void) {
+        CATransaction.begin()
+        CATransaction.setValue(true, forKey: kCATransactionDisableActions)
+        callback()
+        CATransaction.commit()
     }
 }

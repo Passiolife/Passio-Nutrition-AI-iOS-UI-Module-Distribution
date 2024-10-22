@@ -11,15 +11,77 @@ import UIKit
 import PassioNutritionAISDK
 #endif
 
+enum WeightGoal: String, CaseIterable
+{
+    case lose05
+    case lose1
+    case lose15
+    case lose2
+    case gain05
+    case gain1
+    case gain15
+    case gain2
+    case maintain
+    
+    var valueInLbs: String {
+        switch self
+        {
+        case .lose05:
+            return "Lose 0.5 \(Localized.lbsUnit) / Week"
+        case .lose1:
+            return "Lose 1 \(Localized.lbsUnit) / Week"
+        case .lose15:
+            return "Lose 1.5 \(Localized.lbsUnit) / Week"
+        case .lose2:
+            return "Lose 2 \(Localized.lbsUnit) / Week"
+        case .gain05:
+            return "Gain 0.5 \(Localized.lbsUnit) / Week"
+        case .gain1:
+            return "Gain 1 \(Localized.lbsUnit) / Week"
+        case .gain15:
+            return "Gain 1.5 \(Localized.lbsUnit) / Week"
+        case .gain2:
+            return "Gain 2 \(Localized.lbsUnit) / Week"
+        case .maintain:
+            return "Maintain Weight"
+        }
+    }
+    
+    var valueInKg: String {
+        switch self
+        {
+        case .lose05:
+            return "Lose 0.25 \(Localized.kgUnit) / Week"
+        case .lose1:
+            return "Lose 0.5 \(Localized.kgUnit) / Week"
+        case .lose15:
+            return "Lose 0.75 \(Localized.kgUnit) / Week"
+        case .lose2:
+            return "Lose 1 \(Localized.kgUnit) / Week"
+        case .gain05:
+            return "Gain 0.25 \(Localized.kgUnit) / Week"
+        case .gain1:
+            return "Gain 0.5 \(Localized.kgUnit) / Week"
+        case .gain15:
+            return "Gain 0.75 \(Localized.kgUnit) / Week"
+        case .gain2:
+            return "Gain 1 \(Localized.kgUnit) / Week"
+        case .maintain:
+            return "Maintain Weight"
+        }
+    }
+}
+
 final class EditProfileViewController: UIViewController {
 
     @IBOutlet private weak var profileTableView: UITableView!
     @IBOutlet weak var saveButton: UIButton!
 
-    private let hemburgarMenuOptions : [HemburgarMenuOptions] = [.tutorials, .settings]
+    private let hemburgarMenuOptions : [HemburgarMenuOptions] = [.settings]
     private let connector = PassioInternalConnector.shared
     private let chevFrame = CGRect(x: 0, y: 0, width: 15, height: 8)
     private var userProfile: UserProfileModel!
+    private let values: [Float] = [0.5, 1.0, 1.5, 2.0, 0.5, 1.0, 1.5, 2.0]
 
     private var recomCalorie = 2100 {
         didSet {
@@ -35,12 +97,15 @@ final class EditProfileViewController: UIViewController {
     private enum CellsProfile: String, CaseIterable {
         case UserPreferencesCell, CalculatedBMICell, DailyNutritionGoalsCell
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureUI()
         configureNavBar()
+        if MealPlanManager.shared.mealPlans.count == 0 {
+            MealPlanManager.shared.getMealPlans()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -109,6 +174,7 @@ extension EditProfileViewController {
         CellsProfile.allCases.forEach {
             profileTableView.register(nibName: $0.rawValue)
         }
+        saveButton.backgroundColor = .primaryColor
     }
 
     @IBAction func onSaveChanges(_ sender: UIButton) {
@@ -161,29 +227,58 @@ extension EditProfileViewController {
         }
     }
 
+//    private func calculateRecommendedCalorie() -> Int {
+//        var calories = calculateCaloriesBasedOnActivityLevel()
+//        let weightGoalTimeLine = userProfile.goalWeightTimeLine ?? Localized.maintainWeight
+//        let goalValues = calorieDeficitArray
+//
+//        switch weightGoalTimeLine {
+//        case getLocalisedValue(goalValue: 0.5, key: goalValues[0]):
+//            calories -= 250
+//        case getLocalisedValue(goalValue: 1.0, key: goalValues[1]):
+//            calories -= 500
+//        case getLocalisedValue(goalValue: 1.5, key: goalValues[2]):
+//            calories -= 750
+//        case getLocalisedValue(goalValue: 2.0, key: goalValues[3]):
+//            calories -= 1000
+//        case getLocalisedValue(goalValue: 0.5, key: goalValues[4]):
+//            calories += 250
+//        case getLocalisedValue(goalValue: 1.0, key: goalValues[5]):
+//            calories += 500
+//        case getLocalisedValue(goalValue: 1.5, key: goalValues[6]):
+//            calories += 750
+//        case getLocalisedValue(goalValue: 2.0, key: goalValues[7]):
+//            calories += 1000
+//        case Localized.maintainWeight:
+//            calories += 0
+//        default:
+//            calories += 0
+//        }
+//        return calories
+//    }
+    
     private func calculateRecommendedCalorie() -> Int {
         var calories = calculateCaloriesBasedOnActivityLevel()
-        let weightGoalTimeLine = userProfile.goalWeightTimeLine ?? Localized.maintainWeight
-        let goalValues = calorieDeficitArray
+        let weightGoal: WeightGoal = WeightGoal(rawValue: userProfile.goalWeightTimeLine ?? "") ?? .maintain
 
-        switch weightGoalTimeLine {
-        case getLocalisedValue(goalValue: 0.5, key: goalValues[0]):
+        switch weightGoal {
+        case .lose05:
             calories -= 250
-        case getLocalisedValue(goalValue: 1.0, key: goalValues[1]):
+        case .lose1:
             calories -= 500
-        case getLocalisedValue(goalValue: 1.5, key: goalValues[2]):
+        case .lose15:
             calories -= 750
-        case getLocalisedValue(goalValue: 2.0, key: goalValues[3]):
+        case .lose2:
             calories -= 1000
-        case getLocalisedValue(goalValue: 0.5, key: goalValues[4]):
+        case .gain05:
             calories += 250
-        case getLocalisedValue(goalValue: 1.0, key: goalValues[5]):
+        case .gain1:
             calories += 500
-        case getLocalisedValue(goalValue: 1.5, key: goalValues[6]):
+        case .gain15:
             calories += 750
-        case getLocalisedValue(goalValue: 2.0, key: goalValues[7]):
+        case .gain2:
             calories += 1000
-        case Localized.maintainWeight:
+        case .maintain:
             calories += 0
         default:
             calories += 0
@@ -234,18 +329,29 @@ extension EditProfileViewController {
         showPicker(sender: sender, items: items, viewTag: 5)
     }
 
+//    @objc private func showCalorieDeficitPickerViewOld(_ sender: UIButton) {
+//        let items = calorieDeficitArray
+//        let goalValues = [getLocalisedValue(goalValue: 0.5, key: items[0]),
+//                          getLocalisedValue(goalValue: 1.0, key: items[1]),
+//                          getLocalisedValue(goalValue: 1.5, key: items[2]),
+//                          getLocalisedValue(goalValue: 2.0, key: items[3]),
+//                          getLocalisedValue(goalValue: 0.5, key: items[4]),
+//                          getLocalisedValue(goalValue: 1.0, key: items[5]),
+//                          getLocalisedValue(goalValue: 1.5, key: items[6]),
+//                          getLocalisedValue(goalValue: 2.0, key: items[7]),
+//                          items[8]]
+//        showPicker(sender: sender, items: goalValues, viewTag: 11)
+//    }
+    
     @objc private func showCalorieDeficitPickerView(_ sender: UIButton) {
-        let items = calorieDeficitArray
-        let goalValues = [getLocalisedValue(goalValue: 0.5, key: items[0]),
-                          getLocalisedValue(goalValue: 1.0, key: items[1]),
-                          getLocalisedValue(goalValue: 1.5, key: items[2]),
-                          getLocalisedValue(goalValue: 2.0, key: items[3]),
-                          getLocalisedValue(goalValue: 0.5, key: items[4]),
-                          getLocalisedValue(goalValue: 1.0, key: items[5]),
-                          getLocalisedValue(goalValue: 1.5, key: items[6]),
-                          getLocalisedValue(goalValue: 2.0, key: items[7]),
-                          items[8]]
-        showPicker(sender: sender, items: goalValues, viewTag: 11)
+        
+        let items = userProfile.units == .imperial ? WeightGoal.allCases.map{$0.valueInLbs} : WeightGoal.allCases.map{$0.valueInKg}
+        showPicker(sender: sender, items: items, viewTag: 11)
+    }
+    
+    func getGoalValue(for value: Float) -> String {
+        let value = userProfile.units == .imperial ? Float(value*2) : Float(value)
+        return value.clean
     }
 
     @objc private func showGenderPickerView(_ sender: UIButton){
@@ -314,8 +420,10 @@ extension EditProfileViewController: UITableViewDataSource,UITableViewDelegate {
     }
 
     // MARK: Cells
-    private func getUserPreferencesCell(indexpath: IndexPath, profile: UserProfileModel?) -> UITableViewCell {
-        let cell = profileTableView.dequeueCell(cellClass: UserPreferencesCell.self, forIndexPath: indexpath)
+    private func getUserPreferencesCell(indexpath: IndexPath,
+                                        profile: UserProfileModel?) -> UITableViewCell {
+        let cell = profileTableView.dequeueCell(cellClass: UserPreferencesCell.self,
+                                                forIndexPath: indexpath)
         cell.configureCell(userProfile: userProfile)
         cell.userPreferencesTextFields.forEach {
             switch $0.tag {
@@ -332,23 +440,36 @@ extension EditProfileViewController: UITableViewDataSource,UITableViewDelegate {
                                        imageFrame: chevFrame)
             }
         }
-        cell.heightButton.addTarget(self, action: #selector(showHeightPickerView), for: .touchUpInside)
-        cell.activityLevelButton.addTarget(self, action: #selector(showActivityLevelPickerView), for: .touchUpInside)
-        cell.calorieDeficitButton.addTarget(self, action: #selector(showCalorieDeficitPickerView), for: .touchUpInside)
-        cell.genderButton.addTarget(self, action: #selector(showGenderPickerView), for: .touchUpInside)
-        cell.dietButton.addTarget(self, action: #selector(showDietPickerView), for: .touchUpInside)
+        cell.heightButton.addTarget(self,
+                                    action: #selector(showHeightPickerView),
+                                    for: .touchUpInside)
+        cell.activityLevelButton.addTarget(self,
+                                           action: #selector(showActivityLevelPickerView),
+                                           for: .touchUpInside)
+        cell.calorieDeficitButton.addTarget(self,
+                                            action: #selector(showCalorieDeficitPickerView),
+                                            for: .touchUpInside)
+        cell.genderButton.addTarget(self,
+                                    action: #selector(showGenderPickerView),
+                                    for: .touchUpInside)
+        cell.dietButton.addTarget(self,
+                                  action: #selector(showDietPickerView),
+                                  for: .touchUpInside)
         return cell
     }
 
     private func getCalculateBMICell(indexpath: IndexPath) -> UITableViewCell {
-        let cell = profileTableView.dequeueCell(cellClass: CalculatedBMICell.self, forIndexPath: indexpath)
+        let cell = profileTableView.dequeueCell(cellClass: CalculatedBMICell.self,
+                                                forIndexPath: indexpath)
         cell.setBMIValue(bmiValue: userProfile.bmi ?? 1.0,
                          bmiDescription: userProfile.bmiDescription)
         return cell
     }
 
-    private func getDailyNutritionGoalsCell(indexpath: IndexPath, profile: UserProfileModel?) -> UITableViewCell {
-        let cell = profileTableView.dequeueCell(cellClass: DailyNutritionGoalsCell.self, forIndexPath: indexpath)
+    private func getDailyNutritionGoalsCell(indexpath: IndexPath,
+                                            profile: UserProfileModel?) -> UITableViewCell {
+        let cell = profileTableView.dequeueCell(cellClass: DailyNutritionGoalsCell.self,
+                                                forIndexPath: indexpath)
         cell.updateProfile(userProfile: userProfile)
         return cell
     }
@@ -386,7 +507,8 @@ extension EditProfileViewController: CustomPickerSelectionDelegate {
                 userProfile.fatPercent = fat
             }
         case 11:
-            userProfile.goalWeightTimeLine = value
+            let weightGoal = WeightGoal.allCases[selectedIndex]
+            userProfile.goalWeightTimeLine = weightGoal.rawValue
             goalTimeLine = userProfile.goalWeightTimeLine ?? Localized.maintainWeight
         default:
             break
@@ -454,19 +576,26 @@ extension EditProfileViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         switch textField.tag {
         case 0: // Name
-            if let name = textField.text, !name.isEmpty {
+            if let name = textField.text,
+               !name.isEmpty {
                 userProfile.firstName = name
             }
         case 4: // Weight
-            if let _weight = textField.text, let dWeight = Double(_weight), dWeight > 0 {
+            if let _weight = textField.text,
+               let dWeight = Double(_weight),
+               dWeight > 0 {
                 userProfile.weight = userProfile.units == .imperial ? dWeight/Conversion.lbsToKg.rawValue : dWeight
             }
         case 10: // Goal Weight
-            if let _weight = textField.text, let dWeight = Double(_weight), dWeight > 0 {
+            if let _weight = textField.text,
+               let dWeight = Double(_weight),
+               dWeight > 0 {
                 userProfile.goalWeight = userProfile.units == .imperial ? dWeight/Conversion.lbsToKg.rawValue : dWeight
             }
         case 1: // Age
-            if let age = textField.text, let dAge = Int(age), dAge > 0 {
+            if let age = textField.text,
+               let dAge = Int(age),
+               dAge > 0 {
                 userProfile.age = dAge
             }
         case 14:
@@ -478,8 +607,14 @@ extension EditProfileViewController: UITextFieldDelegate {
         }
         recomCalorie = calculateRecommendedCalorie()
         profileTableView.reloadData()
-        UIView.animate(withDuration: 0.35, delay: 0, options: .curveEaseInOut, animations: {
-            self.profileTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0)
+        UIView.animate(withDuration: 0.35,
+                       delay: 0,
+                       options: .curveEaseInOut,
+                       animations: {
+            self.profileTableView.contentInset = UIEdgeInsets(top: 0,
+                                                              left: 0,
+                                                              bottom: 55,
+                                                              right: 0)
         }, completion: nil)
     }
 }

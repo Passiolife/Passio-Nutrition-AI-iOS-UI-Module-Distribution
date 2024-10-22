@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Inter-Bold.ttf">
+            <string>Inter-Bold</string>
+        </array>
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
+        <array key="Inter-Regular.ttf">
+            <string>Inter-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomAlertViewController" customModuleProvider="target">
+            <connections>
+                <outlet property="alertTextField" destination="W3f-Wz-41j" id="UUv-aJ-JYl"/>
+                <outlet property="contentView" destination="c0C-pu-bs0" id="cJG-VR-fwD"/>
+                <outlet property="headingLabel" destination="Byr-wl-sEl" id="WeV-Zb-Ckt"/>
+                <outlet property="leftButton" destination="MtT-sX-lRq" id="jHp-xt-Asm"/>
+                <outlet property="rightButton" destination="4va-Ya-L8S" id="Spr-w9-Xny"/>
+                <outlet property="titleLabel" destination="kzW-J7-wQQ" id="Hs2-hj-9IS"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewYConstraint" destination="izk-Cz-evy" id="EVR-vN-YSb"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0C-pu-bs0">
+                    <rect key="frame" x="16" y="360.66666666666669" width="361" height="130.66666666666669"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="LgW-zs-1As">
+                            <rect key="frame" x="16" y="16.000000000000007" width="329" height="98.666666666666686"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="KPu-GR-7Cd">
+                                    <rect key="frame" x="0.0" y="0.0" width="329" height="32.666666666666664"/>
+                                    <subviews>
+                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HeadingHeadingHeadingHeadingHeadingHeadingHeadingHeadingHeadingHeading" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Byr-wl-sEl">
+                                            <rect key="frame" x="-209.66666666666666" y="0.0" width="748.33333333333337" height="0.0"/>
+                                            <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="20"/>
+                                            <color key="textColor" name="gray-900"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TextHeadingHeadingHeadingHeadingHeadingHeadingHeadingHeadingHeadingHeading" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kzW-J7-wQQ">
+                                            <rect key="frame" x="2.3333333333333428" y="0.0" width="324.33333333333326" height="32.666666666666664"/>
+                                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                            <color key="textColor" name="gray-900"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <textField hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="16" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="W3f-Wz-41j">
+                                    <rect key="frame" x="0.0" y="40.666666666666629" width="329" height="42"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="42" id="tGI-5G-ILb"/>
+                                    </constraints>
+                                    <color key="textColor" name="gray-900"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <action selector="onTextFieldValueChanged:" destination="-1" eventType="editingChanged" id="L9r-HP-a5i"/>
+                                    </connections>
+                                </textField>
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Qg5-7W-wLl">
+                                    <rect key="frame" x="0.0" y="48.666666666666629" width="329" height="50"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MtT-sX-lRq">
+                                            <rect key="frame" x="0.0" y="0.0" width="156.66666666666666" height="50"/>
+                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <state key="normal" title="Button">
+                                                <color key="titleColor" red="0.2627450980392157" green="0.2196078431372549" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                    <real key="value" value="4"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                    <color key="value" name="indigo-600"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="onLeftButton:" destination="-1" eventType="touchUpInside" id="eCt-9w-Pnp"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4va-Ya-L8S">
+                                            <rect key="frame" x="172.66666666666663" y="0.0" width="156.33333333333337" height="50"/>
+                                            <color key="backgroundColor" name="indigo-600"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="Ul1-Q3-jMS"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                            <state key="normal" title="Button">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                    <real key="value" value="4"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                            <connections>
+                                                <action selector="onRightButton:" destination="-1" eventType="touchUpInside" id="yw3-pf-ACi"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="LgW-zs-1As" secondAttribute="bottom" constant="16" id="Ic6-MV-yYQ"/>
+                        <constraint firstAttribute="trailing" secondItem="LgW-zs-1As" secondAttribute="trailing" constant="16" id="Jvg-we-uUX"/>
+                        <constraint firstItem="LgW-zs-1As" firstAttribute="top" secondItem="c0C-pu-bs0" secondAttribute="top" constant="16" id="ZN5-sq-xZp"/>
+                        <constraint firstItem="LgW-zs-1As" firstAttribute="leading" secondItem="c0C-pu-bs0" secondAttribute="leading" constant="16" id="ekK-jJ-1CW"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                            <real key="value" value="16"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="c0C-pu-bs0" secondAttribute="trailing" constant="16" id="cbW-jF-NzE"/>
+                <constraint firstItem="c0C-pu-bs0" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="izk-Cz-evy"/>
+                <constraint firstItem="c0C-pu-bs0" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="xpb-A1-mmB"/>
+            </constraints>
+            <point key="canvasLocation" x="130.53435114503816" y="-11.267605633802818"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="gray-900">
+            <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

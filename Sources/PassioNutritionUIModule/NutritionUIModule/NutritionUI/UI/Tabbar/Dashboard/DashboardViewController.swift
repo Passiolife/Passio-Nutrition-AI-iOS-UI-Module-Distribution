@@ -10,44 +10,42 @@ import FSCalendar
 
 class DashboardViewController: UIViewController {
 
+    @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateButton: UIButton!
     @IBOutlet weak var nextDateButton: UIButton!
 
-    private let connector = PassioInternalConnector.shared
     private lazy var calendarScope: FSCalendarScope = .week
+    private let connector = PassioInternalConnector.shared
+    private let cells: [CellType] = [.nutrition, .calender]
     private var dateSelector: DateSelectorViewController?
-
-    var dayLog: DayLog?
-
-    enum CellType: Int {
-        case nutrition,calender
-    }
-    let cells: [CellType] = [.nutrition, .calender]
-
-    var selectedDate: Date = Date() {
+    private var dayLog: DayLog?
+    private var selectedDate: Date = Date() {
         didSet {
             setTitle()
             getRecords(for: selectedDate)
             softReloadCalenderCell()
-            if selectedDate.isToday {
-                nextDateButton.isEnabled = false
-            } else {
-                nextDateButton.isEnabled = true
-            }
+            nextDateButton.isEnabled = selectedDate.isToday ? false : true
         }
+    }
+
+    private enum CellType: Int {
+        case nutrition, calender
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         selectedDate = Date()
+        dateView.backgroundColor = .navigationColor
+        dateButton.titleLabel?.font = .inter(type: .semiBold, size: 14)
+        dateButton.setTitleColor(.gray900, for: .normal)
         registerCell()
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
     }
 
     override func viewWillLayoutSubviews() {
-        // super.viewWillLayoutSubviews()
+        super.viewWillLayoutSubviews()
 
         setTitle()
         tableView.reloadData()
@@ -61,19 +59,20 @@ class DashboardViewController: UIViewController {
     }
 
     func registerCell() {
-        tableView.register(nibName: "DailyNutritionCell")
-        tableView.register(nibName: "CalendarCell")
-        tableView.register(nibName: "WaterWeightCell")
+        tableView.register(nibName: DailyNutritionCell.className)
+        tableView.register(nibName: CalendarCell.className)
     }
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
-        let nextDate = Calendar.current.date(byAdding: .day, value: sender.tag == 1 ? 1 : -1, to: selectedDate)!
+        let nextDate = Calendar.current.date(byAdding: .day,
+                                             value: sender.tag == 1 ? 1 : -1,
+                                             to: selectedDate)!
         selectedDate = nextDate
     }
 
     func setTitle() {
         if selectedDate.isToday {
-            dateButton.setTitle("Today".localized, for: .normal)
+            dateButton.setTitle("Today", for: .normal)
         } else {
             let dateFormatterPrint = DateFormatter()
             dateFormatterPrint.dateFormat = "MMMM dd, yyyy"
@@ -114,7 +113,7 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
         switch cells[indexPath.row] {
 
         case .nutrition:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DailyNutritionCell") as! DailyNutritionCell
+            let cell = tableView.dequeueCell(cellClass: DailyNutritionCell.self, forIndexPath: indexPath)
             let displayedRecords = dayLog?.displayedRecords ?? []
             let userProfile = UserManager.shared.user ?? UserProfileModel()
             let (calories, carbs, protein, fat) = getNutritionSummaryfor(foodRecords: displayedRecords)
@@ -127,7 +126,7 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
 
         case .calender:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CalendarCell") as! CalendarCell
+            let cell = tableView.dequeueCell(cellClass: CalendarCell.self, forIndexPath: indexPath)
             cell.configure(currentDate: self.selectedDate, calendarScope: calendarScope)
             cell.configureDateUI()
             return cell
@@ -160,6 +159,6 @@ extension DashboardViewController: DateSelectorUIViewDelegate {
     }
 
     func dateFromPicker(date: Date) {
-        self.selectedDate = date
+        selectedDate = date
     }
 }

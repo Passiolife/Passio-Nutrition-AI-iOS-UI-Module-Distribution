@@ -10,7 +10,21 @@ import UIKit
 
 class ScanningHintViewController: UIViewController {
 
+    @IBOutlet weak var okButton: UIButton!
+    @IBOutlet weak var wholeFoodsImageView: UIImageView!
+    @IBOutlet weak var nutritionFactsImageView: UIImageView!
+    @IBOutlet weak var barcodeImageView: UIImageView!
+
     var didDismissed: (() -> Void)?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        okButton.backgroundColor = .primaryColor
+        wholeFoodsImageView.tintColor = .primaryColor
+        nutritionFactsImageView.tintColor = .primaryColor
+        barcodeImageView.tintColor = .primaryColor
+    }
 
     class func presentHint(presentigVC: UIViewController?, didDismissed: (() -> Void)?) {
 
@@ -25,7 +39,7 @@ class ScanningHintViewController: UIViewController {
     }
 
     @IBAction func onClickOkay() {
-        self.dismiss(animated: true) { [weak self] () in
+        dismiss(animated: true) { [weak self] () in
             self?.didDismissed?()
         }
     }

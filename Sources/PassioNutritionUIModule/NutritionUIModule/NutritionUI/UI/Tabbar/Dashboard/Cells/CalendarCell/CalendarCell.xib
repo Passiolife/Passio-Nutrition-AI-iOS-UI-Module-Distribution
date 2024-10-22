@@ -40,6 +40,7 @@
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adherence_icon" translatesAutoresizingMaskIntoConstraints="NO" id="qKb-B4-cXt">
                                         <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
+                                        <color key="tintColor" name="indigo-600"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="iaC-HT-sbA"/>
                                             <constraint firstAttribute="width" constant="24" id="vQ1-1v-zTY"/>
@@ -146,6 +147,7 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="adherenceIconImageView" destination="qKb-B4-cXt" id="5EX-lJ-waX"/>
                 <outlet property="adherenceImgaeView" destination="S9w-1t-WiC" id="iwC-UG-P4U"/>
                 <outlet property="calendarActivityIndicator" destination="o0P-za-eX2" id="dZ9-H0-R0a"/>
                 <outlet property="calendarHeightConstraint" destination="JKu-Pv-vtG" id="Uzg-ps-I4U"/>
@@ -159,7 +161,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="adherence_icon" width="20" height="20"/>
+        <image name="adherence_icon" width="24" height="24"/>
         <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
@@ -168,6 +170,9 @@
         </namedColor>
         <namedColor name="gray-900">
             <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

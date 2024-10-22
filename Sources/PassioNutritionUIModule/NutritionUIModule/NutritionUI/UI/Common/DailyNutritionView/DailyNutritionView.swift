@@ -18,7 +18,12 @@ class DailyNutritionView: ViewFromXIB {
     @IBOutlet private weak var totalCarbsLabel: UILabel!
     @IBOutlet private weak var totalProteinLabel: UILabel!
     @IBOutlet private weak var totalFatLabel: UILabel!
-
+    
+    @IBOutlet weak var calorieLabel: UILabel!
+    @IBOutlet weak var carbsLabel: UILabel!
+    @IBOutlet weak var proteinlabel: UILabel!
+    @IBOutlet weak var fatLabel: UILabel!
+    
     @IBOutlet private weak var caloriesProgressView: CircleProgressView!
     @IBOutlet private weak var carbsProgressView: CircleProgressView!
     @IBOutlet private weak var proteinProgressView: CircleProgressView!
@@ -28,19 +33,34 @@ class DailyNutritionView: ViewFromXIB {
 
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.setupUI()
+
+        setupUI()
     }
 
     public func setupUI() {
-        caloriesProgressView.lineColor = UIColor.colorFromBundle(named: "gray-200")
-        carbsProgressView.lineColor = UIColor.colorFromBundle(named: "gray-200")
-        proteinProgressView.lineColor = UIColor.colorFromBundle(named: "gray-200")
-        fatProgressView.lineColor = UIColor.colorFromBundle(named: "gray-200")
 
-        caloriesProgressView.selectedLineColor = UIColor.colorFromBundle(named: "yellow-500")
-        carbsProgressView.selectedLineColor = UIColor.colorFromBundle(named: "lightBlue")
-        proteinProgressView.selectedLineColor = UIColor.colorFromBundle(named: "green-500")
-        fatProgressView.selectedLineColor = UIColor.colorFromBundle(named: "purple500")
+        currentCaloriesLabel.font = .inter(type: .bold, size: 14)
+        currentCarbsLabel.font = .inter(type: .bold, size: 14)
+        currentProteinLabel.font = .inter(type: .bold, size: 14)
+        currentFatLabel.font = .inter(type: .bold, size: 14)
+        totalCaloriesLabel.font = .inter(type: .regular, size: 14)
+        totalCarbsLabel.font = .inter(type: .regular, size: 14)
+        totalProteinLabel.font = .inter(type: .regular, size: 14)
+        totalFatLabel.font = .inter(type: .regular, size: 14)
+        calorieLabel.font = .inter(type: .medium, size: 14)
+        carbsLabel.font = .inter(type: .medium, size: 14)
+        proteinlabel.font = .inter(type: .medium, size: 14)
+        fatLabel.font = .inter(type: .medium, size: 14)
+
+        caloriesProgressView.lineColor = .gray200
+        carbsProgressView.lineColor = .gray200
+        proteinProgressView.lineColor = .gray200
+        fatProgressView.lineColor = .gray200
+
+        caloriesProgressView.selectedLineColor = .yellow500
+        carbsProgressView.selectedLineColor = .lightBlue
+        proteinProgressView.selectedLineColor = .green500
+        fatProgressView.selectedLineColor = .purple500
 
         caloriesProgressView.selectedDarkLineColor = UIColor.colorFromBundle(named: "yellow-900")
         carbsProgressView.selectedDarkLineColor = UIColor.colorFromBundle(named: "lightBlue-900")
@@ -50,22 +70,20 @@ class DailyNutritionView: ViewFromXIB {
 
     public func setup(data: NutritionDataModal) {
 
-        self.currentCaloriesLabel.text = "\(data.calory.consumed)"
+        currentCaloriesLabel.text = "\(data.calory.consumed)"
+        currentCarbsLabel.text = "\(data.carb.consumed)"
+        currentProteinLabel.text = "\(data.protein.consumed)"
+        currentFatLabel.text = "\(data.fat.consumed)"
 
-        self.currentCaloriesLabel.text = "\(data.calory.consumed)"
-        self.currentCarbsLabel.text = "\(data.carb.consumed)"
-        self.currentProteinLabel.text = "\(data.protein.consumed)"
-        self.currentFatLabel.text = "\(data.fat.consumed)"
-
-        self.totalCaloriesLabel.text = "\(data.calory.target)"
-        self.totalCarbsLabel.text = "\(data.carb.target)"
-        self.totalProteinLabel.text = "\(data.protein.target)"
-        self.totalFatLabel.text = "\(data.fat.target)"
+        totalCaloriesLabel.text = "\(data.calory.target)"
+        totalCarbsLabel.text = "\(data.carb.target)"
+        totalProteinLabel.text = "\(data.protein.target)"
+        totalFatLabel.text = "\(data.fat.target)"
 
         let caloriesProgress = CGFloat(data.calory.consumed) / CGFloat(data.calory.target)
-        self.caloriesProgressView.progress = caloriesProgress
-        self.carbsProgressView.progress = CGFloat(data.carb.consumed) / CGFloat(data.carb.target)
-        self.proteinProgressView.progress = CGFloat(data.protein.consumed) / CGFloat(data.protein.target)
-        self.fatProgressView.progress = CGFloat(data.fat.consumed) / CGFloat(data.fat.target)
+        caloriesProgressView.progress = caloriesProgress
+        carbsProgressView.progress = CGFloat(data.carb.consumed) / CGFloat(data.carb.target)
+        proteinProgressView.progress = CGFloat(data.protein.consumed) / CGFloat(data.protein.target)
+        fatProgressView.progress = CGFloat(data.fat.consumed) / CGFloat(data.fat.target)
     }
 }

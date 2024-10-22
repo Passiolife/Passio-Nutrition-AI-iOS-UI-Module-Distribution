@@ -39,8 +39,30 @@ class FoodRecognitionDataSetConnector {
             }
         }
     }
-    func getRecordV3(completion: @escaping (FoodRecordV3?) -> Void) {
-        if let foodRecord {
+
+    func getRecordV3(dataType: FoodRecognitionDataSetConnector,
+                     completion: @escaping (FoodRecordV3?) -> Void) {
+
+
+        var barcode = dataType.id ?? ""
+        if barcode.count == 13 && barcode.first == "0" { barcode.removeFirst() }
+
+        var entityType = foodRecord?.entityType ?? .item
+
+        switch dataType {
+        case is VisualFoodDataSet:
+            entityType = .item
+        case is BarcodeDataSet:
+            entityType = .barcode
+        case is PackageFoodDataSet:
+            entityType = .packagedFoodCode
+        default:
+            entityType = .nutritionFacts
+        }
+
+        if var foodRecord {
+            foodRecord.barcode = barcode
+            foodRecord.entityType = entityType
             completion(foodRecord)
             return
         }
@@ -50,7 +72,9 @@ class FoodRecognitionDataSetConnector {
                     completion(nil)
                     return
                 }
-                foodRecord = FoodRecordV3.init(foodItem: item)
+                foodRecord = FoodRecordV3(foodItem: item)
+                foodRecord?.entityType = entityType
+                foodRecord?.barcode = barcode
                 completion(foodRecord)
             }
         }
@@ -94,30 +118,34 @@ class BarcodeDataSet: FoodRecognitionDataSetConnector, FoodRecognitionDataSet {
 
     override func getFoodItem(completion: @escaping (PassioFoodItem?) -> Void) {
 
-        super.getFoodItem { [weak self] foodItem in
-            guard let self else { return }
-            if let foodItem {
-                completion(foodItem)
+        fetchBarcodeFoodFromLocal { isUserFoodBarcode in
+
+            if isUserFoodBarcode {
+                completion(nil)
             } else {
-                fetchBarcodeFoodFromLocal {
-                    completion(nil)
+                super.getFoodItem { foodItem in
+                    if let foodItem {
+                        completion(foodItem)
+                    } else {
+                        completion(nil)
+                    }
                 }
             }
         }
     }
 
-    func fetchBarcodeFoodFromLocal(completion: @escaping () -> Void) {
+    func fetchBarcodeFoodFromLocal(completion: @escaping (Bool) -> Void) {
         guard let id else {
-            completion()
+            completion(false)
             return
         }
         PassioInternalConnector.shared.fetchUserFoods(barcode: id) { [weak self] barcodeFood in
             guard let self, let barcodeFoodRecord = barcodeFood.first else {
-                completion()
+                completion(false)
                 return
             }
             foodRecord = barcodeFoodRecord
-            completion()
+            completion(true)
         }
     }
 }
@@ -137,16 +165,21 @@ class PackageFoodDataSet: FoodRecognitionDataSetConnector, FoodRecognitionDataSe
 }
 
 class VisualFoodDataSet: FoodRecognitionDataSetConnector, FoodRecognitionDataSet {
+
     var candidate: DetectedCandidate?
     var allAlternatives: [DetectedCandidate] = []
 
     override var id: String? {return candidate?.passioID}
 
-    init(candidate: DetectedCandidate? = nil, topKResults: [DetectedCandidate] = [] ) {
+    init(candidate: DetectedCandidate? = nil,
+         topKResults: [DetectedCandidate] = []) {
         super.init()
+
         self.candidate = candidate
-        self.allAlternatives = ((candidate?.alternatives ?? []) + topKResults).uniqued(on: {$0.passioID}).filter({$0.passioID != self.id})
-        
+        self.allAlternatives = (
+            (candidate?.alternatives ?? []) + topKResults
+        ).uniqued(on: {$0.passioID}).filter{ $0.passioID != self.id }
+
 //        if let mapping = PassioNutritionAI.shared.lookupPersonalizedAlternativeFor(passioID: candidate?.passioID ?? "NAN"){
 //            if allAlternatives.contains(where: {mapping.nutritionalPassioID == $0.passioID}){
 //                guard let toBeSwitchCandidate = allAlternatives.first(where: {mapping.nutritionalPassioID == $0.passioID}) else { return }

@@ -1,5 +1,4 @@
 {
-  "originHash" : "2a86905ac5d211b363cd2119e2fb236439e6ee5dcc7c6bcaeea84c0c7f10f429",
   "pins" : [
     {
       "identity" : "fscalendar",
@@ -11,12 +10,21 @@
       }
     },
     {
+      "identity" : "lottie-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-spm.git",
+      "state" : {
+        "revision" : "b842598f1295f3ffa1475b1580672d1fe5b83580",
+        "version" : "4.5.0"
+      }
+    },
+    {
       "identity" : "passio-nutrition-ai-ios-sdk-distribution",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
       "state" : {
-        "revision" : "656742338fd0281d3f4c62529777e2772e29b068",
-        "version" : "3.1.0"
+        "revision" : "5b739922ae2af93eb0010d5f9f4877e2c39dc251",
+        "version" : "3.2.1"
       }
     },
     {
@@ -38,5 +46,5 @@
       }
     }
   ],
-  "version" : 3
+  "version" : 2
 }

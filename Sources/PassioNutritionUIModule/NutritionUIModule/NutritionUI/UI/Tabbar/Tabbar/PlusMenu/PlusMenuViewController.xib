@@ -24,7 +24,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="IgB-jw-XJZ">
-                    <rect key="frame" x="115" y="148" width="200" height="620"/>
+                    <rect key="frame" x="115" y="156" width="200" height="620"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="620" id="fQh-lz-7nF"/>
@@ -32,13 +32,20 @@
                     </constraints>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pyQ-Ml-qjJ">
-                    <rect key="frame" x="183" y="798" width="64" height="64"/>
+                    <rect key="frame" x="187" y="806" width="56" height="56"/>
+                    <color key="backgroundColor" name="indigo-600"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="64" id="V1K-gC-sWJ"/>
-                        <constraint firstAttribute="height" constant="64" id="g65-aX-Gdd"/>
+                        <constraint firstAttribute="width" constant="56" id="V1K-gC-sWJ"/>
+                        <constraint firstAttribute="height" constant="56" id="g65-aX-Gdd"/>
                     </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" image="plus"/>
+                    <state key="normal" image="plus" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="23" weight="medium"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isRoundedCorner" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="onCloseMenu:" destination="-1" eventType="touchUpInside" id="1Vd-nN-oGg"/>
                     </connections>
@@ -56,9 +63,12 @@
         </view>
     </objects>
     <resources>
-        <image name="plus" width="52" height="52"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <namedColor name="gray-500-bg">
             <color red="0.41960784313725491" green="0.44705882352941179" blue="0.50196078431372548" alpha="0.75" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="indigo-600">
+            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

@@ -110,7 +110,7 @@ extension MyFavoritesViewController: UITableViewDataSource {
         newFoodRecord.uuid = UUID().uuidString
         newFoodRecord.createdAt = Date()
         newFoodRecord.mealLabel = MealLabel.mealLabelBy(time: Date())
-        connector.updateRecord(foodRecord: newFoodRecord, isNew: true)
+        connector.updateRecord(foodRecord: newFoodRecord)
 
         addedToFavorites = button.tag
         tableView.reloadData()
@@ -122,7 +122,7 @@ extension MyFavoritesViewController: UITableViewDataSource {
             self?.tableView.reloadData()
         }
 
-        showMessage(msg: "Added to log")
+        showMessage(msg: ToastMessages.addedToLog)
         NutritionUICoordinator.navigateToDairyAfterAction(navigationController: self.navigationController!)
     }
 }
@@ -132,10 +132,10 @@ extension MyFavoritesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let favorite = favorites[indexPath.row]
-        let editVC = EditRecordViewController()
+        let editVC = FoodDetailsViewController()
         editVC.foodRecord = favorite
         editVC.isEditingFavorite = true
-        editVC.delegateDelete = self
+        editVC.foodDetailsControllerDelegate = self
         navigationController?.pushViewController(editVC, animated: true)
     }
 
@@ -143,13 +143,13 @@ extension MyFavoritesViewController: UITableViewDelegate {
     UISwipeActionsConfiguration? {
         let editItem = UIContextualAction(style: .normal, title: "Edit".localized) {  (_, _, _) in
             let favorite = self.favorites[indexPath.row]
-            let editVC = EditRecordViewController()
+            let editVC = FoodDetailsViewController()
             editVC.foodRecord = favorite
             editVC.isEditingFavorite = true
-            editVC.delegateDelete = self
+            editVC.foodDetailsControllerDelegate = self
             self.navigationController?.pushViewController(editVC, animated: true)
         }
-        editItem.backgroundColor = .indigo600
+        editItem.backgroundColor = .primaryColor
 
         let deleteItem = UIContextualAction(style: .destructive, title: "Delete".localized) {  (_, _, _) in
             let favorite = self.favorites.remove(at: indexPath.row)
@@ -169,7 +169,7 @@ extension MyFavoritesViewController: UITableViewDelegate {
     }
 }
 
-extension MyFavoritesViewController: EditRecordViewControllerDelegate {
+extension MyFavoritesViewController: FoodDetailsControllerDelegate {
 
     func deleteFromEdit(foodRecord: FoodRecordV3) {
         connector.deleteFavorite(foodRecord: foodRecord)

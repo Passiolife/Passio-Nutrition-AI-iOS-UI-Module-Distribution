@@ -8,27 +8,32 @@
 
 import UIKit
 
-extension UINavigationController {
-    
-    func updateStatusBarColor(color: UIColor) {
-        if #available(iOS 13, *) {
-            if let statusBar = self.view.viewWithTag(-1) {
-                statusBar.backgroundColor = color
-            }else{
-                let statusBar = UIView(frame: (UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.windowScene?.statusBarManager?.statusBarFrame)!)
-                statusBar.tag = -1
-                statusBar.backgroundColor = color
-                view.addSubview(statusBar)
-            }
+extension UINavigationController: UIGestureRecognizerDelegate {
+
+    open override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // To keep default swipe to back behavior
+        interactivePopGestureRecognizer?.delegate = self
+    }
+
+    func updateStatusBarColor(color: UIColor = .white) {
+        if let statusBar = self.view.viewWithTag(-1) {
+            statusBar.backgroundColor = color
         } else {
-            let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
-            if statusBar.responds(to: #selector(setter: UIView.backgroundColor)) {
-                statusBar.backgroundColor = UIColor.clear
-            }
+            let frame = (UIApplication.shared.windows.filter {
+                $0.isKeyWindow
+            }.first?.windowScene?.statusBarManager?.statusBarFrame)!
+            let statusBar = UIView(frame: frame)
+            statusBar.tag = -1
+            statusBar.backgroundColor = color
+            view.addSubview(statusBar)
         }
     }
     
-    func pushViewController(viewController: UIViewController, animated: Bool, completion: @escaping () -> Void) {
+    func pushViewController(viewController: UIViewController,
+                            animated: Bool,
+                            completion: @escaping () -> Void) {
         pushViewController(viewController, animated: animated)
 
         if animated, let coordinator = transitionCoordinator {
@@ -50,5 +55,33 @@ extension UINavigationController {
         } else {
             completion()
         }
+    }
+
+    func popToSpecificViewController(_ viewController: AnyClass, isAnimated: Bool = false) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            for element in viewControllers {
+                if element.isKind(of: viewController) {
+                    popToViewController(element, animated: isAnimated)
+                    break
+                }
+            }
+        }
+
+    }
+
+    func popUpToIndexControllers(popUptoIndex: Int, isAnimated: Bool = false) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if viewControllers.indices.contains(popUptoIndex) {
+                let vcToPop = viewControllers[viewControllers.count-popUptoIndex]
+                popToViewController(vcToPop, animated: isAnimated)
+            }
+        }
+    }
+
+    // To keep default swipe to back behavior
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
     }
 }

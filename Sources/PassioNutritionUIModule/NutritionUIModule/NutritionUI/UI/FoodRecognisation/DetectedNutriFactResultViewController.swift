@@ -7,7 +7,9 @@
 //
 
 import UIKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 protocol DetectedNutriFactResultViewControllerDelegate: NSObjectProtocol{
     func onClickNext(dataset: NutritionFactsDataSet)
@@ -35,25 +37,37 @@ class DetectedNutriFactResultViewController: UIViewController {
 
     weak var delegate: DetectedNutriFactResultViewControllerDelegate?
 
-    // MANAGING STATES
     private var currentDataSet: NutritionFactsDataSet? = nil{
         didSet {
-            self.updateUI()
+            updateNutritionData()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        updateNutritionData()
         updateUI()
     }
 
     private func updateUI() {
+
+        buttonNext.backgroundColor = .primaryColor
+        buttonCancel.setTitleColor(.primaryColor, for: .normal)
+        buttonCancel.applyBorder(width: 2, color: .primaryColor)
+        caloriesLabel.textColor = .primaryColor
+        carbsLabel.textColor = .primaryColor
+        proteinLabel.textColor = .primaryColor
+        fatLabel.textColor = .primaryColor
+    }
+
+    private func updateNutritionData() {
         guard let dataset = currentDataSet else {
-            self.servingLabel.text = "--"
-            self.caloriesLabel.text = "--"
-            self.carbsLabel.text = "--"
-            self.proteinLabel.text = "--"
-            self.fatLabel.text = "--"
+            servingLabel.text = "--"
+            caloriesLabel.text = "--"
+            carbsLabel.text = "--"
+            proteinLabel.text = "--"
+            fatLabel.text = "--"
             return
         }
         servingLabel.text = (dataset.nutritionFacts?.servingSizeQuantity.roundDigits(afterDecimal: 2).clean ?? "")

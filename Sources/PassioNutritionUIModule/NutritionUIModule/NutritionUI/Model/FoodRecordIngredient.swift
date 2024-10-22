@@ -7,13 +7,16 @@
 //
 
 import Foundation
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 public struct FoodRecordIngredient: Codable, Equatable {
 
     public var passioID: PassioID = ""
     public var name: String = ""
     public var iconId: String = ""
+    public var refCode: String = ""
     public var selectedUnit: String = ""
     public var selectedQuantity: Double = 0.0
     public var servingSizes: [PassioServingSize]
@@ -21,9 +24,10 @@ public struct FoodRecordIngredient: Codable, Equatable {
     public var nutrients: PassioNutrients
     public var openFoodLicense: String? = ""
     public var details: String = ""
+    public var barcode: String? = ""
     public var entityType: PassioIDEntityType
     public var computedWeight: Measurement<UnitMass> {
-        guard let weight2QuantityRatio = (servingUnits.filter {$0.unitName == selectedUnit}).first?.weight.value else {
+        guard let weight2QuantityRatio = (servingUnits.filter { $0.unitName == selectedUnit }).first?.weight.value else {
             return Measurement<UnitMass>(value: 0, unit: .grams)
         }
         return Measurement<UnitMass>(value: weight2QuantityRatio * selectedQuantity, unit: .grams)
@@ -48,6 +52,10 @@ public struct FoodRecordIngredient: Codable, Equatable {
     public var totalFat: Double {
         nutrients.fat()?.value ?? 0
     }
+    
+    public var totalFiber: Double {
+        nutrients.fibers()?.value ?? 0
+    }
 
     public var nutritionSummary: NutritionSummary {
         (calories: totalCalories, carbs: totalCarbs, protein: totalProteins, fat: totalFat)
@@ -59,6 +67,8 @@ public struct FoodRecordIngredient: Codable, Equatable {
         name = foodRecord.name
         details = foodRecord.details
         iconId = foodRecord.iconId
+        refCode = foodRecord.refCode
+        barcode = foodRecord.barcode
 
         self.entityType = entityType
 
@@ -77,6 +87,8 @@ public struct FoodRecordIngredient: Codable, Equatable {
         passioID = ingredient.id
         name = ingredient.name
         iconId = ingredient.iconId
+        refCode = ingredient.refCode ?? ""
+        barcode = ""
 
         self.entityType = entityType
 
@@ -105,11 +117,34 @@ public struct FoodRecordIngredient: Codable, Equatable {
     }
 
     mutating public func setServingUnitKeepWeight(unitName: String) -> Bool {
-        guard  let weight2Quantity = (servingUnits.filter {$0.unitName == unitName}).first?.weight  else {
+        guard  let weight2Quantity = (servingUnits.filter { $0.unitName == unitName }).first?.weight  else {
             return false
         }
         selectedQuantity = computedWeight.value / weight2Quantity.value
         selectedUnit = unitName
+        return true
+    }
+
+    mutating func setSelectedUnit(unit: String) -> Bool {
+
+        let unit = if unit == UnitsTexts.cGrams ||
+        unit == UnitsTexts.gram ||
+        unit == UnitsTexts.grams {
+            unit.lowercased()
+        } else {
+            unit
+        }
+
+        if selectedUnit == unit {
+            return true
+        }
+        if servingUnits.first(where: { $0.unitName == unit }) == nil {
+            return false
+        }
+        selectedUnit = unit
+        selectedQuantity = unit == UnitsTexts.cGrams ||
+        unit == UnitsTexts.gram ||
+        unit == UnitsTexts.grams ? 100 : 1
         return true
     }
 }

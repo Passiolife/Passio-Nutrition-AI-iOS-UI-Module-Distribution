@@ -12,8 +12,21 @@ import AVFoundation
 import PassioNutritionAISDK
 #endif
 
+protocol BarcodeRecogniserDelegate: AnyObject {
+    func onBarcodeDetected(barcode: String?)
+}
+
 final class BarcodeRecogniserViewController: UIViewController {
 
+    @IBOutlet weak var confirmBarcodeButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var createCustomFoodAnywayButton: UIButton!
+    @IBOutlet weak var viewExistingItemButton: UIButton!
+    @IBOutlet weak var cancelSystemBarcodeButton: UIButton!
+    @IBOutlet weak var zoomSlider: UISlider!
+    @IBOutlet weak var createCustomFoodButton: UIButton!
+    @IBOutlet weak var barcodeMatchesLabel: UILabel!
+    @IBOutlet weak var barcodeSystemLabel: UILabel!
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var barcodeDetectedStackView: UIStackView!
@@ -39,8 +52,8 @@ final class BarcodeRecogniserViewController: UIViewController {
             showMessage(msg: "Focus: \(msg)", duration: 0.35)
         }
     }
-
-    var barcodeValue: ((String) -> Void)?
+    private var isUserFoodBarcode: Bool = false
+    weak var delegate: BarcodeRecogniserDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +70,15 @@ final class BarcodeRecogniserViewController: UIViewController {
                                                selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+
+        confirmBarcodeButton.backgroundColor = .primaryColor
+        cancelButton.setTitleColor(.primaryColor, for: .normal)
+        cancelButton.applyBorder(width: 2, color: .primaryColor)
+        createCustomFoodAnywayButton.backgroundColor = .primaryColor
+        viewExistingItemButton.backgroundColor = .primaryColor
+        cancelSystemBarcodeButton.setTitleColor(.primaryColor, for: .normal)
+        cancelSystemBarcodeButton.applyBorder(width: 2, color: .primaryColor)
+        zoomSlider.minimumTrackTintColor = .primaryColor
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -100,17 +122,24 @@ final class BarcodeRecogniserViewController: UIViewController {
     }
 
     @IBAction func onConfirmBarcode(_ sender: UIButton) {
-        barcodeValue?(barcodeTextField.text ?? "")
+        delegate?.onBarcodeDetected(barcode: barcodeTextField.text ?? "")
         navigationController?.popViewController(animated: true)
     }
 
     @IBAction func onCancelBarcode(_ sender: UIButton) {
+        delegate?.onBarcodeDetected(barcode: nil)
+        navigationController?.popViewController(animated: true)
+    }
+
+    @IBAction func onCreateCustomFoodAnyway(_ sender: UIButton) {
+        delegate?.onBarcodeDetected(barcode: isUserFoodBarcode ? nil : barcodeTextField.text ?? "")
         navigationController?.popViewController(animated: true)
     }
 
     @IBAction func onViewSystemBarcode(_ sender: UIButton) {
         guard let foodRecord else { return }
-        let editVC = EditRecordViewController()
+        let editVC = FoodDetailsViewController()
+        editVC.isFromBarcode = true
         editVC.foodRecord = foodRecord
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
             guard let self else { return }
@@ -209,40 +238,64 @@ extension BarcodeRecogniserViewController {
 // MARK: - FoodRecognitionDelegate
 extension BarcodeRecogniserViewController: FoodRecognitionDelegate {
 
-    // TODO: Fix Nutrition Facts
     func recognitionResults(candidates: FoodCandidates?, image: UIImage?) {
 
         guard !isRecognitionsPaused, videoLayer != nil else { return }
 
         if let barcode = candidates?.barcodeCandidates?.first {
 
-            checkInSystemBarcodeAvailable(dataset: BarcodeDataSet(candidate: barcode)) { (inSystem) in
-
+            checkInSystemBarcodeAvailable(dataset: BarcodeDataSet(candidate: barcode)) { (userFood,
+                                                                                          systemFood) in
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
-                    scanGuideView.isHidden = true
-                    barcodeInSystemView.isHidden = inSystem ? false : true
-                    barcodeDetectedStackView.isHidden = inSystem ? true : false
-                    barcodeTextField.text = inSystem ? "" : barcode.value
+                    manageBarcodeInSystemView(barcode: barcode.value, 
+                                              userFood: userFood,
+                                              systemFood: systemFood)
                 }
             }
         }
     }
 
     private func checkInSystemBarcodeAvailable(dataset: BarcodeDataSet,
-                                               completion: @escaping (Bool) -> Void) {
+                                               completion: @escaping (Bool, Bool) -> Void) {
+
         dataset.getFoodItem(completion: { [weak self] (passioFoodItem) in
+
             guard let self else { return }
-            if let foodItem = passioFoodItem {
-                foodRecord = FoodRecordV3(foodItem: foodItem) // SDK Barcode
-                completion(true)
-            } else if let barcodeFoodRecord = dataset.foodRecord { // Local User Food Barcode
+
+            if let barcodeFoodRecord = dataset.foodRecord { // Local User Food Barcode
                 foodRecord = barcodeFoodRecord
-                completion(true)
+                isUserFoodBarcode = true
+                completion(true, false)
+            } else if let foodItem = passioFoodItem {
+                foodRecord = FoodRecordV3(foodItem: foodItem) // SDK Barcode
+                isUserFoodBarcode = false
+                completion(false, true)
             } else {
-                completion(false)
+                isUserFoodBarcode = false
+                completion(false, false)
             }
         })
+    }
+
+    private func manageBarcodeInSystemView(barcode: String,
+                                           userFood: Bool,
+                                           systemFood: Bool) {
+
+        scanGuideView.isHidden = true
+        barcodeInSystemView.isHidden = !(userFood || systemFood)
+        barcodeDetectedStackView.isHidden = (userFood || systemFood)
+        barcodeTextField.text = barcode
+
+        if userFood {
+            barcodeSystemLabel.text = "Custom Food Already Exists"
+            barcodeMatchesLabel.text = "This barcode matches an existing item in your custom food list. You can use the existing item, or create a new food without the barcode."
+            createCustomFoodButton.setTitle("Create Custom Food Without Barcode", for: .normal)
+        } else if systemFood {
+            barcodeSystemLabel.text = "Barcode In System"
+            barcodeMatchesLabel.text = "This barcode matches an existing item in our database. You can use the data from the database, or continue with creating a custom food."
+            createCustomFoodButton.setTitle("Create Custom Food Anyway", for: .normal)
+        }
     }
 }
 

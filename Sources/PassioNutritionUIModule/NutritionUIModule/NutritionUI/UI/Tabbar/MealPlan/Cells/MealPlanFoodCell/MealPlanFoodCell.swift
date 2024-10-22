@@ -8,7 +8,9 @@
 
 import UIKit
 import SwipeCellKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif 
 
 final class MealPlanFoodCell: SwipeCollectionViewCell {
 
@@ -29,7 +31,7 @@ final class MealPlanFoodCell: SwipeCollectionViewCell {
 
         passioIDForCell = foodResult.iconID
         imageFood.loadPassioIconBy(passioID: foodResult.iconID,
-                                   entityType: .item) { passioIDForImage, image in
+                                   entityType: PassioIDEntityType.item) { passioIDForImage, image in
             if passioIDForImage == self.passioIDForCell {
                 DispatchQueue.main.async {
                     self.imageFood.image = image

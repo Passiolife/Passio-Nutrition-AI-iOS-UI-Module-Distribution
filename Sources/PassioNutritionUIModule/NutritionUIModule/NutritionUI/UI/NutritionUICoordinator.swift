@@ -11,12 +11,12 @@ public class NutritionUICoordinator {
 
     public class func getHomeTabbarViewController() -> UIViewController {
         loadViewController(storyboardName: "Home",
-                           controllerName: "HomeTabBarController") as! HomeTabBarController
+                           controllerName: HomeTabBarController.className) as! HomeTabBarController
     }
 
-    class func getScanningViewController() -> FoodRecognitionV3ViewController {
+    class func getFoodRecognitionV3ViewController() -> FoodRecognitionV3ViewController {
         loadViewController(storyboardName: "FoodRecognisation",
-                           controllerName: "FoodRecognitionV3ViewController") as! FoodRecognitionV3ViewController
+                           controllerName: FoodRecognitionV3ViewController.className) as! FoodRecognitionV3ViewController
     }
 
     class func navigateToDairyAfterAction(navigationController: UINavigationController?,
@@ -38,12 +38,12 @@ public class NutritionUICoordinator {
 
     class func getEditProfileViewController() -> EditProfileViewController {
         loadViewController(storyboardName: "EditProfile",
-                           controllerName: "EditProfileViewController") as! EditProfileViewController
+                           controllerName: EditProfileViewController.className) as! EditProfileViewController
     }
 
     class func getEditSettingsViewController() -> EditSettingsViewController {
         loadViewController(storyboardName: "EditProfile",
-                           controllerName: "EditSettingsViewController") as! EditSettingsViewController
+                           controllerName: EditSettingsViewController.className) as! EditSettingsViewController
     }
 
     private class func loadViewController(storyboardName: String,

@@ -11,15 +11,28 @@ import UIKit
 public struct Custom {
     public static let insetBackgroundRadius: CGFloat = 16.0
     public static let buttonCornerRadius: CGFloat = 8.0
-    public static let engineeringViews = false
-    public static let useFirebase = false
-    public static let useNutritionBrowser = false
-    public static let oneLineAlternative = false
-    public static let oneSizeAlternative = true
 }
 
 // MARK: - UIColor
-extension UIColor { // customized colors
+public extension UIColor { // customized colors
+
+    static let passioAppTheme = PassioThemeManager.shared.passioAppTheme
+
+    static var primaryColor: UIColor {
+        UIColor(hex: passioAppTheme.primaryColor) ?? .indigo600
+    }
+
+    static var secondaryTabColor: UIColor {
+        UIColor(hex: passioAppTheme.secondaryTabColor) ?? .gray300
+    }
+
+    static var navigationColor: UIColor {
+        UIColor(hex: passioAppTheme.navigationColor) ?? .white
+    }
+
+    static var statusBarColor: UIColor {
+        UIColor(hex: passioAppTheme.statusBarColor) ?? .white
+    }
 
     static var gray50: UIColor {
         colorFromBundle(named: "gray-50") ?? .blue
@@ -45,7 +58,7 @@ extension UIColor { // customized colors
         colorFromBundle(named: "gray-700") ?? .blue
     }
 
-    public static var gray900: UIColor {
+    static var gray900: UIColor {
         colorFromBundle(named: "gray-900") ?? .blue
     }
 
@@ -67,6 +80,10 @@ extension UIColor { // customized colors
 
     static var indigo100: UIColor {
         colorFromBundle(named: "indigo-100") ?? .blue
+    }
+
+    static var indigo500: UIColor {
+        colorFromBundle(named: "indigo-500") ?? .blue
     }
 
     static var indigo600: UIColor {
@@ -103,9 +120,9 @@ extension UIColor { // customized colors
 }
 
 // MARK: - UIFont
-extension UIFont {
+public extension UIFont {
 
-    public static func inter(type: NutritionFont, size: CGFloat) -> UIFont {
+    static func inter(type: NutritionFont, size: CGFloat = 17) -> UIFont {
         UIFont(name: type.name, size: size) ?? .systemFont(ofSize: size)
     }
 }

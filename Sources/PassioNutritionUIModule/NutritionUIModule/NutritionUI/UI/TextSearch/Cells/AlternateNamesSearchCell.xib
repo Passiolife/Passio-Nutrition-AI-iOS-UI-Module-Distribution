@@ -55,7 +55,7 @@
                 <outlet property="labelFoodName" destination="xNs-8r-Ac1" id="G28-PW-Fs8"/>
                 <outlet property="viewBackground" destination="s51-Hp-mwN" id="09b-UE-Ix6"/>
             </connections>
-            <point key="canvasLocation" x="62.595419847328245" y="-26.056338028169016"/>
+            <point key="canvasLocation" x="-179" y="-36"/>
         </collectionViewCell>
     </objects>
     <resources>

@@ -16,7 +16,7 @@ let package = Package(
             targets: ["PassioNutritionUIModule"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
+         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
                  .upToNextMajor(from: "3.0.0")),
         .package(url: "https://github.com/SwipeCellKit/SwipeCellKit",
@@ -24,7 +24,9 @@ let package = Package(
         .package(url: "https://github.com/WenchaoD/FSCalendar.git",
                  .upToNextMajor(from: "2.8.4")),
         .package(url: "https://github.com/SimonFairbairn/SwiftyMarkdown",
-                 .upToNextMajor(from: "1.2.4"))
+                 .upToNextMajor(from: "1.2.4")),
+        .package(url: "https://github.com/airbnb/lottie-spm.git",
+                 .upToNextMajor(from: "4.4.3"))
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -36,8 +38,16 @@ let package = Package(
                          package: "Passio-Nutrition-AI-iOS-SDK-Distribution"),
                 "SwipeCellKit",
                 "FSCalendar",
-                "SwiftyMarkdown"
-            ]
-        )
+                "SwiftyMarkdown",
+                .product(name: "Lottie", package: "lottie-spm")
+            ],
+            resources: [.process("NutritionUIModule/VoiceLogging.json"), // Lottie Animation
+                        .process("NutritionUIModule/TypingIndicator.json")] // Typing Indicator
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/FindMode.metal"), // VolumeKernels
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/HeightToVolume.metal"),
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/KalmanStatic1D.metal"),
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/MakeHeightMap.metal"),
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/volume_metal.h")]
+        ),
     ]
 )

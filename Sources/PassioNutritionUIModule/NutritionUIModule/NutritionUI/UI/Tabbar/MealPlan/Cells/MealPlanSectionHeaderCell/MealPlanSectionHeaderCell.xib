@@ -88,7 +88,7 @@
                 <outlet property="logEntireMealButton" destination="O3X-jW-pys" id="Epp-7B-jgu"/>
                 <outlet property="sepratorView" destination="beO-7O-UCY" id="wMV-eG-36g"/>
             </connections>
-            <point key="canvasLocation" x="410.68702290076334" y="119.36619718309859"/>
+            <point key="canvasLocation" x="-165" y="-21"/>
         </collectionViewCell>
     </objects>
     <resources>

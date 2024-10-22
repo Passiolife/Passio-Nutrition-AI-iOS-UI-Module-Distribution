@@ -7,7 +7,9 @@
 //
 
 import UIKit
+#if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
+#endif
 
 protocol QuickAddSuggestionViewDelegate: NSObjectProtocol {
     func suggestionDidFetched(isHavingSuggestion: Bool)
@@ -29,6 +31,11 @@ final class QuickAddSuggestionViewController: CustomModalViewController {
         super.viewDidLoad()
 
         configureUI()
+        containerView.dropShadow(radius: 16,
+                                 offset: CGSize(width: 0, height: -4),
+                                 color: .black.withAlphaComponent(0.1),
+                                 shadowRadius: 8,
+                                 shadowOpacity: 1)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -38,10 +45,12 @@ final class QuickAddSuggestionViewController: CustomModalViewController {
     }
 
     private func configureUI() {
+
         quickSuggestionsLabel.font = UIFont.inter(type: .bold, size: 20)
         registerCellsAndTableDelegates()
         shouldShowMiniOnly = false
-        containerView.dropShadow()
+        containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds,
+                                                      cornerRadius: 16).cgPath
     }
 
     func compressPopup() {
@@ -56,11 +65,11 @@ extension QuickAddSuggestionViewController {
     private func registerCellsAndTableDelegates() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        let layout = UICollectionViewCompositionalLayout { (sectionNumber, env) in
-            return self.collectionLayout(height: 60)
+        let layout = UICollectionViewCompositionalLayout { [weak self] (sectionNumber, env) in
+            return self?.collectionLayout(height: 60)
         }
         collectionView.setCollectionViewLayout(layout, animated: true )
-        collectionView.register(nibName: "QuickAddCollectionViewCell")
+        collectionView.register(nibName: QuickAddCollectionViewCell.className)
     }
 
     func getQuickSuggestion() {
@@ -81,10 +90,10 @@ extension QuickAddSuggestionViewController {
             if var record = foodRecord {
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
-                PassioInternalConnector.shared.updateRecord(foodRecord: record, isNew: true)
+                PassioInternalConnector.shared.updateRecord(foodRecord: record)
                 DispatchQueue.main.async {
                     self?.getQuickSuggestion()
-                    self?.showMessage(msg: "Added to log", alignment: .center)
+                    self?.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
                     self?.delegate?.refreshFoodRecord()
                 }
             }

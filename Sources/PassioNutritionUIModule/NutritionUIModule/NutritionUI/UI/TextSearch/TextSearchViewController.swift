@@ -14,42 +14,67 @@ import PassioNutritionAISDK
 final class TextSearchViewController: InstantiableViewController {
 
     private var advancedTextSearchView: AdvancedTextSearchView!
+    private var isFirstTime = true
 
-    var dismmissToMyLog = false
-    var isAdvancedSearch = false
+    var isCreateRecipe = false
+    var indexToPop: Int? = nil
+    var shouldPopVC: Bool = true
 
     weak var advancedSearchDelegate: AdvancedTextSearchViewDelegate?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let nib = UINib.nibFromBundle(nibName: "AdvancedTextSearchView")
-        advancedTextSearchView = nib.instantiate(withOwner: self, options: nil).first as? AdvancedTextSearchView
+        title = "Text Search"
+        extendedLayoutIncludesOpaqueBars = true
+
+        setupBackButton()
+        if advancedTextSearchView == nil {
+            let nib = UINib.nibFromBundle(nibName: AdvancedTextSearchView.className)
+            advancedTextSearchView = nib.instantiate(withOwner: self,
+                                                     options: nil).first as? AdvancedTextSearchView
+        }
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        advancedTextSearchView.delegate = self
-        advancedTextSearchView.frame = view.bounds
-        view.addSubview(advancedTextSearchView)
+        if isFirstTime {
+            isFirstTime = false
+            advancedTextSearchView.delegate = self
+            advancedTextSearchView.frame = view.bounds
+            advancedTextSearchView.isCreateRecipe = isCreateRecipe
+            view.addSubview(advancedTextSearchView)
+        }
     }
 }
 
 // MARK: - AdvancedTextSearchView Delegate
 extension TextSearchViewController: AdvancedTextSearchViewDelegate {
 
-    func userSelectedFood(record: FoodRecordV3?) {
-        advancedSearchDelegate?.userSelectedFood(record: record)
-        if dismmissToMyLog || navigationController == nil {
-            dismiss(animated: true)
+    func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
+        if shouldPopVC {
+            if let indexToPop {
+                navigationController?.popUpToIndexControllers(popUptoIndex: indexToPop)
+            } else {
+                navigationController?.popViewController(animated: false)
+            }
+            advancedSearchDelegate?.userSelectedFood(record: record, isPlusAction: isPlusAction)
+        } else {
+            advancedSearchDelegate?.userSelectedFood(record: record, isPlusAction: isPlusAction)
         }
     }
 
-    func userSelectedFoodItem(item: PassioFoodItem?) {
-        advancedSearchDelegate?.userSelectedFoodItem(item: item)
-        if dismmissToMyLog || navigationController == nil {
-            dismiss(animated: true)
+    func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
+        if shouldPopVC {
+            if let indexToPop {
+                navigationController?.popUpToIndexControllers(popUptoIndex: indexToPop)
+            } else {
+                navigationController?.popViewController(animated: false)
+            }
+            advancedSearchDelegate?.userSelectedFoodItem(item: item, isPlusAction: isPlusAction)
+        } else {
+            advancedSearchDelegate?.userSelectedFoodItem(item: item, isPlusAction: isPlusAction)
         }
     }
 }

@@ -30,7 +30,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wSC-Oz-4oI">
                                 <rect key="frame" x="16" y="16" width="145" height="25"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="meal plan" translatesAutoresizingMaskIntoConstraints="NO" id="Erb-fz-FmP">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="diet" translatesAutoresizingMaskIntoConstraints="NO" id="Erb-fz-FmP">
                                         <rect key="frame" x="0.0" y="0.66666666666666785" width="24" height="24"/>
                                         <color key="tintColor" name="indigo-600"/>
                                         <constraints>
@@ -121,6 +121,7 @@
             </constraints>
             <size key="customSize" width="487" height="145"/>
             <connections>
+                <outlet property="dietImageView" destination="Erb-fz-FmP" id="FC7-Ar-cJc"/>
                 <outlet property="mealPlanNameLabel" destination="EZm-YX-bw8" id="XVF-qk-dhx"/>
                 <outlet property="stackView" destination="D5Q-sb-Mm4" id="fZI-wY-iMp"/>
             </connections>
@@ -128,7 +129,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="meal plan" width="24.333333969116211" height="24"/>
+        <image name="diet" width="24" height="24"/>
         <image name="threedots" width="24" height="24"/>
         <namedColor name="gray-900">
             <color red="0.066666666666666666" green="0.094117647058823528" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

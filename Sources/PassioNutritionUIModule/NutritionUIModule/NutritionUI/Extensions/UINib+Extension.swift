@@ -10,8 +10,8 @@ import UIKit
 
 extension UINib {
 
-   static func nibFromBundle(nibName: String) -> UINib {
+    static func nibFromBundle(nibName: String, bundle: Bundle = PassioInternalConnector.shared.bundleForModule) -> UINib {
         UINib(nibName: nibName,
-              bundle: PassioInternalConnector.shared.bundleForModule)
+              bundle: bundle)
     }
 }

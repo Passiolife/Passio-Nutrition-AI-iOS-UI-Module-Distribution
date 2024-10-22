@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UITableView {
+public extension UITableView {
 
     func reloadWithAnimations(withDuration: Double = 0.5) {
         UIView.transition(with: self, duration: withDuration,
@@ -25,10 +25,22 @@ extension UITableView {
         return cell
     }
 
-    func register(nibName: String) {
-        register(UINib.nibFromBundle(nibName: nibName), forCellReuseIdentifier: nibName)
+    func register(nibName: String, bundle: Bundle = PassioInternalConnector.shared.bundleForModule) {
+        register(UINib.nibFromBundle(nibName: nibName, bundle: bundle), forCellReuseIdentifier: nibName)
     }
 
+    func registerHeaderFooter<T: UITableViewHeaderFooterView>(
+        _ viewClass: T.Type) {
+            self.register(UINib.nibFromBundle(nibName: "\(viewClass)"), forHeaderFooterViewReuseIdentifier: "\(viewClass)")
+        }
+    
+    func dequeueHeaderFooter<T: UITableViewHeaderFooterView>(_ view : T.Type) -> T {
+        guard let view = self.dequeueReusableHeaderFooterView(withIdentifier: "\(view)") as? T else {
+            fatalError("Error: cell with identifier: \(view) is not \(T.self)")
+        }
+        return view
+    }
+    
     func scrollToBottom() {
         DispatchQueue.main.async {
             let indexPath = IndexPath(
@@ -54,7 +66,7 @@ extension UITableView {
     }
 }
 
-extension UITableViewCell {
+public extension UITableViewCell {
 
     static var identifier: String {
         return String(describing: self)

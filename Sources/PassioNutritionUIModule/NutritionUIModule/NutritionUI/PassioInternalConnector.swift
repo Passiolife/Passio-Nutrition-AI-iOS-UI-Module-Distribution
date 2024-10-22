@@ -17,26 +17,33 @@ public protocol PassioConnector: AnyObject {
     func fetchUserProfile(completion: @escaping (UserProfileModel?) -> Void)
 
     // Records
-    func updateRecord(foodRecord: FoodRecordV3, isNew: Bool)
+    func updateRecord(foodRecord: FoodRecordV3)
     func deleteRecord(foodRecord: FoodRecordV3)
     func fetchDayRecords(date: Date, completion: @escaping ([FoodRecordV3]) -> Void)
+    func fetchMealLogsJson(daysBack: Int) -> String
 
     // User Foods
-    func updateUserFood(record: FoodRecordV3, isNew: Bool)
+    func updateUserFood(record: FoodRecordV3)
     func deleteUserFood(record: FoodRecordV3)
     func fetchUserFoods(barcode: String, completion: @escaping ([FoodRecordV3]) -> Void)
+    func fetchUserFoods(refCode: String, completion: @escaping ([FoodRecordV3]) -> Void)
     func fetchAllUserFoods(completion: @escaping ([FoodRecordV3]) -> Void)
     func deleteAllUserFood()
 
     // User Food Image
     func updateUserFoodImage(with id: String, image: UIImage)
     func deleteUserFoodImage(with id: String)
-    func fetchUserFoodImage(with id: String, completion: @escaping (UIImage) -> Void)
+    func fetchUserFoodImage(with id: String, completion: @escaping (UIImage?) -> Void)
 
     // Favorites
     func updateFavorite(foodRecord: FoodRecordV3)
     func deleteFavorite(foodRecord: FoodRecordV3)
     func fetchFavorites(completion: @escaping ([FoodRecordV3]) -> Void)
+
+    // Recipes
+    func updateRecipe(record: FoodRecordV3)
+    func deleteRecipe(record: FoodRecordV3)
+    func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void)
 
     // Photos
     var passioKeyForSDK: String { get }
@@ -105,7 +112,7 @@ public class PassioInternalConnector {
                              viewController: UIViewController) {
 
         if let navController = presentingViewController.navigationController {
-            navController.pushViewController(viewController, animated: true)
+            navController.pushViewController(viewController, animated: false)
         } else {
             let navController = UINavigationController(rootViewController: viewController)
             navController.modalPresentationStyle = .fullScreen
@@ -138,9 +145,9 @@ extension PassioInternalConnector: PassioConnector {
     }
 
     // MARK: FoodRecordV3
-    public func updateRecord(foodRecord: FoodRecordV3, isNew: Bool) {
+    public func updateRecord(foodRecord: FoodRecordV3) {
         guard let connector = passioExternalConnector else { return }
-        connector.updateRecord(foodRecord: foodRecord, isNew: isNew)
+        connector.updateRecord(foodRecord: foodRecord)
     }
 
     public func deleteRecord(foodRecord: FoodRecordV3) {
@@ -157,11 +164,24 @@ extension PassioInternalConnector: PassioConnector {
             completion(foodRecords)
         }
     }
+    
+    public func fetchMealLogsJson(daysBack: Int) -> String {
+        let toDate = Date()
+        let fromDate = Calendar.current.date(byAdding: .day, value: -daysBack, to: toDate) ?? Date()
+
+        var dayLogs = [DayLog]()
+        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
+                                                            toDate: toDate) { dayLog in
+            dayLogs.append(contentsOf: dayLog)
+        }
+        let json = dayLogs.generateDataRequestJson()
+        return json
+    }
 
     // MARK: UserFood
-    public func updateUserFood(record: FoodRecordV3, isNew: Bool) {
+    public func updateUserFood(record: FoodRecordV3) {
         guard let connector = passioExternalConnector else { return }
-        connector.updateUserFood(record: record, isNew: isNew)
+        connector.updateUserFood(record: record)
     }
 
     public func deleteUserFood(record: FoodRecordV3) {
@@ -181,6 +201,16 @@ extension PassioInternalConnector: PassioConnector {
         }
         connector.fetchUserFoods(barcode: barcode) { barcodeFood in
             completion(barcodeFood)
+        }
+    }
+
+    public func fetchUserFoods(refCode: String, completion: @escaping ([FoodRecordV3]) -> Void) {
+        guard let connector = passioExternalConnector else {
+            completion([])
+            return
+        }
+        connector.fetchUserFoods(refCode: refCode) { userFood in
+            completion(userFood)
         }
     }
 
@@ -204,9 +234,9 @@ extension PassioInternalConnector: PassioConnector {
         connector.deleteUserFoodImage(with: id)
     }
 
-    public func fetchUserFoodImage(with id: String, completion: @escaping (UIImage) -> Void) {
+    public func fetchUserFoodImage(with id: String, completion: @escaping (UIImage?) -> Void) {
         guard let connector = passioExternalConnector else {
-            completion(UIImage())
+            completion(nil)
             return
         }
         connector.fetchUserFoodImage(with: id) { foodImage in
@@ -240,6 +270,26 @@ extension PassioInternalConnector: PassioConnector {
                 self.cacheFavorites = favorites
                 completion(favorites)
             }
+        }
+    }
+
+    public func updateRecipe(record: FoodRecordV3) {
+        guard let connector = passioExternalConnector else { return }
+        connector.updateRecipe(record: record)
+    }
+
+    public func deleteRecipe(record: FoodRecordV3) {
+        guard let connector = passioExternalConnector else { return }
+        connector.deleteRecipe(record: record)
+    }
+
+    public func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void) {
+        guard let connector = passioExternalConnector else {
+            completion([])
+            return
+        }
+        connector.fetchRecipes { recipes in
+            completion(recipes)
         }
     }
 }

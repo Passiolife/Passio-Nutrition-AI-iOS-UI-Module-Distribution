@@ -21,6 +21,7 @@ protocol DetectedFoodResultViewDelegate: NSObjectProtocol {
     func didViewExpanded(isExpanded: Bool)
     func didScannedWrongBarcode()
     func didTaponAlternative(dataset: (any FoodRecognitionDataSet)?)
+    func didViewStartedDragging(isDragging: Bool)
 }
 
 class DetectedFoodResultView: CustomModalViewController {
@@ -35,14 +36,13 @@ class DetectedFoodResultView: CustomModalViewController {
     @IBOutlet weak var manualStackView : UIStackView!
     @IBOutlet weak var buttonEdit      : UIButton!
     @IBOutlet weak var buttonLog       : UIButton!
-    @IBOutlet weak var quickLogButton: UIButton!
-    
+    @IBOutlet weak var searchManually: UIButton!
+
     private let passioSDK = PassioNutritionAI.shared
     private let connector = PassioInternalConnector.shared
 
     weak var delegate: DetectedFoodResultViewDelegate?
 
-    // MANAGING STATES
     private var currentDataSet: (any FoodRecognitionDataSet)? = nil {
         didSet {
             updateUI()
@@ -55,8 +55,21 @@ class DetectedFoodResultView: CustomModalViewController {
         }
     }
 
+    override var isDraggingStarted: Bool {
+        didSet {
+            delegate?.didViewStartedDragging(isDragging: isDraggingStarted)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        buttonLog.backgroundColor = .primaryColor
+        buttonEdit.setTitleColor(.primaryColor, for: .normal)
+        let str = "Not what you’re looking for? Search Manually".toMutableAttributedString
+        str.apply(attribute: [.foregroundColor: UIColor.primaryColor], subString: "Search Manually")
+        searchManually.setAttributedTitle(str, for: .normal)
+        buttonEdit.applyBorder(width: 2, color: .primaryColor)
         registerNib()
         addTapGesture()
         imageFoodIcon.roundMyCorner()
@@ -79,7 +92,6 @@ class DetectedFoodResultView: CustomModalViewController {
 
         viewDragMain.isHidden = !isDraggable
         shouldShowMiniOnly = !isDraggable
-        // manualStackView.isHidden = !isDraggable
     }
 
     private func addTapGesture() {
@@ -121,12 +133,11 @@ class DetectedFoodResultView: CustomModalViewController {
 
     private func showLoadingView() {
         spinnerView.stop()
-        spinnerView.spin(color: .indigo600, lineWidth: 5)
+        spinnerView.spin(color: .primaryColor, lineWidth: 5)
         labelFoodName.text = "Scanning..."
         labelFoodDetails.text = "Place your food within the frame."
         labelFoodDetails.isHidden = false
         buttonLog.isHidden = true
-        quickLogButton.isHidden = true
         buttonEdit.isHidden = true
         setDragabble(isDraggable: false)
         manualStackView.isHidden = true
@@ -136,7 +147,6 @@ class DetectedFoodResultView: CustomModalViewController {
     private func setupNoLoderView() {
         spinnerView.stop()
         buttonLog.isHidden = false
-        quickLogButton.isHidden = false
         buttonEdit.isHidden = false
         imageFoodIcon.isHidden = false
         labelFoodDetails.isHidden = true
@@ -148,7 +158,8 @@ class DetectedFoodResultView: CustomModalViewController {
             guard let self else { return }
             if let foodItem = passioFoodItem {
                 showFoodData(name: foodItem.name,
-                             imageID: foodItem.iconId)
+                             imageID: foodItem.iconId,
+                             entityType: .barcode)
             } else if let barcodeFoodRecord = dataset.foodRecord { // Fetch from local if available
                 showFoodData(name: barcodeFoodRecord.name,
                              imageID: barcodeFoodRecord.iconId,
@@ -173,11 +184,11 @@ class DetectedFoodResultView: CustomModalViewController {
             if let foodItem = passioFoodItem {
                 DispatchQueue.main.async {
                     self.setupNoLoderView()
-                    self.setupNameAndImage(name: foodItem.name, passioID: foodItem.iconId)
+                    self.setupNameAndImage(name: foodItem.name, 
+                                           passioID: foodItem.iconId,
+                                           entityType: .packagedFoodCode)
                     self.setDragabble(isDraggable: false)
                 }
-            } else {
-                print("Package food not detected")
             }
         })
     }
@@ -196,7 +207,6 @@ class DetectedFoodResultView: CustomModalViewController {
     private func setupNameAndImage(name: String,
                                    passioID: String,
                                    entityType: PassioIDEntityType = .item) {
-        quickLogButton.isHidden = false
         labelFoodName.text = name.capitalized
         imageFoodIcon.setFoodImage(id: passioID,
                                    passioID: passioID,
@@ -271,10 +281,6 @@ extension DetectedFoodResultView {
     }
 
     @IBAction func buttonLogTapped(_ sender: UIButton) {
-        delegate?.didTapOnLog(dataset: currentDataSet)
-    }
-
-    @IBAction func onQuickAddFood(_ sender: UIButton) {
         delegate?.didTapOnLog(dataset: currentDataSet)
     }
 }

@@ -11,7 +11,7 @@ import Foundation
 import PassioNutritionAISDK
 #endif
 
-extension Optional where Wrapped == Double {
+public extension Optional where Wrapped == Double {
 
     func roundDigits(afterDecimal: Int) -> Double? {
         guard let wself = self else {return nil}
@@ -20,7 +20,7 @@ extension Optional where Wrapped == Double {
     }
 }
 
-extension Double {
+public extension Double {
 
     func roundDigits(afterDecimal: Int) -> Double {
         let multiplier = pow(10, Double(afterDecimal))
@@ -35,9 +35,19 @@ extension Double {
         let formattedValue = formatter.string(from: number)!
         return "\(formattedValue)"
     }
+    
+    func roundTo(_ max: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = max
+        formatter.minimumFractionDigits = 0
+        guard let formattedString = formatter.string(for: self) else {
+            return ""
+        }
+        return formattedString
+    }
 }
 
-extension Double {
+public extension Double {
 
     var clean: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
@@ -62,7 +72,7 @@ extension Double {
     }
 }
 
-extension CGFloat {
+public extension CGFloat {
 
     func normalize(toMultipleOf multiple: Int) -> CGFloat {
         guard multiple > 0 else {
@@ -71,5 +81,15 @@ extension CGFloat {
         
         let roundedValue = (self / CGFloat(multiple)).rounded() * CGFloat(multiple)
         return roundedValue > self ? roundedValue : roundedValue + CGFloat(multiple)
+    }
+}
+
+public extension Float {
+    var clean: String {
+        let formatter = NumberFormatter()
+        let number = NSNumber(value: self)
+        formatter.minimumFractionDigits = 0
+        formatter.maximumFractionDigits = 1
+        return String(formatter.string(from: number) ?? "")
     }
 }

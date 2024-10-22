@@ -8,55 +8,16 @@
 
 import UIKit
 
-extension UIViewController {
-
-    func configureNavBarWithImage(named: String = "header_bg", withColor: UIColor = .white ) {
-        if let navBar = self.navigationController?.navigationBar {
-            let textAttributes = [NSAttributedString.Key.foregroundColor: withColor]
-            navBar.backgroundColor = .passioBackgroundWhite
-            navBar.titleTextAttributes = textAttributes
-            navBar.tintColor = withColor
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back".localized,
-                                                               style: .plain,
-                                                               target: nil,
-                                                               action: nil)
-        }
-    }
-
-    func configureCameraNavBar(withColor: UIColor = .white) {
-        if let navBar = self.navigationController?.navigationBar {
-            let textAttributes = [NSAttributedString.Key.foregroundColor: withColor]
-            navBar.backgroundColor = .passioBackgroundWhite
-            navBar.titleTextAttributes = textAttributes
-            navBar.tintColor = withColor
-            navBar.isTranslucent = true
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back".localized,
-                                                               style: .plain,
-                                                               target: nil,
-                                                               action: nil)
-        }
-    }
-
-    func configureWhiteBarNoImage() {
-        if let navBar = self.navigationController?.navigationBar {
-            let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-            navBar.titleTextAttributes = textAttributes
-            navBar.tintColor = .black
-            navBar.isTranslucent = true
-            navBar.barStyle = .default
-            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back".localized,
-                                                               style: .plain,
-                                                               target: nil,
-                                                               action: nil)
-        }
-    }
+public extension UIViewController {
 
     func setupBackButton() {
-        let barButton = UIBarButtonItem(image: UIImage.imageFromBundle(named: "back_arrow"),
-                                        style: .plain,
-                                        target: self,
-                                        action: #selector(back))
-        self.navigationItem.leftBarButtonItem = barButton
+
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage.imageFromBundle(named: "back_arrow"), for: .normal)
+        backButton.addTarget(self, action: #selector(back), for: .touchUpInside)
+        backButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        let backButtonItem = UIBarButtonItem(customView: backButton)
+        navigationItem.leftBarButtonItem = backButtonItem
     }
 
     func hideKeyboardWhenTappedAround() {
@@ -73,41 +34,19 @@ extension UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
-    //    open override func awakeAfter(using coder: NSCoder) -> Any? {
-    //        self.setupBackButton() // This will help us to remove text from back button
-    //        return super.awakeAfter(using: coder)
-    //    }
-    //
-    func setGradientBackground() {
-        let layer0 = CAGradientLayer()
-        layer0.colors = [UIColor(red: 0, green: 0.706, blue: 0.776, alpha: 1).cgColor,
-                         UIColor(red: 0.008, green: 0.059, blue: 0.522, alpha: 1).cgColor]
-        layer0.locations = [0, 1]
-        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
-        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: 1, d: 0, tx: 0, ty: 0))
-        layer0.frame = CGRect(x: 0,
-                              y: 0,
-                              width: ScreenSize.width,
-                              height: ScreenSize.height)
-        layer0.position = view.center
-        view.layer.insertSublayer(layer0, at: 0)
-    }
-
     var topBarHeight: CGFloat {
         return (view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0.0) +
         (self.navigationController?.navigationBar.frame.height ?? 0.0)
     }
 
-    func navigateTo(vc: UIViewController, hideTabBar: Bool = true) {
-        vc.hidesBottomBarWhenPushed = hideTabBar ? true : false
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func presentVC(vc: UIViewController, isAnimated: Bool = true) {
+    func presentVC(vc: UIViewController, isAnimated: Bool = true, showOnTop: Bool = true) {
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overFullScreen
-        present(vc, animated: isAnimated)
+        if showOnTop {
+            UIApplication.topViewController()?.present(vc, animated: isAnimated)
+        } else {
+            present(vc, animated: isAnimated)
+        }
     }
 
     func getMeasurementUnit() -> UnitSelection {
@@ -178,6 +117,24 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
+    internal func showCustomAlert(with views: CustomAlert = CustomAlert(),
+                                  title: CustomAlert.AlertTitle,
+                                  font: CustomAlert.AlertFont,
+                                  color: CustomAlert.AlertColor = CustomAlert.AlertColor(),
+                                  delegate: CustomAlertDelegate?) {
+        let customAlertVC = CustomAlertViewController(nibName: CustomAlertViewController.className,
+                                                      bundle: .module)
+        customAlertVC.loadViewIfNeeded()
+        customAlertVC.configureAlert(views: views)
+        customAlertVC.configureAlert(title: title)
+        customAlertVC.configureAlert(font: font)
+        customAlertVC.configureAlert(color: color)
+        customAlertVC.delegate = delegate
+        customAlertVC.modalTransitionStyle = .crossDissolve
+        customAlertVC.modalPresentationStyle = .overFullScreen
+        navigationController?.present(customAlertVC, animated: true)
+    }
+
     func showAlertForError(alertTitle: String,
                            textColor: UIColor = .black,
                            actionHandler: ((UIAlertAction) -> Void)? = nil) {
@@ -193,7 +150,8 @@ extension UIViewController {
 
     func showAlertWith(titleKey: String,
                        messageKey: String? = nil,
-                       view: UIViewController) {
+                       view: UIViewController,
+                       actionHandler: ((UIAlertAction) -> Void)? = nil) {
         let title = titleKey.localized
         var message: String?
         if let msg = messageKey {
@@ -202,7 +160,7 @@ extension UIViewController {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
-        let action = UIAlertAction(title: Localized.Ok, style: .cancel)
+        let action = UIAlertAction(title: Localized.Ok, style: .cancel, handler: actionHandler)
         alert.addAction(action)
         view.present(alert, animated: true)
     }
@@ -218,6 +176,15 @@ extension UIViewController {
         activityController.popoverPresentationController?.sourceRect = view.frame
         activityController.completionWithItemsHandler = completionHandler
         present(activityController, animated: true, completion: nil)
+    }
+
+    func presentImagePicker(withSourceType: UIImagePickerController.SourceType,
+                            delegate: (any UIImagePickerControllerDelegate & UINavigationControllerDelegate)) {
+        view.endEditing(true)
+        let picker = UIImagePickerController()
+        picker.sourceType = withSourceType
+        picker.delegate = delegate
+        present(picker, animated: true, completion: nil)
     }
 
     func getRectsForFrontView(fullRect: CGRect) -> [CGRect] {

@@ -6,8 +6,48 @@
 //  Copyright © 2024 Passio Inc. All rights reserved.
 //
 
-import Foundation
 import UIKit
+#if canImport(PassioNutritionAISDK)
+import PassioNutritionAISDK
+#endif
+
+public enum Language: String, CaseIterable {
+    
+    case english
+    case german
+    case french
+    case spanish
+    
+    public static var `default`: Language {
+        return .english
+    }
+    
+    public var label: String {
+        switch self {
+        case .english:
+            "English"
+        case .german:
+            "German"
+        case .french:
+            "French"
+        case .spanish:
+            "Spanish"
+        }
+    }
+    
+    public var ISOCode: String {
+        switch self {
+        case .english:
+            "en"
+        case .german:
+            "de"
+        case .french:
+            "fr"
+        case .spanish:
+            "es"
+        }
+    }
+}
 
 class EditSettingsViewController: UIViewController {
 
@@ -20,11 +60,15 @@ class EditSettingsViewController: UIViewController {
     @IBOutlet weak var reminderDinnerSwitch: UISwitch!
     @IBOutlet weak var unitContainerView: UIView!
     @IBOutlet weak var reminderContainerView: UIView!
+    @IBOutlet weak var languageContainerView: UIView!
+    @IBOutlet weak var languageTextfield: UITextField!
+    @IBOutlet weak var languageButton: UIButton!
 
     var userProfile: UserProfileModel?
     let connector = PassioInternalConnector.shared
     var unitType = UnitSelection.allCases
-
+    var languages = Language.allCases
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,6 +80,7 @@ class EditSettingsViewController: UIViewController {
 
         userProfile = UserManager.shared.user
         setupProfile()
+        setupLanguage()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,8 +93,16 @@ class EditSettingsViewController: UIViewController {
         }
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        [unitContainerView, reminderContainerView, languageContainerView].forEach {
+            $0.layer.shadowPath = UIBezierPath(roundedRect: $0.bounds, cornerRadius: 8).cgPath
+        }
+    }
+
     private func setupUI() {
-        [unitTextfield,heightUnitTextfield].forEach { textField in
+        [unitTextfield, heightUnitTextfield, languageTextfield].forEach { textField in
             textField?.configureTextField()
             textField?.addImageInTextField(isLeftImg: false,
                                            image: UIImage(systemName: "chevron.down")?
@@ -58,17 +111,25 @@ class EditSettingsViewController: UIViewController {
         }
         unitButton.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
         heightUnitButtom.addTarget(self, action: #selector(showUnit), for: .touchUpInside)
+        languageButton.addTarget(self, action: #selector(showLanguages), for: .touchUpInside)
+        
+        [unitContainerView, reminderContainerView, languageContainerView].forEach{
+            $0?.dropShadow(radius: 8,
+                           offset: CGSize(width: 0, height: 1),
+                           color: .black.withAlphaComponent(0.06),
+                           shadowRadius: 2,
+                           shadowOpacity: 1)
+        }
 
-        [unitContainerView,reminderContainerView].forEach({
-            $0?.dropShadow()
-        })
-
-        [reminderBreakfastSwitch,reminderDinnerSwitch,reminderLunchSwitch].forEach({
-            $0?.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        [reminderBreakfastSwitch, reminderDinnerSwitch, reminderLunchSwitch].forEach({
+            $0?.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         })
 
         title = "Settings"
         setupBackButton()
+        reminderBreakfastSwitch.onTintColor = .primaryColor
+        reminderLunchSwitch.onTintColor = .primaryColor
+        reminderDinnerSwitch.onTintColor = .primaryColor
     }
 
     private func setupProfile() {
@@ -78,6 +139,17 @@ class EditSettingsViewController: UIViewController {
         reminderBreakfastSwitch.isOn = userProfile?.reminderSettings?.breakfast ?? false
         reminderLunchSwitch.isOn = userProfile?.reminderSettings?.lunch ?? false
         reminderDinnerSwitch.isOn = userProfile?.reminderSettings?.dinner ?? false
+    }
+    
+    private func setupLanguage() {
+        let savedLanguage = PassioUserDefaults.getLanguage() ?? Language.default
+        languageTextfield.text = savedLanguage.label
+    }
+    
+    private func didUpdateLanguage(_ language: Language) {
+        PassioUserDefaults.setLanguage(language)
+        PassioNutritionAI.shared.updateLanguage(languageCode: language.ISOCode)
+        languageTextfield.text = language.label
     }
 
     @objc private func showUnit(_ sender: UIButton) {
@@ -89,6 +161,11 @@ class EditSettingsViewController: UIViewController {
         default:
             []
         }
+        showPicker(sender: sender, items: items, viewTag: sender.tag)
+    }
+    
+    @objc private func showLanguages(_ sender: UIButton) {
+        let items: [String] = languages.map { $0.label }
         showPicker(sender: sender, items: items, viewTag: sender.tag)
     }
 
@@ -122,12 +199,15 @@ extension EditSettingsViewController: CustomPickerSelectionDelegate {
         switch viewTag {
         case 0:
             userProfile?.heightUnits = unitType[selectedIndex]
+            setupProfile()
         case 1:
             userProfile?.units = unitType[selectedIndex]
+            setupProfile()
+        case 2:
+            didUpdateLanguage(languages[selectedIndex])
         default:
             break
         }
-        setupProfile()
     }
 
     @IBAction func onSwitchValueChanged() {

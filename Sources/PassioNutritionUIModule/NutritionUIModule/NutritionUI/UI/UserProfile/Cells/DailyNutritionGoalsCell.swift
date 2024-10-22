@@ -22,8 +22,19 @@ final class DailyNutritionGoalsCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        containerView.dropShadow()
+        
+        containerView.dropShadow(radius: 8,
+                                 offset: CGSize(width: 0, height: 1),
+                                 color: .black.withAlphaComponent(0.06),
+                                 shadowRadius: 2,
+                                 shadowOpacity: 1)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        containerView.layer.shadowPath = UIBezierPath(roundedRect: containerView.bounds,
+                                                      cornerRadius: 8).cgPath
     }
 
     func updateProfile(userProfile: UserProfileModel) {
@@ -35,17 +46,14 @@ final class DailyNutritionGoalsCell: UITableViewCell {
         proteinValueLabel.text = "\(userProfile.proteinGrams) \(Localized.gramUnit)"
         fatPercentLabel.text = "\(userProfile.fatPercent)%"
         fatValueLabel.text = "\(userProfile.fatGrams) \(Localized.gramUnit)"
-
-        let carbs = DonutProgressView.Datasource.init(label: "carbs",
-                                                  color: .lightBlue,
-                                                  percent: Double(userProfile.carbsPercent))
-        let protein = DonutProgressView.Datasource.init(label: "protein",
-                                                  color: .green500,
-                                                  percent: Double(userProfile.proteinPercent))
-        let fat = DonutProgressView.Datasource.init(label: "Fat",
-                                                  color: .purple500,
-                                                  percent: Double(userProfile.fatPercent))
-
+        
+        let carbs = DonutProgressView.Datasource(color: .lightBlue,
+                                                 percent: Double(userProfile.carbsPercent))
+        let protein = DonutProgressView.Datasource(color: .green500,
+                                                   percent: Double(userProfile.proteinPercent))
+        let fat = DonutProgressView.Datasource(color: .purple500,
+                                               percent: Double(userProfile.fatPercent))
+        
         nutritionView.updateData(data: [carbs, protein, fat])
     }
 }

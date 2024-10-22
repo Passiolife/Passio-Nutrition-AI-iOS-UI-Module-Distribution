@@ -8,9 +8,9 @@
 
 import UIKit
 
-final class ProgressHUD {
+public final class ProgressHUD {
 
-    static func show(presentingVC: UIViewController) {
+    public static func show(presentingVC: UIViewController, color: UIColor = .primaryColor) {
 
         DispatchQueue.main.async {
 
@@ -28,21 +28,19 @@ final class ProgressHUD {
             containerView.addConstraint(NSLayoutConstraint(item: spinnerView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50))
             containerView.addConstraint(NSLayoutConstraint(item: spinnerView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50))
             spinnerView.layoutIfNeeded()
-            
+
             viewController.modalTransitionStyle = .crossDissolve
             viewController.modalPresentationStyle = .overCurrentContext
-            
-            //UIApplication.shared.keyWindowUIScene.rootViewController?.present(viewController, animated: false)
+
             presentingVC.present(viewController, animated: false)
             spinnerView.startAnimating()
-            spinnerView.color = .indigo600
+            spinnerView.color = color
             spinnerView.style = .medium
         }
     }
 
-    static func hide(presentedVC: UIViewController) {
+    public static func hide(presentedVC: UIViewController) {
         DispatchQueue.main.async {
-            //UIApplication.shared.keyWindowUIScene.window?.rootViewController?.presentedViewController?.dismiss(animated: false)
             presentedVC.dismiss(animated: false)
         }
     }
