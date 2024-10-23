@@ -28,11 +28,13 @@
 
 ## 2. Add PassioNutritionUIModule source code directly to your Xcode Project (Only use this way when you want to fully custmoize UI module)
 
-1. Download source code from the Repo
-2. Navigate to Passio-Nutrition-AI-iOS-UI-Module-Distribution-main -> Sources -> PassioNutritionUIModule and copy paste PassioNutritionUIModule to your Xcode Project.
-3. After it, Make sure to update PassioInternalConnector's bundleForModule property to your module.
-4. Also, make sure to update every Storyboard and XIB files' Module property to your module.
-5. After performing above steps you should be able to use PassioNutritionUIModule's source code and also customize it as per your need.
+1. Download source code from the Repo.
+2. Open your app’s Xcode project or workspace.
+3. Choose File > Add Package Dependencies.
+4. Click the Add Local button at the bottom of the package selection window.
+5. Select the folder that contains the package (which we downloaded in step 1) and click the Add Package button.
+6. Choose targets for the Package Products Xcode detects.
+7. Now you can make changes to the local package and verify them by building and running the project.
 
 ***Note:*** 
 Make sure to add below permissions in your Info.plist if you haven't already.
