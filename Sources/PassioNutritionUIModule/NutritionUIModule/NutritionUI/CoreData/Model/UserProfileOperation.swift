@@ -82,7 +82,7 @@ public class UserProfileOperation {
                 dbUserProfile.goalWeight = userProfile.goalWeight ?? 0
                 dbUserProfile.goalWeightTimeLine = userProfile.goalWeightTimeLine
                 dbUserProfile.height = userProfile.height ?? 0
-                dbUserProfile.heightUnits = userProfile.heightUnits.toJsonString()
+                dbUserProfile.heightUnits = userProfile.heightUnits.rawValue
                 dbUserProfile.lastName = userProfile.lastName
                 dbUserProfile.mealPlan = userProfile.mealPlan?.toJsonString()
                 dbUserProfile.proteinPercent = userProfile.proteinPercent.toInt16()
@@ -97,7 +97,10 @@ public class UserProfileOperation {
                 completion(true, nil)
             }
             catch let error {
+                
                 passioLog(message: "Error while saving UserProfile data :: \(error)")
+                
+                mainContext.saveChanges()
                 completion(false, error)
             }
         }
@@ -133,7 +136,10 @@ public class UserProfileOperation {
                 
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch User Profile records: \(error)")
+                
+                mainContext.saveChanges()
                 completion(nil, error)
             }
         }

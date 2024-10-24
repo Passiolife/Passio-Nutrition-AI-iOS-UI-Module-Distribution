@@ -105,7 +105,10 @@ internal class CustomFoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch match delete and save as new Custom recored: \(error)")
+                
+                mainContext.saveChanges()
                 completion(false, error)
             }
         }
@@ -219,10 +222,138 @@ internal class CustomFoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch match and save as new Custom recored: \(error)")
+                
+                mainContext.saveChanges()
                 completion(false, error)
             }
             
+            
+        }
+    }
+    
+    func insertOrUpdateCustomFoodMultipleRecords(foodRecords: [FoodRecordV3], completion: @escaping ((Bool, Error?) -> Void)) {
+        
+        let mainContext = self.getMainContext()
+        
+        mainContext.perform {
+            
+            var errorStatement: Error?
+            
+            for foodRecord in foodRecords {
+                
+                // Create a fetch request for the Person entity
+                let fetchRequest: NSFetchRequest<TblCustomFoodRecord> = TblCustomFoodRecord.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "uuid == %@", foodRecord.uuid)
+                
+                var dbFoodRecordV3: TblCustomFoodRecord?
+                
+                do {
+                    
+                    // Fetch existing records
+                    let results = try mainContext.fetch(fetchRequest)
+                    
+                    if let firstRecord = results.first {
+                        dbFoodRecordV3 = firstRecord
+                        passioLog(message: "Existing Custom Record found to update")
+                    }
+                    else {
+                        dbFoodRecordV3 = TblCustomFoodRecord(context: mainContext)
+                        passioLog(message: "New Custom Record is created for storage")
+                    }
+                    
+                    guard let dbFoodRecordV3 = dbFoodRecordV3 else {
+                        
+                        let errorDomain = "passio.food.record.operation"
+                        let errorCode = 7001
+
+                        // Create userInfo dictionary
+                        let userInfo: [String: Any] = [
+                            NSLocalizedDescriptionKey: "Failed to fetch object",
+                            NSLocalizedRecoverySuggestionErrorKey: "Food recrod is not found or object is in appropriate"
+                        ]
+
+                        // Create NSError
+                        let error = NSError(domain: errorDomain, code: errorCode, userInfo: userInfo)
+                        
+                        completion(false, error as Error)
+                        return
+                    }
+                    
+                    dbFoodRecordV3.barcode = foodRecord.barcode
+                    dbFoodRecordV3.confidence = foodRecord.confidence ?? 0
+                    dbFoodRecordV3.createdAt = foodRecord.createdAt
+                    dbFoodRecordV3.details = foodRecord.details
+                    dbFoodRecordV3.entityType = foodRecord.entityType.rawValue
+                    dbFoodRecordV3.iconId = foodRecord.iconId
+                    dbFoodRecordV3.id = foodRecord.id
+                    dbFoodRecordV3.mealLabel = foodRecord.mealLabel.rawValue
+                    dbFoodRecordV3.name = foodRecord.name
+                    dbFoodRecordV3.nutrients = foodRecord.getNutrients().toJsonString()
+                    dbFoodRecordV3.openFoodLicense = foodRecord.openFoodLicense
+                    dbFoodRecordV3.passioID = foodRecord.passioID
+                    dbFoodRecordV3.radioSelected = foodRecord.radioSelected ?? false
+                    dbFoodRecordV3.scannedUnitName = foodRecord.scannedUnitName
+                    dbFoodRecordV3.selectedQuantity = foodRecord.selectedQuantity
+                    dbFoodRecordV3.selectedUnit = foodRecord.selectedUnit
+                    dbFoodRecordV3.refCode = foodRecord.refCode
+                    
+                    var strServingSizes = ""
+                    foodRecord.servingSizes.compactMap({$0}).forEach({ strServingSizes.append($0.toJsonString() ?? "") })
+                    dbFoodRecordV3.servingSizes = strServingSizes
+                    
+                    var strServingUnits = ""
+                    foodRecord.servingUnits.compactMap({$0}).forEach({ strServingUnits.append($0.toJsonString() ?? "") })
+                    dbFoodRecordV3.servingUnits = strServingUnits
+                    
+                    dbFoodRecordV3.uuid = foodRecord.uuid
+                    
+                    var foodIngredients: [TblCustomFoodRecordIngredient] = []
+                    
+                    foodRecord.ingredients.forEach { foodRecordIngredient in
+                        let tblCustomFoodRecordIngredient = TblCustomFoodRecordIngredient(context: mainContext)
+                        
+                        tblCustomFoodRecordIngredient.details = foodRecordIngredient.details
+                        tblCustomFoodRecordIngredient.entityType = foodRecordIngredient.entityType.rawValue
+                        tblCustomFoodRecordIngredient.iconId = foodRecordIngredient.iconId
+                        tblCustomFoodRecordIngredient.name = foodRecordIngredient.name
+                        tblCustomFoodRecordIngredient.nutrients = foodRecordIngredient.nutrients.toJsonString()
+                        tblCustomFoodRecordIngredient.openFoodLicense = foodRecordIngredient.openFoodLicense
+                        tblCustomFoodRecordIngredient.passioID = foodRecordIngredient.passioID
+                        tblCustomFoodRecordIngredient.selectedQuantity = foodRecordIngredient.selectedQuantity
+                        tblCustomFoodRecordIngredient.selectedUnit = foodRecordIngredient.selectedUnit
+                        tblCustomFoodRecordIngredient.refCode = foodRecordIngredient.refCode
+                        tblCustomFoodRecordIngredient.barcode = foodRecordIngredient.barcode
+                        
+                        var strIngredientServingSizes = ""
+                        foodRecordIngredient.servingSizes.compactMap({$0}).forEach({ strIngredientServingSizes.append($0.toJsonString() ?? "") })
+                        tblCustomFoodRecordIngredient.servingSizes = strIngredientServingSizes
+                        
+                        var strIngredientServingUnits = ""
+                        foodRecordIngredient.servingUnits.compactMap({$0}).forEach({ strIngredientServingUnits.append($0.toJsonString() ?? "") })
+                        tblCustomFoodRecordIngredient.servingUnits = strIngredientServingUnits
+                        
+                        foodIngredients.append(tblCustomFoodRecordIngredient)
+                    }
+                    
+                    dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
+                    
+                } catch let error {
+                    errorStatement = error
+                    passioLog(message: "Failed to fetch match and save as new Custom recored: \(error)")
+                }
+
+            }
+            
+            mainContext.saveChanges()
+            
+            if errorStatement != nil {
+                completion(false, errorStatement)
+            }
+            else {
+                completion(true, nil)
+            }
             
         }
     }
@@ -314,7 +445,10 @@ internal class CustomFoodRecordOperations {
                     completion(true, nil)
                 }
             } catch let error {
+                
                 passioLog(message: "Failed to fetch Custom record to update: \(error)")
+                
+                mainContext.saveChanges()
                 completion(false, error)
             }
             
@@ -343,7 +477,10 @@ internal class CustomFoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch Custom records: \(error)")
+                
+                mainContext.saveChanges()
                 completion([], error)
             }
         }
@@ -374,7 +511,10 @@ internal class CustomFoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch Custom records: \(error)")
+                
+                mainContext.saveChanges()
                 completion([], error)
             }
         }
@@ -405,7 +545,10 @@ internal class CustomFoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch Custom records: \(error)")
+                
+                mainContext.saveChanges()
                 completion([], error)
             }
         }
@@ -436,7 +579,10 @@ internal class CustomFoodRecordOperations {
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch Custom records: \(error)")
+                
+                mainContext.saveChanges()
                 completion([], error)
             }
         }
@@ -467,7 +613,10 @@ internal class CustomFoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch Custom record to delete: \(error)")
+                
+                mainContext.saveChanges()
                 completion(false, error)
             }
             
@@ -499,7 +648,10 @@ internal class CustomFoodRecordOperations {
                 completion(true, nil)
                 
             } catch let error {
+                
                 passioLog(message: "Failed to fetch Custom record to delete: \(error)")
+                
+                mainContext.saveChanges()
                 completion(false, error)
             }
             
