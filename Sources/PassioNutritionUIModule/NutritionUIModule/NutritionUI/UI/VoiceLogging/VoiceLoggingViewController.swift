@@ -32,6 +32,7 @@ class VoiceLoggingViewController: InstantiableViewController {
     private var resultsLoggingView: ResultsLoggingView!
 
     var goToSearch: (() -> Void)?
+    var isCreateRecipe: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,7 +162,12 @@ extension VoiceLoggingViewController: ResultsLoggingDelegate {
     }
 
     func onLogSelectedTapped() {
-        NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
+        if isCreateRecipe {
+
+        }
+        else {
+            NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
+        }
     }
 
     func onSearchManuallyTapped() {

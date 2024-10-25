@@ -193,7 +193,7 @@ extension EditRecipeViewController {
     @objc func onAddIngredients() {
         isAddIngredient = true
         let plusMenuVC = PlusMenuViewController()
-        plusMenuVC.menuData = [.search]
+        plusMenuVC.menuData = [.useImage ,.favourite, .voiceLogging, .search, .scan]
         plusMenuVC.delegate = self
         plusMenuVC.modalTransitionStyle = .crossDissolve
         plusMenuVC.modalPresentationStyle = .overFullScreen
@@ -512,15 +512,33 @@ extension EditRecipeViewController: PlusMenuDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func onFoodScannerSelected() {}
+    func onFoodScannerSelected() {
+        let vc = NutritionUICoordinator.getFoodRecognitionV3ViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
-    func onFavouritesSelected() {}
+    func onFavouritesSelected() {
+        let vc = MyFavoritesViewController()
+//        vc.advancedSearchDelegate = self
+//        vc.isCreateRecipe = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
-    func onVoiceLoggingSelected() {}
+    func onVoiceLoggingSelected() {
+        let vc = VoiceLoggingViewController()
+        vc.isCreateRecipe = true
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
     func onTakePhotosSelected() {}
 
-    func onSelectPhotosSelected() {}
+    func onSelectPhotosSelected() {
+        let vc = SelectPhotosViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - AdvancedTextSearch ViewDelegate
