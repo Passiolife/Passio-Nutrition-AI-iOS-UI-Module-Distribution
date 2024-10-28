@@ -514,6 +514,8 @@ extension EditRecipeViewController: PlusMenuDelegate {
 
     func onFoodScannerSelected() {
         let vc = NutritionUICoordinator.getFoodRecognitionV3ViewController()
+        vc.navigateToRecipeDelegate = self
+        vc.resultViewFor = .addIngredient
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -606,6 +608,22 @@ extension EditRecipeViewController: IngredientEditorViewDelegate {
                 record.refCode = ""
                 recipe = record
             }
+        }
+    }
+}
+
+// MARK: - NavigateToRecipeDelegate Delegate
+extension EditRecipeViewController: NavigateToRecipeDelegate {
+    func onNavigateToFoodRecipe(with foodRecord: FoodRecordV3) {
+        print("onNavigateToFoodRecipe")
+        if let recipe {
+            isReplaceIngredient = false
+            updateRecipe(for: foodRecord,
+                         isPlusAction: true,
+                         indexOfIngredient: recipe.ingredients.count)
+        } else {
+            isReplaceIngredient = false
+            createRecipe(from: nil, record: foodRecord, isPlusAction: true)
         }
     }
 }

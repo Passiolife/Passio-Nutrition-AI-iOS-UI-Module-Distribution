@@ -38,7 +38,9 @@ final class FoodRecognitionV3ViewController: UIViewController {
     private var detectionConfig: FoodDetectionConfiguration!
 
     weak var navigateToMyFoodsDelegate: NavigateToMyFoodsDelegate?
-
+    weak var navigateToRecipeDelegate: NavigateToRecipeDelegate?
+    var resultViewFor: DetectedFoodResultType = .addLog
+    
     private var scanMode: ScanMode = .wholeFoods {
         didSet {
             setupScanModeButtonsUI()
@@ -136,6 +138,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
                                                      detectBarcodes: false,
                                                      detectPackagedFood: true)
         foodResultVC?.delegate = self
+        foodResultVC?.resultViewFor = self.resultViewFor
         nutritionFactResultVC?.delegate = self
         activityIndicator.color = .primaryColor
         zoomSlider.minimumTrackTintColor = .primaryColor
@@ -161,6 +164,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
             if isRecognitionsPaused {
                 if (foodResultVC?.containerViewHeightConstraint?.constant ?? -1) == 0
                     && presentedViewController == nil {
+                    foodResultVC?.resultViewFor = self.resultViewFor
                     configureFoodDetection()
                 }
             }
@@ -446,6 +450,32 @@ extension FoodRecognitionV3ViewController: NutritionFactsDelegate {
 
 // MARK: - DetectedFoodResultView Delegate
 extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
+    
+    func didTapOnAddIngredient(dataset: (any FoodRecognitionDataSet)?) {
+        pauseDetection()
+        
+        if let dataset = dataset as? FoodRecognitionDataSetConnector {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
+                guard let self else { return }
+                dataset.getRecordV3(dataType: dataset) { foodRecordV3 in
+                    if let foodRecordV3 = foodRecordV3 {
+                        self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: foodRecordV3)
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    else {
+                        dataset.getFoodItem { passioFoodItem in
+                            if let passioFoodItem = passioFoodItem {
+                                self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: FoodRecordV3(foodItem: passioFoodItem))
+                            }
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    
+                }
+            })
+        }
+    }
+    
 
     func didScannedWrongBarcode() {
         stopDetection()
