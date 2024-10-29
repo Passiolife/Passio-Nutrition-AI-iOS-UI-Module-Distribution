@@ -278,12 +278,7 @@ extension DetectedFoodResultView: UITableViewDelegate, UITableViewDataSource {
         let alternative = ((self.currentDataSet as? VisualFoodDataSet)?.allAlternatives ?? [])[indexPath.row]
         let alternativeDataset = VisualFoodDataSet(candidate: alternative)
 
-        if resultViewFor == .addLog {
-            self.delegate?.didTapOnEdit(dataset: alternativeDataset)
-        }
-        else {
-            self.delegate?.didTapOnAddIngredient(dataset: alternativeDataset)
-        }
+        self.delegate?.didTapOnEdit(dataset: alternativeDataset)
 
         //Testing personalisation enginge
         if let currentVisualDataSet = (self.currentDataSet as? VisualFoodDataSet),

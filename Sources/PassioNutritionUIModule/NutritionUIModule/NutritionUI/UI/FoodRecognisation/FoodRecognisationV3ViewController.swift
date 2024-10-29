@@ -502,7 +502,12 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                     configureFoodDetection()
                     return
                 }
-                navigateToEditViewContorller(record)
+                if resultViewFor == .addLog {
+                    navigateToEditViewContorller(record)
+                }
+                else {
+                    navigateToEditIngredientViewContorller(record)
+                }
             }
         }
     }
@@ -656,5 +661,24 @@ extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
             guard let self else { return }
             navigationController?.pushViewController(editVC, animated: true)
         })
+    }
+    
+    private func navigateToEditIngredientViewContorller(_ record: FoodRecordV3) {
+        let editVC = EditIngredientViewController()
+        editVC.foodItemData = FoodRecordIngredient(foodRecord: record, entityType: .recipe)
+        editVC.indexOfIngredient = 0
+        editVC.saveOnDismiss = false
+        editVC.indexToPop = 2
+        editVC.isAddIngredient = true
+        editVC.delegate = self
+        navigationController?.pushViewController(editVC, animated: true)
+    }
+}
+
+
+extension FoodRecognitionV3ViewController: IngredientEditorViewDelegate {
+    
+    func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
+        
     }
 }
