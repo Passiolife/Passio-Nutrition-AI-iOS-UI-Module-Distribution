@@ -315,7 +315,9 @@ extension EditRecipeViewController {
                                    indexOfIngredient: 0)
             } else {
                 record.name = recipeName
-                record.ingredients[0].iconId = record.iconId
+                if record.ingredients.count > 0 {
+                    record.ingredients[0].iconId = record.iconId
+                }
                 record.updateServingSizeAndUnitsForRecipe()
                 record.barcode = ""
                 record.refCode = ""
@@ -520,26 +522,32 @@ extension EditRecipeViewController: PlusMenuDelegate {
     }
 
     func onFavouritesSelected() {
+        /*
         let vc = MyFavoritesViewController()
 //        vc.advancedSearchDelegate = self
 //        vc.isCreateRecipe = true
         navigationController?.pushViewController(vc, animated: true)
+         */
     }
 
     func onVoiceLoggingSelected() {
+        /*
         let vc = VoiceLoggingViewController()
         vc.isCreateRecipe = true
         vc.goToSearch = { [weak self] in
             self?.onSearchSelected()
         }
         navigationController?.pushViewController(vc, animated: true)
+         */
     }
 
     func onTakePhotosSelected() {}
 
     func onSelectPhotosSelected() {
-        let vc = SelectPhotosViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        /*
+         let vc = SelectPhotosViewController()
+         navigationController?.pushViewController(vc, animated: true)
+        */
     }
 }
 

@@ -525,9 +525,15 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                 }
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
-                PassioInternalConnector.shared.updateRecord(foodRecord: record)
-                DispatchQueue.main.async {
-                    self.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
+                if resultViewFor == .addIngredient {
+                    self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: record)
+                    self.navigationController?.popViewController(animated: true)
+                }
+                else {
+                    PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                    DispatchQueue.main.async {
+                        self.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
+                    }
                 }
             }
         }
@@ -550,15 +556,21 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                 }
                 stopDetection()
 
-                var newFoodRecord = record
-                newFoodRecord.uuid = UUID().uuidString
-                newFoodRecord.createdAt = Date()
-                newFoodRecord.mealLabel = MealLabel.mealLabelBy(time: Date())
-                connector.updateRecord(foodRecord: newFoodRecord)
-
-                let popup = FoodRecognisationPopUpController.present(on: self.navigationController,
-                                                                     launchOption: .loggedSuccessfully)
-                popup.delegate = self
+                if resultViewFor == .addIngredient {
+                    self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: record)
+                    self.navigationController?.popViewController(animated: true)
+                }
+                else {
+                    var newFoodRecord = record
+                    newFoodRecord.uuid = UUID().uuidString
+                    newFoodRecord.createdAt = Date()
+                    newFoodRecord.mealLabel = MealLabel.mealLabelBy(time: Date())
+                    connector.updateRecord(foodRecord: newFoodRecord)
+                    
+                    let popup = FoodRecognisationPopUpController.present(on: self.navigationController,
+                                                                         launchOption: .loggedSuccessfully)
+                    popup.delegate = self
+                }
             }
         }
     }
@@ -679,6 +691,9 @@ extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
 extension FoodRecognitionV3ViewController: IngredientEditorViewDelegate {
     
     func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
-        
+        var ingredientFood = FoodRecordV3(foodRecordIngredient: ingredient)
+        ingredientFood.ingredients = [ingredient]
+        self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: ingredientFood)
+        self.navigationController?.popViewController(animated: true)
     }
 }
