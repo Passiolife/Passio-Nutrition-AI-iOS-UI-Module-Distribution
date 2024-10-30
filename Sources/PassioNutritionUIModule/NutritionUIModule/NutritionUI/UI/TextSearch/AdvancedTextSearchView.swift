@@ -552,5 +552,7 @@ extension AdvancedTextSearchView {
         } else {
             isSemanticSearchEnable = false
         }
+        self.previousSearch = ""
+        self.performSearch(term: searchController?.searchBar.text!.lowercased() ?? "")
     }
 }
