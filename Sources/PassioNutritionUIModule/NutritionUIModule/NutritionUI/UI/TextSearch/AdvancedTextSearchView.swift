@@ -268,13 +268,17 @@ private extension AdvancedTextSearchView {
                 
                 if self.isSemanticSearchEnable {
                     PassioNutritionAI.shared.semanticSearchForFood(searchTerm: searchText) { (searchResponse) in
-                        self.alternateSearches = searchResponse
+                        if self.isSemanticSearchEnable {
+                            self.alternateSearches = searchResponse
+                        }
                         dispatchGroup.leave()
                     }
                 }
                 else {
                     PassioNutritionAI.shared.searchForFood(byText: searchText) { (searchResponse) in
-                        self.alternateSearches = searchResponse
+                        if self.isSemanticSearchEnable == false {
+                            self.alternateSearches = searchResponse
+                        }
                         dispatchGroup.leave()
                     }
                 }
