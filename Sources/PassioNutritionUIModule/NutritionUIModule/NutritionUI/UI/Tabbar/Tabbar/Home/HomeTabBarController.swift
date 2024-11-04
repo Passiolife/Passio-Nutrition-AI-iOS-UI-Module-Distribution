@@ -326,6 +326,8 @@ extension HomeTabBarController: FoodDetailsControllerDelegate {
             self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+    func onFoodDetailsAddIngredient(foodRecord: FoodRecordV3?) { }
 }
 
 // MARK: - CustomPickerSelection Delegate
