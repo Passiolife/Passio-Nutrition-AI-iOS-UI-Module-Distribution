@@ -88,6 +88,15 @@ class DashboardViewController: UIViewController {
             self.softReloadNutritionCell()
         }
     }
+    
+    func navigateToDiary(date: Date) {
+        guard let vc = self.tabBarController as? HomeTabBarController else { return }
+        vc.selectedIndex = 1
+        if let diaryNavVC = vc.viewControllers?[1] as? UINavigationController,
+           let diaryVC = diaryNavVC.viewControllers.first as? DiaryViewController {
+            diaryVC.selectedDate = date
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -129,6 +138,10 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueCell(cellClass: CalendarCell.self, forIndexPath: indexPath)
             cell.configure(currentDate: self.selectedDate, calendarScope: calendarScope)
             cell.configureDateUI()
+            cell.didSelectDate = { [weak self] date in
+                guard let self = self else { return }
+                self.navigateToDiary(date: date)
+            }
             return cell
         }
     }
