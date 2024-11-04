@@ -11,6 +11,10 @@ import Lottie
 import PassioNutritionAISDK
 #endif
 
+protocol VoiceLoggingVCDelegate {
+    func addIngredientsFromFoodRecords(foodRecords: [FoodRecordV3])
+}
+
 protocol VoiceLoggingDelegate: AnyObject {
     func goToSearch()
 }
@@ -33,7 +37,9 @@ class VoiceLoggingViewController: InstantiableViewController {
 
     var goToSearch: (() -> Void)?
     var isCreateRecipe: Bool = false
-
+    var resultViewFor: DetectedFoodResultType = .addLog
+    var delegate: VoiceLoggingVCDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -133,6 +139,7 @@ class VoiceLoggingViewController: InstantiableViewController {
 
             resultsLoggingView = ResultsLoggingView.fromNib(bundle: .module)
             resultsLoggingView.resultLoggingDelegate = self
+            resultsLoggingView.resultViewFor = resultViewFor
             resultsLoggingView.recognitionData = recognitionData
             view.addSubview(resultsLoggingView)
             resultsLoggingView.translatesAutoresizingMaskIntoConstraints = false
@@ -161,6 +168,11 @@ extension VoiceLoggingViewController: ResultsLoggingDelegate {
         speechTextView.isHidden = true
     }
 
+    func onAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
+        delegate?.addIngredientsFromFoodRecords(foodRecords: foodRecords)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func onLogSelectedTapped() {
         if isCreateRecipe {
 

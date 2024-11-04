@@ -13,6 +13,7 @@ import PassioNutritionAISDK
 protocol ResultsLoggingDelegate: AnyObject {
     func onTryAgainTapped()
     func onLogSelectedTapped()
+    func onAddIngredientsTapped(foodRecords: [FoodRecordV3])
     func onSearchManuallyTapped()
 }
 
@@ -37,6 +38,14 @@ class ResultsLoggingView: UIView {
     @IBOutlet weak var logSelectedButton: UIButton!
     @IBOutlet weak var logLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    var resultViewFor: DetectedFoodResultType = .addLog {
+        didSet {
+            if resultViewFor == .addIngredient {
+                logLabel.text = "Add Ingredient"
+            }
+        }
+    }
     
     var recognitionData: [PassioSpeechRecognitionModel]? {
         didSet {
@@ -127,20 +136,81 @@ class ResultsLoggingView: UIView {
 
     @IBAction func onLogSelected(_ sender: UIButton) {
         updateLogUI(isLogging: true)
-        getFoodRecord(foods: foodLogs.filter { $0.isSelected }) { [weak self] in
-            self?.updateLogUI(isLogging: false)
-            self?.resultLoggingDelegate?.onLogSelectedTapped()
+        
+        if resultViewFor == .addIngredient {
+            
+            let selectedFoods = foodLogs.filter { $0.isSelected }
+            
+            var foodRecordIngredients: [FoodRecordV3] = []
+            
+            let dispatchGroup = DispatchGroup()
+            
+            var iCounter = 0
+            dispatchGroup.enter()
+            
+            selectedFoods.forEach { foodDataInfoItem in
+                
+                DispatchQueue.global(qos: .userInteractive).async {
+
+                    let advisorFoodInfo = foodDataInfoItem.foodData.advisorFoodInfo
+
+                    if let foodDataInfo = advisorFoodInfo.foodDataInfo {
+
+                        PassioNutritionAI.shared.fetchFoodItemFor(
+                            foodDataInfo: foodDataInfo,
+                            servingQuantity: foodDataInfo.nutritionPreview?.servingQuantity,
+                            servingUnit: foodDataInfo.nutritionPreview?.servingUnit
+                        ) { (foodItem) in
+                            
+                            iCounter += 1
+                            
+                            if let foodItem {
+                                var foodRecord = FoodRecordV3(foodItem: foodItem)
+                                foodRecord.mealLabel = MealLabel(mealTime: foodDataInfoItem.foodData.meal ?? PassioMealTime.currentMealTime())
+                                foodRecordIngredients.append(foodRecord)
+                            }
+                            
+                            if iCounter == selectedFoods.count {
+                                dispatchGroup.leave()
+                            }
+                        }
+                    }
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) { [weak self] in
+                guard let self else { return }
+                self.updateLogUI(isLogging: false)
+                self.resultLoggingDelegate?.onAddIngredientsTapped(foodRecords: foodRecordIngredients)
+            }
+             
+        }
+        else {
+            getFoodRecord(foods: foodLogs.filter { $0.isSelected }) { [weak self] in
+                self?.updateLogUI(isLogging: false)
+                self?.resultLoggingDelegate?.onLogSelectedTapped()
+            }
         }
     }
     
     func updateLogUI(isLogging: Bool) {
         if isLogging {
             self.isUserInteractionEnabled = false
-            logLabel.text = "Logging..."
+            if resultViewFor == .addIngredient {
+                logLabel.text = "Adding..."
+            }
+            else {
+                logLabel.text = "Logging..."
+            }
             activityIndicator.startAnimating()
         } else {
             self.isUserInteractionEnabled = true
-            logLabel.text = "Log Selected"
+            if resultViewFor == .addIngredient {
+                logLabel.text = "Ingredients Selected"
+            }
+            else {
+                logLabel.text = "Log Selected"
+            }
             activityIndicator.stopAnimating()
         }
     }

@@ -531,14 +531,16 @@ extension EditRecipeViewController: PlusMenuDelegate {
     }
 
     func onVoiceLoggingSelected() {
-        /*
+        ///*
         let vc = VoiceLoggingViewController()
         vc.isCreateRecipe = true
+        vc.resultViewFor = .addIngredient
+        vc.delegate = self
         vc.goToSearch = { [weak self] in
             self?.onSearchSelected()
         }
         navigationController?.pushViewController(vc, animated: true)
-         */
+        //*/
     }
 
     func onTakePhotosSelected() {}
@@ -623,7 +625,6 @@ extension EditRecipeViewController: IngredientEditorViewDelegate {
 // MARK: - NavigateToRecipeDelegate Delegate
 extension EditRecipeViewController: NavigateToRecipeDelegate {
     func onNavigateToFoodRecipe(with foodRecord: FoodRecordV3) {
-        print("onNavigateToFoodRecipe")
         if let recipe {
             isReplaceIngredient = false
             updateRecipe(for: foodRecord,
@@ -632,6 +633,23 @@ extension EditRecipeViewController: NavigateToRecipeDelegate {
         } else {
             isReplaceIngredient = false
             createRecipe(from: nil, record: foodRecord, isPlusAction: true)
+        }
+    }
+}
+
+//MARK: - VoiceLoggingVCDelegate
+extension EditRecipeViewController: VoiceLoggingVCDelegate {
+    func addIngredientsFromFoodRecords(foodRecords: [FoodRecordV3]) {
+        foodRecords.forEach { foodRecordIten in
+            if let recipe {
+                isReplaceIngredient = false
+                updateRecipe(for: foodRecordIten,
+                             isPlusAction: true,
+                             indexOfIngredient: recipe.ingredients.count)
+            } else {
+                isReplaceIngredient = false
+                createRecipe(from: nil, record: foodRecordIten, isPlusAction: true)
+            }
         }
     }
 }

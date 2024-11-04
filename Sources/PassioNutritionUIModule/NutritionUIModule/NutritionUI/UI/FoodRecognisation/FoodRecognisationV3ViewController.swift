@@ -142,6 +142,10 @@ final class FoodRecognitionV3ViewController: UIViewController {
         nutritionFactResultVC?.delegate = self
         activityIndicator.color = .primaryColor
         zoomSlider.minimumTrackTintColor = .primaryColor
+        
+        if resultViewFor == .addIngredient {
+            self.nutritionFactsButton.isHidden = true
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {

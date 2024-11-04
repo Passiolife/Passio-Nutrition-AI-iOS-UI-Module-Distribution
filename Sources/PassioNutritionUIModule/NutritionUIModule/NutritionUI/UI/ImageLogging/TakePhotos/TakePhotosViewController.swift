@@ -456,6 +456,8 @@ extension TakePhotosViewController: ResultsLoggingDelegate {
     }
 
     func onSearchManuallyTapped() {}
+    
+    func onAddIngredientsTapped(foodRecords: [FoodRecordV3]) {}
 }
 
 // MARK: - ResultLogging Delegate
