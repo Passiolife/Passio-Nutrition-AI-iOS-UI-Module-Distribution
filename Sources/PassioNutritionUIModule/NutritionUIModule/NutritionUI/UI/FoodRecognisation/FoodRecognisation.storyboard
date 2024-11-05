@@ -1092,7 +1092,7 @@
                                                             </label>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="U4F-nG-vpB">
+                                                    <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="U4F-nG-vpB">
                                                         <rect key="frame" x="219.33333333333334" y="0.0" width="109.66666666666666" height="70"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nutritionFacts" translatesAutoresizingMaskIntoConstraints="NO" id="eAb-LS-VQs">
@@ -1164,8 +1164,10 @@
                     </view>
                     <connections>
                         <outlet property="barcodeImageView" destination="HQw-Vv-12J" id="Yfx-Ma-OKm"/>
+                        <outlet property="nutritionFactStackViewContainer" destination="U4F-nG-vpB" id="dCp-hC-Z5r"/>
                         <outlet property="nutritionFactsImageView" destination="eAb-LS-VQs" id="3C1-TM-IYW"/>
                         <outlet property="okButton" destination="FAx-hI-O74" id="BVf-dW-bbB"/>
+                        <outlet property="quickScanNoteLabel" destination="9uX-X3-WFk" id="hcU-wa-MpU"/>
                         <outlet property="wholeFoodsImageView" destination="J1E-Jg-Mfn" id="P4u-xG-tzI"/>
                     </connections>
                 </viewController>

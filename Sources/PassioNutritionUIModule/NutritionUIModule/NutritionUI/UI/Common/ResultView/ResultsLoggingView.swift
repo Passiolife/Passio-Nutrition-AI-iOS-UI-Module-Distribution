@@ -84,6 +84,7 @@ class ResultsLoggingView: UIView {
         foodResultsTableView.register(nibName: "VoiceLoggingCell", bundle: .module)
         foodResultsTableView.dataSource = self
         foodResultsTableView.delegate = self
+        foodResultsTableView.showsVerticalScrollIndicator = false
         contentView.roundMyCornerWith(radius: 16, upper: true, down: false)
         contentView.dropShadow(radius: 16,
                                offset: CGSize(width: 0, height: -2),
@@ -173,6 +174,32 @@ class ResultsLoggingView: UIView {
                             if iCounter == selectedFoods.count {
                                 dispatchGroup.leave()
                             }
+                        }
+                    }
+                    else {
+//                        if let packagedFoodItem = foodDataInfoItem.foodData.advisorFoodInfo.packagedFoodItem {
+//                            
+//                            iCounter += 1
+//                            
+//                            var foodRecord = FoodRecordV3(foodItem: packagedFoodItem)
+//                            foodRecord.mealLabel = MealLabel(mealTime: foodDataInfoItem.foodData.meal ?? PassioMealTime.currentMealTime())
+//                            foodRecordIngredients.append(foodRecord)
+//                            
+//                            if iCounter == selectedFoods.count {
+//                                dispatchGroup.leave()
+//                            }
+//                            
+//                            
+//                        }
+//                        else {
+//                            iCounter += 1
+//                            if iCounter == selectedFoods.count {
+//                                dispatchGroup.leave()
+//                            }
+//                        }
+                        iCounter += 1
+                        if iCounter == selectedFoods.count {
+                            dispatchGroup.leave()
                         }
                     }
                 }

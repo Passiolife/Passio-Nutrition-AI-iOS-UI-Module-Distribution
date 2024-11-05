@@ -194,7 +194,7 @@ extension EditRecipeViewController {
     @objc func onAddIngredients() {
         isAddIngredient = true
         let plusMenuVC = PlusMenuViewController()
-        
+        // Hide favorite option if user comes from "My Favorite" screen
         if isFromMyFavorites {
             plusMenuVC.menuData = [.useImage , .voiceLogging, .search, .scan]
         }
@@ -530,18 +530,13 @@ extension EditRecipeViewController: PlusMenuDelegate {
     }
 
     func onFavouritesSelected() {
-        ///*
         let vc = MyFavoritesViewController()
         vc.resultViewFor = .addIngredient
         vc.delegate = self
-//        vc.advancedSearchDelegate = self
-//        vc.isCreateRecipe = true
         self.navigationController?.pushViewController(vc, animated: true)
-         //*/
     }
 
     func onVoiceLoggingSelected() {
-        ///*
         let vc = VoiceLoggingViewController()
         vc.isCreateRecipe = true
         vc.resultViewFor = .addIngredient
@@ -550,16 +545,20 @@ extension EditRecipeViewController: PlusMenuDelegate {
             self?.onSearchSelected()
         }
         navigationController?.pushViewController(vc, animated: true)
-        //*/
     }
 
-    func onTakePhotosSelected() {}
+    func onTakePhotosSelected() {
+        let vc = TakePhotosViewController()
+        vc.resultViewFor = .addIngredient
+        vc.takePhotosViewDelegate = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
     func onSelectPhotosSelected() {
-        /*
-         let vc = SelectPhotosViewController()
-         navigationController?.pushViewController(vc, animated: true)
-        */
+//        let vc = SelectPhotosViewController()
+//        vc.resultViewFor = .addIngredient
+//        vc.selectPhotosViewDelegate = self
+//        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -676,6 +675,40 @@ extension EditRecipeViewController: FavoritesViewDelegate {
         } else {
             isReplaceIngredient = false
             createRecipe(from: nil, record: foodRecord, isPlusAction: true)
+        }
+    }
+}
+
+//MARK: - TakePhotosViewDelegate
+extension EditRecipeViewController: TakePhotosViewDelegate {
+    func onTakePhotoAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
+        foodRecords.forEach { foodRecordIten in
+            if let recipe {
+                isReplaceIngredient = false
+                updateRecipe(for: foodRecordIten,
+                             isPlusAction: true,
+                             indexOfIngredient: recipe.ingredients.count)
+            } else {
+                isReplaceIngredient = false
+                createRecipe(from: nil, record: foodRecordIten, isPlusAction: true)
+            }
+        }
+    }
+}
+
+//MARK: - SelectPhotosViewDelegate
+extension EditRecipeViewController: SelectPhotosViewDelegate {
+    func onSelectPhotoAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
+        foodRecords.forEach { foodRecordIten in
+            if let recipe {
+                isReplaceIngredient = false
+                updateRecipe(for: foodRecordIten,
+                             isPlusAction: true,
+                             indexOfIngredient: recipe.ingredients.count)
+            } else {
+                isReplaceIngredient = false
+                createRecipe(from: nil, record: foodRecordIten, isPlusAction: true)
+            }
         }
     }
 }

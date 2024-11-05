@@ -65,6 +65,7 @@ extension QuickAddSuggestionViewController {
     private func registerCellsAndTableDelegates() {
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = false
         let layout = UICollectionViewCompositionalLayout { [weak self] (sectionNumber, env) in
             return self?.collectionLayout(height: 60)
         }

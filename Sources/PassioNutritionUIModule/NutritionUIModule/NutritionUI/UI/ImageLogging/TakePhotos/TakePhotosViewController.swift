@@ -16,6 +16,10 @@ protocol UsePhotosDelegate: AnyObject {
     func onSelecting(images: [UIImage])
 }
 
+protocol TakePhotosViewDelegate {
+    func onTakePhotoAddIngredientsTapped(foodRecords: [FoodRecordV3])
+}
+
 class TakePhotosViewController: InstantiableViewController, ImageLoggingService {
 
     @IBOutlet weak var messageLabel: UILabel!
@@ -50,7 +54,9 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     }
 
     var isStandAlone = true
+    var resultViewFor: DetectedFoodResultType = .addLog
     weak var delegate: UsePhotosDelegate?
+    var takePhotosViewDelegate: TakePhotosViewDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -266,6 +272,7 @@ extension TakePhotosViewController {
             if let resultsLoggingView {
                 resultsLoggingView.resultLoggingDelegate = self
                 resultsLoggingView.showCancelButton = true
+                resultsLoggingView.resultViewFor = resultViewFor
                 resultsLoggingView.recognitionData = recognitionData
                 view.addSubview(resultsLoggingView)
                 resultsLoggingView.translatesAutoresizingMaskIntoConstraints = false
@@ -457,7 +464,10 @@ extension TakePhotosViewController: ResultsLoggingDelegate {
 
     func onSearchManuallyTapped() {}
     
-    func onAddIngredientsTapped(foodRecords: [FoodRecordV3]) {}
+    func onAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
+        takePhotosViewDelegate?.onTakePhotoAddIngredientsTapped(foodRecords: foodRecords)
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: - ResultLogging Delegate

@@ -208,7 +208,7 @@ private extension FoodRecognitionV3ViewController {
     @objc func presentHint() {
         stopDetection()
         isHintPresented = true
-        ScanningHintViewController.presentHint(presentigVC: navigationController) { [weak self] in
+        ScanningHintViewController.presentHint(presentigVC: navigationController, resultViewFor: resultViewFor) { [weak self] in
             guard let self else { return }
             isHintPresented = false
         }
