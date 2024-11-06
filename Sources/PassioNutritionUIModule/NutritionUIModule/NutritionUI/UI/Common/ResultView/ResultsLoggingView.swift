@@ -140,55 +140,9 @@ class ResultsLoggingView: UIView {
         
         if resultViewFor == .addIngredient {
             
-            let selectedFoods = foodLogs.filter { $0.isSelected }
-            
-            var foodRecordIngredients: [FoodRecordV3] = []
-            
-            let dispatchGroup = DispatchGroup()
-            
-            var iCounter = 0
-            dispatchGroup.enter()
-            
-            selectedFoods.forEach { foodDataInfoItem in
-                
-                DispatchQueue.global(qos: .userInteractive).async {
-
-                    let advisorFoodInfo = foodDataInfoItem.foodData.advisorFoodInfo
-
-                    if let foodDataInfo = advisorFoodInfo.foodDataInfo {
-
-                        PassioNutritionAI.shared.fetchFoodItemFor(
-                            foodDataInfo: foodDataInfo,
-                            servingQuantity: foodDataInfo.nutritionPreview?.servingQuantity,
-                            servingUnit: foodDataInfo.nutritionPreview?.servingUnit
-                        ) { (foodItem) in
-                            
-                            iCounter += 1
-                            
-                            if let foodItem {
-                                var foodRecord = FoodRecordV3(foodItem: foodItem)
-                                foodRecord.mealLabel = MealLabel(mealTime: foodDataInfoItem.foodData.meal ?? PassioMealTime.currentMealTime())
-                                foodRecordIngredients.append(foodRecord)
-                            }
-                            
-                            if iCounter == selectedFoods.count {
-                                dispatchGroup.leave()
-                            }
-                        }
-                    }
-                    else {
-                        iCounter += 1
-                        if iCounter == selectedFoods.count {
-                            dispatchGroup.leave()
-                        }
-                    }
-                }
-            }
-            
-            dispatchGroup.notify(queue: .main) { [weak self] in
-                guard let self else { return }
-                self.updateLogUI(isLogging: false)
-                self.resultLoggingDelegate?.onAddIngredientsTapped(foodRecords: foodRecordIngredients)
+            getFoodRecordForAddingAnIngredients(foods: foodLogs.filter { $0.isSelected }) { [weak self] foodRecordIngredients in
+                self?.updateLogUI(isLogging: false)
+                self?.resultLoggingDelegate?.onAddIngredientsTapped(foodRecords: foodRecordIngredients)
             }
              
         }
@@ -260,6 +214,74 @@ class ResultsLoggingView: UIView {
 
         dispatchGroup.notify(queue: .main) {
             completion()
+        }
+    }
+
+    private func getFoodRecordForAddingAnIngredients(foods: [FoodLog],
+                               completion: @escaping ([FoodRecordV3]) -> Void) {
+        
+        let selectedFoods = foods
+        
+        var foodRecordIngredients: [FoodRecordV3] = []
+        
+        let dispatchGroup = DispatchGroup()
+        
+        var iCounter = 0
+        dispatchGroup.enter()
+        
+        selectedFoods.forEach { foodDataInfoItem in
+            
+            DispatchQueue.global(qos: .userInteractive).async {
+
+                let advisorFoodInfo = foodDataInfoItem.foodData.advisorFoodInfo
+
+                if let foodDataInfo = advisorFoodInfo.foodDataInfo {
+
+                    PassioNutritionAI.shared.fetchFoodItemFor(
+                        foodDataInfo: foodDataInfo,
+                        servingQuantity: foodDataInfo.nutritionPreview?.servingQuantity,
+                        servingUnit: foodDataInfo.nutritionPreview?.servingUnit
+                    ) { (foodItem) in
+                        
+                        iCounter += 1
+                        
+                        if let foodItem {
+                            var foodRecord = FoodRecordV3(foodItem: foodItem)
+                            foodRecord.mealLabel = MealLabel(mealTime: foodDataInfoItem.foodData.meal ?? PassioMealTime.currentMealTime())
+                            foodRecordIngredients.append(foodRecord)
+                        }
+                        
+                        if iCounter == selectedFoods.count {
+                            dispatchGroup.leave()
+                        }
+                    }
+                }
+                else {
+                    if let foodItem = advisorFoodInfo.packagedFoodItem {
+                        iCounter += 1
+                        // As we need ingredients for Recipe creation only, that's why we keep entity type as `.recipe`
+                        var foodRecord = FoodRecordV3(foodItem: foodItem, entityType: .recipe)
+                        foodRecord.mealLabel = MealLabel(mealTime: foodDataInfoItem.foodData.meal ?? PassioMealTime.currentMealTime())
+                        foodRecordIngredients.append(foodRecord)
+                        
+                        if iCounter == selectedFoods.count {
+                            dispatchGroup.leave()
+                        }
+                    }
+                    else {
+                        iCounter += 1
+                        if iCounter == selectedFoods.count {
+                            dispatchGroup.leave()
+                        }
+                    }
+                    
+                }
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            guard let self else { return }
+            completion(foodRecordIngredients)
         }
     }
 }
