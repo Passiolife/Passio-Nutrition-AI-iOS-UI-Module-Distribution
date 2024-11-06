@@ -157,6 +157,18 @@ public struct UserProfileModel: Codable, Equatable {
         }
     }
 
+    var goalWeightRemainDespription: String? {
+        guard let goalWeight = goalWeight,
+              let mainWeight = weight, goalWeight > 0 else { return nil}
+        switch units {
+        case .imperial:
+            let goalRemainValue = ((goalWeight - mainWeight) * Conversion.lbsToKg.rawValue)
+            return goalRemainValue.roundDigits(afterDecimal: 1).clean + " lbs"
+        case .metric:
+            return (goalWeight - mainWeight).roundDigits(afterDecimal: 1).clean + " kg"
+        }
+    }
+    
     var heightDescription: String? {
         guard let height = height else { return nil }
         switch heightUnits {

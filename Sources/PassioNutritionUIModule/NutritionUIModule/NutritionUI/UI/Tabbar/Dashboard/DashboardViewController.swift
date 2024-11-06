@@ -17,7 +17,7 @@ class DashboardViewController: UIViewController {
 
     private lazy var calendarScope: FSCalendarScope = .week
     private let connector = PassioInternalConnector.shared
-    private let cells: [CellType] = [.nutrition, .calender]
+    private let cells: [CellType] = [.nutrition, .calender] //, .weightWater]
     private var dateSelector: DateSelectorViewController?
     private var dayLog: DayLog?
     private var selectedDate: Date = Date() {
@@ -30,7 +30,7 @@ class DashboardViewController: UIViewController {
     }
 
     private enum CellType: Int {
-        case nutrition, calender
+        case nutrition, calender //, weightWater
     }
 
     override func viewDidLoad() {
@@ -61,6 +61,7 @@ class DashboardViewController: UIViewController {
     func registerCell() {
         tableView.register(nibName: DailyNutritionCell.className)
         tableView.register(nibName: CalendarCell.className)
+//        tableView.register(nibName: WeightWaterCardCell.className)
     }
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
@@ -143,6 +144,10 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
                 self.navigateToDiary(date: date)
             }
             return cell
+//        case .weightWater:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "WeightWaterCardCell") as! WeightWaterCardCell
+//            cell.configureUI()
+//            return cell
         }
     }
 
