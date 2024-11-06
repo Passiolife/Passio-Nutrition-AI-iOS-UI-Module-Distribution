@@ -177,26 +177,6 @@ class ResultsLoggingView: UIView {
                         }
                     }
                     else {
-//                        if let packagedFoodItem = foodDataInfoItem.foodData.advisorFoodInfo.packagedFoodItem {
-//                            
-//                            iCounter += 1
-//                            
-//                            var foodRecord = FoodRecordV3(foodItem: packagedFoodItem)
-//                            foodRecord.mealLabel = MealLabel(mealTime: foodDataInfoItem.foodData.meal ?? PassioMealTime.currentMealTime())
-//                            foodRecordIngredients.append(foodRecord)
-//                            
-//                            if iCounter == selectedFoods.count {
-//                                dispatchGroup.leave()
-//                            }
-//                            
-//                            
-//                        }
-//                        else {
-//                            iCounter += 1
-//                            if iCounter == selectedFoods.count {
-//                                dispatchGroup.leave()
-//                            }
-//                        }
                         iCounter += 1
                         if iCounter == selectedFoods.count {
                             dispatchGroup.leave()

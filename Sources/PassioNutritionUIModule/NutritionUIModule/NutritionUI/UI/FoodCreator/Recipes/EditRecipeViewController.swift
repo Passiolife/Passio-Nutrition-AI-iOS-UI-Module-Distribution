@@ -555,10 +555,10 @@ extension EditRecipeViewController: PlusMenuDelegate {
     }
 
     func onSelectPhotosSelected() {
-//        let vc = SelectPhotosViewController()
-//        vc.resultViewFor = .addIngredient
-//        vc.selectPhotosViewDelegate = self
-//        navigationController?.pushViewController(vc, animated: true)
+        let vc = SelectPhotosViewController()
+        vc.resultViewFor = .addIngredient
+        vc.selectPhotosViewDelegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
