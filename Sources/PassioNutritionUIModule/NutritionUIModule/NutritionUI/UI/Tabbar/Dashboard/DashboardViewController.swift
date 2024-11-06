@@ -119,9 +119,9 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             let (calories, carbs, protein, fat) = getNutritionSummaryfor(foodRecords: displayedRecords)
             let nuData = NutritionDataModal(
                 calory: (consumed: Int(calories), target: userProfile.caloriesTarget),
-                carb: (consumed: Int(carbs), target: userProfile.carbsGrams),
-                protein: (consumed: Int(protein), target: userProfile.proteinGrams),
-                fat: (consumed: Int(fat), target: userProfile.fatGrams))
+                carb: (consumed: Int(carbs), target: userProfile.carbsTargetGrams),
+                protein: (consumed: Int(protein), target: userProfile.proteinTargetGrams),
+                fat: (consumed: Int(fat), target: userProfile.fatTargetGrams))
             cell.nutritionData = nuData
             return cell
 
