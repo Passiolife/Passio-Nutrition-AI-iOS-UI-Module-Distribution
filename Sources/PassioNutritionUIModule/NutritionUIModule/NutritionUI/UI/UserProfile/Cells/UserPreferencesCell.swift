@@ -64,9 +64,9 @@ extension UserPreferencesCell {
       
         nameTextField.text = userProfile?.firstName ?? "-"
         
-        let gender = userProfile?.gender ?? .male
-        genderTextField.text = gender.rawValue.capitalizingFirst()
-        
+        if let gender = userProfile?.gender {
+            genderTextField.text = gender.rawValue.capitalizingFirst()
+        }
         if let weightDespription = userProfile?.weightDespription {
             weightTextField.text = weightDespription
         }
@@ -88,8 +88,8 @@ extension UserPreferencesCell {
             let isImperial = userProfile?.units == .imperial
             calorieDeficitTextField.text = isImperial ? weightGoal.valueInLbs : weightGoal.valueInKg
         }
-        if let mealPlan = userProfile?.mealPlan{
-            dietTextField.text = mealPlan.mealPlanTitle ?? "" 
+        if let mealPlan = userProfile?.mealPlan {
+            dietTextField.text = mealPlan.mealPlanTitle ?? ""
         } else {
             dietTextField.text = "-"
         }

@@ -14,7 +14,7 @@ struct Macros {
     private(set) var proteinPercent = 20
     private(set) var fatPercent = 25
 
-    var caloriesTarget = 2100 {
+    var caloriesTarget = Constant.defaultTargetCalories {
         didSet {
             if caloriesTarget < 0 {
                 caloriesTarget = 0
