@@ -45,11 +45,10 @@ public struct UserProfileModel: Codable, Equatable {
     var gender: GenderSelection?
     var units: UnitSelection = UnitSelection.imperial
     var heightUnits: UnitSelection = UnitSelection.imperial
-    var caloriesTarget = 2100
     var carbsPercent = 50
     var proteinPercent = 25
     var fatPercent = 25
-    var recommendedCalories: Int = 2100
+    var caloriesTarget: Int = Constant.defaultTargetCalories
     var reminderSettings: ReminderSettings?
     var activityLevel: ActivityLevel?
     var mealPlan: PassioMealPlan?
@@ -72,11 +71,11 @@ public struct UserProfileModel: Codable, Equatable {
         self.gender = try? container.decode(GenderSelection.self, forKey: .gender)
         self.units = (try? container.decode(UnitSelection.self, forKey: .units)) ?? .imperial
         self.heightUnits = (try? container.decode(UnitSelection.self, forKey: .heightUnits)) ?? .imperial
-        self.caloriesTarget = (try? container.decode(Int.self, forKey: .caloriesTarget)) ?? 2100
         self.carbsPercent = (try? container.decode(Int.self, forKey: .carbsPercent)) ?? 50
         self.proteinPercent = (try? container.decode(Int.self, forKey: .proteinPercent)) ?? 25
         self.fatPercent = (try? container.decode(Int.self, forKey: .fatPercent)) ?? 25
-        self.recommendedCalories = (try? container.decode(Int.self, forKey: .recommendedCalories)) ?? 2100
+        self.caloriesTarget = (try? container.decode(Int.self, forKey: .caloriesTarget)) ?? Constant.defaultTargetCalories
+
         self.reminderSettings = try? container.decode(ReminderSettings.self, forKey: .reminderSettings)
         self.activityLevel = try? container.decode(ActivityLevel.self, forKey: .activityLevel)
         self.mealPlan = try? container.decode(PassioMealPlan.self, forKey: .mealPlan)
@@ -96,23 +95,13 @@ public struct UserProfileModel: Codable, Equatable {
         }
     }
 
-    var recommendedCarbsGrams: Int {
-        recommendedCalories*carbsPercent/100/4
-    }
-    var recommendedProteinGrams: Int {
-        recommendedCalories*proteinPercent/100/4
-    }
-    var recommendedFatGrams: Int {
-        recommendedCalories*fatPercent/100/9
-    }
-
-    var carbsGrams: Int {
+    var carbsTargetGrams: Int {
         caloriesTarget*carbsPercent/100/4
     }
-    var proteinGrams: Int {
+    var proteinTargetGrams: Int {
         caloriesTarget*proteinPercent/100/4
     }
-    var fatGrams: Int {
+    var fatTargetGrams: Int {
         caloriesTarget*fatPercent/100/9
     }
 
