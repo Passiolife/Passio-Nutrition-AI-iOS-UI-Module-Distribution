@@ -8,6 +8,15 @@
 import UIKit
 import FSCalendar
 
+internal enum TrackingTypes {
+    case waterTracking
+    case weightTracking
+}
+
+protocol DashboardDelegate {
+    func redirectToTrackingScreen(trackingType: TrackingTypes)
+}
+
 class DashboardViewController: UIViewController {
 
     @IBOutlet weak var dateView: UIView!
@@ -33,6 +42,8 @@ class DashboardViewController: UIViewController {
         case nutrition, calender, weightWater
     }
 
+    var delegate: DashboardDelegate? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -149,11 +160,15 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             cell.configureUI()
             cell.addWaterButtonAction = {
                 print("Add Water clicked")
+                self.delegate?.redirectToTrackingScreen(trackingType: .weightTracking)
             }
             
-            cell.addWeightButtonAction = {
+            cell.addWeightButtonAction = { [weak self] in
+                guard let self = self else { return }
                 print("Add Weight clicked")
+                self.delegate?.redirectToTrackingScreen(trackingType: .weightTracking)
             }
+            cell.selectionStyle = .none
             return cell
         }
     }

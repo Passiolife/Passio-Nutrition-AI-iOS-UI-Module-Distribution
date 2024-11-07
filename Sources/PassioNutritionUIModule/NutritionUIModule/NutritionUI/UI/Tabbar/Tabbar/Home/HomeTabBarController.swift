@@ -141,6 +141,7 @@ extension HomeTabBarController {
             case .home:
                 let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
                     .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
+                dashboardVC.delegate = self
                 let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
                 dashboardNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = dashboardNavVC
@@ -346,5 +347,23 @@ extension HomeTabBarController: CustomPickerSelectionDelegate {
             break
         default: break
         }
+    }
+}
+
+// MARK: - DashboardDelegate
+extension HomeTabBarController: DashboardDelegate {
+    func redirectToTrackingScreen(trackingType: TrackingTypes) {
+        if trackingType == .weightTracking{
+            let vc = NutritionUICoordinator.getWeightTrackingViewController()
+            vc.delegate = self
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+// MARK: - DashboardDelegate
+extension HomeTabBarController: WeightTrackingDelegate {
+    func rightNavigationMenuClicked(rightMenuButton: UIButton) {
+        self.handleFilterButton(sender: rightMenuButton)
     }
 }
