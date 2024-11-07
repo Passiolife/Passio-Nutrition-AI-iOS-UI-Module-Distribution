@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class WeightWaterCardCell: UITableViewCell {
+final class WaterWeightCardCell: UITableViewCell {
 
     @IBOutlet private weak var waterDetailsContainerView: UIView!
     
@@ -15,7 +15,7 @@ final class WeightWaterCardCell: UITableViewCell {
     @IBOutlet private weak var addWaterButton: UIButton!
     @IBOutlet private weak var waterGoalValueLabel: UILabel!
     @IBOutlet private weak var waterUnitLabel: UILabel!
-    @IBOutlet weak var waterRemainToDailyGoalLabel: UILabel!
+    @IBOutlet private weak var waterRemainToDailyGoalLabel: UILabel!
     
     @IBOutlet private weak var weightDetailsContainerView: UIView!
     @IBOutlet private weak var weightTitleLabel: UILabel!
@@ -23,6 +23,9 @@ final class WeightWaterCardCell: UITableViewCell {
     @IBOutlet private weak var weightGoalValueLabel: UILabel!
     @IBOutlet private weak var weightUnitLabel: UILabel!
     @IBOutlet private weak var weightRemainToDailyGoalLabel: UILabel!
+    
+    var addWaterButtonAction: (() -> Void)? = nil
+    var addWeightButtonAction: (() -> Void)? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -37,13 +40,39 @@ final class WeightWaterCardCell: UITableViewCell {
     
 }
 
-extension WeightWaterCardCell {
+extension WaterWeightCardCell {
     private func setupUI() {
         waterDetailsContainerView.roundMyCornerWith(radius: 8)
         weightDetailsContainerView.roundMyCornerWith(radius: 8)
         
+        waterDetailsContainerView.dropShadow(radius: 8,
+                              offset: CGSize(width: 0, height: 1),
+                              color: .black.withAlphaComponent(0.06),
+                              shadowRadius: 2,
+                              shadowOpacity: 1)
+        
+        weightDetailsContainerView.dropShadow(radius: 8,
+                              offset: CGSize(width: 0, height: 1),
+                              color: .black.withAlphaComponent(0.06),
+                              shadowRadius: 2,
+                              shadowOpacity: 1)
+        
         waterTitleLabel.text = "Water"
         weightTitleLabel.text = "Weight"
+        
+        addWaterButton.setTitle("", for: .normal)
+        addWeightButton.setTitle("", for: .normal)
+        
+        addWaterButton.addTarget(self, action: #selector(addWaterButtonTap), for: .touchUpInside)
+        addWeightButton.addTarget(self, action: #selector(addWeightButtonTap), for: .touchUpInside)
+    }
+    
+    @objc private func addWaterButtonTap() {
+        addWaterButtonAction?()
+    }
+    
+    @objc private func addWeightButtonTap() {
+        addWeightButtonAction?()
     }
     
     func configureUI() {
@@ -66,7 +95,7 @@ extension WeightWaterCardCell {
         
         if let weightDespription = userProfile.goalWeightDespription {
             let weightDespriptionArr = weightDespription.split(separator: " ")
-            if weightDespriptionArr.count > 2 {
+            if weightDespriptionArr.count >= 2 {
                 weightGoalValueLabel.text = "\(weightDespriptionArr[0])"
                 weightUnitLabel.text = "\(weightDespriptionArr[1])"
             }
@@ -85,9 +114,15 @@ extension WeightWaterCardCell {
         if userProfile.goalWater == nil {
             self.waterDetailsContainerView.isHidden = true
         }
+        else {
+            self.waterDetailsContainerView.isHidden = false
+        }
         
         if userProfile.goalWeight == nil {
             self.weightDetailsContainerView.isHidden = true
+        }
+        else {
+            self.weightDetailsContainerView.isHidden = false
         }
         
     }
