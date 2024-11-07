@@ -142,6 +142,11 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let self = self else { return }
                 self.navigateToDiary(date: date)
             }
+            cell.didTapDisclosure = { [weak self] in
+                guard let self = self else { return }
+                calendarScope = calendarScope == .month ? FSCalendarScope.week : FSCalendarScope.month
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
             return cell
         }
     }
@@ -149,8 +154,8 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch cells[indexPath.row] {
         case .calender:
-            calendarScope = calendarScope == .month ? FSCalendarScope.week : FSCalendarScope.month
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            print("Calendar cell")
+            break
         default:
             break
         }
