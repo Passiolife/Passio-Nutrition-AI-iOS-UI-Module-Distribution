@@ -17,6 +17,7 @@ protocol FoodDetailsDelegate: AnyObject {
     func onCancelFood()
     func onUserSelected(ingredient: FoodRecordIngredient, indexOfIngredient: Int)
     func onMakeRecipe()
+    func onAddIngredient(foodRecord: FoodRecordV3?)
 }
 
 extension FoodDetailsDelegate {
@@ -31,7 +32,7 @@ class FoodDetailsView: UIView {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
-
+    @IBOutlet weak var addIngredientButton: UIButton!
     private let connector = PassioInternalConnector.shared
     private let foodDetailsSection: [FoodDetailsCell] = [.foodInfoTableViewCell,
                                                          .servingSizeTableViewCell,
@@ -46,7 +47,10 @@ class FoodDetailsView: UIView {
     var isEditingFavorite = false
     var isFromCustomFoodList = false
     var isFromRecipeList = false
-
+    /* As we don't need to make any logs from Favorite Food -> Food Details -> Food Details View we ignore default set value,
+     * we need only addIngredient enum to check if user redirect form Create/Edit Recipe screen or not.
+     */
+    var resultViewFor: DetectedFoodResultType = .addLog
     weak var foodDetailsDelegate: FoodDetailsDelegate?
 
     var foodRecord: FoodRecordV3? {
@@ -108,6 +112,14 @@ class FoodDetailsView: UIView {
             foodDetailsTableView.register(nibName: $0.rawValue.capitalizingFirst())
         }
     }
+    
+    func adjustBottomButton() {
+        if resultViewFor == .addIngredient {
+            saveButton.isHidden = true
+            deleteButton.isHidden = true
+            addIngredientButton.isHidden = false
+        }
+    }
 }
 
 // MARK: - @IBAction & @objc
@@ -162,6 +174,10 @@ extension FoodDetailsView {
         fetchFavorites()
     }
 
+    @IBAction func onFoodAddINgredients(_ sender: UIButton) {
+        foodDetailsDelegate?.onAddIngredient(foodRecord: foodRecord)
+    }
+    
     @objc private func onOpenFoodFacts() {
         let popUpVC = PopUpViewController()
         popUpVC.modalTransitionStyle = .crossDissolve
@@ -247,7 +263,12 @@ extension FoodDetailsView: UITableViewDataSource, UITableViewDelegate {
             1
 
         case .ingredientInfoTableViewCell:
-            ingredientsCount > 1 ? ingredientsCount : 0
+            if resultViewFor == .addIngredient {
+                foodRecord?.ingredients.count ?? 0
+            }
+            else {
+                ingredientsCount > 1 ? ingredientsCount : 0
+            }
         }
     }
 
@@ -316,6 +337,9 @@ extension FoodDetailsView {
         cell.makeRecipeButton.setTitle(title, for: .normal)
         cell.makeRecipeButton.backgroundColor = .primaryColor
         cell.makeRecipeButton.addTarget(self, action: #selector(makeRecipe), for: .touchUpInside)
+        if resultViewFor == .addIngredient {
+            cell.makeRecipeButton.isHidden = true
+        }
         return cell
     }
 

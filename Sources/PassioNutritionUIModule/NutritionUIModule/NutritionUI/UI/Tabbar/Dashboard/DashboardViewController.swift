@@ -90,13 +90,13 @@ class DashboardViewController: UIViewController {
     }
     
     func navigateToDiary(date: Date) {
-        guard let vc = self.tabBarController as? HomeTabBarController else { return }
-        vc.selectedIndex = 1
-        if let diaryNavVC = vc.viewControllers?[1] as? UINavigationController,
-           let diaryVC = diaryNavVC.viewControllers.first as? DiaryViewController {
-            diaryVC.selectedDate = date
+            guard let vc = self.tabBarController as? HomeTabBarController else { return }
+            vc.selectedIndex = 1
+            if let diaryNavVC = vc.viewControllers?[1] as? UINavigationController,
+               let diaryVC = diaryNavVC.viewControllers.first as? DiaryViewController {
+                diaryVC.selectedDate = date
+            }
         }
-    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource

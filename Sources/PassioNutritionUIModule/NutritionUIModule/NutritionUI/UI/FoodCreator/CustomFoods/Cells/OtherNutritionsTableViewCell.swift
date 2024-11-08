@@ -354,7 +354,7 @@ extension OtherNutritionsTableViewCell: UITextFieldDelegate {
 
         case dietaryFiberTextField:
             let dietaryFiberText = dietaryFiberTextField.replaceCommaWithDot
-            dietaryFiberTextField.text = dietaryFiberText == "" ? foodDataSet?.dietaryFiber?.stringValue : "\(dietaryFiberText) \(UnitsTexts.mg)"
+            dietaryFiberTextField.text = dietaryFiberText == "" ? foodDataSet?.dietaryFiber?.stringValue : "\(dietaryFiberText) \(UnitsTexts.g)"
 
         case totalSugarsTextField:
             let totalSugarsText = totalSugarsTextField.replaceCommaWithDot

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -84,6 +84,22 @@
                                 <action selector="onFoodLog:" destination="iN0-l3-epB" eventType="touchUpInside" id="cu5-33-QFP"/>
                             </connections>
                         </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pLw-R8-Uzb">
+                            <rect key="frame" x="353" y="0.0" width="0.0" height="50"/>
+                            <color key="backgroundColor" name="indigo-600"/>
+                            <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                            <state key="normal" title="Add Ingredient">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="onFoodAddINgredients:" destination="iN0-l3-epB" eventType="touchUpInside" id="3YJ-lW-M3M"/>
+                            </connections>
+                        </button>
                     </subviews>
                 </stackView>
             </subviews>
@@ -99,10 +115,11 @@
                 <constraint firstItem="gY5-Ch-u4k" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pp0-XC-LRz"/>
             </constraints>
             <connections>
+                <outlet property="addIngredientButton" destination="pLw-R8-Uzb" id="Yfi-sl-cPE"/>
                 <outlet property="cancelButton" destination="X8h-xO-ciA" id="mbs-PC-T7i"/>
                 <outlet property="deleteButton" destination="vJt-nK-n6R" id="upL-ZK-Ntg"/>
                 <outlet property="foodDetailsTableView" destination="gY5-Ch-u4k" id="MU8-SK-2Jr"/>
-                <outlet property="saveButton" destination="XLf-i8-8f5" id="kSN-6d-R2F"/>
+                <outlet property="saveButton" destination="XLf-i8-8f5" id="eLH-by-QlV"/>
             </connections>
             <point key="canvasLocation" x="-450" y="-363"/>
         </view>

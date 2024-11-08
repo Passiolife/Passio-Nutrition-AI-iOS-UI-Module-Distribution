@@ -21,10 +21,7 @@ final class AdvancedTextSearchView: UIView {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var tblViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var searchViewContainer: UIStackView!
-    @IBOutlet private weak var labelSemanticSearchTitle: UILabel!
-    @IBOutlet private weak var switchSemantic: UISwitch!
-    
+
     private let connecter = PassioInternalConnector.shared
     private var alternateSearches: SearchResponse?
     private var state: SearchState = .startTyping
@@ -33,7 +30,6 @@ final class AdvancedTextSearchView: UIView {
     private var searchTimer: Timer?
     private var previousSearch = ""
     private var isFirstTime = true
-    private var isSemanticSearchEnable: Bool = false
 
     var searchController: UISearchController?
     var isCreateRecipe = false
@@ -44,7 +40,6 @@ final class AdvancedTextSearchView: UIView {
         super.awakeFromNib()
 
         activityIndicatorView.color = .primaryColor
-        labelSemanticSearchTitle.text = "Enable Semantic Search Feature".capitalized
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)),
                                                name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)),
@@ -265,22 +260,9 @@ private extension AdvancedTextSearchView {
             // SDK Search
             dispatchGroup.enter()
             searchQueue.async {
-                
-                if self.isSemanticSearchEnable {
-                    PassioNutritionAI.shared.semanticSearchForFood(searchTerm: searchText) { (searchResponse) in
-                        if self.isSemanticSearchEnable {
-                            self.alternateSearches = searchResponse
-                        }
-                        dispatchGroup.leave()
-                    }
-                }
-                else {
-                    PassioNutritionAI.shared.searchForFood(byText: searchText) { (searchResponse) in
-                        if self.isSemanticSearchEnable == false {
-                            self.alternateSearches = searchResponse
-                        }
-                        dispatchGroup.leave()
-                    }
+                PassioNutritionAI.shared.searchForFood(byText: searchText) { (searchResponse) in
+                    self.alternateSearches = searchResponse
+                    dispatchGroup.leave()
                 }
             }
 
@@ -545,18 +527,5 @@ extension AdvancedTextSearchView: UISearchResultsUpdating {
         DispatchQueue.main.async { [weak self] in
             self?.performSearch(term: searchController.searchBar.text!.lowercased())
         }
-    }
-}
-
-//MARK: - @IBAction
-extension AdvancedTextSearchView {
-    @IBAction func toggleSemanticSwitch(_ sender: UISwitch) {
-        if sender.isOn {
-            isSemanticSearchEnable = true
-        } else {
-            isSemanticSearchEnable = false
-        }
-        self.previousSearch = ""
-        self.performSearch(term: searchController?.searchBar.text!.lowercased() ?? "")
     }
 }
