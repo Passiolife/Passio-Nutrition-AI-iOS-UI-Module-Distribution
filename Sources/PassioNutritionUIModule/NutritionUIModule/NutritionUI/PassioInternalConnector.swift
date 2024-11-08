@@ -21,7 +21,8 @@ public class PassioInternalConnector
     }
     private init() {}
 
-    var connector: PassioConnector = JSONPassioConnector.shared
+//    var connector: PassioConnector = JSONPassioConnector.shared
+    var connector: PassioConnector = PassioFoodDataConnector.shared
 
     var dateForLogging: Date?
     var mealLabel: MealLabel?
@@ -63,14 +64,17 @@ public class PassioInternalConnector
                                     withViewController: UIViewController,
                                     passioConfiguration: PassioConfiguration) {
 
-        if PassioNutritionAI.shared.status.mode == .isReadyForDetection {
-            startModule(presentingViewController: presentingViewController, viewController: withViewController)
-        }
-        else if PassioNutritionAI.shared.status.mode == .notReady {
-            PassioNutritionAI.shared.configure(passioConfiguration: passioConfiguration) { (_) in
-                DispatchQueue.main.async {
-                    self.startModule(presentingViewController: presentingViewController,
-                                     viewController: withViewController)
+        DataMigrationUtil.shared.migrateAllJsonContentToDB { resultStatus in
+            
+            if PassioNutritionAI.shared.status.mode == .isReadyForDetection {
+                self.startModule(presentingViewController: presentingViewController, viewController: withViewController)
+            }
+            else if PassioNutritionAI.shared.status.mode == .notReady {
+                PassioNutritionAI.shared.configure(passioConfiguration: passioConfiguration) { (_) in
+                    DispatchQueue.main.async {
+                        self.startModule(presentingViewController: presentingViewController,
+                                         viewController: withViewController)
+                    }
                 }
             }
         }
