@@ -46,7 +46,6 @@ class AddNewWeightTrackingVC: UIViewController {
                                     action: #selector(closeKeyBoard),
                                     forEvent: .touchUpInside)
             }
-        self.dayValueTextField.addTarget(self, action: #selector(showDateSelector), for: .touchUpInside)
         self.registerForKeyboardNotifications()
         self.configureNavBar()
     }
@@ -70,6 +69,7 @@ extension AddNewWeightTrackingVC {
         arrValueTextField.forEach({
             $0.vwBorderColor = .gray300
         })
+        currentField = nil
     }
     
     private func registerForKeyboardNotifications() {
@@ -133,10 +133,11 @@ extension AddNewWeightTrackingVC: UITextFieldDelegate {
 // MARK: - DateSelectorUIView Delegate
 extension AddNewWeightTrackingVC: DateSelectorUIViewDelegate {
     
-    @objc func showDateSelector() {
+    @objc func showDateSelector(pickerMode: UIDatePicker.Mode = .date) {
         dateSelector = DateSelectorViewController()
         dateSelector?.delegate = self
         dateSelector?.dateForPicker = Date()
+        dateSelector?.datePickerType = pickerMode
         dateSelector?.modalPresentationStyle = .overFullScreen
         self.navigationController?.presentVC(vc: dateSelector!)
     }
@@ -154,6 +155,37 @@ extension AddNewWeightTrackingVC: DateSelectorUIViewDelegate {
                 timeValueTextField.text = timeFormatter.string(from: date)
             }
         }
+        currentField = nil
     }
 }
    
+extension AddNewWeightTrackingVC {
+    @IBAction func showDatePickerAction(_ sender: UIButton) {
+        self.closeKeyBoard()
+        self.showDateSelector(pickerMode: .date)
+        currentField = self.dayValueTextField
+        self.selectedFieldHighLight()
+    }
+    
+    @IBAction func showTimePickerAction(_ sender: UIButton) {
+        self.closeKeyBoard()
+        self.showDateSelector(pickerMode: .time)
+        currentField = self.timeValueTextField
+        self.selectedFieldHighLight()
+    }
+    
+    func selectedFieldHighLight() {
+        
+        arrValueTextField.forEach({
+            $0.vwBorderColor = .gray300
+        })
+        
+        if (currentField == dayValueTextField) {
+            dayValueTextField.vwBorderColor = .indigo600
+        }
+        else if (currentField == timeValueTextField) {
+            timeValueTextField.vwBorderColor = .indigo600
+        }
+        else {}
+    }
+}

@@ -52,6 +52,7 @@ public protocol PassioConnector: AnyObject {
     
     // WeightTracking Records
     func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking)
+    func fetchWeightTrackingRecursive(fromDate: Date, toDate: Date, currentLogs: [WeightTracking], completion: @escaping ([WeightTracking]) -> Void)
     func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void)
 }
 

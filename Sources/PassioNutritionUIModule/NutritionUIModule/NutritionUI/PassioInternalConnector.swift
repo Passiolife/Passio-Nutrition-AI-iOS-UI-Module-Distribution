@@ -229,12 +229,17 @@ extension PassioInternalConnector {
         }
     }
     
-    func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking) {
+    // MARK: Weight Tracking - Newly added
+    public func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking) {
         connector.insertOrReplaceWeightTrackingRecord(weightTracking: weightTracking)
     }
     
-    func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
+    public func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
         connector.fetchWeightTrackingRecord(date: date, completion: completion)
+    }
+    
+    public func fetchWeightTrackingRecursive(fromDate: Date, toDate: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        connector.fetchWeightTrackingRecursive(fromDate: fromDate, toDate: toDate, currentLogs: [], completion: completion)
     }
 }
 

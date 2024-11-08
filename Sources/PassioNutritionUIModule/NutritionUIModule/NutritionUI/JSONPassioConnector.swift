@@ -241,6 +241,29 @@ extension JSONPassioConnector: PassioConnector {
         }
     }
     
+    func fetchWeightTrackingRecursive(fromDate: Date,
+                              toDate: Date,
+                              currentLogs: [WeightTracking] = [],
+                              completion: @escaping ([WeightTracking]) -> Void) {
+        
+        guard fromDate <= toDate else {
+            completion(currentLogs)
+            return
+        }
+        
+        fetchWeightTrackingRecord(date: fromDate) { (weightTracking) in
+            var updatedLogs = currentLogs
+            updatedLogs.append(contentsOf: weightTracking)
+            
+            // Recursive call with next day
+            let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: fromDate)!
+            self.fetchWeightTrackingRecursive(fromDate: nextDate,
+                                      toDate: toDate,
+                                      currentLogs: updatedLogs,
+                                      completion: completion)
+        }
+    }
+    
     func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
         if let urlForDate = urlForSavingTrackingFiles(date: date) {
             completion(fileManager.getRecords(for: urlForDate))

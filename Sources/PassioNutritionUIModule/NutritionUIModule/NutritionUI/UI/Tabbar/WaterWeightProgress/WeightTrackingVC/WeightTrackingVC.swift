@@ -17,15 +17,18 @@ class WeightTrackingVC: UIViewController {
     @IBOutlet weak var dateTitle: UILabel!
     @IBOutlet weak var arrowIcon: UIImageView!
     @IBOutlet weak var weightTrackTableView: UITableView!
-
+    @IBOutlet weak var weightTrackTableViewHeightConst: NSLayoutConstraint!
+    @IBOutlet weak var weightTrackerListContainer: UIView!
+    
     private var selectedDate: Date = Date() {
         didSet {
             configureDateUI()
-            getDayLogsFrom()
+            getWeightTrackingRecords()
         }
     }
     private var currentScope: Scope = .week
-
+    private var arrWeightTracking: [WeightTracking] = []
+    
     enum Scope {
         case month,week
     }
@@ -43,6 +46,11 @@ class WeightTrackingVC: UIViewController {
                                   color: .black.withAlphaComponent(0.10),
                                   shadowRadius: 8,
                                   shadowOpacity: 1)
+        weightTrackerListContainer.dropShadow(radius: 16,
+                                              offset: CGSize(width: 0, height: 2),
+                                              color: .black.withAlphaComponent(0.10),
+                                              shadowRadius: 8,
+                                              shadowOpacity: 1)
     }
 
     override func viewDidLayoutSubviews() {
@@ -62,6 +70,10 @@ class WeightTrackingVC: UIViewController {
         segmentControl.selectedSegmentTintColor = .indigo600
         
         configureNavBar()
+        
+        self.weightTrackerListContainer.isHidden = true
+        
+        self.configTableView()
     }
     
     private func configureNavBar() {
@@ -89,6 +101,10 @@ class WeightTrackingVC: UIViewController {
     private func configTableView() {
         self.weightTrackTableView.delegate = self
         self.weightTrackTableView.dataSource = self
+        self.weightTrackTableView.separatorStyle = .none
+        self.weightTrackTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        self.weightTrackTableView.register(nibName: WeightTrackingRecordCell.className)
+        self.weightTrackTableView.reloadData()
     }
 }
 
@@ -105,7 +121,7 @@ extension WeightTrackingVC {
     @IBAction func onChangeScope(_ sender: UISegmentedControl) {
         self.currentScope = sender.selectedSegmentIndex == 0 ? .week : .month
         self.configureDateUI()
-        self.getDayLogsFrom()
+        self.getWeightTrackingRecords()
     }
 
     private func configureDateUI() {
@@ -120,29 +136,39 @@ extension WeightTrackingVC {
             dateFormatterr.dateFormat = DateFormatString.MMMM_yyyy
             let month = dateFormatterr.string(from: selectedDate)
             dateLabel.text = month
+            dateTitle.text = month
         } else {
             let dateFormatterr = DateFormatter()
             dateFormatterr.dateFormat = DateFormatString.M_d_yyyy2
             if Date() > startDate.startOfToday && Date() < endDate {
                 dateLabel.text = "This week"
+                dateTitle.text = "This week"
             } else {
                 dateLabel.text = "\(dateFormatterr.string(from: startDate)) - \(dateFormatterr.string(from: endDate))"
+                dateTitle.text = "\(dateFormatterr.string(from: startDate)) - \(dateFormatterr.string(from: endDate))"
             }
         }
     }
     
-    private func getDayLogsFrom() {
+    private func getWeightTrackingRecords() {
 
         let (fromDate, toDate) = currentScope == .week
         ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
-
-//        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
-//                                                            toDate: toDate) { [weak self] (dayLogs) in
-//            guard let `self` = self else { return }
-//            DispatchQueue.main.async {
+        PassioInternalConnector.shared.fetchWeightTrackingRecursive(fromDate: fromDate, toDate: toDate) { [weak self] (weightTrackingRecords) in
+            guard let `self` = self else { return }
+            DispatchQueue.main.async {
+                self.arrWeightTracking = weightTrackingRecords
+                self.weightTrackTableViewHeightConst.constant = CGFloat(55 * self.arrWeightTracking.count)
+                self.weightTrackTableView.reloadData()
+                if self.arrWeightTracking.count == 0 {
+                    self.weightTrackerListContainer.isHidden = true
+                }
+                else {
+                    self.weightTrackerListContainer.isHidden = false
+                }
 //                self.setupCharts(from: dayLogs)
-//            }
-//        }
+            }
+        }
     }
 
     private func setupCharts(from dayLogs: [DayLog]) {
@@ -166,12 +192,43 @@ extension WeightTrackingVC {
 }
 
 extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55.0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return arrWeightTracking.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+    
+        let cell = tableView.dequeueCell(cellClass: WeightTrackingRecordCell.self, forIndexPath: indexPath)
+        
+        cell.setLayout(weightTracking: arrWeightTracking[indexPath.item])
+        return cell
     }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let editItem = UIContextualAction(style: .normal,
+                                          title: ButtonTexts.edit) { [weak self] (_, _, _) in
+            tableView.reloadData()
+        }
+        editItem.backgroundColor = .indigo600
+        let deleteItem = UIContextualAction(style: .destructive,
+                                            title: ButtonTexts.delete) { [weak self] (_, _, _) in
+            tableView.reloadData()
+        }
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem, editItem])
+        return swipeActions
+    }
+
+    func tableView(_ tableView: UITableView,
+                   editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .delete
+    }
+    
 }
 
