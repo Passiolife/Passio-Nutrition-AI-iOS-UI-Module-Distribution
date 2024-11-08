@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="24A348" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="TblCustomFoodRecord" representedClassName="TblCustomFoodRecord" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String"/>
+        <attribute name="confidence" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="mealLabel" optional="YES" attributeType="String" defaultValueString="Snack"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nutrients" optional="YES" attributeType="String"/>
+        <attribute name="openFoodLicense" optional="YES" attributeType="String"/>
+        <attribute name="passioID" optional="YES" attributeType="String"/>
+        <attribute name="radioSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="refCode" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="scannedUnitName" optional="YES" attributeType="String"/>
+        <attribute name="selectedQuantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedUnit" optional="YES" attributeType="String"/>
+        <attribute name="servingSizes" optional="YES" attributeType="String"/>
+        <attribute name="servingUnits" optional="YES" attributeType="String"/>
+        <attribute name="uuid" optional="YES" attributeType="String"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TblCustomFoodRecordIngredient"/>
+    </entity>
+    <entity name="TblCustomFoodRecordIngredient" representedClassName="TblCustomFoodRecordIngredient" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nutrients" optional="YES" attributeType="String"/>
+        <attribute name="openFoodLicense" optional="YES" attributeType="String"/>
+        <attribute name="passioID" optional="YES" attributeType="String"/>
+        <attribute name="refCode" optional="YES" attributeType="String"/>
+        <attribute name="selectedQuantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedUnit" optional="YES" attributeType="String"/>
+        <attribute name="servingSizes" optional="YES" attributeType="String"/>
+        <attribute name="servingUnits" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TblFavouriteFoodRecord" representedClassName="TblFavouriteFoodRecord" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String"/>
+        <attribute name="confidence" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="mealLabel" optional="YES" attributeType="String" defaultValueString="Snack"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nutrients" optional="YES" attributeType="String"/>
+        <attribute name="openFoodLicense" optional="YES" attributeType="String"/>
+        <attribute name="passioID" optional="YES" attributeType="String"/>
+        <attribute name="radioSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="refCode" optional="YES" attributeType="String"/>
+        <attribute name="scannedUnitName" optional="YES" attributeType="String"/>
+        <attribute name="selectedQuantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedUnit" optional="YES" attributeType="String"/>
+        <attribute name="servingSizes" optional="YES" attributeType="String"/>
+        <attribute name="servingUnits" optional="YES" attributeType="String"/>
+        <attribute name="uuid" optional="YES" attributeType="String"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TblFavouriteFoodRecordIngredient"/>
+    </entity>
+    <entity name="TblFavouriteFoodRecordIngredient" representedClassName="TblFavouriteFoodRecordIngredient" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nutrients" optional="YES" attributeType="String"/>
+        <attribute name="openFoodLicense" optional="YES" attributeType="String"/>
+        <attribute name="passioID" optional="YES" attributeType="String"/>
+        <attribute name="refCode" optional="YES" attributeType="String"/>
+        <attribute name="selectedQuantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedUnit" optional="YES" attributeType="String"/>
+        <attribute name="servingSizes" optional="YES" attributeType="String"/>
+        <attribute name="servingUnits" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TblFoodRecipeRecord" representedClassName="TblFoodRecipeRecord" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String"/>
+        <attribute name="confidence" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="mealLabel" optional="YES" attributeType="String" defaultValueString="Snack"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nutrients" optional="YES" attributeType="String"/>
+        <attribute name="openFoodLicense" optional="YES" attributeType="String"/>
+        <attribute name="passioID" optional="YES" attributeType="String"/>
+        <attribute name="radioSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="refCode" optional="YES" attributeType="String"/>
+        <attribute name="scannedUnitName" optional="YES" attributeType="String"/>
+        <attribute name="selectedQuantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedUnit" optional="YES" attributeType="String"/>
+        <attribute name="servingSizes" optional="YES" attributeType="String"/>
+        <attribute name="servingUnits" optional="YES" attributeType="String"/>
+        <attribute name="uuid" optional="YES" attributeType="String"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TblFoodRecipeRecordIngredient"/>
+    </entity>
+    <entity name="TblFoodRecipeRecordIngredient" representedClassName="TblFoodRecipeRecordIngredient" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nutrients" optional="YES" attributeType="String"/>
+        <attribute name="openFoodLicense" optional="YES" attributeType="String"/>
+        <attribute name="passioID" optional="YES" attributeType="String"/>
+        <attribute name="refCode" optional="YES" attributeType="String"/>
+        <attribute name="selectedQuantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedUnit" optional="YES" attributeType="String"/>
+        <attribute name="servingSizes" optional="YES" attributeType="String"/>
+        <attribute name="servingUnits" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TblFoodRecordIngredient" representedClassName="TblFoodRecordIngredient" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nutrients" optional="YES" attributeType="String"/>
+        <attribute name="openFoodLicense" optional="YES" attributeType="String"/>
+        <attribute name="passioID" optional="YES" attributeType="String"/>
+        <attribute name="refCode" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="selectedQuantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedUnit" optional="YES" attributeType="String"/>
+        <attribute name="servingSizes" optional="YES" attributeType="String"/>
+        <attribute name="servingUnits" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TblFoodRecordV3" representedClassName="TblFoodRecordV3" syncable="YES" codeGenerationType="class">
+        <attribute name="barcode" optional="YES" attributeType="String"/>
+        <attribute name="confidence" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="details" optional="YES" attributeType="String"/>
+        <attribute name="entityType" optional="YES" attributeType="String" defaultValueString="snack"/>
+        <attribute name="iconId" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="mealLabel" optional="YES" attributeType="String" defaultValueString="Snack"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nutrients" optional="YES" attributeType="String"/>
+        <attribute name="openFoodLicense" optional="YES" attributeType="String"/>
+        <attribute name="passioID" optional="YES" attributeType="String"/>
+        <attribute name="radioSelected" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="refCode" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="scannedUnitName" optional="YES" attributeType="String"/>
+        <attribute name="selectedQuantity" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="selectedUnit" optional="YES" attributeType="String"/>
+        <attribute name="servingSizes" optional="YES" attributeType="String"/>
+        <attribute name="servingUnits" optional="YES" attributeType="String"/>
+        <attribute name="uuid" optional="YES" attributeType="String"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TblFoodRecordIngredient"/>
+    </entity>
+    <entity name="TblUserProfile" representedClassName="TblUserProfile" syncable="YES" codeGenerationType="class">
+        <attribute name="activityLevel" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="age" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="caloriesTarget" optional="YES" attributeType="Integer 16" defaultValueString="2100" usesScalarValueType="YES"/>
+        <attribute name="carbsPercent" optional="YES" attributeType="Integer 16" defaultValueString="50" usesScalarValueType="YES"/>
+        <attribute name="fatPercent" optional="YES" attributeType="Integer 16" defaultValueString="25" usesScalarValueType="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
+        <attribute name="goalWater" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="goalWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="goalWeightTimeLine" optional="YES" attributeType="String"/>
+        <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="heightUnits" optional="YES" attributeType="String" defaultValueString="Feet, Inches"/>
+        <attribute name="lastName" optional="YES" attributeType="String"/>
+        <attribute name="mealPlan" optional="YES" attributeType="String"/>
+        <attribute name="proteinPercent" optional="YES" attributeType="Integer 16" defaultValueString="25" usesScalarValueType="YES"/>
+        <attribute name="reminderSettings" optional="YES" attributeType="String"/>
+        <attribute name="units" optional="YES" attributeType="String" defaultValueString="lbs"/>
+        <attribute name="uuid" optional="YES" attributeType="String" defaultValueString="B2B7EAB8-5C57-41B5-9F11-5F1922C63E34"/>
+        <attribute name="waterUnit" optional="YES" attributeType="String" defaultValueString="oz"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+</model>
