@@ -14,6 +14,10 @@ class WeightTrackingVC: UIViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var weightBarChart: MacroProgressBarChartView!
 
+    @IBOutlet weak var dateTitle: UILabel!
+    @IBOutlet weak var arrowIcon: UIImageView!
+    @IBOutlet weak var weightTrackTableView: UITableView!
+
     private var selectedDate: Date = Date() {
         didSet {
             configureDateUI()
@@ -81,6 +85,11 @@ class WeightTrackingVC: UIViewController {
         let vc = NutritionUICoordinator.getAddWeightTrackingViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    private func configTableView() {
+        self.weightTrackTableView.delegate = self
+        self.weightTrackTableView.dataSource = self
+    }
 }
 
 //MARK: - Date management
@@ -127,13 +136,13 @@ extension WeightTrackingVC {
         let (fromDate, toDate) = currentScope == .week
         ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
 
-        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
-                                                            toDate: toDate) { [weak self] (dayLogs) in
-            guard let `self` = self else { return }
-            DispatchQueue.main.async {
-                self.setupCharts(from: dayLogs)
-            }
-        }
+//        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
+//                                                            toDate: toDate) { [weak self] (dayLogs) in
+//            guard let `self` = self else { return }
+//            DispatchQueue.main.async {
+//                self.setupCharts(from: dayLogs)
+//            }
+//        }
     }
 
     private func setupCharts(from dayLogs: [DayLog]) {
@@ -153,6 +162,16 @@ extension WeightTrackingVC {
         let max = (data.map({$0.0}).max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)
         weightBarChart.setupChart(datasource: data.map({ $0.0 }), maximum: max, dates: dates)
+    }
+}
+
+extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
     }
 }
 
