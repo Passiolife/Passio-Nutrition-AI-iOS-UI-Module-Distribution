@@ -282,5 +282,44 @@ extension PassioFoodDataConnector: PassioConnector {
             }
         }
     }
+
+    public func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking) {
+        BodyMetriTrackingOperation.shared.insertOrUpdateWeightTracking(weightTracking: weightTracking) { (resultStatus, resultError) in
+            if let error = resultError {
+                print("Failed to save Weight tracking record: \(error)")
+            }
+        }
+    }
+    
+    public func fetchWeightTrackingRecursive(fromDate: Date, toDate: Date, currentLogs: [WeightTracking], completion: @escaping ([WeightTracking]) -> Void) {
+        guard fromDate <= toDate else {
+            completion(currentLogs)
+            return
+        }
+        
+        fetchWeightTrackingRecord(date: fromDate) { (weightTrackingRecords) in
+            var updatedLogs = currentLogs
+            updatedLogs.append(contentsOf: weightTrackingRecords)
+            
+            // Recursive call with next day
+            let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: fromDate)!
+            self.fetchWeightTrackingRecursive(fromDate: nextDate,
+                                      toDate: toDate,
+                                      currentLogs: updatedLogs,
+                                      completion: completion)
+        }
+    }
+    
+    public func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        BodyMetriTrackingOperation.shared.fetchWeightTracking(whereClause: date) { trackingRecords, error in
+            if error != nil {
+                print("Failed to fetch WeightTracking records :: \(error)")
+                completion([])
+            }
+            else {
+                completion(trackingRecords)
+            }
+        }
+    }
     
 }

@@ -28,13 +28,14 @@ class WeightTrackingVC: UIViewController {
     }
     private var currentScope: Scope = .week
     private var arrWeightTracking: [WeightTracking] = []
-    
+    private var userProfile: UserProfileModel!
     enum Scope {
         case month,week
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userProfile = UserManager.shared.user ?? UserProfileModel()
         setupUI()
         segmentControl.dropShadow(radius: 8,
                                   offset: CGSize(width: 0, height: 1),
@@ -53,6 +54,10 @@ class WeightTrackingVC: UIViewController {
                                               shadowOpacity: 1)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -66,7 +71,7 @@ class WeightTrackingVC: UIViewController {
         selectedDate = Date()
         segmentControl.defaultConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .gray700)
         segmentControl.selectedConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .white)
-        weightBarChart.title = "Calories"
+        weightBarChart.title = "Water Tracking"
         segmentControl.selectedSegmentTintColor = .indigo600
         
         configureNavBar()
@@ -95,6 +100,7 @@ class WeightTrackingVC: UIViewController {
     // selector that's going to tigger on single tap on nav bar button
     @objc private func handleFilterButton(sender: UIButton) {
         let vc = NutritionUICoordinator.getAddWeightTrackingViewController()
+        vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -205,7 +211,7 @@ extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
     
         let cell = tableView.dequeueCell(cellClass: WeightTrackingRecordCell.self, forIndexPath: indexPath)
         
-        cell.setLayout(weightTracking: arrWeightTracking[indexPath.item])
+        cell.setLayout(weightTracking: arrWeightTracking[indexPath.item], userProfile: userProfile)
         return cell
     }
     
@@ -232,3 +238,9 @@ extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - AddNewWeightTrackingDelegate
+extension WeightTrackingVC: AddNewWeightTrackingDelegate {
+    func refreshRecords() {
+        getWeightTrackingRecords()
+    }
+}

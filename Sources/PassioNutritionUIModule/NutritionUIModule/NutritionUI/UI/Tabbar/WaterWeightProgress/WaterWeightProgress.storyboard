@@ -308,6 +308,9 @@
                                                         <color key="value" name="indigo-600"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="cancelButtonAction:" destination="oQQ-G6-pvs" eventType="touchUpInside" id="5aW-JF-sKp"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mkw-BF-dGH">
                                                 <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="50"/>
@@ -326,6 +329,9 @@
                                                         <color key="value" name="indigo-600"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="saveButtonAction:" destination="oQQ-G6-pvs" eventType="touchUpInside" id="UT0-zm-hP7"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -384,8 +390,10 @@
                     </view>
                     <connections>
                         <outlet property="buttonContainerStackViewBottomConst" destination="dkf-QT-xWX" id="KFI-sb-Txk"/>
+                        <outlet property="cancelButton" destination="NjO-B3-ek8" id="iDH-Oh-0zh"/>
                         <outlet property="dayTitleLabel" destination="o8v-kT-YXt" id="9nu-12-0q5"/>
                         <outlet property="dayValueTextField" destination="bSN-cw-c8Q" id="gcZ-4X-4Ea"/>
+                        <outlet property="saveButton" destination="mkw-BF-dGH" id="rN6-mU-v3y"/>
                         <outlet property="timeTitleLabel" destination="NCV-PX-iF7" id="v7u-SM-4mT"/>
                         <outlet property="timeValueTextField" destination="9ez-bx-Use" id="qbJ-Yx-Jw2"/>
                         <outlet property="weightTitleLabel" destination="5aY-fC-XyY" id="gkh-Na-T4y"/>

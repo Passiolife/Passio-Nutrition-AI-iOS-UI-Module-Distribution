@@ -165,13 +165,14 @@ public struct UserProfileModel: Codable, Equatable {
         }
     }
 
-    var selectedWeightUnit: String? {
+    var selectedWeightUnit: String {
         switch units {
         case .imperial:
             return "lbs"
         case .metric:
             return "kg"
         }
+        return "lbs"
     }
     
     var goalWeightRemainDespription: String? {

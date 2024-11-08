@@ -93,8 +93,8 @@ extension WaterWeightCardCell {
         weightGoalValueLabel.text = "0"
         weightUnitLabel.text = "lbs"
         
-        if let weightDespription = userProfile.goalWeightDespription,
-           let weightUnit = userProfile.selectedWeightUnit {
+        if let weightDespription = userProfile.goalWeightDespription {
+            let weightUnit = userProfile.selectedWeightUnit
             weightGoalValueLabel.text = "0"
             weightUnitLabel.text = "\(weightUnit)"
         }

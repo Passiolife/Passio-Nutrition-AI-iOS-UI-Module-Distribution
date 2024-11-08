@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol AddNewWeightTrackingDelegate {
+    func refreshRecords()
+}
+
 class AddNewWeightTrackingVC: UIViewController {
 
     @IBOutlet weak var weightTitleLabel: UILabel!
@@ -18,8 +22,14 @@ class AddNewWeightTrackingVC: UIViewController {
     @IBOutlet weak var buttonContainerStackViewBottomConst: NSLayoutConstraint!
     @IBOutlet var arrValueTextField: [UITextField]!
     
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    
     private var dateSelector: DateSelectorViewController?
     private var currentField: UITextField?
+    private var selectedDate: Date?
+    private var selectedTime: Date?
+    private var userProfile: UserProfileModel!
     
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -33,8 +43,11 @@ class AddNewWeightTrackingVC: UIViewController {
         return df
     }()
     
+    var delegate:AddNewWeightTrackingDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        userProfile = UserManager.shared.user ?? UserProfileModel()
         arrValueTextField.forEach {
             $0.configureTextField(leftPadding: 0)
                 $0.autocorrectionType = .no
@@ -46,6 +59,16 @@ class AddNewWeightTrackingVC: UIViewController {
                                     action: #selector(closeKeyBoard),
                                     forEvent: .touchUpInside)
             }
+        
+        selectedDate = Date()
+        selectedTime = Date()
+        
+        dayValueTextField.text = dateFormatter.string(from: selectedDate!)
+        timeValueTextField.text = timeFormatter.string(from: selectedTime!)
+        
+//        self.saveButton.isUserInteractionEnabled = false
+//        self.saveButton.tintColor = .gray700
+        
         self.registerForKeyboardNotifications()
         self.configureNavBar()
     }
@@ -127,6 +150,32 @@ extension AddNewWeightTrackingVC: UITextFieldDelegate {
         }
         textField.vwBorderColor = .indigo600
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+//        if textField == weightValueTextField {
+//            if let value = textField.text,
+//               value.count > 0, Double(value) != nil {
+//                self.saveButton.isUserInteractionEnabled = false
+//                self.saveButton.tintColor = .gray500
+//            }
+//            else {
+//                self.saveButton.isUserInteractionEnabled = true
+//                self.saveButton.tintColor = .indigo700
+//            }
+//        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        
+        if textField == weightValueTextField {
+            if let _weight = textField.text,
+               let dWeight = Double(_weight),
+               dWeight > 0 {
+                textField.text = "\(dWeight) \(userProfile.selectedWeightUnit)"
+            }
+        }
+    }
+    
 }
 
 
@@ -150,9 +199,11 @@ extension AddNewWeightTrackingVC: DateSelectorUIViewDelegate {
         if let currentField = currentField {
             if currentField == dayValueTextField {
                 dayValueTextField.text = dateFormatter.string(from: date)
+                selectedDate = date
             }
             else if currentField == timeValueTextField {
                 timeValueTextField.text = timeFormatter.string(from: date)
+                selectedTime = date
             }
         }
         currentField = nil
@@ -172,6 +223,24 @@ extension AddNewWeightTrackingVC {
         self.showDateSelector(pickerMode: .time)
         currentField = self.timeValueTextField
         self.selectedFieldHighLight()
+    }
+    
+    @IBAction func saveButtonAction(_ sender: UIButton) {
+        
+        if let fieldValue = weightValueTextField.text,
+           fieldValue.count > 0,
+           let roundedValue = Double(fieldValue).roundDigits(afterDecimal: 1),
+           let selectedDate = selectedDate,
+           let selectedTime = selectedTime {
+            let value = userProfile.units == .imperial ? roundedValue/Conversion.lbsToKg.rawValue : roundedValue
+            PassioInternalConnector.shared.insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking(weight: value, date: selectedDate, time: selectedTime, createdAt: Date()))
+            delegate?.refreshRecords()
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @IBAction func cancelButtonAction(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     func selectedFieldHighLight() {

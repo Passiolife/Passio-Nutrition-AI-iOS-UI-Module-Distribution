@@ -431,12 +431,12 @@ extension JSONPassioConnector {
     }
     
     private func urlForWeightTrackingeModel(weightTracking: WeightTracking) -> URL? {
-        let date = weightTracking.createdAt
+        let date = weightTracking.date
         
         guard let urlForFile = urlForSavingTrackingFiles(date: date) else {
             return nil
         }
-        let finalURL = urlForFile.appendingPathComponent(weightTracking.uuid.replacingOccurrences(of: "-", with: "") + ".json")
+        let finalURL = urlForFile.appendingPathComponent(weightTracking.id.replacingOccurrences(of: "-", with: "") + ".json")
         return finalURL
     }
 }

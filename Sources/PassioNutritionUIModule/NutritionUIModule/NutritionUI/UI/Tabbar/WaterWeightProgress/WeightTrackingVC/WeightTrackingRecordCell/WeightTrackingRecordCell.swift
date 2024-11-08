@@ -27,7 +27,9 @@ class WeightTrackingRecordCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setLayout(weightTracking: WeightTracking) {
-        weightLabel.text = "\(weightTracking.weight.clean)"
+    func setLayout(weightTracking: WeightTracking, userProfile: UserProfileModel) {
+        //let weight = userProfile.units == .imperial ? Double(weightTracking.weight * Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1).clean : weightTracking
+        weightLabel.text = "120"
+        weightUnitLabel.text = "\(userProfile.selectedWeightUnit)"
     }
 }
