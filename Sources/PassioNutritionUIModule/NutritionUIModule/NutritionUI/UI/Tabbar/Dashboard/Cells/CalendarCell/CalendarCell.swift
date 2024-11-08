@@ -17,14 +17,15 @@ final class CalendarCell: UITableViewCell {
 
     @IBOutlet weak var adherenceIconImageView: UIImageView!
     @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nextDateView: UIView!
     @IBOutlet weak var nextDateButton: UIButton!
     @IBOutlet weak var calendarActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var calendarView: FSCalendar!
     @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var adherenceImgaeView: UIImageView!
-
+    @IBOutlet weak var disclosureButton: UIButton!
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = DateFormatString.yyyy_MM_dd
@@ -42,6 +43,8 @@ final class CalendarCell: UITableViewCell {
     }
 
     weak var delegate: CalendarCellLogsDelegate?
+    var didSelectDate: ((Date)->())? = nil
+    var didTapDisclosure: (()->())? = nil
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -60,6 +63,10 @@ final class CalendarCell: UITableViewCell {
 
         shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds,
                                                    cornerRadius: 8).cgPath
+    }
+    
+    @IBAction func disclosureButtonTapped(_ sender: Any) {
+        self.didTapDisclosure?()
     }
 }
 
@@ -84,9 +91,9 @@ extension CalendarCell {
     func configureDateUI() {
 
         let (startDate, endDate) = getCurrentDates()
-        nextDateButton.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
-        adherenceImgaeView.transform = CGAffineTransform(rotationAngle: calendarView.scope == .month ? .pi : 0)
-
+        nextDateView.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
+        disclosureButton.transform = CGAffineTransform(rotationAngle: calendarView.scope == .month ? .pi/2 : 0)
+        
         if calendarView.scope == .month {
             let dateFormatterr = DateFormatter()
             dateFormatterr.dateFormat = DateFormatString.MMMM_yyyy
@@ -154,9 +161,11 @@ extension CalendarCell {
     }
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
-        let setDate: (Calendar.Component, Int) = calendarView.scope == .week ? (.day, -7) : (.month, -1)
-        let dateValue = sender.tag == 1 ? setDate.1 : abs(setDate.1)
-        let date = Calendar.current.date(byAdding: setDate.0, value: dateValue, to: calendarView.currentPage)!
+        let setDate: (component: Calendar.Component, value: Int) = calendarView.scope == .week ? (.day, -7) : (.month, -1)
+        let dateValue = sender.tag == 1 ? setDate.value : abs(setDate.value)
+        let date = Calendar.current.date(byAdding: setDate.component,
+                                         value: dateValue,
+                                         to: calendarView.currentPage)!
         calendarView.setCurrentPage(date, animated: true)
     }
 }
@@ -164,6 +173,12 @@ extension CalendarCell {
 // MARK: - FSCalender Datasource and delegate
 extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
 
+    func calendar(_ calendar: FSCalendar, 
+                  didSelect date: Date,
+                  at monthPosition: FSCalendarMonthPosition) {
+        self.didSelectDate?(date)
+    }
+    
     func calendar(_ calendar: FSCalendar,
                   boundingRectWillChange bounds: CGRect,
                   animated: Bool) {
@@ -174,7 +189,7 @@ extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     func calendar(_ calendar: FSCalendar,
                   shouldSelect date: Date,
                   at monthPosition: FSCalendarMonthPosition) -> Bool {
-        false
+        true
     }
 
     func calendar(_ calendar: FSCalendar,

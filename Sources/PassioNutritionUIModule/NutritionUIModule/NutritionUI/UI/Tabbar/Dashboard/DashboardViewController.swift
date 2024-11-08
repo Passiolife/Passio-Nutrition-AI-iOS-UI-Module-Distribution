@@ -88,6 +88,15 @@ class DashboardViewController: UIViewController {
             self.softReloadNutritionCell()
         }
     }
+    
+    func navigateToDiary(date: Date) {
+        guard let vc = self.tabBarController as? HomeTabBarController else { return }
+        vc.selectedIndex = 1
+        if let diaryNavVC = vc.viewControllers?[1] as? UINavigationController,
+           let diaryVC = diaryNavVC.viewControllers.first as? DiaryViewController {
+            diaryVC.selectedDate = date
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate, UITableViewDataSource
@@ -119,9 +128,9 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             let (calories, carbs, protein, fat) = getNutritionSummaryfor(foodRecords: displayedRecords)
             let nuData = NutritionDataModal(
                 calory: (consumed: Int(calories), target: userProfile.caloriesTarget),
-                carb: (consumed: Int(carbs), target: userProfile.carbsGrams),
-                protein: (consumed: Int(protein), target: userProfile.proteinGrams),
-                fat: (consumed: Int(fat), target: userProfile.fatGrams))
+                carb: (consumed: Int(carbs), target: userProfile.carbsTargetGrams),
+                protein: (consumed: Int(protein), target: userProfile.proteinTargetGrams),
+                fat: (consumed: Int(fat), target: userProfile.fatTargetGrams))
             cell.nutritionData = nuData
             return cell
 
@@ -129,6 +138,15 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueCell(cellClass: CalendarCell.self, forIndexPath: indexPath)
             cell.configure(currentDate: self.selectedDate, calendarScope: calendarScope)
             cell.configureDateUI()
+            cell.didSelectDate = { [weak self] date in
+                guard let self = self else { return }
+                self.navigateToDiary(date: date)
+            }
+            cell.didTapDisclosure = { [weak self] in
+                guard let self = self else { return }
+                calendarScope = calendarScope == .month ? FSCalendarScope.week : FSCalendarScope.month
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
             return cell
         }
     }
@@ -136,8 +154,8 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch cells[indexPath.row] {
         case .calender:
-            calendarScope = calendarScope == .month ? FSCalendarScope.week : FSCalendarScope.month
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            print("Calendar cell")
+            break
         default:
             break
         }
