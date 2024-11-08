@@ -394,7 +394,6 @@ internal extension UserProfileModel {
         self.carbsPercent = Int(coreModel.carbsPercent)
         self.proteinPercent = Int(coreModel.proteinPercent)
         self.fatPercent = Int(coreModel.fatPercent)
-        self.recommendedCalories = Int(coreModel.recommendedCalories)
         
         if let reminderSettings = coreModel.reminderSettings {
             

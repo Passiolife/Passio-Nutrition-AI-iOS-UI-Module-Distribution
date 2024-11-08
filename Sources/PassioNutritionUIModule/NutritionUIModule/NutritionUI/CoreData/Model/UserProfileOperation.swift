@@ -86,7 +86,6 @@ public class UserProfileOperation {
                 dbUserProfile.lastName = userProfile.lastName
                 dbUserProfile.mealPlan = userProfile.mealPlan?.toJsonString()
                 dbUserProfile.proteinPercent = userProfile.proteinPercent.toInt16()
-                dbUserProfile.recommendedCalories = userProfile.recommendedCalories.toInt16()
                 dbUserProfile.reminderSettings = userProfile.reminderSettings?.toJsonString()
                 dbUserProfile.units = userProfile.units.rawValue
                 dbUserProfile.waterUnit = userProfile.waterUnit?.rawValue
