@@ -157,6 +157,15 @@ public struct UserProfileModel: Codable, Equatable {
         }
     }
 
+    var selectedWeightUnit: String? {
+        switch units {
+        case .imperial:
+            return "lbs"
+        case .metric:
+            return "kg"
+        }
+    }
+    
     var goalWeightRemainDespription: String? {
         guard let goalWeight = goalWeight,
               let mainWeight = weight, goalWeight > 0 else { return nil}

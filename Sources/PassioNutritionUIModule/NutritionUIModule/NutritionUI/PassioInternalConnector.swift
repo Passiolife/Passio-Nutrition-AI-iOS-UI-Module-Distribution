@@ -228,5 +228,13 @@ extension PassioInternalConnector {
             completion(logs)
         }
     }
+    
+    func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking) {
+        connector.insertOrReplaceWeightTrackingRecord(weightTracking: weightTracking)
+    }
+    
+    func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        connector.fetchWeightTrackingRecord(date: date, completion: completion)
+    }
 }
 

@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol WeightTrackingDelegate {
-    func rightNavigationMenuClicked(rightMenuButton: UIButton)
-}
-
 class WeightTrackingVC: UIViewController {
     
     @IBOutlet weak var segmentControl: UISegmentedControl!
@@ -29,8 +25,6 @@ class WeightTrackingVC: UIViewController {
     enum Scope {
         case month,week
     }
-
-    var delegate: WeightTrackingDelegate? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,15 +69,17 @@ class WeightTrackingVC: UIViewController {
         navigationController?.updateStatusBarColor(color: .statusBarColor)
         
         setupBackButton()
+        
         let button = UIButton()
-        button.setImage(UIImage.imageFromBundle(named: "menu"), for: .normal)
+        button.setImage(UIImage.imageFromBundle(named: "addIcon"), for: .normal)
         button.addTarget(self, action: #selector(handleFilterButton(sender: )), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: button)
     }
     
     // selector that's going to tigger on single tap on nav bar button
     @objc private func handleFilterButton(sender: UIButton) {
-        self.delegate?.rightNavigationMenuClicked(rightMenuButton: sender)
+        let vc = NutritionUICoordinator.getAddWeightTrackingViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

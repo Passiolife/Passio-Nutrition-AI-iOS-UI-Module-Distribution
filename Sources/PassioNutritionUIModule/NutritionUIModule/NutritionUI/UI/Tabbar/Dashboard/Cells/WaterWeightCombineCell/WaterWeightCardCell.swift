@@ -78,7 +78,7 @@ extension WaterWeightCardCell {
     func configureUI() {
         let userProfile = UserManager.shared.user ?? UserProfileModel()
         
-        waterGoalValueLabel.text = "\((userProfile.goalWater ?? 0).clean)"
+        waterGoalValueLabel.text = "0"
         waterUnitLabel.text = "\(userProfile.waterUnit ?? .oz)"
         
         var remainWaterGoal = ""
@@ -93,16 +93,14 @@ extension WaterWeightCardCell {
         weightGoalValueLabel.text = "0"
         weightUnitLabel.text = "lbs"
         
-        if let weightDespription = userProfile.goalWeightDespription {
-            let weightDespriptionArr = weightDespription.split(separator: " ")
-            if weightDespriptionArr.count >= 2 {
-                weightGoalValueLabel.text = "\(weightDespriptionArr[0])"
-                weightUnitLabel.text = "\(weightDespriptionArr[1])"
-            }
+        if let weightDespription = userProfile.goalWeightDespription,
+           let weightUnit = userProfile.selectedWeightUnit {
+            weightGoalValueLabel.text = "0"
+            weightUnitLabel.text = "\(weightUnit)"
         }
         
         
-        if let goalWeightRemain = userProfile.goalWeightRemainDespription {
+        if let goalWeightRemain = userProfile.goalWeightDespription {
             remainWeightGoal = "\(goalWeightRemain)"
             remainWeightGoalFullText = "\(remainWeightGoal) remain to daily goal"
         }

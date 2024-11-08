@@ -232,6 +232,22 @@ extension JSONPassioConnector: PassioConnector {
                                       completion: completion)
         }
     }
+    
+    // Weight Tracking
+    
+    func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking) {
+        if let url = urlForWeightTrackingeModel(weightTracking: weightTracking) {
+            _ = fileManager.updateRecordLocally(url: url, record: weightTracking)
+        }
+    }
+    
+    func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        if let urlForDate = urlForSavingTrackingFiles(date: date) {
+            completion(fileManager.getRecords(for: urlForDate))
+        } else {
+            completion([])
+        }
+    }
 }
 
 // MARK: Helper
@@ -341,6 +357,25 @@ extension JSONPassioConnector {
         return dirURL
     }
     
+    private func urlForSavingTrackingFiles(date: Date) -> URL? {
+        guard let appSupportDir = try? fileManager.url(for: .applicationSupportDirectory,
+                                                       in: .userDomainMask,
+                                                       appropriateFor: nil,
+                                                       create: true) else {
+            return nil
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        let directory = dateFormatter.string(from: date)
+        let dirURL = appSupportDir.appendingPathComponent("weightTrackingDate" + directory, isDirectory: true)
+        do {
+            try fileManager.createDirectory(atPath: dirURL.path, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("can't create directory at \(dirURL)")
+        }
+        return dirURL
+    }
+    
     private func urlForSaving(userFoods: FoodRecordV3) -> URL? {
         createFile(for: urlForUserFoodsDirectory, at: userFoods.uuid)
     }
@@ -370,5 +405,15 @@ extension JSONPassioConnector {
         } else {
             completion([])
         }
+    }
+    
+    private func urlForWeightTrackingeModel(weightTracking: WeightTracking) -> URL? {
+        let date = weightTracking.createdAt
+        
+        guard let urlForFile = urlForSavingTrackingFiles(date: date) else {
+            return nil
+        }
+        let finalURL = urlForFile.appendingPathComponent(weightTracking.uuid.replacingOccurrences(of: "-", with: "") + ".json")
+        return finalURL
     }
 }

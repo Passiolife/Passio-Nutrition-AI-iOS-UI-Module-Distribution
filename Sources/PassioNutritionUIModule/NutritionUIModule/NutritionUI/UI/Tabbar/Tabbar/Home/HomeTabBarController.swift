@@ -355,15 +355,7 @@ extension HomeTabBarController: DashboardDelegate {
     func redirectToTrackingScreen(trackingType: TrackingTypes) {
         if trackingType == .weightTracking{
             let vc = NutritionUICoordinator.getWeightTrackingViewController()
-            vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
         }
-    }
-}
-
-// MARK: - DashboardDelegate
-extension HomeTabBarController: WeightTrackingDelegate {
-    func rightNavigationMenuClicked(rightMenuButton: UIButton) {
-        self.handleFilterButton(sender: rightMenuButton)
     }
 }

@@ -11,6 +11,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Inter-Medium.ttf">
+            <string>Inter-Medium</string>
+        </array>
         <array key="Inter-Regular.ttf">
             <string>Inter-Regular</string>
         </array>
@@ -254,6 +257,165 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="90" y="-2"/>
+        </scene>
+        <!--Add New Weight TrackingVC-->
+        <scene sceneID="HWE-ft-fHJ">
+            <objects>
+                <viewController storyboardIdentifier="AddNewWeightTrackingVC" id="oQQ-G6-pvs" customClass="AddNewWeightTrackingVC" customModule="PassioNutritionUIModule" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="A4F-nm-OcU">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1ca-RH-GRJ">
+                                <rect key="frame" x="0.0" y="83" width="393" height="735"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="DPz-WS-9Fr">
+                                        <rect key="frame" x="16" y="0.0" width="361" height="237"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pvG-Xz-4IE">
+                                                <rect key="frame" x="0.0" y="0.0" width="361" height="68.333333333333329"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5aY-fC-XyY">
+                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="20.333333333333332"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a2h-li-AxP">
+                                                        <rect key="frame" x="0.0" y="28.333333333333329" width="361" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="cJD-Qj-ivm"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qOx-3z-g78">
+                                                <rect key="frame" x="0.0" y="84.333333333333343" width="361" height="68.333333333333343"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8v-kT-YXt">
+                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="20.333333333333332"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bSN-cw-c8Q">
+                                                        <rect key="frame" x="0.0" y="28.333333333333314" width="361" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="D1l-7n-9nM"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vaX-RW-C6C">
+                                                <rect key="frame" x="0.0" y="168.66666666666666" width="361" height="68.333333333333343"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NCV-PX-iF7">
+                                                        <rect key="frame" x="0.0" y="0.0" width="361" height="20.333333333333332"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9ez-bx-Use">
+                                                        <rect key="frame" x="0.0" y="28.333333333333343" width="361" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="PTs-n5-XxR"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="MVs-DF-APr">
+                                        <rect key="frame" x="16" y="685" width="361" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NjO-B3-ek8">
+                                                <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="50"/>
+                                                <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
+                                                <color key="tintColor" name="indigo-600"/>
+                                                <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="-8" maxY="0.0"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Cancel">
+                                                    <color key="titleColor" name="indigo-600"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" name="indigo-600"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mkw-BF-dGH">
+                                                <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="50"/>
+                                                <color key="backgroundColor" name="indigo-600"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Save"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                                                        <real key="value" value="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="vwBorderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="vwBorderColor">
+                                                        <color key="value" name="indigo-600"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Drg-cd-1OO"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="DPz-WS-9Fr" firstAttribute="leading" secondItem="1ca-RH-GRJ" secondAttribute="leading" constant="16" id="2rB-4j-SC5"/>
+                                    <constraint firstAttribute="trailing" secondItem="MVs-DF-APr" secondAttribute="trailing" constant="16" id="ACV-No-YTd"/>
+                                    <constraint firstItem="DPz-WS-9Fr" firstAttribute="top" secondItem="1ca-RH-GRJ" secondAttribute="top" id="CMy-Bc-beZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="DPz-WS-9Fr" secondAttribute="trailing" constant="16" id="TTT-eD-Yoz"/>
+                                    <constraint firstAttribute="bottom" secondItem="MVs-DF-APr" secondAttribute="bottom" id="dkf-QT-xWX"/>
+                                    <constraint firstItem="MVs-DF-APr" firstAttribute="leading" secondItem="1ca-RH-GRJ" secondAttribute="leading" constant="16" id="tAU-xj-dmg"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ZfB-vm-Quy"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ZfB-vm-Quy" firstAttribute="bottom" secondItem="1ca-RH-GRJ" secondAttribute="bottom" id="6xH-x5-oJg"/>
+                            <constraint firstItem="ZfB-vm-Quy" firstAttribute="trailing" secondItem="1ca-RH-GRJ" secondAttribute="trailing" id="7cg-zR-Nmz"/>
+                            <constraint firstItem="1ca-RH-GRJ" firstAttribute="top" secondItem="ZfB-vm-Quy" secondAttribute="top" constant="24" id="coe-PC-A7T"/>
+                            <constraint firstItem="1ca-RH-GRJ" firstAttribute="leading" secondItem="ZfB-vm-Quy" secondAttribute="leading" id="xid-ej-Glf"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="buttonContainerStackViewBottomConst" destination="dkf-QT-xWX" id="KFI-sb-Txk"/>
+                        <outlet property="dayTitleLabel" destination="o8v-kT-YXt" id="9nu-12-0q5"/>
+                        <outlet property="dayValueTextField" destination="bSN-cw-c8Q" id="gcZ-4X-4Ea"/>
+                        <outlet property="timeTitleLabel" destination="NCV-PX-iF7" id="v7u-SM-4mT"/>
+                        <outlet property="timeValueTextField" destination="9ez-bx-Use" id="qbJ-Yx-Jw2"/>
+                        <outlet property="weightTitleLabel" destination="5aY-fC-XyY" id="gkh-Na-T4y"/>
+                        <outlet property="weightValueTextField" destination="a2h-li-AxP" id="1C6-Mz-YuG"/>
+                        <outletCollection property="arrValueTextField" destination="a2h-li-AxP" collectionClass="NSMutableArray" id="zlj-tJ-kIq"/>
+                        <outletCollection property="arrValueTextField" destination="bSN-cw-c8Q" collectionClass="NSMutableArray" id="L3K-WO-xJ6"/>
+                        <outletCollection property="arrValueTextField" destination="9ez-bx-Use" collectionClass="NSMutableArray" id="v1L-ou-aIN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PVC-qu-vW6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="850" y="4"/>
         </scene>
     </scenes>
     <resources>

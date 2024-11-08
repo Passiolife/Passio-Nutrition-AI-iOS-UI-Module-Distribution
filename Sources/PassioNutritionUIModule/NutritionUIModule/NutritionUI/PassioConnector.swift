@@ -49,6 +49,10 @@ public protocol PassioConnector: AnyObject {
     // Day logs - Newly added
     func fetchDayLogFor(fromDate: Date, toDate: Date, completion: @escaping ([DayLog]) -> Void)
     func fetchDayLogRecursive(fromDate: Date, toDate: Date, currentLogs: [DayLog], completion: @escaping ([DayLog]) -> Void)
+    
+    // WeightTracking Records
+    func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking)
+    func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void)
 }
 
 
