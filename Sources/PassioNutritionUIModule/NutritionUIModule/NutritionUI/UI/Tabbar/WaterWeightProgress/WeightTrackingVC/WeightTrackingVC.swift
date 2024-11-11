@@ -74,7 +74,7 @@ class WeightTrackingVC: UIViewController {
         selectedDate = Date()
         segmentControl.defaultConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .gray700)
         segmentControl.selectedConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .white)
-        weightBarChart.title = "Water Tracking"
+        weightBarChart.title = "Weight Tracking"
         segmentControl.selectedSegmentTintColor = .indigo600
         arrowIcon.transform = CGAffineTransform(rotationAngle: .pi)
         configureNavBar()
@@ -222,25 +222,6 @@ extension WeightTrackingVC {
         }
     }
 
-    private func setupCharts_Backup(from dayLogs: [DayLog]) {
-
-        let data = dayLogs.map { daylog in
-            let displayedRecords = daylog.displayedRecords
-            let (calory, carbs, protein, fat) = getNutritionSummaryfor(foodRecords: displayedRecords)
-            let _calory  = ChartDataSource(value: CGFloat(calory) == 0 ? nil : CGFloat(calory), color: .yellow500)
-            let _protein = ChartDataSource(value: CGFloat(protein) * 4, color: .green500)
-            let _fat     = ChartDataSource(value: CGFloat(fat) * 9, color: .purple500)
-            let _carbs   = ChartDataSource(value: CGFloat(carbs) * 4, color: .lightBlue)
-            return (_calory,CombineChartDataSource(dataSource: [_protein,_fat,_carbs]))
-        }
-
-        let dates = dayLogs.map({$0.date})
-
-        let max = (data.map({$0.0}).max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
-            .normalize(toMultipleOf: 200)
-        weightBarChart.setupChart(datasource: data.map({ $0.0 }), maximum: max, dates: dates)
-    }
-
     private func setupCharts(from weightTrackingRecords: [WeightTracking]) {
 
         let data = weightTrackingRecords.map { weightTracking in
@@ -253,7 +234,7 @@ extension WeightTrackingVC {
         
         let max = (data.max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)
-        weightBarChart.setupChart(datasource: data, maximum: max, dates: dates)
+        weightBarChart.setupLineChart(datasource: data, maximum: max, dates: dates)
     }
 }
 
