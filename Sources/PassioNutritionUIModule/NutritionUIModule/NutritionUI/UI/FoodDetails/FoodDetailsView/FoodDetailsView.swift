@@ -301,7 +301,7 @@ extension FoodDetailsView {
                                          forIndexPath: indexPath)
         let isFavorite = favorites.count > 0 ? "heart.fill" : "heart"
         cell.favouriteButton.setImage(UIImage(systemName: isFavorite), for: .normal)
-        cell.favouriteButton.tintColor = favorites.count > 0 ? UIColor.red : .gray400
+        cell.favouriteButton.tintColor = favorites.count > 0 ? .primaryColor : .gray400
         cell.favouriteButton.addTarget(self,
                                        action: #selector(addRemoveFavorites),
                                        for: .touchUpInside)

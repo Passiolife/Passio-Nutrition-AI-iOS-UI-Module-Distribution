@@ -202,7 +202,7 @@ extension HomeTabBarController {
         let customPickerViewController = CustomPickerViewController()
         customPickerViewController.loadViewIfNeeded()
 
-        let options: [HemburgarMenuOptions] = [.profile, .settings, .logout]
+        let options: [HemburgarMenuOptions] = [.profile, .settings]
         customPickerViewController.pickerItems = options.map({$0.pickerElememt})
 
         if let frame = sender.superview?.convert(sender.frame, to: nil) {

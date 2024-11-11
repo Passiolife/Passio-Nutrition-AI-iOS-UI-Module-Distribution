@@ -18,7 +18,7 @@ let package = Package(
     dependencies: [
          // Dependencies declare other packages that this package depends on.
 //        .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
-//                 .upToNextMajor(from: "3.0.0")),
+//                 exact: "3.2.1"),
         .package(url: "https://github.com/SwipeCellKit/SwipeCellKit",
                  .upToNextMajor(from: "2.7.1")),
         .package(url: "https://github.com/WenchaoD/FSCalendar.git",

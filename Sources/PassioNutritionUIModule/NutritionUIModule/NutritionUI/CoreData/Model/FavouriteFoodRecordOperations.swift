@@ -106,7 +106,7 @@ internal class FavouriteFoodRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch match delete and save as new Favourite recored: \(error)")
+                print( "Failed to fetch match delete and save as new Favourite recored: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -134,11 +134,11 @@ internal class FavouriteFoodRecordOperations {
                 
                 if let firstRecord = results.first {
                     dbFoodRecordV3 = firstRecord
-                    passioLog(message: "Existing Favourite Record found to update")
+                    print( "Existing Favourite Record found to update")
                 }
                 else {
                     dbFoodRecordV3 = TblFavouriteFoodRecord(context: mainContext)
-                    passioLog(message: "New Favourite Record is created for storage")
+                    print( "New Favourite Record is created for storage")
                 }
                 
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -223,7 +223,7 @@ internal class FavouriteFoodRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch match and save as new Favourite recored: \(error)")
+                print( "Failed to fetch match and save as new Favourite recored: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -254,11 +254,11 @@ internal class FavouriteFoodRecordOperations {
                     
                     if let firstRecord = results.first {
                         dbFoodRecordV3 = firstRecord
-                        passioLog(message: "Existing Favourite Record found to update")
+                        print( "Existing Favourite Record found to update")
                     }
                     else {
                         dbFoodRecordV3 = TblFavouriteFoodRecord(context: mainContext)
-                        passioLog(message: "New Favourite Record is created for storage")
+                        print( "New Favourite Record is created for storage")
                     }
                     
                     guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -340,7 +340,7 @@ internal class FavouriteFoodRecordOperations {
                     
                 } catch let error {
                     errorStatement = error
-                    passioLog(message: "Failed to fetch match and save as new Favourite recored: \(error)")
+                    print( "Failed to fetch match and save as new Favourite recored: \(error)")
                     completion(false, error)
                 }
                 
@@ -375,7 +375,7 @@ internal class FavouriteFoodRecordOperations {
                 let results = try mainContext.fetch(fetchRequest)
                 
                 if let firstRecord = results.first {
-                    passioLog(message: "Existing Favourite Record found for storage and will update it")
+                    print( "Existing Favourite Record found for storage and will update it")
                     dbFoodRecordV3 = firstRecord
                     
                     guard let dbFoodRecordV3 = dbFoodRecordV3 else { return }
@@ -444,7 +444,7 @@ internal class FavouriteFoodRecordOperations {
                     completion(true, nil)
                 }
             } catch let error {
-                passioLog(message: "Failed to fetch Favourite record to update: \(error)")
+                print( "Failed to fetch Favourite record to update: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -476,7 +476,7 @@ internal class FavouriteFoodRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Favourite records: \(error)")
+                print( "Failed to fetch Favourite records: \(error)")
                 
                 mainContext.saveChanges()
                 completion([], error)
@@ -510,7 +510,7 @@ internal class FavouriteFoodRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Favourite records: \(error)")
+                print( "Failed to fetch Favourite records: \(error)")
                 
                 mainContext.saveChanges()
                 completion([], error)
@@ -544,7 +544,7 @@ internal class FavouriteFoodRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Favourite records: \(error)")
+                print( "Failed to fetch Favourite records: \(error)")
                 
                 mainContext.saveChanges()
                 completion([], error)
@@ -578,7 +578,7 @@ internal class FavouriteFoodRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Favourite records: \(error)")
+                print( "Failed to fetch Favourite records: \(error)")
                 
                 mainContext.saveChanges()
                 completion([], error)
@@ -612,7 +612,7 @@ internal class FavouriteFoodRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Favourite record to delete: \(error)")
+                print( "Failed to fetch Favourite record to delete: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -647,7 +647,7 @@ internal class FavouriteFoodRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch record to delete: \(error)")
+                print( "Failed to fetch record to delete: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)

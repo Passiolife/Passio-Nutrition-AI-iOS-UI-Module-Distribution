@@ -81,7 +81,7 @@ extension NSManagedObject {
         do { return try context.fetch(fRequest).last as? NSManagedObject }
             
         catch {
-            passioLog(message: "Error while finding the NSManagedObject with dict :-(dict) AND error is :- (error.localizedDescription)")
+            print( "Error while finding the NSManagedObject with dict :-(dict) AND error is :- (error.localizedDescription)")
         }
         return nil
     }
@@ -117,7 +117,7 @@ extension NSManagedObject {
         do { return try mainManagedObjectContext.fetch(fRequest) as? [NSManagedObject] }
             
         catch {
-            passioLog(message: "Error while fetching the NSManagedObjects with dict :- \(predicate ?? NSPredicate()) , sortDescriptor :- \(sortDescriptor ?? [NSSortDescriptor()]) AND error is :- \(error.localizedDescription)")
+            print( "Error while fetching the NSManagedObjects with dict :- \(predicate ?? NSPredicate()) , sortDescriptor :- \(sortDescriptor ?? [NSSortDescriptor()]) AND error is :- \(error.localizedDescription)")
         }
         return nil
     }
@@ -127,7 +127,7 @@ extension NSManagedObject {
         do { return try mainManagedObjectContext.fetch(fetchRequest)}
             
         catch {
-            passioLog(message: "Error while fetching all NSManagedObjects from entity\(entityName) :- \(error.localizedDescription)")
+            print( "Error while fetching all NSManagedObjects from entity\(entityName) :- \(error.localizedDescription)")
         }
         return nil
     }
@@ -155,7 +155,7 @@ extension NSManagedObject {
             }
             
         } catch {
-            passioLog(message: "Error while updating the NSManagedObjects with dict :- \(dict) , predicate :- \(predicate ?? NSPredicate()) AND error is :- \(error.localizedDescription)")
+            print( "Error while updating the NSManagedObjects with dict :- \(dict) , predicate :- \(predicate ?? NSPredicate()) AND error is :- \(error.localizedDescription)")
         }
     }
 }
@@ -185,7 +185,7 @@ extension NSManagedObject {
             managedObjectContext.reset()
         }
         catch {
-            passioLog(message: "Error while delete all NSManagedObjects with predicate :- \(predicate) AND error is :- \(error.localizedDescription)")
+            print( "Error while delete all NSManagedObjects with predicate :- \(predicate) AND error is :- \(error.localizedDescription)")
         }
     }
     
@@ -201,7 +201,7 @@ extension NSManagedObject {
             managedObjectContext.reset()
         }
         catch {
-            passioLog(message: "Error while delete all NSManagedObjects AND error is :- \(error.localizedDescription)")
+            print( "Error while delete all NSManagedObjects AND error is :- \(error.localizedDescription)")
         }
     }
 }
