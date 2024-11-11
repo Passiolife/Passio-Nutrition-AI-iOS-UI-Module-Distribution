@@ -16,6 +16,7 @@ final public class PassioUserDefaults {
         case trackingEnabled
         case savedLanguage
         case savedAdvisorHistory
+        case isMealPlanDisclaimerClosed
     }
 
     class func store(for key: PassioUserDefaults.Key, value: Any?) {

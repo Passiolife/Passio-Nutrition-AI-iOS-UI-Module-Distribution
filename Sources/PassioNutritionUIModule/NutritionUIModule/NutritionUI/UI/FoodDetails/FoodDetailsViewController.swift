@@ -54,6 +54,7 @@ final class FoodDetailsViewController: UIViewController {
         foodDetailsView?.foodDetailsDelegate = self
         foodDetailsView?.isEditingFavorite = isEditingFavorite
         foodDetailsView?.isEditingRecord = isEditingRecord
+        foodDetailsView?.configureTableView()
         foodDetailsView?.foodRecord = foodRecord
         foodDetailsView?.saveToConnector = !isEditingFavorite
         foodDetailsView?.isFromCustomFoodList = isFromCustomFoodList
@@ -298,6 +299,7 @@ extension FoodDetailsViewController: FoodDetailsDelegate {
     }
 
     func onMakeRecipe() {
+        print("onMakeRecipe")
         if isFromCustomFoodList {
             var recipeFoodRecord = foodRecord
             let iconId = foodRecord?.iconId ?? ""
@@ -373,7 +375,7 @@ extension FoodDetailsViewController: IngredientEditorViewDelegate {
 
     func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
         foodDetailsView?.foodRecord?.replaceIngredient(updatedIngredient: ingredient,
-                                                      atIndex: atIndex)
+                                                       atIndex: atIndex)
     }
 }
 

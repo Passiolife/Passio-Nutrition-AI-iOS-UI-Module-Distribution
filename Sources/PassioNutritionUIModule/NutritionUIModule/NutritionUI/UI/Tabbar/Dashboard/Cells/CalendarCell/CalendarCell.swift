@@ -92,7 +92,7 @@ extension CalendarCell {
 
         let (startDate, endDate) = getCurrentDates()
         nextDateView.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
-        disclosureButton.transform = CGAffineTransform(rotationAngle: calendarView.scope == .month ? .pi/2 : 0)
+        disclosureButton.transform = CGAffineTransform(rotationAngle: calendarView.scope == .month ? .pi : 0) // .pi/2
         
         if calendarView.scope == .month {
             let dateFormatterr = DateFormatter()
