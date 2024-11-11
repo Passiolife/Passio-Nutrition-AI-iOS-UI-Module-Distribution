@@ -17,8 +17,8 @@ let package = Package(
     ],
     dependencies: [
          // Dependencies declare other packages that this package depends on.
-//        .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
-//                 exact: "3.2.1"),
+        .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
+                 exact: "3.2.1"),
         .package(url: "https://github.com/SwipeCellKit/SwipeCellKit",
                  .upToNextMajor(from: "2.7.1")),
         .package(url: "https://github.com/WenchaoD/FSCalendar.git",
@@ -34,8 +34,8 @@ let package = Package(
         .target(
             name: "PassioNutritionUIModule",
             dependencies: [
-//                .product(name: "PassioNutritionAISDK",
-//                         package: "Passio-Nutrition-AI-iOS-SDK-Distribution"),
+                .product(name: "PassioNutritionAISDK",
+                         package: "Passio-Nutrition-AI-iOS-SDK-Distribution"),
                 "SwipeCellKit",
                 "FSCalendar",
                 "SwiftyMarkdown",
@@ -43,12 +43,12 @@ let package = Package(
             ],
             resources: [.process("NutritionUIModule/VoiceLogging.json"), // Lottie Animation
                         .process("NutritionUIModule/TypingIndicator.json"),
-                        .copy("NutritionUIModule/PassioFood.xcdatamodeld"),
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/FindMode.metal"), // VolumeKernels
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/HeightToVolume.metal"),
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/KalmanStatic1D.metal"),
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/MakeHeightMap.metal"),
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/volume_metal.h")]
+                        .copy("NutritionUIModule/PassioFood.xcdatamodeld")]
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/FindMode.metal"), // VolumeKernels
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/HeightToVolume.metal"),
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/KalmanStatic1D.metal"),
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/MakeHeightMap.metal"),
+//                        .copy("CoreSDK/ServicesVolume/VolumeKernels/volume_metal.h")]
         ),
     ]
 )
