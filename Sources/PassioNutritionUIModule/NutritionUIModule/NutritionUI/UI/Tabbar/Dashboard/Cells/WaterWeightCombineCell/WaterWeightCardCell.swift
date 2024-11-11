@@ -75,9 +75,10 @@ extension WaterWeightCardCell {
         addWeightButtonAction?()
     }
     
-    func configureUI() {
+    func configureUI(lastWeightRecord weightTrackingRecord: WeightTracking?) {
         let userProfile = UserManager.shared.user ?? UserProfileModel()
         
+        // Water Calculations
         waterGoalValueLabel.text = "0"
         waterUnitLabel.text = "\(userProfile.waterUnit ?? .oz)"
         
@@ -87,26 +88,42 @@ extension WaterWeightCardCell {
             remainWaterGoal = "\((userProfile.goalWater ?? 0).clean) \(userProfile.waterUnit ?? .oz)"
             remainWaterGoalFullText = "\(remainWaterGoal) remain to daily goal"
         }
+        waterRemainToDailyGoalLabel.setBoldAttributedText(boldText: remainWaterGoal, fullText: remainWaterGoalFullText, fontSize: 12)
         
+        // Weight Calculations
         var remainWeightGoal = ""
         var remainWeightGoalFullText = ""
+        let weightUnit = userProfile.selectedWeightUnit
         weightGoalValueLabel.text = "0"
-        weightUnitLabel.text = "lbs"
+        weightUnitLabel.text = "\(weightUnit)"
         
-        if let weightDespription = userProfile.goalWeightDespription {
-            let weightUnit = userProfile.selectedWeightUnit
-            weightGoalValueLabel.text = "0"
+        var subsctractValue = 0.0
+        
+        if let weightTrackingRecord = weightTrackingRecord,
+           let dWeight = userProfile.goalWeight {
+            let trackingWeight = userProfile.units == .imperial ? Double(weightTrackingRecord.weight * Conversion.lbsToKg.rawValue) : weightTrackingRecord.weight
+            
+            weightGoalValueLabel.text = "\(trackingWeight.roundUpDigits(afterDecimal: 1))"
             weightUnitLabel.text = "\(weightUnit)"
-        }
-        
-        
-        if let goalWeightRemain = userProfile.goalWeightDespription {
-            remainWeightGoal = "\(goalWeightRemain)"
+            
+            let goalWeight = userProfile.units == .imperial ? Double(dWeight * Conversion.lbsToKg.rawValue) : dWeight
+
+            subsctractValue = goalWeight - trackingWeight
+            
+            if subsctractValue < 0 {
+                subsctractValue = 0
+            }
+            
+            remainWeightGoal = "\(subsctractValue.roundUpDigits(afterDecimal: 1)) \(weightUnit)"
             remainWeightGoalFullText = "\(remainWeightGoal) remain to daily goal"
         }
-        
-        
-        waterRemainToDailyGoalLabel.setBoldAttributedText(boldText: remainWaterGoal, fullText: remainWaterGoalFullText, fontSize: 12)
+        else {
+            if let dWeight = userProfile.goalWeight {
+                let goalWeight = userProfile.units == .imperial ? Double(dWeight * Conversion.lbsToKg.rawValue) : dWeight
+                remainWeightGoal = "\(goalWeight.roundUpDigits(afterDecimal: 1)) \(weightUnit)"
+                remainWeightGoalFullText = "\(remainWeightGoal) remain to daily goal"
+            }
+        }
         weightRemainToDailyGoalLabel.setBoldAttributedText(boldText: remainWeightGoal, fullText: remainWeightGoalFullText, fontSize: 12)
         
         if userProfile.goalWater == nil {

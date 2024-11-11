@@ -41,7 +41,8 @@ class DashboardViewController: UIViewController {
     private enum CellType: Int {
         case nutrition, calender, weightWater
     }
-
+    private var weightTrackingRecord: WeightTracking?
+    
     var delegate: DashboardDelegate? = nil
     
     override func viewDidLoad() {
@@ -55,6 +56,11 @@ class DashboardViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.getWeightTrackingLastRecord()
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
@@ -107,6 +113,15 @@ class DashboardViewController: UIViewController {
         if let diaryNavVC = vc.viewControllers?[1] as? UINavigationController,
            let diaryVC = diaryNavVC.viewControllers.first as? DiaryViewController {
             diaryVC.selectedDate = date
+        }
+    }
+    
+    private func getWeightTrackingLastRecord() {
+        PassioInternalConnector.shared.fetchWeightTrackingRecord(date: Date()) { weightTrackingRecord in
+            if let lastRecordOfDesOrder = weightTrackingRecord.last {
+                self.weightTrackingRecord = lastRecordOfDesOrder
+                self.tableView.reloadData()
+            }
         }
     }
 }
@@ -162,15 +177,13 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case .weightWater:
             let cell = tableView.dequeueCell(cellClass: WaterWeightCardCell.self, forIndexPath: indexPath)
-            cell.configureUI()
+            cell.configureUI(lastWeightRecord: weightTrackingRecord)
             cell.addWaterButtonAction = {
-                print("Add Water clicked")
                 self.delegate?.redirectToTrackingScreen(trackingType: .weightTracking)
             }
             
             cell.addWeightButtonAction = { [weak self] in
                 guard let self = self else { return }
-                print("Add Weight clicked")
                 self.delegate?.redirectToTrackingScreen(trackingType: .weightTracking)
             }
             cell.selectionStyle = .none

@@ -27,6 +27,18 @@ public extension Double {
         return (self * multiplier).rounded()/multiplier
     }
 
+    func roundUpDigits(afterDecimal: Int) -> Double {
+        let multiplier = pow(10, Double(afterDecimal))
+        let roundedValue = (self * multiplier).rounded() / multiplier
+        
+        // If the number is effectively an integer (i.e., no decimal fraction), return it as an integer
+        if roundedValue == roundedValue.rounded() {
+            return roundedValue.rounded()
+        } else {
+            return roundedValue
+        }
+    }
+    
     var formattedDecimalValue: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal

@@ -18,8 +18,11 @@ class WeightTrackingVC: UIViewController {
     @IBOutlet weak var arrowIcon: UIImageView!
     @IBOutlet weak var weightTrackTableView: UITableView!
     @IBOutlet weak var weightTrackTableViewHeightConst: NSLayoutConstraint!
+    @IBOutlet weak var weightTrackTableViewTopConst: NSLayoutConstraint!
+    @IBOutlet weak var weightTrackTableViewBottomConst: NSLayoutConstraint!
     @IBOutlet weak var weightTrackerListContainer: UIView!
-    
+    @IBOutlet weak var dividerView: UIView!
+    private let connector = PassioInternalConnector.shared
     private var selectedDate: Date = Date() {
         didSet {
             configureDateUI()
@@ -73,7 +76,7 @@ class WeightTrackingVC: UIViewController {
         segmentControl.selectedConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .white)
         weightBarChart.title = "Water Tracking"
         segmentControl.selectedSegmentTintColor = .indigo600
-        
+        arrowIcon.transform = CGAffineTransform(rotationAngle: .pi)
         configureNavBar()
         
         self.weightTrackerListContainer.isHidden = true
@@ -130,6 +133,32 @@ extension WeightTrackingVC {
         self.getWeightTrackingRecords()
     }
 
+    @IBAction func aarowTogglePressed(_ sender: UIButton) {
+        if arrowIcon.tag == 0 {
+            arrowIcon.tag = 1
+            arrowIcon.transform = CGAffineTransform(rotationAngle: 0)
+            UIView.animate(withDuration: 0.6) {
+                self.weightTrackTableViewHeightConst.constant = 0
+                self.weightTrackTableViewTopConst.constant = 0
+                self.weightTrackTableViewBottomConst.constant = 0
+                self.dividerView.isHidden = true
+                self.view.layoutIfNeeded()
+            }
+            
+        }
+        else {
+            arrowIcon.tag = 0
+            arrowIcon.transform = CGAffineTransform(rotationAngle: .pi)
+            UIView.animate(withDuration: 0.6) {
+                self.dividerView.isHidden = false
+                self.weightTrackTableViewHeightConst.constant = CGFloat(55 * self.arrWeightTracking.count)
+                self.weightTrackTableViewTopConst.constant = 16
+                self.weightTrackTableViewBottomConst.constant = 16
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
     private func configureDateUI() {
 
         let (startDate, endDate) = currentScope == .week
@@ -160,11 +189,27 @@ extension WeightTrackingVC {
 
         let (fromDate, toDate) = currentScope == .week
         ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
-        PassioInternalConnector.shared.fetchWeightTrackingRecursive(fromDate: fromDate, toDate: toDate) { [weak self] (weightTrackingRecords) in
+        connector.fetchWeightTrackingRecursive(fromDate: fromDate, toDate: toDate) { [weak self] (weightTrackingRecords) in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
                 self.arrWeightTracking = weightTrackingRecords
                 self.weightTrackTableViewHeightConst.constant = CGFloat(55 * self.arrWeightTracking.count)
+                if self.arrWeightTracking.count == 0 {
+                    self.arrowIcon.tag = 1
+                    self.arrowIcon.transform = CGAffineTransform(rotationAngle: 0)
+                    self.weightTrackTableViewHeightConst.constant = 0
+                    self.weightTrackTableViewTopConst.constant = 0
+                    self.weightTrackTableViewBottomConst.constant = 0
+                    self.dividerView.isHidden = true
+                }
+                else {
+                    self.arrowIcon.tag = 0
+                    self.arrowIcon.transform = CGAffineTransform(rotationAngle: .pi)
+                    self.dividerView.isHidden = false
+                    self.weightTrackTableViewTopConst.constant = 16
+                    self.weightTrackTableViewBottomConst.constant = 16
+                }
+                
                 self.weightTrackTableView.reloadData()
                 if self.arrWeightTracking.count == 0 {
                     self.weightTrackerListContainer.isHidden = true
@@ -197,6 +242,7 @@ extension WeightTrackingVC {
     }
 }
 
+//MARK: UITableViewDelegate, UITableViewDataSource
 extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -219,13 +265,27 @@ extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         let editItem = UIContextualAction(style: .normal,
-                                          title: ButtonTexts.edit) { [weak self] (_, _, _) in
-            tableView.reloadData()
+                                          title: ButtonTexts.edit) { [weak self] (_, _, completionHandler) in
+            guard let self = self else { return }
+            let weightRecord = self.arrWeightTracking[indexPath.row]
+            self.connector.fetchWeightTrackingRecord(record: weightRecord) { record in
+                guard let record = record else {return}
+                
+                let vc = NutritionUICoordinator.getAddWeightTrackingViewController()
+                vc.delegate = self
+                vc.isEditMode = true
+                vc.weightRecord = record
+                self.navigationController?.pushViewController(vc, animated: true)
+                completionHandler(true)
+            }
         }
         editItem.backgroundColor = .indigo600
         let deleteItem = UIContextualAction(style: .destructive,
-                                            title: ButtonTexts.delete) { [weak self] (_, _, _) in
-            tableView.reloadData()
+                                            title: ButtonTexts.delete) { [weak self] (_, _, completionHandler) in
+            guard let self = self else { return }
+            self.connector.deleteWeightTrackingRecord(record: self.arrWeightTracking[indexPath.row])
+            self.getWeightTrackingRecords()
+            completionHandler(true)
         }
         let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem, editItem])
         return swipeActions

@@ -266,21 +266,9 @@ private extension AdvancedTextSearchView {
             dispatchGroup.enter()
             searchQueue.async {
                 
-                if self.isSemanticSearchEnable {
-                    PassioNutritionAI.shared.semanticSearchForFood(searchTerm: searchText) { (searchResponse) in
-                        if self.isSemanticSearchEnable {
-                            self.alternateSearches = searchResponse
-                        }
-                        dispatchGroup.leave()
-                    }
-                }
-                else {
-                    PassioNutritionAI.shared.searchForFood(byText: searchText) { (searchResponse) in
-                        if self.isSemanticSearchEnable == false {
-                            self.alternateSearches = searchResponse
-                        }
-                        dispatchGroup.leave()
-                    }
+                PassioNutritionAI.shared.searchForFood(byText: searchText) { (searchResponse) in
+                    self.alternateSearches = searchResponse
+                    dispatchGroup.leave()
                 }
             }
 

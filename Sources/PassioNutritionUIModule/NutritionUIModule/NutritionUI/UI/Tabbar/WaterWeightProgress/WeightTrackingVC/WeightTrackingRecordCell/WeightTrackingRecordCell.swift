@@ -14,6 +14,17 @@ class WeightTrackingRecordCell: UITableViewCell {
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var timeLabel: UILabel!
     
+    private let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = DateFormatString.EEE_MMMd
+        return df
+    }()
+    
+    private let timeFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = DateFormatString.h_mm_a
+        return df
+    }()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,8 +39,11 @@ class WeightTrackingRecordCell: UITableViewCell {
     }
     
     func setLayout(weightTracking: WeightTracking, userProfile: UserProfileModel) {
-        //let weight = userProfile.units == .imperial ? Double(weightTracking.weight * Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1).clean : weightTracking
-        weightLabel.text = "120"
+        let weight = userProfile.units == .imperial ? Double(weightTracking.weight * Conversion.lbsToKg.rawValue) : weightTracking.weight
+        weightLabel.text = "\(weight.roundUpDigits(afterDecimal: 1))"
         weightUnitLabel.text = "\(userProfile.selectedWeightUnit)"
+        
+        dateLabel.text = dateFormatter.string(from: weightTracking.date)
+        timeLabel.text = timeFormatter.string(from: weightTracking.time)
     }
 }

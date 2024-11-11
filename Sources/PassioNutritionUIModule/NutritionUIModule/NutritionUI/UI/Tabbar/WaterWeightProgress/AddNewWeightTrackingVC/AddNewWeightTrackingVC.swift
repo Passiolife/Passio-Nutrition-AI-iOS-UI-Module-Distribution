@@ -30,6 +30,7 @@ class AddNewWeightTrackingVC: UIViewController {
     private var selectedDate: Date?
     private var selectedTime: Date?
     private var userProfile: UserProfileModel!
+    private var userEnteredWeight: Double?
     
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -44,6 +45,8 @@ class AddNewWeightTrackingVC: UIViewController {
     }()
     
     var delegate:AddNewWeightTrackingDelegate?
+    var isEditMode: Bool = false
+    var weightRecord: WeightTracking!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,15 +62,19 @@ class AddNewWeightTrackingVC: UIViewController {
                                     action: #selector(closeKeyBoard),
                                     forEvent: .touchUpInside)
             }
-        
-        selectedDate = Date()
-        selectedTime = Date()
+        if isEditMode {
+            selectedDate = weightRecord.date
+            selectedTime = weightRecord.time
+            let value = userProfile.units == .imperial ? Double(weightRecord.weight * Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1) : weightRecord.weight
+            weightValueTextField.text = "\(value.clean) \(userProfile.selectedWeightUnit)"
+        }
+        else {
+            selectedDate = Date()
+            selectedTime = Date()
+        }
         
         dayValueTextField.text = dateFormatter.string(from: selectedDate!)
         timeValueTextField.text = timeFormatter.string(from: selectedTime!)
-        
-//        self.saveButton.isUserInteractionEnabled = false
-//        self.saveButton.tintColor = .gray700
         
         self.registerForKeyboardNotifications()
         self.configureNavBar()
@@ -169,9 +176,19 @@ extension AddNewWeightTrackingVC: UITextFieldDelegate {
         
         if textField == weightValueTextField {
             if let _weight = textField.text,
-               let dWeight = Double(_weight),
+               let dWeight = Int(_weight),
                dWeight > 0 {
+                userEnteredWeight = Double(dWeight)
                 textField.text = "\(dWeight) \(userProfile.selectedWeightUnit)"
+            }
+            else {
+                if isEditMode {
+                    let value = userProfile.units == .imperial ? (weightRecord.weight*Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1) : weightRecord.weight
+                    textField.text = "\(value) \(userProfile.selectedWeightUnit)"
+                }
+                else {
+                    textField.text = ""
+                }
             }
         }
     }
@@ -229,11 +246,18 @@ extension AddNewWeightTrackingVC {
         
         if let fieldValue = weightValueTextField.text,
            fieldValue.count > 0,
-           let roundedValue = Double(fieldValue).roundDigits(afterDecimal: 1),
+           let roundedValue = userEnteredWeight,
            let selectedDate = selectedDate,
            let selectedTime = selectedTime {
             let value = userProfile.units == .imperial ? roundedValue/Conversion.lbsToKg.rawValue : roundedValue
-            PassioInternalConnector.shared.insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking(weight: value, date: selectedDate, time: selectedTime, createdAt: Date()))
+            
+            var weightTrackModel = WeightTracking(weight: value, date: selectedDate, time: selectedTime, createdAt: Date())
+            
+            if isEditMode {
+                weightTrackModel = WeightTracking(id: weightRecord.id, weight: value, date: selectedDate, time: selectedTime, createdAt: weightRecord.createdAt)
+            }
+            
+            PassioInternalConnector.shared.insertOrReplaceWeightTrackingRecord(weightTracking: weightTrackModel)
             delegate?.refreshRecords()
             self.navigationController?.popViewController(animated: true)
         }

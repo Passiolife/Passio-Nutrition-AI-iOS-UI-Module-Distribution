@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -111,14 +111,14 @@
                                             <constraint firstItem="I7B-AP-owc" firstAttribute="leading" secondItem="GmN-J6-K6y" secondAttribute="leading" constant="16" id="ZKa-bn-k57"/>
                                         </constraints>
                                     </stackView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gP9-k5-geD">
-                                        <rect key="frame" x="16" y="354" width="361" height="133"/>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gP9-k5-geD">
+                                        <rect key="frame" x="16" y="354" width="361" height="137"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UeU-7J-Oe3">
-                                                <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UeU-7J-Oe3">
+                                                <rect key="frame" x="0.0" y="0.0" width="361" height="60"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="aVW-N4-7RE">
-                                                        <rect key="frame" x="16" y="13" width="329" height="30"/>
+                                                        <rect key="frame" x="16" y="15" width="329" height="30"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3/3/24 - 3/9/24" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="svX-4I-tzu">
                                                                 <rect key="frame" x="0.0" y="0.0" width="279" height="30"/>
@@ -136,8 +136,18 @@
                                                             </imageView>
                                                         </subviews>
                                                     </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wuu-g9-Ys7">
+                                                        <rect key="frame" x="16" y="15" width="329" height="30"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain"/>
+                                                        <connections>
+                                                            <action selector="aarowTogglePressed:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="YxU-Xz-r79"/>
+                                                        </connections>
+                                                    </button>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U65-So-wBU">
-                                                        <rect key="frame" x="0.0" y="53" width="361" height="1"/>
+                                                        <rect key="frame" x="0.0" y="57" width="361" height="1"/>
                                                         <color key="backgroundColor" name="gray-200"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="1" id="hBf-Hd-y5Z"/>
@@ -147,16 +157,20 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="aVW-N4-7RE" secondAttribute="trailing" constant="16" id="2re-dl-jEE"/>
+                                                    <constraint firstItem="Wuu-g9-Ys7" firstAttribute="trailing" secondItem="aVW-N4-7RE" secondAttribute="trailing" id="7FR-Vk-iDu"/>
                                                     <constraint firstItem="aVW-N4-7RE" firstAttribute="leading" secondItem="UeU-7J-Oe3" secondAttribute="leading" constant="16" id="Bah-3R-Ft2"/>
                                                     <constraint firstAttribute="bottom" secondItem="U65-So-wBU" secondAttribute="bottom" constant="2" id="D0M-ma-kth"/>
+                                                    <constraint firstItem="Wuu-g9-Ys7" firstAttribute="bottom" secondItem="aVW-N4-7RE" secondAttribute="bottom" id="JQg-R8-IAb"/>
+                                                    <constraint firstItem="Wuu-g9-Ys7" firstAttribute="top" secondItem="aVW-N4-7RE" secondAttribute="top" id="X2E-Yo-3Bc"/>
+                                                    <constraint firstItem="aVW-N4-7RE" firstAttribute="top" secondItem="UeU-7J-Oe3" secondAttribute="top" constant="15" id="ZWb-yv-V3Y"/>
                                                     <constraint firstItem="U65-So-wBU" firstAttribute="leading" secondItem="UeU-7J-Oe3" secondAttribute="leading" id="bdP-Qx-7en"/>
                                                     <constraint firstAttribute="trailing" secondItem="U65-So-wBU" secondAttribute="trailing" id="f8v-Fm-Fv6"/>
-                                                    <constraint firstAttribute="height" constant="56" id="hLv-by-3Hu"/>
-                                                    <constraint firstItem="aVW-N4-7RE" firstAttribute="centerY" secondItem="UeU-7J-Oe3" secondAttribute="centerY" id="tzk-hp-3ar"/>
+                                                    <constraint firstAttribute="height" constant="60" id="hLv-by-3Hu"/>
+                                                    <constraint firstItem="Wuu-g9-Ys7" firstAttribute="leading" secondItem="aVW-N4-7RE" secondAttribute="leading" id="oeO-qB-FS2"/>
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="52h-oW-fqJ">
-                                                <rect key="frame" x="0.0" y="72" width="361" height="45"/>
+                                                <rect key="frame" x="0.0" y="76" width="361" height="45"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="3mz-mg-msw"/>
@@ -200,11 +214,14 @@
                         <outlet property="arrowIcon" destination="CND-RS-rJk" id="JnM-r9-sME"/>
                         <outlet property="dateLabel" destination="Rac-N6-bm9" id="caQ-kE-mX0"/>
                         <outlet property="dateTitle" destination="svX-4I-tzu" id="1Kv-4c-dPV"/>
+                        <outlet property="dividerView" destination="U65-So-wBU" id="KeK-cO-qgZ"/>
                         <outlet property="nextDateButton" destination="QEO-wa-aBm" id="cma-9L-6UJ"/>
                         <outlet property="segmentControl" destination="IZL-vZ-NKo" id="xSf-qa-Fkv"/>
                         <outlet property="weightBarChart" destination="oyj-6A-UXX" id="x85-J1-TUO"/>
                         <outlet property="weightTrackTableView" destination="52h-oW-fqJ" id="bLk-gK-pb3"/>
+                        <outlet property="weightTrackTableViewBottomConst" destination="CJ3-S3-kmG" id="uj6-i1-t8N"/>
                         <outlet property="weightTrackTableViewHeightConst" destination="3mz-mg-msw" id="7Yd-hG-U8j"/>
+                        <outlet property="weightTrackTableViewTopConst" destination="7en-97-bWW" id="U6p-0n-AtG"/>
                         <outlet property="weightTrackerListContainer" destination="gP9-k5-geD" id="Ll5-bH-EI8"/>
                     </connections>
                 </viewController>

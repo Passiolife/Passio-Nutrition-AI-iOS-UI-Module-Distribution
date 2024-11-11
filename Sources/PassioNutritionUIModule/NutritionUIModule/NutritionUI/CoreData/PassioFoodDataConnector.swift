@@ -322,4 +322,23 @@ extension PassioFoodDataConnector: PassioConnector {
         }
     }
     
+    public func fetchWeightTrackingRecord(record: WeightTracking, completion: @escaping (WeightTracking?) -> Void) {
+        BodyMetriTrackingOperation.shared.fetchFoodRecords(whereClause: record) { trackingRecord, error in
+            if error != nil {
+                print("Failed to fetch WeightTracking records :: \(error)")
+                completion(nil)
+            }
+            else {
+                completion(trackingRecord)
+            }
+        }
+    }
+    
+    public func deleteWeightTrackingRecord(record: WeightTracking) {
+        BodyMetriTrackingOperation.shared.deleteWeightTrackingRecords(whereClause: record) { bResult, error in
+            if error != nil {
+                print("Failed delete Weight Tracking record :: \(error)")
+            }
+        }
+    }
 }
