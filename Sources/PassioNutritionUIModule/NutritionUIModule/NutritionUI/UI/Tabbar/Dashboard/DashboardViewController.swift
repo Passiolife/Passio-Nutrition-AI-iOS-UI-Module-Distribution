@@ -120,8 +120,11 @@ class DashboardViewController: UIViewController {
         PassioInternalConnector.shared.fetchWeightTrackingRecord(date: Date()) { weightTrackingRecord in
             if let lastRecordOfDesOrder = weightTrackingRecord.last {
                 self.weightTrackingRecord = lastRecordOfDesOrder
-                self.tableView.reloadData()
             }
+            else {
+                self.weightTrackingRecord = nil
+            }
+            self.tableView.reloadData()
         }
     }
 }
