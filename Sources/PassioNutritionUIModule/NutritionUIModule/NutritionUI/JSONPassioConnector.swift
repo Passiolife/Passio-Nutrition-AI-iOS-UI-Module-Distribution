@@ -272,7 +272,6 @@ extension JSONPassioConnector: PassioConnector {
         }
     }
     
-    func fetchWeightTrackingRecord(record: WeightTracking, completion: @escaping (WeightTracking?) -> Void) {}
     func deleteWeightTrackingRecord(record: WeightTracking) {}
 }
 

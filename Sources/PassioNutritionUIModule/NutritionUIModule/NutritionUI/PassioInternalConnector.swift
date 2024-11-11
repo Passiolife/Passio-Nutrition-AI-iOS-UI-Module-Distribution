@@ -245,10 +245,6 @@ extension PassioInternalConnector {
         connector.fetchWeightTrackingRecursive(fromDate: fromDate, toDate: toDate, currentLogs: [], completion: completion)
     }
     
-    public func fetchWeightTrackingRecord(record: WeightTracking, completion: @escaping (WeightTracking?) -> Void) {
-        connector.fetchWeightTrackingRecord(record: record, completion: completion)
-    }
-    
     public func deleteWeightTrackingRecord(record: WeightTracking) {
         connector.deleteWeightTrackingRecord(record: record)
     }

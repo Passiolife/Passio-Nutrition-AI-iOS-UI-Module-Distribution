@@ -132,40 +132,6 @@ public class BodyMetriTrackingOperation {
         
     }
     
-    //MARK: - Fetch all Weight tracking records that matches with given id
-    func fetchFoodRecords(whereClause record: WeightTracking, completion: @escaping ((WeightTracking?, Error?) -> Void)) {
-        
-        let mainContext = self.getMainContext()
-        
-        mainContext.perform {
-            
-            do {
-                
-                let fetchRequest: NSFetchRequest<TblWeightTracking> = TblWeightTracking.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "id == %@", record.id)
-                
-                let results = try mainContext.fetch(fetchRequest)
-                
-                if let tblWeightTracking = results.first {
-                    print("Existing weight tracking Record found to update")
-                    let weightTrackingRes = WeightTracking(id: tblWeightTracking.id ?? UUID().uuidString, weight: tblWeightTracking.weight ?? 0, date: tblWeightTracking.date ?? Date(), time: tblWeightTracking.date ?? Date(), createdAt: tblWeightTracking.createdAt ?? Date())
-                    completion(weightTrackingRes, nil)
-                }
-                else {
-                    mainContext.saveChanges()
-                    completion(nil, nil)
-                }
-                
-                
-            } catch let error {
-                mainContext.saveChanges()
-                print("Failed to fetch weight tracking records: \(error)")
-                completion(nil, error)
-            }
-        }
-        
-    }
-    
     //MARK: - Delete Weight tracking record
     func deleteWeightTrackingRecords(whereClause record: WeightTracking, completion: @escaping ((Bool, Error?) -> Void)) {
         
