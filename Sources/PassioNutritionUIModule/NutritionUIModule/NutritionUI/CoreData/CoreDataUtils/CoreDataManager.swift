@@ -28,7 +28,7 @@ class CoreDataManager {
         
         // Get the documents directory URL
         guard let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            passioLog(message: "Could not find the documents directory.")
+            print( "Could not find the documents directory.")
             return
         }
         
@@ -36,23 +36,23 @@ class CoreDataManager {
         
         // Check if the file already exists
         if fileManager.fileExists(atPath: destinationURL.path) {
-            passioLog(message: "File already exists at path: \(destinationURL.path)")
+            print( "File already exists at path: \(destinationURL.path)")
             return
         }
         
         // Get the source URL for the file in the package resources
         
         guard let sourceURL = Bundle.module.url(forResource: fileName, withExtension: "momd") else {
-            passioLog(message: "File not found in package resources.")
+            print( "File not found in package resources.")
             return
         }
         
         do {
             // Copy the file
             try fileManager.copyItem(at: sourceURL, to: destinationURL)
-            passioLog(message: "File copied to: \(destinationURL.path)")
+            print( "File copied to: \(destinationURL.path)")
         } catch {
-            passioLog(message: "Error copying file: \(error)")
+            print( "Error copying file: \(error)")
         }
     }
     

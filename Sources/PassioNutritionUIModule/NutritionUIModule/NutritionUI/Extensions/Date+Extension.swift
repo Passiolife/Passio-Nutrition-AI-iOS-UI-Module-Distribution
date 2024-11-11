@@ -124,6 +124,6 @@ extension Date {
     }
     
     func getTimeIntervalInSeconds(fromTime: Date) -> String {
-        return "\(self.timeIntervalSince(fromTime).sdkRoundDigits(afterDecimal: 3)) Seconds"
+        return "\(self.timeIntervalSince(fromTime).roundDigits(afterDecimal: 3)) Seconds"
     }
 }

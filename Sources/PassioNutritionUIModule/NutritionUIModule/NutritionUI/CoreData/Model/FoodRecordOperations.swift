@@ -103,7 +103,7 @@ internal class FoodRecordOperations {
                 
             } catch let error {
                 mainContext.saveChanges()
-                passioLog(message: "Failed to fetch match delete and save as new recored: \(error)")
+                print( "Failed to fetch match delete and save as new recored: \(error)")
                 completion(false, error)
             }
         }
@@ -130,11 +130,11 @@ internal class FoodRecordOperations {
                 let results = try mainContext.fetch(fetchRequest)
                 if let firstRecord = results.first {
                     dbFoodRecordV3 = firstRecord
-                    passioLog(message: "Existing FoodLog Record found to update")
+                    print( "Existing FoodLog Record found to update")
                 }
                 else {
                     dbFoodRecordV3 = TblFoodRecordV3(context: mainContext)
-                    passioLog(message: "New FoodLog Record is created for storage")
+                    print( "New FoodLog Record is created for storage")
                 }
                 
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -222,7 +222,7 @@ internal class FoodRecordOperations {
                 
             } catch let error {
                 mainContext.saveChanges()
-                passioLog(message: "Failed to fetch match and save as new FoodLog recored: \(error)")
+                print( "Failed to fetch match and save as new FoodLog recored: \(error)")
                 completion(false, error)
             }
             
@@ -253,11 +253,11 @@ internal class FoodRecordOperations {
                     let results = try mainContext.fetch(fetchRequest)
                     if let firstRecord = results.first {
                         dbFoodRecordV3 = firstRecord
-                        passioLog(message: "Existing FoodLog Record found to update")
+                        print( "Existing FoodLog Record found to update")
                     }
                     else {
                         dbFoodRecordV3 = TblFoodRecordV3(context: mainContext)
-                        passioLog(message: "New FoodLog Record is created for storage")
+                        print( "New FoodLog Record is created for storage")
                     }
                     
                     guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -341,7 +341,7 @@ internal class FoodRecordOperations {
                     
                 } catch let error {
                     errorStatement = error
-                    passioLog(message: "Failed to fetch match and save as new FoodLog recored: \(error)")
+                    print( "Failed to fetch match and save as new FoodLog recored: \(error)")
                 }
                 
             }
@@ -375,7 +375,7 @@ internal class FoodRecordOperations {
                 let results = try mainContext.fetch(fetchRequest)
                 
                 if let firstRecord = results.first {
-                    passioLog(message: "Existing FoodLog Record found for storage and will update it")
+                    print( "Existing FoodLog Record found for storage and will update it")
                     dbFoodRecordV3 = firstRecord
                     
                     guard let dbFoodRecordV3 = dbFoodRecordV3 else { return }
@@ -445,7 +445,7 @@ internal class FoodRecordOperations {
                 }
             } catch let error {
                 mainContext.saveChanges()
-                passioLog(message: "Failed to fetch FoodLog record to update: \(error)")
+                print( "Failed to fetch FoodLog record to update: \(error)")
                 completion(false, error)
             }
             
@@ -478,7 +478,7 @@ internal class FoodRecordOperations {
                 
             } catch let error {
                 mainContext.saveChanges()
-                passioLog(message: "Failed to FoodLog fetch records: \(error)")
+                print( "Failed to FoodLog fetch records: \(error)")
                 completion([], error)
             }
         }
@@ -518,7 +518,7 @@ internal class FoodRecordOperations {
                 
             } catch let error {
                 mainContext.saveChanges()
-                passioLog(message: "Failed to FoodLog fetch records: \(error)")
+                print( "Failed to FoodLog fetch records: \(error)")
                 completion([], error)
             }
         }
@@ -553,7 +553,7 @@ internal class FoodRecordOperations {
                 
             } catch let error {
                 mainContext.saveChanges()
-                passioLog(message: "Failed to FoodLog fetch records: \(error)")
+                print( "Failed to FoodLog fetch records: \(error)")
                 completion([], error)
             }
         }
@@ -585,7 +585,7 @@ internal class FoodRecordOperations {
                 
             } catch let error {
                 mainContext.saveChanges()
-                passioLog(message: "Failed to FoodLog fetch records: \(error)")
+                print( "Failed to FoodLog fetch records: \(error)")
                 completion([], error)
             }
         }
@@ -617,7 +617,7 @@ internal class FoodRecordOperations {
                 
             } catch let error {
                 mainContext.saveChanges()
-                passioLog(message: "Failed to FoodLog fetch record to delete: \(error)")
+                print( "Failed to FoodLog fetch record to delete: \(error)")
                 completion(false, error)
             }
             

@@ -151,15 +151,15 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch cells[indexPath.row] {
-        case .calender:
-            print("Calendar cell")
-            break
-        default:
-            break
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        switch cells[indexPath.row] {
+//        case .calender:
+//            print("Calendar cell")
+//            break
+//        default:
+//            break
+//        }
+//    }
 }
 
 // MARK: - DateSelection
