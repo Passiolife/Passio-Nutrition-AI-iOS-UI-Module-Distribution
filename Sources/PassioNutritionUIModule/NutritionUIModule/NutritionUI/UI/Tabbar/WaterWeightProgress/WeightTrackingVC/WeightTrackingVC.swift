@@ -217,12 +217,12 @@ extension WeightTrackingVC {
                 else {
                     self.weightTrackerListContainer.isHidden = false
                 }
-//                self.setupCharts(from: dayLogs)
+                self.setupCharts(from: self.arrWeightTracking)
             }
         }
     }
 
-    private func setupCharts(from dayLogs: [DayLog]) {
+    private func setupCharts_Backup(from dayLogs: [DayLog]) {
 
         let data = dayLogs.map { daylog in
             let displayedRecords = daylog.displayedRecords
@@ -239,6 +239,21 @@ extension WeightTrackingVC {
         let max = (data.map({$0.0}).max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)
         weightBarChart.setupChart(datasource: data.map({ $0.0 }), maximum: max, dates: dates)
+    }
+
+    private func setupCharts(from weightTrackingRecords: [WeightTracking]) {
+
+        let data = weightTrackingRecords.map { weightTracking in
+            let trackingWeight = userProfile.units == .imperial ? Double(weightTracking.weight * Conversion.lbsToKg.rawValue) : weightTracking.weight
+            let _trackrecord = ChartDataSource(value: CGFloat(trackingWeight.roundDigits(afterDecimal: 1)), color: .green500)
+            return _trackrecord
+        }
+
+        let dates = weightTrackingRecords.map({$0.date})
+        
+        let max = (data.max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
+            .normalize(toMultipleOf: 200)
+        weightBarChart.setupChart(datasource: data, maximum: max, dates: dates)
     }
 }
 
@@ -261,6 +276,16 @@ extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let weightRecord = self.arrWeightTracking[indexPath.row]
+        let vc = NutritionUICoordinator.getAddWeightTrackingViewController()
+        vc.delegate = self
+        vc.isEditMode = true
+        vc.weightRecord = weightRecord
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
@@ -268,16 +293,12 @@ extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
                                           title: ButtonTexts.edit) { [weak self] (_, _, completionHandler) in
             guard let self = self else { return }
             let weightRecord = self.arrWeightTracking[indexPath.row]
-            self.connector.fetchWeightTrackingRecord(record: weightRecord) { record in
-                guard let record = record else {return}
-                
-                let vc = NutritionUICoordinator.getAddWeightTrackingViewController()
-                vc.delegate = self
-                vc.isEditMode = true
-                vc.weightRecord = record
-                self.navigationController?.pushViewController(vc, animated: true)
-                completionHandler(true)
-            }
+            let vc = NutritionUICoordinator.getAddWeightTrackingViewController()
+            vc.delegate = self
+            vc.isEditMode = true
+            vc.weightRecord = weightRecord
+            self.navigationController?.pushViewController(vc, animated: true)
+            completionHandler(true)
         }
         editItem.backgroundColor = .indigo600
         let deleteItem = UIContextualAction(style: .destructive,

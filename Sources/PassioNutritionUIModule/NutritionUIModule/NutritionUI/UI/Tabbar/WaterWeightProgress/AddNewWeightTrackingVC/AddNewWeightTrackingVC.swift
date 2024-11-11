@@ -65,8 +65,8 @@ class AddNewWeightTrackingVC: UIViewController {
         if isEditMode {
             selectedDate = weightRecord.date
             selectedTime = weightRecord.time
-            let value = userProfile.units == .imperial ? Double(weightRecord.weight * Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1) : weightRecord.weight
-            weightValueTextField.text = "\(value.clean) \(userProfile.selectedWeightUnit)"
+            let value = userProfile.units == .imperial ? Double(weightRecord.weight * Conversion.lbsToKg.rawValue) : weightRecord.weight
+            weightValueTextField.text = "\(value.roundDigits(afterDecimal: 1).clean) \(userProfile.selectedWeightUnit)"
         }
         else {
             selectedDate = Date()

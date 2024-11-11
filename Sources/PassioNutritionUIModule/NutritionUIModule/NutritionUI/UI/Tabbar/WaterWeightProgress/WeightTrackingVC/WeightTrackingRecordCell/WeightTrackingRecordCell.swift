@@ -16,7 +16,7 @@ class WeightTrackingRecordCell: UITableViewCell {
     
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
-        df.dateFormat = DateFormatString.EEE_MMMd
+        df.dateFormat = DateFormatString.EEEE_MMM_dd_yyyy
         return df
     }()
     
@@ -34,13 +34,11 @@ class WeightTrackingRecordCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func setLayout(weightTracking: WeightTracking, userProfile: UserProfileModel) {
         let weight = userProfile.units == .imperial ? Double(weightTracking.weight * Conversion.lbsToKg.rawValue) : weightTracking.weight
-        weightLabel.text = "\(weight.roundDigits(afterDecimal: 1))"
+        weightLabel.text = "\(weight.roundDigits(afterDecimal: 1).clean)"
         weightUnitLabel.text = "\(userProfile.selectedWeightUnit)"
         
         dateLabel.text = dateFormatter.string(from: weightTracking.date)
