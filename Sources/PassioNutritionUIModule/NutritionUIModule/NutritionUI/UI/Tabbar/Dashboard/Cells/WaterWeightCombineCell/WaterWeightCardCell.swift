@@ -103,7 +103,7 @@ extension WaterWeightCardCell {
            let dWeight = userProfile.goalWeight {
             let trackingWeight = userProfile.units == .imperial ? Double(weightTrackingRecord.weight * Conversion.lbsToKg.rawValue) : weightTrackingRecord.weight
             
-            weightGoalValueLabel.text = "\(trackingWeight.roundUpDigits(afterDecimal: 1))"
+            weightGoalValueLabel.text = "\(trackingWeight.roundDigits(afterDecimal: 1))"
             weightUnitLabel.text = "\(weightUnit)"
             
             let goalWeight = userProfile.units == .imperial ? Double(dWeight * Conversion.lbsToKg.rawValue) : dWeight
@@ -114,13 +114,13 @@ extension WaterWeightCardCell {
                 subsctractValue = 0
             }
             
-            remainWeightGoal = "\(subsctractValue.roundUpDigits(afterDecimal: 1)) \(weightUnit)"
+            remainWeightGoal = "\(subsctractValue.roundDigits(afterDecimal: 1)) \(weightUnit)"
             remainWeightGoalFullText = "\(remainWeightGoal) remain to daily goal"
         }
         else {
             if let dWeight = userProfile.goalWeight {
                 let goalWeight = userProfile.units == .imperial ? Double(dWeight * Conversion.lbsToKg.rawValue) : dWeight
-                remainWeightGoal = "\(goalWeight.roundUpDigits(afterDecimal: 1)) \(weightUnit)"
+                remainWeightGoal = "\(goalWeight.roundDigits(afterDecimal: 1)) \(weightUnit)"
                 remainWeightGoalFullText = "\(remainWeightGoal) remain to daily goal"
             }
         }

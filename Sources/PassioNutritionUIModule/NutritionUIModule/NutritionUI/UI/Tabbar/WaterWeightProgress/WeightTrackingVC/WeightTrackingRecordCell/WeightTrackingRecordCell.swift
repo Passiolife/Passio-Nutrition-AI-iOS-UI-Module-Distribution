@@ -40,7 +40,7 @@ class WeightTrackingRecordCell: UITableViewCell {
     
     func setLayout(weightTracking: WeightTracking, userProfile: UserProfileModel) {
         let weight = userProfile.units == .imperial ? Double(weightTracking.weight * Conversion.lbsToKg.rawValue) : weightTracking.weight
-        weightLabel.text = "\(weight.roundUpDigits(afterDecimal: 1))"
+        weightLabel.text = "\(weight.roundDigits(afterDecimal: 1))"
         weightUnitLabel.text = "\(userProfile.selectedWeightUnit)"
         
         dateLabel.text = dateFormatter.string(from: weightTracking.date)
