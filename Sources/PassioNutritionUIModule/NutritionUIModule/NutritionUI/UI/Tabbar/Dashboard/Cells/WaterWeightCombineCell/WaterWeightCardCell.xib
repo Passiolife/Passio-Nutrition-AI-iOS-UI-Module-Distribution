@@ -56,26 +56,20 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hgm-os-s0T">
                                                 <rect key="frame" x="0.0" y="41" width="164.33333333333334" height="36"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4e-t3-WCw">
-                                                        <rect key="frame" x="38.666666666666671" y="-3.3333333333333286" width="46.666666666666671" height="43"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="45 oz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y4e-t3-WCw">
+                                                        <rect key="frame" x="3" y="0.0" width="158.33333333333334" height="36"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
                                                         <color key="textColor" name="indigo-600"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="oz" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phj-gF-eck">
-                                                        <rect key="frame" x="90.333333333333329" y="14.333333333333327" width="18.333333333333329" height="20.333333333333329"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <color key="textColor" name="gray-500"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstItem="y4e-t3-WCw" firstAttribute="centerY" secondItem="Hgm-os-s0T" secondAttribute="centerY" id="E0v-0D-r4J"/>
+                                                    <constraint firstItem="y4e-t3-WCw" firstAttribute="top" secondItem="Hgm-os-s0T" secondAttribute="top" id="130-Q8-HvF"/>
                                                     <constraint firstAttribute="height" constant="36" id="Gln-tM-szy"/>
-                                                    <constraint firstItem="y4e-t3-WCw" firstAttribute="centerX" secondItem="Hgm-os-s0T" secondAttribute="centerX" constant="-20" id="P2V-Dv-3cS"/>
-                                                    <constraint firstItem="phj-gF-eck" firstAttribute="bottom" secondItem="y4e-t3-WCw" secondAttribute="bottom" constant="-5" id="WIU-wt-VvF"/>
-                                                    <constraint firstItem="phj-gF-eck" firstAttribute="leading" secondItem="y4e-t3-WCw" secondAttribute="trailing" constant="5" id="ray-km-V0f"/>
+                                                    <constraint firstAttribute="bottom" secondItem="y4e-t3-WCw" secondAttribute="bottom" id="hEJ-qg-2uZ"/>
+                                                    <constraint firstItem="y4e-t3-WCw" firstAttribute="leading" secondItem="Hgm-os-s0T" secondAttribute="leading" constant="3" id="ief-WD-5X4"/>
+                                                    <constraint firstAttribute="trailing" secondItem="y4e-t3-WCw" secondAttribute="trailing" constant="3" id="lrQ-Kc-vNk"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20 lbs remain to daily goal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xWm-Hl-PKk">
@@ -143,26 +137,20 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3y-rl-rDE">
                                                 <rect key="frame" x="0.0" y="41.666666666666671" width="164.33333333333334" height="36"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="160" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wtX-9V-WsL">
-                                                        <rect key="frame" x="29.333333333333343" y="-3.3333333333333428" width="65.666666666666671" height="43"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 lbs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wtX-9V-WsL">
+                                                        <rect key="frame" x="3" y="0.0" width="158.33333333333334" height="36"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
-                                                        <color key="textColor" name="indigo-600"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lbs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oXA-Dl-gY9">
-                                                        <rect key="frame" x="100.00000000000003" y="14.333333333333327" width="22.666666666666671" height="20.333333333333329"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <color key="textColor" name="gray-500"/>
+                                                        <color key="textColor" name="indigo-700"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstItem="wtX-9V-WsL" firstAttribute="centerX" secondItem="i3y-rl-rDE" secondAttribute="centerX" constant="-20" id="jn0-eO-dMQ"/>
-                                                    <constraint firstItem="oXA-Dl-gY9" firstAttribute="bottom" secondItem="wtX-9V-WsL" secondAttribute="bottom" constant="-5" id="oE5-dN-gqN"/>
+                                                    <constraint firstAttribute="bottom" secondItem="wtX-9V-WsL" secondAttribute="bottom" id="3Uh-a3-X8p"/>
+                                                    <constraint firstItem="wtX-9V-WsL" firstAttribute="top" secondItem="i3y-rl-rDE" secondAttribute="top" id="HaF-qm-xmC"/>
+                                                    <constraint firstAttribute="trailing" secondItem="wtX-9V-WsL" secondAttribute="trailing" constant="3" id="f27-bc-AhS"/>
                                                     <constraint firstAttribute="height" constant="36" id="odo-jv-0kh"/>
-                                                    <constraint firstItem="wtX-9V-WsL" firstAttribute="centerY" secondItem="i3y-rl-rDE" secondAttribute="centerY" id="r9L-Vj-p1g"/>
-                                                    <constraint firstItem="oXA-Dl-gY9" firstAttribute="leading" secondItem="wtX-9V-WsL" secondAttribute="trailing" constant="5" id="z6l-X2-pr3"/>
+                                                    <constraint firstItem="wtX-9V-WsL" firstAttribute="leading" secondItem="i3y-rl-rDE" secondAttribute="leading" constant="3" id="qIC-Pm-BD5"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20 oz remain to daily goal" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QZ2-yf-3IR">
@@ -223,12 +211,10 @@
                 <outlet property="waterGoalValueLabel" destination="y4e-t3-WCw" id="fHA-xn-q8e"/>
                 <outlet property="waterRemainToDailyGoalLabel" destination="xWm-Hl-PKk" id="4Fq-DM-ojz"/>
                 <outlet property="waterTitleLabel" destination="YmB-yf-Afr" id="6NR-uo-d5g"/>
-                <outlet property="waterUnitLabel" destination="phj-gF-eck" id="gr0-0P-Kgh"/>
                 <outlet property="weightDetailsContainerView" destination="Vxj-rE-k0U" id="4yt-Tu-Ciu"/>
-                <outlet property="weightGoalValueLabel" destination="wtX-9V-WsL" id="geM-Fe-BnE"/>
+                <outlet property="weightGoalValueLabel" destination="wtX-9V-WsL" id="lLT-2o-CgF"/>
                 <outlet property="weightRemainToDailyGoalLabel" destination="QZ2-yf-3IR" id="ZQr-S8-rag"/>
                 <outlet property="weightTitleLabel" destination="oKt-5C-8zN" id="IKr-o7-h7d"/>
-                <outlet property="weightUnitLabel" destination="oXA-Dl-gY9" id="WH4-79-nKX"/>
             </connections>
             <point key="canvasLocation" x="119.84732824427481" y="55.985915492957751"/>
         </tableViewCell>
@@ -237,11 +223,11 @@
         <image name="addIcon" width="18" height="18"/>
         <image name="water_icon" width="20" height="20"/>
         <image name="weight_icon" width="17" height="19.333333969116211"/>
-        <namedColor name="gray-500">
-            <color red="0.41960784313725491" green="0.44705882352941179" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-        </namedColor>
         <namedColor name="indigo-600">
             <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="indigo-700">
+            <color red="0.2627450980392157" green="0.2196078431372549" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

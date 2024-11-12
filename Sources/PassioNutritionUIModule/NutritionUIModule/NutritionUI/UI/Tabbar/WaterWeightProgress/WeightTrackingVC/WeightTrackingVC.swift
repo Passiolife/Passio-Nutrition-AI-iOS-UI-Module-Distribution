@@ -189,7 +189,8 @@ extension WeightTrackingVC {
 
         let (fromDate, toDate) = currentScope == .week
         ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
-        connector.fetchWeightTrackingRecursive(fromDate: fromDate, toDate: toDate) { [weak self] (weightTrackingRecords) in
+        
+        connector.fetchWeightRecords(startDate: fromDate, endDate: toDate) { [weak self] (weightTrackingRecords) in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
                 self.arrWeightTracking = weightTrackingRecords
@@ -285,9 +286,16 @@ extension WeightTrackingVC: UITableViewDelegate, UITableViewDataSource {
         let deleteItem = UIContextualAction(style: .destructive,
                                             title: ButtonTexts.delete) { [weak self] (_, _, completionHandler) in
             guard let self = self else { return }
-            self.connector.deleteWeightTrackingRecord(record: self.arrWeightTracking[indexPath.row])
-            self.getWeightTrackingRecords()
-            completionHandler(true)
+            self.connector.deleteWeightRecord(weightRecord: self.arrWeightTracking[indexPath.row]) { bResult in
+                if bResult {
+                    self.getWeightTrackingRecords()
+                    completionHandler(true)
+                }
+                else {
+                    completionHandler(false)
+                }
+            }
+            
         }
         let swipeActions = UISwipeActionsConfiguration(actions: [deleteItem, editItem])
         return swipeActions

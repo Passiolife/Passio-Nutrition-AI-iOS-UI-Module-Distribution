@@ -235,44 +235,18 @@ extension JSONPassioConnector: PassioConnector {
     
     // Weight Tracking
     
-    func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking) {
-        if let url = urlForWeightTrackingeModel(weightTracking: weightTracking) {
-            _ = fileManager.updateRecordLocally(url: url, record: weightTracking)
+    func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        if let url = urlForWeightTrackingeModel(weightTracking: weightRecord) {
+            let status = fileManager.updateRecordLocally(url: url, record: weightRecord)
+            completion(status)
         }
     }
     
-    func fetchWeightTrackingRecursive(fromDate: Date,
-                              toDate: Date,
-                              currentLogs: [WeightTracking] = [],
-                              completion: @escaping ([WeightTracking]) -> Void) {
-        
-        guard fromDate <= toDate else {
-            completion(currentLogs)
-            return
-        }
-        
-        fetchWeightTrackingRecord(date: fromDate) { (weightTracking) in
-            var updatedLogs = currentLogs
-            updatedLogs.append(contentsOf: weightTracking)
-            
-            // Recursive call with next day
-            let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: fromDate)!
-            self.fetchWeightTrackingRecursive(fromDate: nextDate,
-                                      toDate: toDate,
-                                      currentLogs: updatedLogs,
-                                      completion: completion)
-        }
-    }
+    func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void) {}
     
-    func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
-        if let urlForDate = urlForSavingTrackingFiles(date: date) {
-            completion(fileManager.getRecords(for: urlForDate))
-        } else {
-            completion([])
-        }
-    }
+    func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void) {}
     
-    func deleteWeightTrackingRecord(record: WeightTracking) {}
+    func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {}
 }
 
 // MARK: Helper

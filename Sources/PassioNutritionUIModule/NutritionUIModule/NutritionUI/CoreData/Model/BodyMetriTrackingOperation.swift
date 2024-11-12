@@ -26,7 +26,7 @@ public class BodyMetriTrackingOperation {
     }
     
     //MARK: - Fetch User records
-    func insertOrUpdateWeightTracking(weightTracking: WeightTracking, completion: @escaping ((Bool, Error?) -> Void)) {
+    func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
         
@@ -34,7 +34,7 @@ public class BodyMetriTrackingOperation {
             
             // Create a fetch request for the UserProfileModel entity
             let fetchRequest: NSFetchRequest<TblWeightTracking> = TblWeightTracking.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", weightTracking.id)
+            fetchRequest.predicate = NSPredicate(format: "id == %@", weightRecord.id)
             
             var dbWeightTracking: TblWeightTracking?
             
@@ -70,11 +70,11 @@ public class BodyMetriTrackingOperation {
                     return
                 }
                 
-                dbWeightTracking.id = weightTracking.id
-                dbWeightTracking.weight = weightTracking.weight
-                dbWeightTracking.date = weightTracking.date
-                dbWeightTracking.time = weightTracking.time
-                dbWeightTracking.createdAt = weightTracking.createdAt
+                dbWeightTracking.id = weightRecord.id
+                dbWeightTracking.weight = weightRecord.weight
+                dbWeightTracking.date = weightRecord.date
+                dbWeightTracking.time = weightRecord.time
+                dbWeightTracking.createdAt = weightRecord.createdAt
                 
                 mainContext.saveChanges()
                 
@@ -91,7 +91,7 @@ public class BodyMetriTrackingOperation {
     }
 
     //MARK: - Fetch all Weight Tracking records with given date formate
-    func fetchWeightTracking(whereClause date: Date, completion: @escaping (([WeightTracking], Error?) -> Void)) {
+    func fetchWeightTracking(whereClause startDate: Date, endDate: Date, completion: @escaping (([WeightTracking], Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
         
@@ -101,13 +101,12 @@ public class BodyMetriTrackingOperation {
                 
                 // Create a calendar to get the start of the day
                 let calendar = Calendar.current
-                let startOfDay = calendar.startOfDay(for: date)
-                let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+                let startOfDay = calendar.startOfDay(for: startDate)
+//                let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate)!
                 
                 let fetchRequest: NSFetchRequest<TblWeightTracking> = TblWeightTracking.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "createdAt >= %@ AND createdAt < %@", NSDate(timeIntervalSince1970: startOfDay.timeIntervalSince1970), NSDate(timeIntervalSince1970: endOfDay.timeIntervalSince1970))
+                fetchRequest.predicate = NSPredicate(format: "createdAt >= %@ AND createdAt < %@", NSDate(timeIntervalSince1970: startOfDay.timeIntervalSince1970), NSDate(timeIntervalSince1970: endDate.timeIntervalSince1970))
                 
-                // Create an NSSortDescriptor for the attribute you want to sort by (e.g., "name")
                 let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: true)
 
                 // Add the sort descriptor to the fetch request
@@ -132,8 +131,52 @@ public class BodyMetriTrackingOperation {
         
     }
     
+    //MARK: - Fetch latest Weight Tracking record with given date formate
+    func fetchLatestWeightRecord(completion: @escaping ((WeightTracking?, Error?) -> Void)) {
+        
+        let mainContext = self.getMainContext()
+        
+        mainContext.perform {
+            
+            do {
+//                let startDate = Date()
+//                // Create a calendar to get the start of the day
+//                let calendar = Calendar.current
+//                let startOfDay = calendar.startOfDay(for: startDate)
+//                let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate)!
+                
+                let fetchRequest: NSFetchRequest<TblWeightTracking> = TblWeightTracking.fetchRequest()
+                //fetchRequest.predicate = NSPredicate(format: "date >= %@ AND date < %@", NSDate(timeIntervalSince1970: startOfDay.timeIntervalSince1970), NSDate(timeIntervalSince1970: startDate.timeIntervalSince1970))
+                
+                let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: true)
+
+                // Add the sort descriptor to the fetch request
+                fetchRequest.sortDescriptors = [sortDescriptor]
+                
+                let weightTrackingResults = try mainContext.fetch(fetchRequest)
+                
+                let arrWeightTracking: [WeightTracking] = weightTrackingResults.map { tblWeightTracking in
+                    return WeightTracking(id: tblWeightTracking.id ?? UUID().uuidString, weight: tblWeightTracking.weight ?? 0, date: tblWeightTracking.date ?? Date(), time: tblWeightTracking.date ?? Date(), createdAt: tblWeightTracking.createdAt ?? Date())
+                }
+                
+                mainContext.saveChanges()
+                if let lastRecord = arrWeightTracking.last {
+                    completion(lastRecord, nil)
+                }
+                else {
+                    completion(nil, nil)
+                }
+                
+            } catch let error {
+                mainContext.saveChanges()
+                passioLog(message: "Failed to Weight Tracking fetch records: \(error)")
+                completion(nil, error)
+            }
+        }
+    }
+    
     //MARK: - Delete Weight tracking record
-    func deleteWeightTrackingRecords(whereClause record: WeightTracking, completion: @escaping ((Bool, Error?) -> Void)) {
+    func deleteWeightRecord(weightRecord record: WeightTracking, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
         

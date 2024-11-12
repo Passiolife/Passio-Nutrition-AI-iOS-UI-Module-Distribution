@@ -14,14 +14,12 @@ final class WaterWeightCardCell: UITableViewCell {
     @IBOutlet private weak var waterTitleLabel: UILabel!
     @IBOutlet private weak var addWaterButton: UIButton!
     @IBOutlet private weak var waterGoalValueLabel: UILabel!
-    @IBOutlet private weak var waterUnitLabel: UILabel!
     @IBOutlet private weak var waterRemainToDailyGoalLabel: UILabel!
     
     @IBOutlet private weak var weightDetailsContainerView: UIView!
     @IBOutlet private weak var weightTitleLabel: UILabel!
     @IBOutlet private weak var addWeightButton: UIButton!
     @IBOutlet private weak var weightGoalValueLabel: UILabel!
-    @IBOutlet private weak var weightUnitLabel: UILabel!
     @IBOutlet private weak var weightRemainToDailyGoalLabel: UILabel!
     
     var addWaterButtonAction: (() -> Void)? = nil
@@ -78,24 +76,37 @@ extension WaterWeightCardCell {
     func configureUI(lastWeightRecord weightTrackingRecord: WeightTracking?) {
         let userProfile = UserManager.shared.user ?? UserProfileModel()
         
-        // Water Calculations
-        waterGoalValueLabel.text = "0"
-        waterUnitLabel.text = "\(userProfile.waterUnit ?? .oz)"
+        // ****************************
+        // *** Water Calculations ***
+        // ****************************
         
         var remainWaterGoal = ""
         var remainWaterGoalFullText = ""
+        let waterUnit = "\(userProfile.waterUnit ?? .oz)"
+        var waterText = "0"
+        var fullWaterText = "\(waterText) \(waterUnit)"
+        
         if let goalWater = userProfile.goalWater {
             remainWaterGoal = "\((userProfile.goalWater ?? 0).clean) \(userProfile.waterUnit ?? .oz)"
             remainWaterGoalFullText = "\(remainWaterGoal) remain to daily goal"
         }
+        
+        waterGoalValueLabel.setAttributedTextWithColor(fullText: fullWaterText, highlights: [
+            (text: waterText,textColor: .indigo600, font: UIFont.boldSystemFont(ofSize: 36)),
+            (text: waterUnit,textColor: .gray500, font: UIFont.systemFont(ofSize: 17, weight: .semibold))
+        ])
+        
         waterRemainToDailyGoalLabel.setBoldAttributedText(boldText: remainWaterGoal, fullText: remainWaterGoalFullText, fontSize: 12)
         
-        // Weight Calculations
+        // ****************************
+        // *** Weight Calculations ***
+        // ****************************
         var remainWeightGoal = ""
         var remainWeightGoalFullText = ""
         let weightUnit = userProfile.selectedWeightUnit
-        weightGoalValueLabel.text = "0"
-        weightUnitLabel.text = "\(weightUnit)"
+        
+        var weightText = "0"
+        var fullWeightText = "\(weightText) \(weightUnit)"
         
         var subsctractValue = 0.0
         
@@ -103,7 +114,8 @@ extension WaterWeightCardCell {
            let dWeight = userProfile.goalWeight {
             let trackingWeight = userProfile.units == .imperial ? Double(weightTrackingRecord.weight * Conversion.lbsToKg.rawValue) : weightTrackingRecord.weight
             
-            weightGoalValueLabel.text = "\(trackingWeight.roundDigits(afterDecimal: 1).clean)"
+            weightText = "\(trackingWeight.roundDigits(afterDecimal: 1).clean)"
+            fullWeightText = "\(weightText) \(weightUnit)"
             
             let goalWeight = userProfile.units == .imperial ? Double(dWeight * Conversion.lbsToKg.rawValue) : dWeight
 
@@ -117,16 +129,20 @@ extension WaterWeightCardCell {
             remainWeightGoalFullText = "\(remainWeightGoal) remain to daily goal"
         }
         else {
-            
-            weightGoalValueLabel.text = "0"
-            
             if let dWeight = userProfile.goalWeight {
                 let goalWeight = userProfile.units == .imperial ? Double(dWeight * Conversion.lbsToKg.rawValue) : dWeight
                 remainWeightGoal = "\(goalWeight.roundDigits(afterDecimal: 1).clean) \(weightUnit)"
                 remainWeightGoalFullText = "\(remainWeightGoal) remain to daily goal"
             }
         }
+        
+        weightGoalValueLabel.setAttributedTextWithColor(fullText: fullWeightText, highlights: [
+            (text: weightText,textColor: .indigo600, font: UIFont.boldSystemFont(ofSize: 36)),
+            (text: weightUnit,textColor: .gray500, font: UIFont.systemFont(ofSize: 17, weight: .semibold))
+        ])
+        
         weightRemainToDailyGoalLabel.setBoldAttributedText(boldText: remainWeightGoal, fullText: remainWeightGoalFullText, fontSize: 12)
+        
         
         if userProfile.goalWater == nil {
             self.waterDetailsContainerView.isHidden = true

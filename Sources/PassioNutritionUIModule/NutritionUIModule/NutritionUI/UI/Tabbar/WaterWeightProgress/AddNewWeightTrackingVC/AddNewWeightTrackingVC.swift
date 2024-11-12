@@ -257,9 +257,13 @@ extension AddNewWeightTrackingVC {
                 weightTrackModel = WeightTracking(id: weightRecord.id, weight: value, date: selectedDate, time: selectedTime, createdAt: weightRecord.createdAt)
             }
             
-            PassioInternalConnector.shared.insertOrReplaceWeightTrackingRecord(weightTracking: weightTrackModel)
-            delegate?.refreshRecords()
-            self.navigationController?.popViewController(animated: true)
+            PassioInternalConnector.shared.updateWeightRecord(weightRecord: weightTrackModel) { bResult in
+                if bResult {
+                    self.delegate?.refreshRecords()
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+            
         }
     }
     

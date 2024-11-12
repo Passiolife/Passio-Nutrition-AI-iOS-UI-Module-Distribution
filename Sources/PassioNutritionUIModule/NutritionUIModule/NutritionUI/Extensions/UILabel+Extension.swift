@@ -37,5 +37,22 @@ extension UILabel {
         // Set the attributed text to the label
         self.attributedText = attributedString
     }
+    
+    func setAttributedTextWithColor(fullText: String, highlights: [(text: String, textColor: UIColor, font: UIFont)]) {
+        let attributedString = NSMutableAttributedString(string: fullText)
+
+        // Iterate over each highlight
+        for highlight in highlights {
+            let range = (fullText as NSString).range(of: highlight.text)
+            if range.location != NSNotFound {
+                // Apply the specified font to the specified range
+                attributedString.addAttribute(.font, value: highlight.font, range: range)
+                attributedString.addAttribute(.foregroundColor, value: highlight.textColor, range: range)
+
+            }
+        }
+
+        self.attributedText = attributedString
+    }
 }
 

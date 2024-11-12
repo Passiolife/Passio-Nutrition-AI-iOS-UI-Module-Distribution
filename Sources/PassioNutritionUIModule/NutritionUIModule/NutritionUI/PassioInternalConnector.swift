@@ -233,20 +233,20 @@ extension PassioInternalConnector {
     }
     
     // MARK: Weight Tracking - Newly added
-    public func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking) {
-        connector.insertOrReplaceWeightTrackingRecord(weightTracking: weightTracking)
+    public func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        connector.updateWeightRecord(weightRecord: weightRecord, completion: completion)
     }
     
-    public func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
-        connector.fetchWeightTrackingRecord(date: date, completion: completion)
+    public func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void) {
+        connector.fetchLatestWeightRecord(completion: completion)
     }
     
-    public func fetchWeightTrackingRecursive(fromDate: Date, toDate: Date, completion: @escaping ([WeightTracking]) -> Void) {
-        connector.fetchWeightTrackingRecursive(fromDate: fromDate, toDate: toDate, currentLogs: [], completion: completion)
+    public func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        connector.fetchWeightRecords(startDate: startDate, endDate: endDate, completion: completion)
     }
     
-    public func deleteWeightTrackingRecord(record: WeightTracking) {
-        connector.deleteWeightTrackingRecord(record: record)
+    public func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        connector.deleteWeightRecord(weightRecord: weightRecord, completion: completion)
     }
 }
 

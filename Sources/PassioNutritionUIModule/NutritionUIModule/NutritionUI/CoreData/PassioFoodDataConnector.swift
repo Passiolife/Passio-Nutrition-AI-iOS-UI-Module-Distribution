@@ -283,50 +283,48 @@ extension PassioFoodDataConnector: PassioConnector {
         }
     }
 
-    public func insertOrReplaceWeightTrackingRecord(weightTracking: WeightTracking) {
-        BodyMetriTrackingOperation.shared.insertOrUpdateWeightTracking(weightTracking: weightTracking) { (resultStatus, resultError) in
+    public func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        BodyMetriTrackingOperation.shared.updateWeightRecord(weightRecord: weightRecord) { (resultStatus, resultError) in
             if let error = resultError {
                 print("Failed to save Weight tracking record: \(error)")
             }
+            completion(resultStatus)
         }
     }
     
-    public func fetchWeightTrackingRecursive(fromDate: Date, toDate: Date, currentLogs: [WeightTracking], completion: @escaping ([WeightTracking]) -> Void) {
-        guard fromDate <= toDate else {
-            completion(currentLogs)
-            return
-        }
-        
-        fetchWeightTrackingRecord(date: fromDate) { (weightTrackingRecords) in
-            var updatedLogs = currentLogs
-            updatedLogs.append(contentsOf: weightTrackingRecords)
-            
-            // Recursive call with next day
-            let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: fromDate)!
-            self.fetchWeightTrackingRecursive(fromDate: nextDate,
-                                      toDate: toDate,
-                                      currentLogs: updatedLogs,
-                                      completion: completion)
-        }
-    }
-    
-    public func fetchWeightTrackingRecord(date: Date, completion: @escaping ([WeightTracking]) -> Void) {
-        BodyMetriTrackingOperation.shared.fetchWeightTracking(whereClause: date) { trackingRecords, error in
-            if error != nil {
-                print("Failed to fetch WeightTracking records :: \(error)")
-                completion([])
+    public func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        BodyMetriTrackingOperation.shared.fetchWeightTracking(whereClause: startDate, endDate: endDate) { weightTrackingRecords, error in
+            if error == nil {
+                completion(weightTrackingRecords)
             }
             else {
-                completion(trackingRecords)
+                completion([])
             }
         }
     }
     
-    public func deleteWeightTrackingRecord(record: WeightTracking) {
-        BodyMetriTrackingOperation.shared.deleteWeightTrackingRecords(whereClause: record) { bResult, error in
+    public func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void) {
+        BodyMetriTrackingOperation.shared.fetchLatestWeightRecord { trackingRecord, error in
+            if error != nil {
+               print("Failed to fetch WeightTracking records :: \(error)")
+            }
+            else {
+                if let trackingRecord = trackingRecord {
+                    completion(trackingRecord)
+                }
+                else {
+                    completion(nil)
+                }
+            }
+        }
+    }
+    
+    public func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        BodyMetriTrackingOperation.shared.deleteWeightRecord(weightRecord: weightRecord) { bResult, error in
             if error != nil {
                 print("Failed delete Weight Tracking record :: \(error)")
             }
+            completion(bResult)
         }
     }
 }

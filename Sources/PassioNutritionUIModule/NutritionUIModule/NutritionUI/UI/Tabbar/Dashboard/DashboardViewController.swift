@@ -58,7 +58,7 @@ class DashboardViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.getWeightTrackingLastRecord()
+        self.getfetchLatestWeightRecord()
     }
     
     override func viewWillLayoutSubviews() {
@@ -116,10 +116,10 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    private func getWeightTrackingLastRecord() {
-        PassioInternalConnector.shared.fetchWeightTrackingRecord(date: Date()) { weightTrackingRecord in
-            if let lastRecordOfDesOrder = weightTrackingRecord.last {
-                self.weightTrackingRecord = lastRecordOfDesOrder
+    private func getfetchLatestWeightRecord() {
+        PassioInternalConnector.shared.fetchLatestWeightRecord { lsatWeightRecord in
+            if let lsatWeightRecord = lsatWeightRecord {
+                self.weightTrackingRecord = lsatWeightRecord
             }
             else {
                 self.weightTrackingRecord = nil
