@@ -59,8 +59,6 @@
                             <subviews>
                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="z85-aE-y0W">
                                     <rect key="frame" x="53" y="0.0" width="20" height="0.0"/>
-                                    <color key="tintColor" name="indigo-600"/>
-                                    <color key="color" name="indigo-600"/>
                                 </activityIndicatorView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Generating results..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xdS-Fc-kCf">
                                     <rect key="frame" x="0.0" y="8" width="126" height="0.0"/>

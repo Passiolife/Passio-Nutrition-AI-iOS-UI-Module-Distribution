@@ -8,10 +8,17 @@
 
 import UIKit
 
+class CustomSlider: UISlider {
+    override func trackRect(forBounds bounds: CGRect) -> CGRect {
+        let point = CGPoint(x: bounds.minX, y: bounds.midY)
+        return CGRect(origin: point, size: CGSize(width: bounds.width, height: 8))
+    }
+}
+
 class ServingSizeTableViewCell: UITableViewCell {
 
     @IBOutlet weak var weightLabel: UILabel!
-    @IBOutlet weak var quantitySlider: UISlider!
+    @IBOutlet weak var quantitySlider: CustomSlider!
     @IBOutlet weak var unitButton: UIButton!
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var insetBackground: UIView!
@@ -31,7 +38,11 @@ class ServingSizeTableViewCell: UITableViewCell {
                                    shadowRadius: 2,
                                    shadowOpacity: 1)
         quantitySlider.tintColor = .primaryColor
+        quantitySlider.maximumTrackTintColor = .primaryColor.withAlphaComponent(0.08)
         quantitySlider.thumbTintColor = .primaryColor
+        let image = UIImage.imageFromBundle(named: "sliderThumb")
+        quantitySlider.setThumbImage(image, for: .normal)
+        quantitySlider.setThumbImage(image, for: .highlighted)
         weightLabel.textColor = .gray900
         quantityTextField.backgroundColor = .white
     }
