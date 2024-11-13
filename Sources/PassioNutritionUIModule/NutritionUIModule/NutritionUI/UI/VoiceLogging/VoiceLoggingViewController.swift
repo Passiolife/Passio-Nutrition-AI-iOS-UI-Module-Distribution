@@ -81,11 +81,12 @@ class VoiceLoggingViewController: InstantiableViewController {
     private func configureUI() {
 
         title = "Voice Logging"
+        generatingResultsLabel.font = UIFont.inter(type: .medium, size: 15)
+
         speechTextView.delegate = self
         speechRecognizer.listener = self
 
         setupBackButton()
-        speechActivityIndicator.color = .primaryColor
         startListeningButton.backgroundColor = .primaryColor
         let normalText = "Tap Start Listening, then say something like:".toMutableAttributedString
         normalText.apply(font: UIFont.inter(type: .regular, size: 18), subString: "Start Listening")

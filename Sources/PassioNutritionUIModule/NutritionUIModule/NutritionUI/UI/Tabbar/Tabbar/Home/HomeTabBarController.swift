@@ -265,11 +265,17 @@ extension HomeTabBarController: PlusMenuDelegate {
 
     func onTakePhotosSelected() {
         let vc = TakePhotosViewController()
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 
     func onSelectPhotosSelected() {
         let vc = SelectPhotosViewController()
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
