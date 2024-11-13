@@ -231,7 +231,7 @@ extension WeightTrackingVC {
             return _trackrecord
         }
 
-        let dates = weightTrackingRecords.map({$0.date})
+        let dates = weightTrackingRecords.map({$0.dateTime})
         
         let max = (data.max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)

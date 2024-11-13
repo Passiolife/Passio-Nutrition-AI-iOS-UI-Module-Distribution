@@ -63,10 +63,11 @@ class AddNewWeightTrackingVC: UIViewController {
                                     forEvent: .touchUpInside)
             }
         if isEditMode {
-            selectedDate = weightRecord.date
-            selectedTime = weightRecord.time
+            selectedDate = weightRecord.dateTime
+            selectedTime = weightRecord.dateTime
             let value = userProfile.units == .imperial ? Double(weightRecord.weight * Conversion.lbsToKg.rawValue) : weightRecord.weight
-            weightValueTextField.text = "\(value.roundDigits(afterDecimal: 1).clean) \(userProfile.selectedWeightUnit)"
+            userEnteredWeight = value.roundDigits(afterDecimal: 1)
+            weightValueTextField.text = "\(userEnteredWeight!.clean) \(userProfile.selectedWeightUnit)"
         }
         else {
             selectedDate = Date()
@@ -147,31 +148,7 @@ extension AddNewWeightTrackingVC {
 
 
 extension AddNewWeightTrackingVC: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        arrValueTextField.forEach({
-            $0.vwBorderColor = .gray300
-        })
-        currentField = nil
-        if (textField == dayValueTextField) || (textField == timeValueTextField){
-            currentField = textField
-        }
-        textField.vwBorderColor = .indigo600
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-//        if textField == weightValueTextField {
-//            if let value = textField.text,
-//               value.count > 0, Double(value) != nil {
-//                self.saveButton.isUserInteractionEnabled = false
-//                self.saveButton.tintColor = .gray500
-//            }
-//            else {
-//                self.saveButton.isUserInteractionEnabled = true
-//                self.saveButton.tintColor = .indigo700
-//            }
-//        }
-    }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         
         if textField == weightValueTextField {
@@ -184,7 +161,7 @@ extension AddNewWeightTrackingVC: UITextFieldDelegate {
             else {
                 if isEditMode {
                     let value = userProfile.units == .imperial ? (weightRecord.weight*Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1) : weightRecord.weight
-                    textField.text = "\(value) \(userProfile.selectedWeightUnit)"
+                    textField.text = "\(value.clean) \(userProfile.selectedWeightUnit)"
                 }
                 else {
                     textField.text = ""
@@ -204,6 +181,7 @@ extension AddNewWeightTrackingVC: DateSelectorUIViewDelegate {
         dateSelector?.delegate = self
         dateSelector?.dateForPicker = Date()
         dateSelector?.datePickerType = pickerMode
+        dateSelector?.isMaxDateSet = (pickerMode == .time && (selectedDate ?? Date()).isDateLessThanTodayIgnoringTime) ? false : true
         dateSelector?.modalPresentationStyle = .overFullScreen
         self.navigationController?.presentVC(vc: dateSelector!)
     }
@@ -217,6 +195,10 @@ extension AddNewWeightTrackingVC: DateSelectorUIViewDelegate {
             if currentField == dayValueTextField {
                 dayValueTextField.text = dateFormatter.string(from: date)
                 selectedDate = date
+                if Date.isTodayDateWithFutureTime(date: selectedDate!, time: selectedTime!) {
+                    timeValueTextField.text = timeFormatter.string(from: date)
+                    selectedTime = date
+                }
             }
             else if currentField == timeValueTextField {
                 timeValueTextField.text = timeFormatter.string(from: date)
@@ -244,17 +226,22 @@ extension AddNewWeightTrackingVC {
     
     @IBAction func saveButtonAction(_ sender: UIButton) {
         
+        // This function is execute when keyboard is open and user directly press save button
+        if self.buttonContainerStackViewBottomConst.constant != 0 {
+            handleTextFieldActionOnSaveTapped()
+        }
+        
         if let fieldValue = weightValueTextField.text,
            fieldValue.count > 0,
            let roundedValue = userEnteredWeight,
            let selectedDate = selectedDate,
            let selectedTime = selectedTime {
             let value = userProfile.units == .imperial ? roundedValue/Conversion.lbsToKg.rawValue : roundedValue
-            
-            var weightTrackModel = WeightTracking(weight: value, date: selectedDate, time: selectedTime, createdAt: Date())
+            let recordDateTime = Date.combineTwoDate(dateToFetch: selectedDate, timeToFetch: selectedTime) ?? Date()
+            var weightTrackModel = WeightTracking(weight: value, dateTime: recordDateTime)
             
             if isEditMode {
-                weightTrackModel = WeightTracking(id: weightRecord.id, weight: value, date: selectedDate, time: selectedTime, createdAt: weightRecord.createdAt)
+                weightTrackModel = WeightTracking(id: weightRecord.id, weight: value, dateTime: recordDateTime)
             }
             
             PassioInternalConnector.shared.updateWeightRecord(weightRecord: weightTrackModel) { bResult in
@@ -284,5 +271,26 @@ extension AddNewWeightTrackingVC {
             timeValueTextField.vwBorderColor = .indigo600
         }
         else {}
+    }
+    
+    private func handleTextFieldActionOnSaveTapped() {
+        if let textField = weightValueTextField,
+           ((textField.text?.isEmpty) != nil) {
+            if let _weight = textField.text,
+               let dWeight = Int(_weight),
+               dWeight > 0 {
+                userEnteredWeight = Double(dWeight)
+                weightValueTextField.text = "\(dWeight) \(userProfile.selectedWeightUnit)"
+            }
+            else {
+                if isEditMode {
+                    let value = userProfile.units == .imperial ? (weightRecord.weight*Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1) : weightRecord.weight
+                    weightValueTextField.text = "\(value.clean) \(userProfile.selectedWeightUnit)"
+                }
+                else {
+                    weightValueTextField.text = ""
+                }
+            }
+        }
     }
 }

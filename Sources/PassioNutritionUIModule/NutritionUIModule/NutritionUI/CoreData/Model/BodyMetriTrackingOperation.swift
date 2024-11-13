@@ -72,9 +72,7 @@ public class BodyMetriTrackingOperation {
                 
                 dbWeightTracking.id = weightRecord.id
                 dbWeightTracking.weight = weightRecord.weight
-                dbWeightTracking.date = weightRecord.date
-                dbWeightTracking.time = weightRecord.time
-                dbWeightTracking.createdAt = weightRecord.createdAt
+                dbWeightTracking.dateTime = weightRecord.dateTime
                 
                 mainContext.saveChanges()
                 
@@ -105,9 +103,9 @@ public class BodyMetriTrackingOperation {
 //                let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate)!
                 
                 let fetchRequest: NSFetchRequest<TblWeightTracking> = TblWeightTracking.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "createdAt >= %@ AND createdAt < %@", NSDate(timeIntervalSince1970: startOfDay.timeIntervalSince1970), NSDate(timeIntervalSince1970: endDate.timeIntervalSince1970))
+                fetchRequest.predicate = NSPredicate(format: "dateTime >= %@ AND dateTime < %@", NSDate(timeIntervalSince1970: startOfDay.timeIntervalSince1970), NSDate(timeIntervalSince1970: endDate.timeIntervalSince1970))
                 
-                let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: true)
+                let sortDescriptor = NSSortDescriptor(key: "dateTime", ascending: true)
 
                 // Add the sort descriptor to the fetch request
                 fetchRequest.sortDescriptors = [sortDescriptor]
@@ -115,7 +113,7 @@ public class BodyMetriTrackingOperation {
                 let weightTrackingResults = try mainContext.fetch(fetchRequest)
                 
                 let arrWeightTracking: [WeightTracking] = weightTrackingResults.map { tblWeightTracking in
-                    return WeightTracking(id: tblWeightTracking.id ?? UUID().uuidString, weight: tblWeightTracking.weight ?? 0, date: tblWeightTracking.date ?? Date(), time: tblWeightTracking.date ?? Date(), createdAt: tblWeightTracking.createdAt ?? Date())
+                    return WeightTracking(id: tblWeightTracking.id ?? UUID().uuidString, weight: tblWeightTracking.weight ?? 0, dateTime: tblWeightTracking.dateTime ?? Date())
                 }
                 
                 mainContext.saveChanges()
@@ -139,16 +137,10 @@ public class BodyMetriTrackingOperation {
         mainContext.perform {
             
             do {
-//                let startDate = Date()
-//                // Create a calendar to get the start of the day
-//                let calendar = Calendar.current
-//                let startOfDay = calendar.startOfDay(for: startDate)
-//                let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate)!
                 
                 let fetchRequest: NSFetchRequest<TblWeightTracking> = TblWeightTracking.fetchRequest()
-                //fetchRequest.predicate = NSPredicate(format: "date >= %@ AND date < %@", NSDate(timeIntervalSince1970: startOfDay.timeIntervalSince1970), NSDate(timeIntervalSince1970: startDate.timeIntervalSince1970))
                 
-                let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: true)
+                let sortDescriptor = NSSortDescriptor(key: "dateTime", ascending: true)
 
                 // Add the sort descriptor to the fetch request
                 fetchRequest.sortDescriptors = [sortDescriptor]
@@ -156,7 +148,7 @@ public class BodyMetriTrackingOperation {
                 let weightTrackingResults = try mainContext.fetch(fetchRequest)
                 
                 let arrWeightTracking: [WeightTracking] = weightTrackingResults.map { tblWeightTracking in
-                    return WeightTracking(id: tblWeightTracking.id ?? UUID().uuidString, weight: tblWeightTracking.weight ?? 0, date: tblWeightTracking.date ?? Date(), time: tblWeightTracking.date ?? Date(), createdAt: tblWeightTracking.createdAt ?? Date())
+                    return WeightTracking(id: tblWeightTracking.id ?? UUID().uuidString, weight: tblWeightTracking.weight ?? 0, dateTime: tblWeightTracking.dateTime ?? Date())
                 }
                 
                 mainContext.saveChanges()

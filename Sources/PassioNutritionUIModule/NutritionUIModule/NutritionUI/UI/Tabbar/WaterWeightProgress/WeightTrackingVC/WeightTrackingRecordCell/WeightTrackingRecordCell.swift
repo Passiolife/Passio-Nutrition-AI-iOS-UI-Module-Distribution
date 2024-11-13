@@ -41,7 +41,7 @@ class WeightTrackingRecordCell: UITableViewCell {
         weightLabel.text = "\(weight.roundDigits(afterDecimal: 1).clean)"
         weightUnitLabel.text = "\(userProfile.selectedWeightUnit)"
         
-        dateLabel.text = dateFormatter.string(from: weightTracking.date)
-        timeLabel.text = timeFormatter.string(from: weightTracking.time)
+        dateLabel.text = dateFormatter.string(from: weightTracking.dateTime)
+        timeLabel.text = timeFormatter.string(from: weightTracking.dateTime)
     }
 }

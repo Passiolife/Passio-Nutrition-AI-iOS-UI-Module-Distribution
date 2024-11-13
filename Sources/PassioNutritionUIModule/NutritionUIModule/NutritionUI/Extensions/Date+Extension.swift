@@ -126,4 +126,74 @@ extension Date {
     func getTimeIntervalInSeconds(fromTime: Date) -> String {
         return "\(self.timeIntervalSince(fromTime).sdkRoundDigits(afterDecimal: 3)) Seconds"
     }
+    
+    //Merge two dates to make single Date
+    static func combineTwoDate(dateToFetch: Date, timeToFetch: Date) -> Date? {
+        // Create a calendar instance
+        let calendar = Calendar.current
+        
+        // Extract the date components (year, month, day) from the first date
+        let dateComponents = calendar.dateComponents([.year, .month, .day], from: dateToFetch)
+        
+        // Extract the time components (hour, minute, second) from the second date
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: timeToFetch)
+        
+        // Merge the components: use date's year, month, day and time's hour, minute, second
+        var mergedComponents = DateComponents()
+        mergedComponents.year = dateComponents.year
+        mergedComponents.month = dateComponents.month
+        mergedComponents.day = dateComponents.day
+        mergedComponents.hour = timeComponents.hour
+        mergedComponents.minute = timeComponents.minute
+        mergedComponents.second = timeComponents.second
+        
+        // Combine the components into a new Date object
+        return calendar.date(from: mergedComponents)
+    }
+    
+    var isDateLessThanTodayIgnoringTime: Bool {
+        
+        let calendar = Calendar.current
+        
+        // Get today's date with the time set to midnight
+        let today = calendar.startOfDay(for: Date())
+        
+        // Extract only the year, month, and day components of the given date and today's date
+        let givenDateComponents = calendar.dateComponents([.year, .month, .day], from: self)
+        let todayComponents = calendar.dateComponents([.year, .month, .day], from: today)
+        
+        // Create a new date from the components (ignoring the time part)
+        guard let normalizedGivenDate = calendar.date(from: givenDateComponents),
+              let normalizedToday = calendar.date(from: todayComponents) else {
+            return false
+        }
+        
+        // Compare the two dates
+        return normalizedGivenDate < normalizedToday
+    }
+    
+    static func isTodayDateWithFutureTime(date: Date, time: Date) -> Bool {
+        let calendar = Calendar.current
+        
+        // Get today's date at midnight (no time part, just year, month, day)
+        let today = calendar.startOfDay(for: Date())
+        
+        // Compare the selected date with today's date
+        let isSameDay = calendar.isDate(date, inSameDayAs: today)
+        
+        // If it's the same day, check if the time is in the future
+        if isSameDay {
+            // Get the current time today (with today's date and the current time)
+            let currentTimeToday = calendar.date(bySettingHour: calendar.component(.hour, from: Date()),
+                                                 minute: calendar.component(.minute, from: Date()),
+                                                 second: 0, of: today)!
+            
+            // Compare if the selected time is in the future compared to current time
+            return time > currentTimeToday
+        }
+        
+        // Return false if the date is not today
+        return false
+    }
+
 }

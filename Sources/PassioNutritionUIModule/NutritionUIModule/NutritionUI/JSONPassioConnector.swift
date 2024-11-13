@@ -407,7 +407,7 @@ extension JSONPassioConnector {
     }
     
     private func urlForWeightTrackingeModel(weightTracking: WeightTracking) -> URL? {
-        let date = weightTracking.date
+        let date = weightTracking.dateTime
         
         guard let urlForFile = urlForSavingTrackingFiles(date: date) else {
             return nil
