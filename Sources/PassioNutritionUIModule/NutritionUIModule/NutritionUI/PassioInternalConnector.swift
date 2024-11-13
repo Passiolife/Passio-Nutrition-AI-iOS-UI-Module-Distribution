@@ -128,10 +128,6 @@ extension PassioInternalConnector {
             completion(foodRecords)
         }
     }
-    
-    public func fetchMealLogsJson(daysBack: Int) -> String {
-        return connector.fetchMealLogsJson(daysBack: daysBack)
-    }
 
     // MARK: User foods
     
@@ -141,10 +137,6 @@ extension PassioInternalConnector {
 
     public func deleteUserFood(record: FoodRecordV3) {
         connector.deleteUserFood(record: record)
-    }
-
-    public func deleteAllUserFood() {
-        connector.deleteAllUserFood()
     }
 
     public func fetchUserFoods(barcode: String, completion: @escaping ([FoodRecordV3]) -> Void) {
@@ -223,12 +215,6 @@ extension PassioInternalConnector {
 
     public func fetchDayLogFor(fromDate: Date, toDate: Date, completion: @escaping ([DayLog]) -> Void) {
         connector.fetchDayLogFor(fromDate: fromDate, toDate: toDate) { logs in
-            completion(logs)
-        }
-    }
-    
-    public func fetchDayLogRecursive(fromDate: Date, toDate: Date, completion: @escaping ([DayLog]) -> Void) {
-        connector.fetchDayLogRecursive(fromDate: fromDate, toDate: toDate, currentLogs: []) { logs in
             completion(logs)
         }
     }
