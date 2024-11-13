@@ -54,7 +54,12 @@ public protocol PassioConnector: AnyObject {
     func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void)
     func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void)
     func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void)
-    func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) 
+    func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void)
+    
+    // WaterTracking Records
+    func updateWaterRecord(waterRecord: WaterTracking, completion: @escaping ((Bool) -> Void))
+    func fetchWaterRecords(startDate: Date, endDate: Date, completion: @escaping ([WaterTracking]) -> Void)
+    func deleteWaterRecord(waterRecord: WaterTracking, completion: @escaping (Bool) -> Void)
 }
 
 

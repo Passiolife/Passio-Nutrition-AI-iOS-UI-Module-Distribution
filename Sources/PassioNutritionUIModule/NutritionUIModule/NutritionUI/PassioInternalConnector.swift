@@ -248,5 +248,18 @@ extension PassioInternalConnector {
     public func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
         connector.deleteWeightRecord(weightRecord: weightRecord, completion: completion)
     }
+    
+    //MARK: Water Tracking
+    public func updateWaterRecord(waterRecord: WaterTracking, completion: @escaping ((Bool) -> Void)) {
+        connector.updateWaterRecord(waterRecord: waterRecord, completion: completion)
+    }
+    
+    public func fetchWaterRecords(startDate: Date, endDate: Date, completion: @escaping ([WaterTracking]) -> Void) {
+        connector.fetchWaterRecords(startDate: startDate, endDate: endDate, completion: completion)
+    }
+    
+    public func deleteWaterRecord(waterRecord: WaterTracking, completion: @escaping (Bool) -> Void) {
+        connector.deleteWaterRecord(waterRecord: waterRecord, completion: completion)
+    }
 }
 

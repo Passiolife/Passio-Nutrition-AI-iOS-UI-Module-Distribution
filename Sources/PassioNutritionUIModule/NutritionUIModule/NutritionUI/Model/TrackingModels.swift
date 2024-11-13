@@ -18,3 +18,15 @@ public struct WeightTracking: Codable, Equatable {
         self.dateTime = dateTime
     }
 }
+
+public struct WaterTracking: Codable, Equatable {
+    public let id: String
+    public let water: Double
+    public let dateTime: Date
+    
+    public init(id: String = UUID().uuidString, water: Double, dateTime: Date) {
+        self.id = id
+        self.water = water
+        self.dateTime = dateTime
+    }
+}

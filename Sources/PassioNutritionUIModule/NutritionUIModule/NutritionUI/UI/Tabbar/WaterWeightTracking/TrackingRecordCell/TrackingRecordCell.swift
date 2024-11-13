@@ -1,5 +1,5 @@
 //
-//  WeightTrackingRecordCell.swift
+//  TrackingRecordCell.swift
 //  PassioNutritionUIModule
 //
 //  Created by Tushar S on 08/11/24.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class WeightTrackingRecordCell: UITableViewCell {
+class TrackingRecordCell: UITableViewCell {
 
-    @IBOutlet private weak var weightLabel: UILabel!
-    @IBOutlet private weak var weightUnitLabel: UILabel!
+    @IBOutlet private weak var bodyMetricValueLabel: UILabel!
+    @IBOutlet private weak var measuringUnitLabel: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var timeLabel: UILabel!
     
@@ -28,8 +28,8 @@ class WeightTrackingRecordCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        weightLabel.text = "150"
-        weightUnitLabel.text = "lbs"
+        bodyMetricValueLabel.text = "150"
+        measuringUnitLabel.text = "lbs"
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -38,10 +38,19 @@ class WeightTrackingRecordCell: UITableViewCell {
     
     func setLayout(weightTracking: WeightTracking, userProfile: UserProfileModel) {
         let weight = userProfile.units == .imperial ? Double(weightTracking.weight * Conversion.lbsToKg.rawValue) : weightTracking.weight
-        weightLabel.text = "\(weight.roundDigits(afterDecimal: 1).clean)"
-        weightUnitLabel.text = "\(userProfile.selectedWeightUnit)"
+        bodyMetricValueLabel.text = "\(weight.roundDigits(afterDecimal: 1).clean)"
+        measuringUnitLabel.text = "\(userProfile.selectedWeightUnit)"
         
         dateLabel.text = dateFormatter.string(from: weightTracking.dateTime)
         timeLabel.text = timeFormatter.string(from: weightTracking.dateTime)
+    }
+    
+    func setLayout(waterTracking: WaterTracking, userProfile: UserProfileModel) {
+        let weight = waterTracking.water
+        bodyMetricValueLabel.text = "\(weight.roundDigits(afterDecimal: 1).clean)"
+        measuringUnitLabel.text = "\(userProfile.waterUnit ?? .oz)"
+        
+        dateLabel.text = dateFormatter.string(from: waterTracking.dateTime)
+        timeLabel.text = timeFormatter.string(from: waterTracking.dateTime)
     }
 }

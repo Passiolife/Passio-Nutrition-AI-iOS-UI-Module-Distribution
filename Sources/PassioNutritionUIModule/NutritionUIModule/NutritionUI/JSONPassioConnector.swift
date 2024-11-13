@@ -234,19 +234,15 @@ extension JSONPassioConnector: PassioConnector {
     }
     
     // Weight Tracking
-    
-    func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
-        if let url = urlForWeightTrackingeModel(weightTracking: weightRecord) {
-            let status = fileManager.updateRecordLocally(url: url, record: weightRecord)
-            completion(status)
-        }
-    }
-    
+    func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {}
     func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void) {}
-    
     func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void) {}
-    
     func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {}
+    
+    // Water Tracking
+    func updateWaterRecord(waterRecord: WaterTracking, completion: @escaping ((Bool) -> Void)) {}
+    func fetchWaterRecords(startDate: Date, endDate: Date, completion: @escaping ([WaterTracking]) -> Void) {}
+    func deleteWaterRecord(waterRecord: WaterTracking, completion: @escaping (Bool) -> Void) {}
 }
 
 // MARK: Helper

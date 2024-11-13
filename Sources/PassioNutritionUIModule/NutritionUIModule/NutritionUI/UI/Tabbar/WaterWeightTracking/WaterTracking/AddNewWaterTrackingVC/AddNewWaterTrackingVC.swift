@@ -1,20 +1,20 @@
 //
-//  AddNewWeightTrackingVC.swift
-//  PassioNutritionUIModule
+//  AddNewWaterTrackingVC.swift
+//  
 //
-//  Created by Tushar S on 07/11/24.
+//  Created by Mindinventory on 13/11/24.
 //
 
 import UIKit
 
-protocol AddNewWeightTrackingDelegate {
+protocol AddNewWaterTrackingDelegate {
     func refreshRecords()
 }
 
-class AddNewWeightTrackingVC: UIViewController {
+class AddNewWaterTrackingVC: UIViewController {
 
-    @IBOutlet weak var weightTitleLabel: UILabel!
-    @IBOutlet weak var weightValueTextField: UITextField!
+    @IBOutlet weak var waterTitleLabel: UILabel!
+    @IBOutlet weak var waterValueTextField: UITextField!
     @IBOutlet weak var dayTitleLabel: UILabel!
     @IBOutlet weak var dayValueTextField: UITextField!
     @IBOutlet weak var timeTitleLabel: UILabel!
@@ -30,7 +30,8 @@ class AddNewWeightTrackingVC: UIViewController {
     private var selectedDate: Date?
     private var selectedTime: Date?
     private var userProfile: UserProfileModel!
-    private var userEnteredWeight: Double?
+    private var userEnteredWater: Double?
+    private var userProfileWaterUnit: WaterUnit = .oz
     
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -44,13 +45,14 @@ class AddNewWeightTrackingVC: UIViewController {
         return df
     }()
     
-    var delegate:AddNewWeightTrackingDelegate?
+    var delegate:AddNewWaterTrackingDelegate?
     var isEditMode: Bool = false
-    var weightRecord: WeightTracking!
+    var waterRecord: WaterTracking!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         userProfile = UserManager.shared.user ?? UserProfileModel()
+        userProfileWaterUnit = userProfile.waterUnit ?? .oz
         arrValueTextField.forEach {
             $0.configureTextField(leftPadding: 0)
                 $0.autocorrectionType = .no
@@ -63,11 +65,11 @@ class AddNewWeightTrackingVC: UIViewController {
                                     forEvent: .touchUpInside)
             }
         if isEditMode {
-            selectedDate = weightRecord.dateTime
-            selectedTime = weightRecord.dateTime
-            let value = userProfile.units == .imperial ? Double(weightRecord.weight * Conversion.lbsToKg.rawValue) : weightRecord.weight
-            userEnteredWeight = value.roundDigits(afterDecimal: 1)
-            weightValueTextField.text = "\(userEnteredWeight!.clean) \(userProfile.selectedWeightUnit)"
+            selectedDate = waterRecord.dateTime
+            selectedTime = waterRecord.dateTime
+            let value = userProfile.goalWater //userProfile.units == .imperial ? Double(waterRecord.weight * Conversion.lbsToKg.rawValue) : waterRecord.weight
+            userEnteredWater = value.roundDigits(afterDecimal: 1)
+            waterValueTextField.text = "\(userEnteredWater!.clean) \(userProfileWaterUnit)"
         }
         else {
             selectedDate = Date()
@@ -93,7 +95,7 @@ class AddNewWeightTrackingVC: UIViewController {
     }
 }
 
-extension AddNewWeightTrackingVC {
+extension AddNewWaterTrackingVC {
 
     @objc private func closeKeyBoard() {
         self.view.endEditing(true)
@@ -134,7 +136,7 @@ extension AddNewWeightTrackingVC {
     
     private func configureNavBar() {
         
-        self.title = "Weight Tracking"
+        self.title = "Water Tracking"
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.isTranslucent = false
         navigationItem.setHidesBackButton(true, animated: false)
@@ -147,21 +149,21 @@ extension AddNewWeightTrackingVC {
 }
 
 
-extension AddNewWeightTrackingVC: UITextFieldDelegate {
+extension AddNewWaterTrackingVC: UITextFieldDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         
-        if textField == weightValueTextField {
-            if let _weight = textField.text,
-               let dWeight = Int(_weight),
-               dWeight > 0 {
-                userEnteredWeight = Double(dWeight)
-                textField.text = "\(dWeight) \(userProfile.selectedWeightUnit)"
+        if textField == waterValueTextField {
+            if let _water = textField.text,
+               let dWater = Int(_water),
+               dWater > 0 {
+                userEnteredWater = Double(dWater)
+                textField.text = "\(dWater) \(userProfileWaterUnit)"
             }
             else {
                 if isEditMode {
-                    let value = userProfile.units == .imperial ? (weightRecord.weight*Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1) : weightRecord.weight
-                    textField.text = "\(value.clean) \(userProfile.selectedWeightUnit)"
+                    let value = waterRecord.water
+                    textField.text = "\(value.clean) \(userProfileWaterUnit)"
                 }
                 else {
                     textField.text = ""
@@ -170,11 +172,22 @@ extension AddNewWeightTrackingVC: UITextFieldDelegate {
         }
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        if textField == waterValueTextField {
+            dayValueTextField.vwBorderColor = .gray300
+            timeValueTextField.vwBorderColor = .gray300
+            waterValueTextField.vwBorderColor = .indigo700
+        }
+        
+        return true
+    }
+    
 }
 
 
 // MARK: - DateSelectorUIView Delegate
-extension AddNewWeightTrackingVC: DateSelectorUIViewDelegate {
+extension AddNewWaterTrackingVC: DateSelectorUIViewDelegate {
     
     @objc func showDateSelector(pickerMode: UIDatePicker.Mode = .date) {
         dateSelector = DateSelectorViewController()
@@ -206,22 +219,31 @@ extension AddNewWeightTrackingVC: DateSelectorUIViewDelegate {
             }
         }
         currentField = nil
+        arrValueTextField.forEach({
+            $0.vwBorderColor = .gray300
+        })
     }
 }
    
-extension AddNewWeightTrackingVC {
+extension AddNewWaterTrackingVC {
     @IBAction func showDatePickerAction(_ sender: UIButton) {
         self.closeKeyBoard()
         self.showDateSelector(pickerMode: .date)
         currentField = self.dayValueTextField
-        self.selectedFieldHighLight()
+        arrValueTextField.forEach({
+            $0.vwBorderColor = .gray300
+        })
+        dayValueTextField.vwBorderColor = .indigo700
     }
     
     @IBAction func showTimePickerAction(_ sender: UIButton) {
         self.closeKeyBoard()
         self.showDateSelector(pickerMode: .time)
         currentField = self.timeValueTextField
-        self.selectedFieldHighLight()
+        arrValueTextField.forEach({
+            $0.vwBorderColor = .gray300
+        })
+        timeValueTextField.vwBorderColor = .indigo700
     }
     
     @IBAction func saveButtonAction(_ sender: UIButton) {
@@ -231,20 +253,20 @@ extension AddNewWeightTrackingVC {
             handleTextFieldActionOnSaveTapped()
         }
         
-        if let fieldValue = weightValueTextField.text,
+        if let fieldValue = waterValueTextField.text,
            fieldValue.count > 0,
-           let roundedValue = userEnteredWeight,
+           let roundedValue = userEnteredWater,
            let selectedDate = selectedDate,
            let selectedTime = selectedTime {
-            let value = userProfile.units == .imperial ? roundedValue/Conversion.lbsToKg.rawValue : roundedValue
+            let value = roundedValue
             let recordDateTime = Date.combineTwoDate(dateToFetch: selectedDate, timeToFetch: selectedTime) ?? Date()
-            var weightTrackModel = WeightTracking(weight: value, dateTime: recordDateTime)
+            var waterTrackModel = WaterTracking(water: value, dateTime: recordDateTime)
             
             if isEditMode {
-                weightTrackModel = WeightTracking(id: weightRecord.id, weight: value, dateTime: recordDateTime)
+                waterTrackModel = WaterTracking(id: waterRecord.id, water: value, dateTime: recordDateTime)
             }
             
-            PassioInternalConnector.shared.updateWeightRecord(weightRecord: weightTrackModel) { bResult in
+            PassioInternalConnector.shared.updateWaterRecord(waterRecord: waterTrackModel) { bResult in
                 if bResult {
                     self.delegate?.refreshRecords()
                     self.navigationController?.popViewController(animated: true)
@@ -258,37 +280,22 @@ extension AddNewWeightTrackingVC {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func selectedFieldHighLight() {
-        
-        arrValueTextField.forEach({
-            $0.vwBorderColor = .gray300
-        })
-        
-        if (currentField == dayValueTextField) {
-            dayValueTextField.vwBorderColor = .indigo600
-        }
-        else if (currentField == timeValueTextField) {
-            timeValueTextField.vwBorderColor = .indigo600
-        }
-        else {}
-    }
-    
     private func handleTextFieldActionOnSaveTapped() {
-        if let textField = weightValueTextField,
+        if let textField = waterValueTextField,
            ((textField.text?.isEmpty) != nil) {
-            if let _weight = textField.text,
-               let dWeight = Int(_weight),
-               dWeight > 0 {
-                userEnteredWeight = Double(dWeight)
-                weightValueTextField.text = "\(dWeight) \(userProfile.selectedWeightUnit)"
+            if let _water = textField.text,
+               let dWater = Int(_water),
+               dWater > 0 {
+                userEnteredWater = Double(dWater)
+                waterValueTextField.text = "\(dWater) \(userProfileWaterUnit)"
             }
             else {
                 if isEditMode {
-                    let value = userProfile.units == .imperial ? (weightRecord.weight*Conversion.lbsToKg.rawValue).roundDigits(afterDecimal: 1) : weightRecord.weight
-                    weightValueTextField.text = "\(value.clean) \(userProfile.selectedWeightUnit)"
+                    let value = waterRecord.water
+                    waterValueTextField.text = "\(value.clean) \(userProfileWaterUnit)"
                 }
                 else {
-                    weightValueTextField.text = ""
+                    waterValueTextField.text = ""
                 }
             }
         }

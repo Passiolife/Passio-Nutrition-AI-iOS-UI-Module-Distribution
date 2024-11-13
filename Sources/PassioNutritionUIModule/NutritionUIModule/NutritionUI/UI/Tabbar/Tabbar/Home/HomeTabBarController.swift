@@ -353,9 +353,14 @@ extension HomeTabBarController: CustomPickerSelectionDelegate {
 // MARK: - DashboardDelegate
 extension HomeTabBarController: DashboardDelegate {
     func redirectToTrackingScreen(trackingType: TrackingTypes) {
-        if trackingType == .weightTracking{
+        if trackingType == .weightTracking {
             let vc = NutritionUICoordinator.getWeightTrackingViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }
+        else if trackingType == .waterTracking {
+            let vc = NutritionUICoordinator.getWaterTrackingViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {}
     }
 }

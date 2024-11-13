@@ -182,7 +182,7 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueCell(cellClass: WaterWeightCardCell.self, forIndexPath: indexPath)
             cell.configureUI(lastWeightRecord: weightTrackingRecord)
             cell.addWaterButtonAction = {
-                self.delegate?.redirectToTrackingScreen(trackingType: .weightTracking)
+                self.delegate?.redirectToTrackingScreen(trackingType: .waterTracking)
             }
             
             cell.addWeightButtonAction = { [weak self] in
