@@ -161,8 +161,8 @@
         <attribute name="fatPercent" optional="YES" attributeType="Integer 16" defaultValueString="25" usesScalarValueType="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="gender" optional="YES" attributeType="String"/>
-        <attribute name="goalWater" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="goalWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="goalWater" optional="YES" attributeType="Double" usesScalarValueType="YES"/>
+        <attribute name="goalWeight" optional="YES" attributeType="Double" usesScalarValueType="YES"/>
         <attribute name="goalWeightTimeLine" optional="YES" attributeType="String"/>
         <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="heightUnits" optional="YES" attributeType="String" defaultValueString="Feet, Inches"/>

@@ -78,8 +78,14 @@ public class UserProfileOperation {
                 dbUserProfile.fatPercent = userProfile.fatPercent.toInt16()
                 dbUserProfile.firstName = userProfile.firstName
                 dbUserProfile.gender = userProfile.gender?.rawValue
-                dbUserProfile.goalWater = userProfile.goalWater ?? 0
-                dbUserProfile.goalWeight = userProfile.goalWeight ?? 0
+                
+                if let waterValue = userProfile.goalWater {
+                    dbUserProfile.goalWater = waterValue
+                }
+                
+                if let weightValue = userProfile.goalWeight {
+                    dbUserProfile.goalWeight = weightValue
+                }
                 dbUserProfile.goalWeightTimeLine = userProfile.goalWeightTimeLine
                 dbUserProfile.height = userProfile.height ?? 0
                 dbUserProfile.heightUnits = userProfile.heightUnits.rawValue

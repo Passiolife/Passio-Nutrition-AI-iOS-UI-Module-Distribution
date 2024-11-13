@@ -144,14 +144,14 @@ extension WaterWeightCardCell {
         weightRemainToDailyGoalLabel.setBoldAttributedText(boldText: remainWeightGoal, fullText: remainWeightGoalFullText, fontSize: 12)
         
         
-        if userProfile.goalWater == nil {
+        if userProfile.goalWater == nil || (userProfile.goalWater ?? 0) < 0 {
             self.waterDetailsContainerView.isHidden = true
         }
         else {
             self.waterDetailsContainerView.isHidden = false
         }
         
-        if userProfile.goalWeight == nil {
+        if userProfile.goalWeight == nil || (userProfile.goalWeight ?? 0) < 0 {
             self.weightDetailsContainerView.isHidden = true
         }
         else {
