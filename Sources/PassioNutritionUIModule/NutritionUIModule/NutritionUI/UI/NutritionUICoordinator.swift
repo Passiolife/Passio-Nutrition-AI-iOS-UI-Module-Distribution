@@ -47,12 +47,12 @@ public class NutritionUICoordinator {
     }
 
     class func getWeightTrackingViewController() -> WeightTrackingVC {
-        loadViewController(storyboardName: "WaterWeightProgress",
+        loadViewController(storyboardName: "WaterWeightTracking",
                            controllerName: WeightTrackingVC.className) as! WeightTrackingVC
     }
     
     class func getAddWeightTrackingViewController() -> AddNewWeightTrackingVC {
-        loadViewController(storyboardName: "WaterWeightProgress",
+        loadViewController(storyboardName: "WaterWeightTracking",
                            controllerName: AddNewWeightTrackingVC.className) as! AddNewWeightTrackingVC
     }
     
