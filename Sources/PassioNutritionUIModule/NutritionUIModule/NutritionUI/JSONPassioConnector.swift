@@ -50,18 +50,6 @@ extension JSONPassioConnector: PassioConnector {
         }
     }
     
-    func fetchMealLogsJson(daysBack: Int) -> String {
-        let toDate = Date()
-        let fromDate = Calendar.current.date(byAdding: .day, value: -daysBack, to: toDate) ?? Date()
-        
-        var dayLogs = [DayLog]()
-        fetchDayLogRecursive(fromDate: fromDate, toDate: toDate) { dayLog in
-            dayLogs.append(contentsOf: dayLog)
-        }
-        let json = dayLogs.generateDataRequestJson()
-        return json
-    }
-    
     // MARK: User foods
     
     func updateUserFood(record: FoodRecordV3) {
@@ -73,16 +61,6 @@ extension JSONPassioConnector: PassioConnector {
     func deleteUserFood(record: FoodRecordV3) {
         if let url = urlForSaving(userFoods: record) {
             fileManager.deleteRecordLocally(url: url)
-        }
-    }
-    
-    func deleteAllUserFood() {
-        if let dirURL = urlForUserFoodsDirectory {
-            do {
-                try fileManager.removeItem(at: dirURL)
-            } catch {
-                print(error.localizedDescription)
-            }
         }
     }
     
@@ -206,30 +184,6 @@ extension JSONPassioConnector: PassioConnector {
                     completion(dayLogs)
                 }
             }
-        }
-    }
-    
-    func fetchDayLogRecursive(fromDate: Date,
-                              toDate: Date,
-                              currentLogs: [DayLog] = [],
-                              completion: @escaping ([DayLog]) -> Void) {
-        
-        guard fromDate <= toDate else {
-            completion(currentLogs)
-            return
-        }
-        
-        fetchDayRecords(date: fromDate) { (foodRecords) in
-            let daylog = DayLog(date: fromDate, records: foodRecords)
-            var updatedLogs = currentLogs
-            updatedLogs.append(daylog)
-            
-            // Recursive call with next day
-            let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: fromDate)!
-            self.fetchDayLogRecursive(fromDate: nextDate,
-                                      toDate: toDate,
-                                      currentLogs: updatedLogs,
-                                      completion: completion)
         }
     }
 }

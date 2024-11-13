@@ -17,3 +17,10 @@ public struct ScreenSize {
 struct Constant {
     static let defaultTargetCalories = 2100
 }
+
+var currentTime: String {
+    let date = Date()
+    let formatter = DateFormatter()
+    formatter.dateFormat = "HH:mm:ss.SSS"
+    return formatter.string(from: date)
+}

@@ -114,8 +114,10 @@ extension MacroProgressViewController {
         let (fromDate, toDate) = currentScope == .week
         ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
 
-        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
-                                                            toDate: toDate) { [weak self] (dayLogs) in
+        PassioInternalConnector.shared.fetchDayLogFor(
+            fromDate: fromDate,
+            toDate: toDate
+        ) { [weak self] (dayLogs) in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
                 self.setupCharts(from: dayLogs)
