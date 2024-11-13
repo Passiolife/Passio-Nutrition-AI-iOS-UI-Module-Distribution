@@ -276,21 +276,17 @@ public class BodyMetriTrackingOperation {
             
             do {
                 
-                // Create a calendar to get the start of the day
-                let calendar = Calendar.current
-                let startOfDay = calendar.startOfDay(for: startDate)
-                
                 let fetchRequest: NSFetchRequest<TblWaterTracking> = TblWaterTracking.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "dateTime >= %@ AND dateTime < %@", NSDate(timeIntervalSince1970: startOfDay.timeIntervalSince1970), NSDate(timeIntervalSince1970: endDate.timeIntervalSince1970))
+                fetchRequest.predicate = NSPredicate(format: "dateTime >= %@ AND dateTime < %@", NSDate(timeIntervalSince1970: startDate.timeIntervalSince1970), NSDate(timeIntervalSince1970: endDate.timeIntervalSince1970))
                 
                 let sortDescriptor = NSSortDescriptor(key: "dateTime", ascending: true)
 
                 // Add the sort descriptor to the fetch request
                 fetchRequest.sortDescriptors = [sortDescriptor]
                 
-                let weightTrackingResults = try mainContext.fetch(fetchRequest)
+                let waterTrackingResults = try mainContext.fetch(fetchRequest)
                 
-                let arrWaterTracking: [WaterTracking] = weightTrackingResults.map { tblWaterTracking in
+                let arrWaterTracking: [WaterTracking] = waterTrackingResults.map { tblWaterTracking in
                     return WaterTracking(id: tblWaterTracking.id ?? UUID().uuidString, water: tblWaterTracking.water ?? 0, dateTime: tblWaterTracking.dateTime ?? Date())
                 }
                 

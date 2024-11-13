@@ -16,7 +16,7 @@ class TrackingRecordCell: UITableViewCell {
     
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
-        df.dateFormat = DateFormatString.EEEE_MMM_dd_yyyy
+        df.dateFormat = DateFormatString.mmmm_dd_yyyy
         return df
     }()
     

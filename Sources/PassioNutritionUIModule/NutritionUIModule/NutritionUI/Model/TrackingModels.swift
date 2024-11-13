@@ -30,3 +30,10 @@ public struct WaterTracking: Codable, Equatable {
         self.dateTime = dateTime
     }
 }
+
+
+internal enum QuickAddWater: Double {
+    case glass = 8
+    case smallBottle = 16
+    case largeBottle = 24
+}

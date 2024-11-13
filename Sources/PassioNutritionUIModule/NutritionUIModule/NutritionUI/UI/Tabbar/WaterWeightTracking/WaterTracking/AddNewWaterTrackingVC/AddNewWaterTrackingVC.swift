@@ -67,7 +67,7 @@ class AddNewWaterTrackingVC: UIViewController {
         if isEditMode {
             selectedDate = waterRecord.dateTime
             selectedTime = waterRecord.dateTime
-            let value = userProfile.goalWater //userProfile.units == .imperial ? Double(waterRecord.weight * Conversion.lbsToKg.rawValue) : waterRecord.weight
+            let value = waterRecord.water
             userEnteredWater = value.roundDigits(afterDecimal: 1)
             waterValueTextField.text = "\(userEnteredWater!.clean) \(userProfileWaterUnit)"
         }

@@ -9,6 +9,7 @@ import UIKit
 
 class WaterTrackingVC: UIViewController {
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
     @IBOutlet weak var nextDateButton: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
@@ -21,7 +22,13 @@ class WaterTrackingVC: UIViewController {
     @IBOutlet weak var waterTrackTableViewTopConst: NSLayoutConstraint!
     @IBOutlet weak var waterTrackTableViewBottomConst: NSLayoutConstraint!
     @IBOutlet weak var waterTrackerListContainer: UIView!
+    @IBOutlet weak var quickWaterAddContainerView: UIView!
     @IBOutlet weak var dividerView: UIView!
+    @IBOutlet weak var quickAddWaterLabel: UILabel!
+    @IBOutlet weak var quickAddOptionGlassWaterLabel: UILabel!
+    @IBOutlet weak var quickAddOptionSmallBottleWaterLabel: UILabel!
+    @IBOutlet weak var quickAddOptionLargeBottleWaterLabel: UILabel!
+    
     private let connector = PassioInternalConnector.shared
     private var selectedDate: Date = Date() {
         didSet {
@@ -55,6 +62,11 @@ class WaterTrackingVC: UIViewController {
                                               color: .black.withAlphaComponent(0.10),
                                               shadowRadius: 8,
                                               shadowOpacity: 1)
+        quickWaterAddContainerView.dropShadow(radius: 16,
+                                              offset: CGSize(width: 0, height: 2),
+                                              color: .black.withAlphaComponent(0.10),
+                                              shadowRadius: 8,
+                                              shadowOpacity: 1)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -78,6 +90,37 @@ class WaterTrackingVC: UIViewController {
         segmentControl.selectedSegmentTintColor = .indigo600
         arrowIcon.transform = CGAffineTransform(rotationAngle: .pi)
         configureNavBar()
+        
+        quickAddWaterLabel.text = "Quick Add"
+        
+        let userSelectedWaterUnit = userProfile.waterUnit ?? .oz
+        
+        let glassWaterText = "Glass"
+        let waterText = "(\(QuickAddWater.glass.rawValue.clean) \(userSelectedWaterUnit))"
+        let fullWaterText = "\(glassWaterText) \(waterText)"
+        
+        quickAddOptionGlassWaterLabel.setAttributedTextWithColor(fullText: fullWaterText, highlights: [
+            (text: glassWaterText, textColor: .black, font: UIFont.boldSystemFont(ofSize: 14)),
+            (text: "\(waterText)",textColor: .gray500, font: UIFont.systemFont(ofSize: 14, weight: .regular))
+        ])
+        
+        let sBottleWaterText = "Sm Bottle"
+        let sWaterText = "(\(QuickAddWater.smallBottle.rawValue.clean) \(userSelectedWaterUnit))"
+        let fullSWaterText = "\(sBottleWaterText) \(sWaterText)"
+        
+        quickAddOptionSmallBottleWaterLabel.setAttributedTextWithColor(fullText: fullSWaterText, highlights: [
+            (text: sBottleWaterText, textColor: .black, font: UIFont.boldSystemFont(ofSize: 14)),
+            (text: "\(sWaterText)",textColor: .gray500, font: UIFont.systemFont(ofSize: 14, weight: .regular))
+        ])
+        
+        let lBottleWaterText = "Lg Bottle"
+        let lWaterText = "(\(QuickAddWater.largeBottle.rawValue.clean) \(userSelectedWaterUnit))"
+        let fullLWaterText = "\(lBottleWaterText) \(lWaterText)"
+        
+        quickAddOptionLargeBottleWaterLabel.setAttributedTextWithColor(fullText: fullLWaterText, highlights: [
+            (text: lBottleWaterText, textColor: .black, font: UIFont.boldSystemFont(ofSize: 14)),
+            (text: "\(lWaterText)",textColor: .gray500, font: UIFont.systemFont(ofSize: 14, weight: .regular))
+        ])
         
         self.waterTrackerListContainer.isHidden = true
         
@@ -162,7 +205,7 @@ extension WaterTrackingVC {
     private func configureDateUI() {
 
         let (startDate, endDate) = currentScope == .week
-        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
+        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonthForTracking()!
         nextDateButton.isEnabled = !(Date() > startDate.startOfToday && Date() < endDate)
         nextDateButton.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
 
@@ -185,10 +228,32 @@ extension WaterTrackingVC {
         }
     }
     
+    @IBAction func onQuickGlassOptionPressed(_ sender: UIButton) {
+        self.insertQuickWaterOption(waterToAdd: .glass)
+    }
+    
+    @IBAction func onQuickSmallBottleOptionPressed(_ sender: UIButton) {
+        self.insertQuickWaterOption(waterToAdd: .smallBottle)
+    }
+    
+    @IBAction func onQuickLargeBottleOptionPressed(_ sender: UIButton) {
+        self.insertQuickWaterOption(waterToAdd: .largeBottle)
+    }
+    
+    private func insertQuickWaterOption(waterToAdd: QuickAddWater) {
+        let waterTrackModel = WaterTracking(water: waterToAdd.rawValue, dateTime: Date())
+        
+        PassioInternalConnector.shared.updateWaterRecord(waterRecord: waterTrackModel) { bResult in
+            if bResult {
+                self.getWaterTrackingRecords()
+            }
+        }
+    }
+    
     private func getWaterTrackingRecords() {
 
         let (fromDate, toDate) = currentScope == .week
-        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
+        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonthForTracking()!
         
         connector.fetchWaterRecords(startDate: fromDate, endDate: toDate) { [weak self] (waterTrackingRecords) in
             guard let `self` = self else { return }
@@ -202,6 +267,7 @@ extension WaterTrackingVC {
                     self.waterTrackTableViewTopConst.constant = 0
                     self.waterTrackTableViewBottomConst.constant = 0
                     self.dividerView.isHidden = true
+                    self.waterTrackTableView.reloadData()
                 }
                 else {
                     self.arrowIcon.tag = 0
@@ -209,9 +275,15 @@ extension WaterTrackingVC {
                     self.dividerView.isHidden = false
                     self.waterTrackTableViewTopConst.constant = 16
                     self.waterTrackTableViewBottomConst.constant = 16
+                    
+                    self.waterTrackTableView.reloadData()
+                    
+                    if self.arrWaterTracking.count >= 3 {
+                        let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.height)
+                        self.scrollView.setContentOffset(bottomOffset, animated: true)
+                    }
                 }
                 
-                self.waterTrackTableView.reloadData()
                 if self.arrWaterTracking.count == 0 {
                     self.waterTrackerListContainer.isHidden = true
                 }

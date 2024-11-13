@@ -75,6 +75,16 @@ extension Date {
     var startOfToday: Date {
         Calendar.current.startOfDay(for: Date())
     }
+    
+    var startOfGivenDay: Date {
+        return Calendar.current.startOfDay(for: self)
+    }
+    
+    var endOfGivenDay: Date {
+        // Get the start of the next day, and subtract 1 second to get the last second of the current day
+        let startOfNextDay = Calendar.current.date(byAdding: .day, value: 1, to: self)!
+        return startOfNextDay.addingTimeInterval(-1)
+    }
 
     func isSameDayAs(_ date: Date) -> Bool {
         Calendar.current.isDate(self, inSameDayAs: date)
@@ -120,6 +130,28 @@ extension Date {
                                              to: startOfMonth) else {
             return nil
         }
+        return (startOfMonth, endOfMonth)
+    }
+    
+    func startAndEndOfMonthForTracking(calendar: Calendar = .current) -> (start: Date, end: Date)? {
+        // Get the start of the month
+        guard let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: self)) else {
+            return nil
+        }
+        
+        // Get the range of days in the current month
+        let range = calendar.range(of: .day, in: .month, for: startOfMonth)
+        
+        // Ensure the range is valid (it should never be nil)
+        guard let dayRange = range, let lastDayOfMonth = dayRange.last else {
+            return nil
+        }
+        
+        // Get the end of the month by adding (lastDayOfMonth - 1) days to the start of the month
+        guard let endOfMonth = calendar.date(byAdding: .day, value: lastDayOfMonth, to: startOfMonth) else {
+            return nil
+        }
+        
         return (startOfMonth, endOfMonth)
     }
     

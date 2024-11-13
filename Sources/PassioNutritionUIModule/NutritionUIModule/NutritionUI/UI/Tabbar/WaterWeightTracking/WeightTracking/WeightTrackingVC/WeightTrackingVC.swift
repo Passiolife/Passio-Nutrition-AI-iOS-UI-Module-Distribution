@@ -162,7 +162,7 @@ extension WeightTrackingVC {
     private func configureDateUI() {
 
         let (startDate, endDate) = currentScope == .week
-        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
+        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonthForTracking()!
         nextDateButton.isEnabled = !(Date() > startDate.startOfToday && Date() < endDate)
         nextDateButton.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
 
@@ -188,7 +188,7 @@ extension WeightTrackingVC {
     private func getWeightTrackingRecords() {
 
         let (fromDate, toDate) = currentScope == .week
-        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
+        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonthForTracking()!
         
         connector.fetchWeightRecords(startDate: fromDate, endDate: toDate) { [weak self] (weightTrackingRecords) in
             guard let `self` = self else { return }

@@ -34,6 +34,7 @@ class DashboardViewController: UIViewController {
             setTitle()
             getRecords(for: selectedDate)
             softReloadCalenderCell()
+            fetchWaterTrackingRecord()
             nextDateButton.isEnabled = selectedDate.isToday ? false : true
         }
     }
@@ -42,6 +43,7 @@ class DashboardViewController: UIViewController {
         case nutrition, calender, weightWater
     }
     private var weightTrackingRecord: WeightTracking?
+    private var totalConsumedWater: Double?
     
     var delegate: DashboardDelegate? = nil
     
@@ -58,7 +60,8 @@ class DashboardViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.getfetchLatestWeightRecord()
+        self.fetchWeightTrackingRecord()
+        self.fetchWaterTrackingRecord()
     }
     
     override func viewWillLayoutSubviews() {
@@ -116,7 +119,7 @@ class DashboardViewController: UIViewController {
         }
     }
     
-    private func getfetchLatestWeightRecord() {
+    private func fetchWeightTrackingRecord() {
         PassioInternalConnector.shared.fetchLatestWeightRecord { lsatWeightRecord in
             if let lsatWeightRecord = lsatWeightRecord {
                 self.weightTrackingRecord = lsatWeightRecord
@@ -124,7 +127,32 @@ class DashboardViewController: UIViewController {
             else {
                 self.weightTrackingRecord = nil
             }
-            self.tableView.reloadData()
+            if let cellIndex = self.cells.firstIndex(of: .weightWater) {
+                self.tableView.reloadRows(at: [IndexPath(row: cellIndex, section: 0)], with: .automatic)
+            }
+            else {
+                self.tableView.reloadData()
+            }
+            
+        }
+    }
+    
+    private func fetchWaterTrackingRecord() {
+        PassioInternalConnector.shared.fetchWaterRecords(startDate: selectedDate.startOfGivenDay, endDate: selectedDate.endOfGivenDay) { arrWeightTrackingRecord in
+            
+            if arrWeightTrackingRecord.count > 0 {
+                self.totalConsumedWater = arrWeightTrackingRecord.map({$0.water}).reduce(0, +)
+            }
+            else {
+                self.totalConsumedWater = nil
+            }
+            
+            if let cellIndex = self.cells.firstIndex(of: .weightWater) {
+                self.tableView.reloadRows(at: [IndexPath(row: cellIndex, section: 0)], with: .automatic)
+            }
+            else {
+                self.tableView.reloadData()
+            }
         }
     }
 }
@@ -180,7 +208,7 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case .weightWater:
             let cell = tableView.dequeueCell(cellClass: WaterWeightCardCell.self, forIndexPath: indexPath)
-            cell.configureUI(lastWeightRecord: weightTrackingRecord)
+            cell.configureUI(lastWeightRecord: weightTrackingRecord, totalConsumedWater: totalConsumedWater)
             cell.addWaterButtonAction = {
                 self.delegate?.redirectToTrackingScreen(trackingType: .waterTracking)
             }

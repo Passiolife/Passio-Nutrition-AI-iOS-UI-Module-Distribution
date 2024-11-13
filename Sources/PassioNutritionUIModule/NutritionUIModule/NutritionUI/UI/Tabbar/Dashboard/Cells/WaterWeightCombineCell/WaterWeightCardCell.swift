@@ -73,7 +73,7 @@ extension WaterWeightCardCell {
         addWeightButtonAction?()
     }
     
-    func configureUI(lastWeightRecord weightTrackingRecord: WeightTracking?) {
+    func configureUI(lastWeightRecord weightTrackingRecord: WeightTracking?, totalConsumedWater: Double?) {
         let userProfile = UserManager.shared.user ?? UserProfileModel()
         
         // ****************************
@@ -83,12 +83,24 @@ extension WaterWeightCardCell {
         var remainWaterGoal = ""
         var remainWaterGoalFullText = ""
         let waterUnit = "\(userProfile.waterUnit ?? .oz)"
-        var waterText = "0"
+        var waterText = "\((totalConsumedWater ?? 0).clean)"
         var fullWaterText = "\(waterText) \(waterUnit)"
         
-        if let goalWater = userProfile.goalWater {
-            remainWaterGoal = "\((userProfile.goalWater ?? 0).clean) \(userProfile.waterUnit ?? .oz)"
+        if let goalWater = userProfile.goalWater,
+        let totalConsumedWater = totalConsumedWater {
+            var waterRemain = (userProfile.goalWater ?? 0) - totalConsumedWater
+            if waterRemain < 0 {
+                waterRemain = 0
+            }
+            
+            remainWaterGoal = "\(waterRemain.clean) \(waterUnit)"
             remainWaterGoalFullText = "\(remainWaterGoal) remain to daily goal"
+        }
+        else {
+            if let dWater = userProfile.goalWater {
+                remainWaterGoal = "\(dWater.roundDigits(afterDecimal: 1).clean) \(waterUnit)"
+                remainWaterGoalFullText = "\(remainWaterGoal) remain to daily goal"
+            }
         }
         
         waterGoalValueLabel.setAttributedTextWithColor(fullText: fullWaterText, highlights: [
