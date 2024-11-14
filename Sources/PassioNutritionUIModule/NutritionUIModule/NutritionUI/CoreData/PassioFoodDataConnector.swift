@@ -65,29 +65,6 @@ extension PassioFoodDataConnector: PassioConnector {
         }
     }
     
-    public func fetchDayLogRecursive(fromDate: Date, toDate: Date, currentLogs: [DayLog] = [], completion: @escaping ([DayLog]) -> Void) {
-        
-        guard fromDate <= toDate else {
-            completion(currentLogs)
-            return
-        }
-        
-        fetchDayRecords(date: fromDate) { (foodRecords) in
-            let daylog = DayLog(date: fromDate, records: foodRecords)
-            var updatedLogs = currentLogs
-            updatedLogs.append(daylog)
-            
-            // Recursive call with next day
-            let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: fromDate)!
-            self.fetchDayLogRecursive(fromDate: nextDate,
-                                      toDate: toDate,
-                                      currentLogs: updatedLogs,
-                                      completion: completion)
-        }
-        
-    }
-    
-    
     //MARK: - User Profile Section
     public func updateUserProfile(userProfile: UserProfileModel) {
         UserProfileOperation.shared.insertOrUpdateUserProfile(userProfile: userProfile) { (resultStatus, resultError) in
@@ -135,20 +112,6 @@ extension PassioFoodDataConnector: PassioConnector {
                 completion(foodRecords)
             }
         }
-    }
-    
-    public func fetchMealLogsJson(daysBack: Int) -> String {
-        
-        let toDate = Date()
-        let fromDate = Calendar.current.date(byAdding: .day, value: -daysBack, to: toDate) ?? Date()
-
-        var dayLogs = [DayLog]()
-        fetchDayLogRecursive(fromDate: fromDate, toDate: toDate) { dayLog in
-            dayLogs.append(contentsOf: dayLog)
-        }
-        let json = dayLogs.generateDataRequestJson()
-        return json
-        
     }
     
     //MARK: - Userfood Section
@@ -202,15 +165,6 @@ extension PassioFoodDataConnector: PassioConnector {
                 completion(foodRecords)
             }
         }
-    }
-    
-    public func deleteAllUserFood() {
-        CustomFoodRecordOperations.shared.deleteAllCustomFoodRecords { bResult, error in
-            if error != nil {
-                print("Failed to delete CustomFood record :: \(error)")
-            }
-        }
-        
     }
     
     public func updateUserFoodImage(with id: String, image: UIImage) {

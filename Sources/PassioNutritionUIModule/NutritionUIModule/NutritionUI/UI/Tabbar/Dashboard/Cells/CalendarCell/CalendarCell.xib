@@ -35,7 +35,7 @@
                                 </constraints>
                                 <color key="tintColor" name="gray-400"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="chevron.right" catalog="system"/>
+                                <state key="normal" image="chevron.down" catalog="system"/>
                                 <connections>
                                     <action selector="disclosureButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uPf-v5-TbO"/>
                                 </connections>
@@ -211,6 +211,7 @@
     </objects>
     <resources>
         <image name="adherence_icon" width="24" height="24"/>
+        <image name="chevron.down" catalog="system" width="128" height="70"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
         <namedColor name="gray-400">

@@ -45,11 +45,11 @@ public class UserProfileOperation {
                 
                 if let firstRecord = results.first {
                     dbUserProfile = firstRecord
-                    passioLog(message: "Existing User Profile Record found to update")
+                    print( "Existing User Profile Record found to update")
                 }
                 else {
                     dbUserProfile = TblUserProfile(context: mainContext)
-                    passioLog(message: "New User Profile Record is created for storage")
+                    print( "New User Profile Record is created for storage")
                 }
                 
                 guard let dbUserProfile = dbUserProfile else {
@@ -103,7 +103,7 @@ public class UserProfileOperation {
             }
             catch let error {
                 
-                passioLog(message: "Error while saving UserProfile data :: \(error)")
+                print( "Error while saving UserProfile data :: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -142,7 +142,7 @@ public class UserProfileOperation {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch User Profile records: \(error)")
+                print( "Failed to fetch User Profile records: \(error)")
                 
                 mainContext.saveChanges()
                 completion(nil, error)

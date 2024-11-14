@@ -106,7 +106,7 @@ internal class FoodRecipeRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch match delete and save as new recored: \(error)")
+                print( "Failed to fetch match delete and save as new recored: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -118,7 +118,6 @@ internal class FoodRecipeRecordOperations {
     func insertOrUpdateFoodRecipeRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
-        // let currentTime = Date()
         mainContext.perform {
             
             // Create a fetch request for the Person entity
@@ -134,11 +133,11 @@ internal class FoodRecipeRecordOperations {
                 
                 if let firstRecord = results.first {
                     dbFoodRecordV3 = firstRecord
-                    passioLog(message: "Existing Recipe Record found to update")
+                    print( "Existing Recipe Record found to update")
                 }
                 else {
                     dbFoodRecordV3 = TblFoodRecipeRecord(context: mainContext)
-                    passioLog(message: "New Recipe Record is created for storage")
+                    print( "New Recipe Record is created for storage")
                 }
                 
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -219,14 +218,11 @@ internal class FoodRecipeRecordOperations {
                 
                 mainContext.saveChanges()
                 
-                // let endTime = Date()
-                // print("Passio LogsLogs >>> Recipe Record inser/update: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
-                
                 completion(true, nil)
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch match and save as new Recipe recored: \(error)")
+                print( "Failed to fetch match and save as new Recipe recored: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -237,7 +233,6 @@ internal class FoodRecipeRecordOperations {
     func insertOrUpdateFoodRecipeRecords(foodRecords: [FoodRecordV3], completion: @escaping ((Bool, Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
-        // let currentTime = Date()
         
         mainContext.perform {
             
@@ -258,11 +253,11 @@ internal class FoodRecipeRecordOperations {
                     
                     if let firstRecord = results.first {
                         dbFoodRecordV3 = firstRecord
-                        passioLog(message: "Existing Recipe Record found to update")
+                        print( "Existing Recipe Record found to update")
                     }
                     else {
                         dbFoodRecordV3 = TblFoodRecipeRecord(context: mainContext)
-                        passioLog(message: "New Recipe Record is created for storage")
+                        print( "New Recipe Record is created for storage")
                     }
                     
                     guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -341,12 +336,9 @@ internal class FoodRecipeRecordOperations {
                     
                     dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
                     
-                    // let endTime = Date()
-                    // print("Passio LogsLogs >>> Recipe Record inser/update: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
-                    
                 } catch let error {
                     errorStatement = error
-                    passioLog(message: "Failed to fetch match and save as new Recipe recored: \(error)")
+                    print( "Failed to fetch match and save as new Recipe recored: \(error)")
                 }
                 
             }
@@ -381,7 +373,7 @@ internal class FoodRecipeRecordOperations {
                 let results = try mainContext.fetch(fetchRequest)
                 
                 if let firstRecord = results.first {
-                    passioLog(message: "Existing Recipe Record found for storage and will update it")
+                    print( "Existing Recipe Record found for storage and will update it")
                     dbFoodRecordV3 = firstRecord
                     
                     guard let dbFoodRecordV3 = dbFoodRecordV3 else { return }
@@ -451,7 +443,7 @@ internal class FoodRecipeRecordOperations {
                 }
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Recipe record to update: \(error)")
+                print( "Failed to fetch Recipe record to update: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -464,7 +456,7 @@ internal class FoodRecipeRecordOperations {
     func fetchFoodRecipeRecords(completion: @escaping (([FoodRecordV3], Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
-        // let currentTime = Date()
+
         mainContext.perform {
             
             do {
@@ -479,14 +471,11 @@ internal class FoodRecipeRecordOperations {
                 
                 mainContext.saveChanges()
                 
-                // let endTime = Date()
-                // print("Passio LogsLogs >>> Recipe Fetch All Record: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
-                
                 completion(arrFoodRecordV3, nil)
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Recipe records: \(error)")
+                print( "Failed to fetch Recipe records: \(error)")
                 
                 mainContext.saveChanges()
                 completion([], error)
@@ -520,7 +509,7 @@ internal class FoodRecipeRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Recipe records: \(error)")
+                print( "Failed to fetch Recipe records: \(error)")
                 
                 mainContext.saveChanges()
                 completion([], error)
@@ -554,7 +543,7 @@ internal class FoodRecipeRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Recipe records: \(error)")
+                print( "Failed to fetch Recipe records: \(error)")
                 
                 mainContext.saveChanges()
                 completion([], error)
@@ -588,7 +577,7 @@ internal class FoodRecipeRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Recipe records: \(error)")
+                print( "Failed to fetch Recipe records: \(error)")
                 
                 mainContext.saveChanges()
                 completion([], error)
@@ -622,7 +611,7 @@ internal class FoodRecipeRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Recipe record to delete: \(error)")
+                print( "Failed to fetch Recipe record to delete: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)
@@ -655,7 +644,7 @@ internal class FoodRecipeRecordOperations {
                 
             } catch let error {
                 
-                passioLog(message: "Failed to fetch Recipe record to delete: \(error)")
+                print( "Failed to fetch Recipe record to delete: \(error)")
                 
                 mainContext.saveChanges()
                 completion(false, error)

@@ -25,13 +25,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8nW-bW-MS1">
-                        <rect key="frame" x="16" y="8" width="288" height="117"/>
+                        <rect key="frame" x="16" y="8" width="288" height="107"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9aY-7z-dqL">
-                                <rect key="frame" x="16" y="51" width="256" height="50"/>
+                                <rect key="frame" x="16" y="51" width="256" height="40"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tUb-IK-bl5" customClass="ColoredButton" customModule="PassioNutritionUIModule">
-                                        <rect key="frame" x="0.0" y="0.0" width="65" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
@@ -49,7 +49,7 @@
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HZa-wY-GOt" customClass="ColoredButton" customModule="PassioNutritionUIModule">
-                                        <rect key="frame" x="64" y="0.0" width="64.5" height="50"/>
+                                        <rect key="frame" x="64" y="0.0" width="64.5" height="40"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
@@ -67,7 +67,7 @@
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wcf-Mw-CDP" customClass="ColoredButton" customModule="PassioNutritionUIModule">
-                                        <rect key="frame" x="127.5" y="0.0" width="65" height="50"/>
+                                        <rect key="frame" x="127.5" y="0.0" width="65" height="40"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
@@ -85,7 +85,7 @@
                                         </connections>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGR-I0-Y0n" customClass="ColoredButton" customModule="PassioNutritionUIModule">
-                                        <rect key="frame" x="191.5" y="0.0" width="64.5" height="50"/>
+                                        <rect key="frame" x="191.5" y="0.0" width="64.5" height="40"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="normalBackgroundColor">
@@ -104,7 +104,7 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="Gx0-xI-STj"/>
+                                    <constraint firstAttribute="height" constant="40" id="Gx0-xI-STj"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">

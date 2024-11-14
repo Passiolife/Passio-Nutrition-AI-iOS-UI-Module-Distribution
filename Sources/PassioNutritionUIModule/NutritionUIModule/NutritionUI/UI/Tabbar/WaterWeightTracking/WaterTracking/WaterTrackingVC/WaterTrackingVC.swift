@@ -88,7 +88,6 @@ class WaterTrackingVC: UIViewController {
         segmentControl.selectedConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .white)
         waterBarChart.title = "Water Tracking"
         waterBarChart.showAllLabels = true
-        waterBarChart.animateGraph = true
         segmentControl.selectedSegmentTintColor = .indigo600
         arrowIcon.transform = CGAffineTransform(rotationAngle: .pi)
         configureNavBar()
@@ -207,7 +206,7 @@ extension WaterTrackingVC {
     private func configureDateUI() {
 
         let (startDate, endDate) = currentScope == .week
-        ? selectedDate.startAndEndOfWeek(daysUpTo: 7)! : selectedDate.startAndEndOfMonthForTracking()!
+        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
         nextDateButton.isEnabled = !(Date() > startDate.startOfToday && Date() < endDate)
         nextDateButton.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
 
@@ -255,7 +254,7 @@ extension WaterTrackingVC {
     private func getWaterTrackingRecords() {
 
         let (fromDate, toDate) = currentScope == .week
-        ? selectedDate.startAndEndOfWeek(daysUpTo: 7)! : selectedDate.startAndEndOfMonthForTracking()!
+        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
         
         connector.fetchWaterRecords(startDate: fromDate, endDate: toDate) { [weak self] (waterTrackingRecords) in
             guard let `self` = self else { return }
