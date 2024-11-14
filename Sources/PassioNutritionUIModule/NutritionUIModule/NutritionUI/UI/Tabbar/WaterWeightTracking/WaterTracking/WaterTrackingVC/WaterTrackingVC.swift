@@ -327,7 +327,13 @@ extension WaterTrackingVC {
         
         let max = (data.max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)
-        waterBarChart.setupChart(datasource: data, maximum: max, dates: dates)
+        
+        if let goalWater = userProfile.goalWater {
+            waterBarChart.setupChart(datasource: data, baseLine: goalWater, maximum: max, dates: dates)
+        }
+        else {
+            waterBarChart.setupChart(datasource: data, maximum: max, dates: dates)
+        }
     }
 }
 

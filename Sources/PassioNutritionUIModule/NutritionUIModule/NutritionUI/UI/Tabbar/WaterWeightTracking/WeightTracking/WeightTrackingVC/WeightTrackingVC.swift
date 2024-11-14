@@ -236,7 +236,14 @@ extension WeightTrackingVC {
         
         let max = (data.max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)
-        weightBarChart.setupLineChart(datasource: data, maximum: max, dates: dates)
+        
+        if let goalWeight = userProfile.goalWeight {
+            weightBarChart.setupLineChart(datasource: data, baseLine: goalWeight, maximum: max, dates: dates)
+        }
+        else {
+            weightBarChart.setupLineChart(datasource: data, maximum: max, dates: dates)
+        }
+        
     }
 }
 
