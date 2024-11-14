@@ -106,14 +106,14 @@ extension Date {
         return calendar.date(from: components) ?? self
     }
 
-    func startAndEndOfWeek(calendar: Calendar = .current) -> (start: Date, end: Date)? {
+    func startAndEndOfWeek(calendar: Calendar = .current, daysUpTo: Int = 6) -> (start: Date, end: Date)? {
         // Get the start of the week
         guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear],
                                                                             from: self)) else {
             return nil
         }
         // Get the end of the week
-        guard let endOfWeek = calendar.date(byAdding: DateComponents(day: 6), to: startOfWeek) else {
+        guard let endOfWeek = calendar.date(byAdding: DateComponents(day: daysUpTo), to: startOfWeek) else {
             return nil
         }
         return (startOfWeek, endOfWeek)

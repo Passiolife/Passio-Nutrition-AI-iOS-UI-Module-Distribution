@@ -87,6 +87,8 @@ class WaterTrackingVC: UIViewController {
         segmentControl.defaultConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .gray700)
         segmentControl.selectedConfiguration(font: UIFont.inter(type: .regular, size: 14), color: .white)
         waterBarChart.title = "Water Tracking"
+        waterBarChart.showAllLabels = true
+        waterBarChart.animateGraph = true
         segmentControl.selectedSegmentTintColor = .indigo600
         arrowIcon.transform = CGAffineTransform(rotationAngle: .pi)
         configureNavBar()
@@ -205,7 +207,7 @@ extension WaterTrackingVC {
     private func configureDateUI() {
 
         let (startDate, endDate) = currentScope == .week
-        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonthForTracking()!
+        ? selectedDate.startAndEndOfWeek(daysUpTo: 7)! : selectedDate.startAndEndOfMonthForTracking()!
         nextDateButton.isEnabled = !(Date() > startDate.startOfToday && Date() < endDate)
         nextDateButton.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
 
@@ -253,7 +255,7 @@ extension WaterTrackingVC {
     private func getWaterTrackingRecords() {
 
         let (fromDate, toDate) = currentScope == .week
-        ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonthForTracking()!
+        ? selectedDate.startAndEndOfWeek(daysUpTo: 7)! : selectedDate.startAndEndOfMonthForTracking()!
         
         connector.fetchWaterRecords(startDate: fromDate, endDate: toDate) { [weak self] (waterTrackingRecords) in
             guard let `self` = self else { return }
@@ -277,11 +279,6 @@ extension WaterTrackingVC {
                     self.waterTrackTableViewBottomConst.constant = 16
                     
                     self.waterTrackTableView.reloadData()
-                    
-                    if self.arrWaterTracking.count >= 3 {
-                        let bottomOffset = CGPoint(x: 0, y: self.scrollView.contentSize.height - self.scrollView.bounds.height)
-                        self.scrollView.setContentOffset(bottomOffset, animated: true)
-                    }
                 }
                 
                 if self.arrWaterTracking.count == 0 {
@@ -290,11 +287,35 @@ extension WaterTrackingVC {
                 else {
                     self.waterTrackerListContainer.isHidden = false
                 }
-                self.setupCharts(from: self.arrWaterTracking)
+                let arrMergedValue = self.mergeRecordsByDate(records: self.arrWaterTracking)
+                self.setupCharts(from: arrMergedValue)
             }
         }
     }
 
+    private func mergeRecordsByDate(records: [WaterTracking]) -> [WaterTracking] {
+        var aggregatedRecords = [Date: Double]()
+        
+        for record in records {
+            let calendar = Calendar.current
+            
+            let date = calendar.startOfDay(for: record.dateTime)
+            
+            // Add the value to the corresponding date's total
+            if let existingTotal = aggregatedRecords[date] {
+                aggregatedRecords[date] = existingTotal + record.water
+            } else {
+                aggregatedRecords[date] = record.water
+            }
+        }
+        
+        let sortedRecords = aggregatedRecords.keys.sorted().map { date in
+            (date: date, value: aggregatedRecords[date]!)
+        }
+        
+        return sortedRecords.map({WaterTracking(water: $0.value, dateTime: $0.date)})
+    }
+    
     private func setupCharts(from waterTrackingRecords: [WaterTracking]) {
 
         let data = waterTrackingRecords.map { waterTracking in

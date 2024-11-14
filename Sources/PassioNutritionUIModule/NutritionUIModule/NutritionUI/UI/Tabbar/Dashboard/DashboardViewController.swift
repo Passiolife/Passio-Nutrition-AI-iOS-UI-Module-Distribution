@@ -8,11 +8,6 @@
 import UIKit
 import FSCalendar
 
-internal enum TrackingTypes {
-    case waterTracking
-    case weightTracking
-}
-
 protocol DashboardDelegate {
     func redirectToTrackingScreen(trackingType: TrackingTypes)
 }

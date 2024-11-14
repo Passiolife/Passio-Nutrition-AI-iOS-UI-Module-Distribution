@@ -37,3 +37,9 @@ internal enum QuickAddWater: Double {
     case smallBottle = 16
     case largeBottle = 24
 }
+
+internal enum TrackingTypes {
+    case waterTracking
+    case weightTracking
+}
+
