@@ -286,13 +286,13 @@ extension WaterTrackingVC {
                 else {
                     self.waterTrackerListContainer.isHidden = false
                 }
-                let arrMergedValue = self.mergeRecordsByDate(records: self.arrWaterTracking)
+                let arrMergedValue = self.getTotalWaterConsumedBySameDateWise(records: self.arrWaterTracking)
                 self.setupCharts(from: arrMergedValue)
             }
         }
     }
 
-    private func mergeRecordsByDate(records: [WaterTracking]) -> [WaterTracking] {
+    private func getTotalWaterConsumedBySameDateWise(records: [WaterTracking]) -> [WaterTracking] {
         var aggregatedRecords = [Date: Double]()
         
         for record in records {
@@ -327,6 +327,13 @@ extension WaterTrackingVC {
         
         let max = (data.max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)
+        
+        if currentScope == .week {
+            waterBarChart.currentScope = .week
+        }
+        else {
+            waterBarChart.currentScope = .month
+        }
         
         if let goalWater = userProfile.goalWater {
             waterBarChart.setupChart(datasource: data, baseLine: goalWater, maximum: max, dates: dates)

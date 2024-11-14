@@ -8,6 +8,10 @@
 
 import UIKit
 
+internal enum GraphDateFormate {
+    case month,week
+}
+
 class MacroProgressBarChartView: ViewFromXIB {
 
     @IBOutlet weak var shadowView : UIView!
@@ -28,8 +32,11 @@ class MacroProgressBarChartView: ViewFromXIB {
         }
     }
     var showAllLabels: Bool = false
+    var currentScope: GraphDateFormate = .week
     var animateGraph: Bool = false
-
+    enum Scope {
+        case month,week
+    }
     func setupChart(datasource: [ChartDataSource],
                     baseLine: CGFloat? = nil,
                     maximum: CGFloat,
@@ -105,7 +112,12 @@ class MacroProgressBarChartView: ViewFromXIB {
             if showAllLabels {
                 for date in dates {
                     let dateFormattor = DateFormatter()
-                    dateFormattor.dateFormat = "MMM d"
+                    if currentScope == .week {
+                        dateFormattor.dateFormat = "EE"
+                    }
+                    else {
+                        dateFormattor.dateFormat = "MMM d"
+                    }
                     let dateString = dateFormattor.string(from: date)
                     xAxisStackView.addArrangedSubview(getLabel(text: dateString))
                 }

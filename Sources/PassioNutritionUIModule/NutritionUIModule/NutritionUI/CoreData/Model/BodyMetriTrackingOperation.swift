@@ -98,13 +98,11 @@ public class BodyMetriTrackingOperation {
             
             do {
                 
-                // Create a calendar to get the start of the day
-                let calendar = Calendar.current
-                let startOfDay = calendar.startOfDay(for: startDate)
-//                let endOfDay = calendar.date(byAdding: .day, value: 1, to: endDate)!
+                let startOfDay = startDate.startOfDay
+                let endOfDay = endDate.endOfDay
                 
                 let fetchRequest: NSFetchRequest<TblWeightTracking> = TblWeightTracking.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "dateTime >= %@ AND dateTime < %@", NSDate(timeIntervalSince1970: startOfDay.timeIntervalSince1970), NSDate(timeIntervalSince1970: endDate.timeIntervalSince1970))
+                fetchRequest.predicate = NSPredicate(format: "dateTime >= %@ AND dateTime <= %@", startOfDay as NSDate, endOfDay as NSDate)
                 
                 let sortDescriptor = NSSortDescriptor(key: "dateTime", ascending: true)
 
@@ -276,8 +274,11 @@ public class BodyMetriTrackingOperation {
             
             do {
                 
+                let startOfDay = startDate.startOfDay
+                let endOfDay = endDate.endOfDay
+                
                 let fetchRequest: NSFetchRequest<TblWaterTracking> = TblWaterTracking.fetchRequest()
-                fetchRequest.predicate = NSPredicate(format: "dateTime >= %@ AND dateTime < %@", NSDate(timeIntervalSince1970: startDate.timeIntervalSince1970), NSDate(timeIntervalSince1970: endDate.timeIntervalSince1970))
+                fetchRequest.predicate = NSPredicate(format: "dateTime >= %@ AND dateTime <= %@", startOfDay as NSDate, endOfDay as NSDate)
                 
                 let sortDescriptor = NSSortDescriptor(key: "dateTime", ascending: true)
 

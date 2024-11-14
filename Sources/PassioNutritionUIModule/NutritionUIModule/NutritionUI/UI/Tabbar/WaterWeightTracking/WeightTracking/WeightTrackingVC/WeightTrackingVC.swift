@@ -219,9 +219,36 @@ extension WeightTrackingVC {
                 else {
                     self.weightTrackerListContainer.isHidden = false
                 }
-                self.setupCharts(from: self.arrWeightTracking)
+                let arrMergedValue = self.getHighestWeightOfSameDateWise(weightRecords: self.arrWeightTracking)
+                self.setupCharts(from: arrMergedValue)
             }
         }
+    }
+    
+    private func getHighestWeightOfSameDateWise(weightRecords records: [WeightTracking]) -> [WeightTracking] {
+        var result: [Date: Double] = [:]
+        
+        // Get the current calendar
+        let calendar = Calendar.current
+        
+        // Group records by date (ignoring time)
+        for record in records {
+            // Get the start of the day for the record date (ignores the time)
+            let dateWithoutTime = calendar.startOfDay(for: record.dateTime)
+            
+            // Check if the date is already in the result
+            if let existingMax = result[dateWithoutTime] {
+                // If we already have a value for this date, take the higher of the two
+                result[dateWithoutTime] = max(existingMax, record.weight)
+            } else {
+                // If it's the first time we encounter this date, store the value
+                result[dateWithoutTime] = record.weight
+            }
+        }
+        
+        let sortedRecords = result.keys.sorted().map({(date: $0, value: result[$0]!)})
+        
+        return sortedRecords.map({WeightTracking(weight: $0.value, dateTime: $0.date)})
     }
 
     private func setupCharts(from weightTrackingRecords: [WeightTracking]) {
@@ -236,6 +263,13 @@ extension WeightTrackingVC {
         
         let max = (data.max(by: { ($0.value ?? 0) < ($1.value ?? 0) })?.value ?? 2000)
             .normalize(toMultipleOf: 200)
+        
+        if currentScope == .week {
+            weightBarChart.currentScope = .week
+        }
+        else {
+            weightBarChart.currentScope = .month
+        }
         
         if let goalWeight = userProfile.goalWeight {
             weightBarChart.setupLineChart(datasource: data, baseLine: goalWeight, maximum: max, dates: dates)
