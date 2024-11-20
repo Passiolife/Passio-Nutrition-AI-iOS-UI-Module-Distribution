@@ -48,6 +48,11 @@ class MacroProgressViewController: UIViewController {
                                  shadowRadius: 8,
                                  shadowOpacity: 1)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        configureDateUI()
+        getDayLogsFrom()
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

@@ -36,8 +36,13 @@ class CoreDataManager {
         
         // Check if the file already exists
         if fileManager.fileExists(atPath: destinationURL.path) {
+            do {
+                try FileManager.default.removeItem(atPath: destinationURL.path)
+            } catch {
+                print("file delete issue")
+            }
             print( "File already exists at path: \(destinationURL.path)")
-            return
+            //return
         }
         
         // Get the source URL for the file in the package resources
@@ -65,7 +70,12 @@ class CoreDataManager {
                 container = NSPersistentContainer(name: fileName, managedObjectModel: managedURL)
             }
         }
-        
+        //
+        let description = NSPersistentStoreDescription()
+        description.shouldInferMappingModelAutomatically = true
+        description.shouldMigrateStoreAutomatically = true
+        container.persistentStoreDescriptions.append(description)
+        //
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
