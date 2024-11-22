@@ -236,5 +236,81 @@ extension PassioFoodDataConnector: PassioConnector {
             }
         }
     }
+
+    // MARK: Weight Tracking
+    public func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        BodyMetriTrackingOperation.shared.updateWeightRecord(weightRecord: weightRecord) { (resultStatus, resultError) in
+            if let error = resultError {
+                print("Failed to save Weight tracking record: \(error)")
+            }
+            completion(resultStatus)
+        }
+    }
     
+    public func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        BodyMetriTrackingOperation.shared.fetchWeightTracking(whereClause: startDate, endDate: endDate) { weightTrackingRecords, error in
+            if error == nil {
+                completion(weightTrackingRecords)
+            }
+            else {
+                completion([])
+            }
+        }
+    }
+    
+    public func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void) {
+        BodyMetriTrackingOperation.shared.fetchLatestWeightRecord { trackingRecord, error in
+            if error != nil {
+               print("Failed to fetch WeightTracking records :: \(error)")
+            }
+            else {
+                if let trackingRecord = trackingRecord {
+                    completion(trackingRecord)
+                }
+                else {
+                    completion(nil)
+                }
+            }
+        }
+    }
+    
+    public func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        BodyMetriTrackingOperation.shared.deleteWeightRecord(weightRecord: weightRecord) { bResult, error in
+            if error != nil {
+                print("Failed delete Weight Tracking record :: \(error)")
+            }
+            completion(bResult)
+        }
+    }
+    
+    // MARK: Water Tracking
+    
+    public func updateWaterRecord(waterRecord: WaterTracking, completion: @escaping ((Bool) -> Void)) {
+        BodyMetriTrackingOperation.shared.updateWaterRecord(waterRecord: waterRecord) { (resultStatus, resultError) in
+            if let error = resultError {
+                print("Failed to save water tracking record: \(error)")
+            }
+            completion(resultStatus)
+        }
+    }
+    
+    public func fetchWaterRecords(startDate: Date, endDate: Date, completion: @escaping ([WaterTracking]) -> Void) {
+        BodyMetriTrackingOperation.shared.fetchWaterTracking(whereClause: startDate, endDate: endDate) { waterTrackingRecords, error in
+            if error == nil {
+                completion(waterTrackingRecords)
+            }
+            else {
+                completion([])
+            }
+        }
+    }
+    
+    public func deleteWaterRecord(waterRecord: WaterTracking, completion: @escaping (Bool) -> Void) {
+        BodyMetriTrackingOperation.shared.deleteWaterRecord(waterRecord: waterRecord) { bResult, error in
+            if error != nil {
+                print("Failed delete Water Tracking record :: \(error)")
+            }
+            completion(bResult)
+        }
+    }
 }

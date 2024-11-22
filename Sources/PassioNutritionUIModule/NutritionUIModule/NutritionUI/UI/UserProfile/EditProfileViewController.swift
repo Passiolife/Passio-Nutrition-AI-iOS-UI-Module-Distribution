@@ -194,11 +194,6 @@ extension EditProfileViewController {
         var BMR = 0.0
         var height = 0.0
         
-        print("age: \(userProfile.age)")
-        print("height: \(userProfile.height)")
-        print("weight: \(userProfile.weight)")
-        print("gender: \(userProfile.gender)")
-        
         guard let age = userProfile.age,
               let pHeight = userProfile.height,
               let pWeight = userProfile.weight,

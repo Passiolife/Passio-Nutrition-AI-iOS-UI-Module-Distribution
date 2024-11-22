@@ -21,6 +21,7 @@ enum DateFormatString {
     static let M_d_yyyy2 = "M/d/yyyy"
     static let yyyyMMdd = "yyyyMMdd"
     static let EEEMMMddYYYYhmma = "EEE, MMM dd YYYY, h:mm a"
+    static let EEE_MMMd = "EEE, MMM d"
 }
 
 // MARK: - Constants

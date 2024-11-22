@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="24A348" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="TblCustomFoodRecord" representedClassName="TblCustomFoodRecord" syncable="YES" codeGenerationType="class">
         <attribute name="barcode" optional="YES" attributeType="String"/>
         <attribute name="confidence" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
@@ -161,8 +161,8 @@
         <attribute name="fatPercent" optional="YES" attributeType="Integer 16" defaultValueString="25" usesScalarValueType="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="gender" optional="YES" attributeType="String"/>
-        <attribute name="goalWater" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="goalWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="goalWater" optional="YES" attributeType="Double" usesScalarValueType="YES"/>
+        <attribute name="goalWeight" optional="YES" attributeType="Double" usesScalarValueType="YES"/>
         <attribute name="goalWeightTimeLine" optional="YES" attributeType="String"/>
         <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="heightUnits" optional="YES" attributeType="String" defaultValueString="Feet, Inches"/>
@@ -173,6 +173,11 @@
         <attribute name="units" optional="YES" attributeType="String" defaultValueString="lbs"/>
         <attribute name="uuid" optional="YES" attributeType="String" defaultValueString="B2B7EAB8-5C57-41B5-9F11-5F1922C63E34"/>
         <attribute name="waterUnit" optional="YES" attributeType="String" defaultValueString="oz"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="TblWeightTracking" representedClassName="TblWeightTracking" syncable="YES" codeGenerationType="class">
+        <attribute name="dateTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="String" defaultValueString=""/>
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
 </model>

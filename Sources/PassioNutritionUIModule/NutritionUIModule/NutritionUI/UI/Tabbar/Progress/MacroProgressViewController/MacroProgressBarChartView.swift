@@ -8,6 +8,10 @@
 
 import UIKit
 
+internal enum GraphDateFormate {
+    case month,week
+}
+
 class MacroProgressBarChartView: ViewFromXIB {
 
     @IBOutlet weak var shadowView : UIView!
@@ -27,12 +31,18 @@ class MacroProgressBarChartView: ViewFromXIB {
             self.titleLabel.text = title
         }
     }
-
+    var showAllLabels: Bool = false
+    var currentScope: GraphDateFormate = .week
+    var animateGraph: Bool = false
+    enum Scope {
+        case month,week
+    }
     func setupChart(datasource: [ChartDataSource],
                     baseLine: CGFloat? = nil,
                     maximum: CGFloat,
                     dates: [Date]) {
         chartView.gridLineColor = .gray200
+        chartView.animateGraph = animateGraph
         chartView.barWidth = datasource.count <= 7 ? 12 : 6
         chartView.setupbarChart(dataSource: datasource,
                                 baseLine: baseLine,
@@ -46,6 +56,7 @@ class MacroProgressBarChartView: ViewFromXIB {
                         maximum: CGFloat,
                         dates: [Date]) {
         chartView.gridLineColor = .gray200
+        chartView.animateGraph = animateGraph
         chartView.setupLineChart(dataSource: datasource,
                                       baseLine: baseLine,
                                       maximum: maximum,
@@ -60,6 +71,7 @@ class MacroProgressBarChartView: ViewFromXIB {
                     maximum: CGFloat,
                     dates: [Date]){
         chartView.gridLineColor = .gray200
+        chartView.animateGraph = animateGraph
         chartView.barWidth = datasource.count <= 7 ? 12 : 6
         chartView.setupCombinedBarChart(dataSource: datasource,
                                         baseLine: baseLine,
@@ -95,6 +107,22 @@ class MacroProgressBarChartView: ViewFromXIB {
                 xAxisStackView.addArrangedSubview(getLabel(text: dateString))
             }
             xAxisStackView.distribution = .equalSpacing
+        }
+        else {
+            if showAllLabels {
+                for date in dates {
+                    let dateFormattor = DateFormatter()
+                    if currentScope == .week {
+                        dateFormattor.dateFormat = "EE"
+                    }
+                    else {
+                        dateFormattor.dateFormat = "MMM d"
+                    }
+                    let dateString = dateFormattor.string(from: date)
+                    xAxisStackView.addArrangedSubview(getLabel(text: dateString))
+                }
+                xAxisStackView.distribution = .fillProportionally
+            }
         }
     }
 
