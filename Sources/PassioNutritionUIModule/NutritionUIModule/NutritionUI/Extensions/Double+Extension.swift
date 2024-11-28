@@ -26,7 +26,7 @@ public extension Double {
         let multiplier = pow(10, Double(afterDecimal))
         return (self * multiplier).rounded()/multiplier
     }
-
+    
     var formattedDecimalValue: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal

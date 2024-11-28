@@ -62,7 +62,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         }
     }
 
-    private var tabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
+    private var bottomTabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +84,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        title = tabs[selectedIndex].naviagationTitle
+        title = bottomTabs[selectedIndex].naviagationTitle
         configureNavBar()
     }
 
@@ -109,9 +109,9 @@ extension HomeTabBarController {
     private func setTabBarItemsTitleAndPosition() {
         guard let tabBarItems = tabBar.items else { return }
 
-        for i in 0..<tabs.count {
-            tabBarItems[i].title = tabs[i].rawValue
-            tabBarItems[i].image = tabs[i].tabImage
+        for i in 0..<bottomTabs.count {
+            tabBarItems[i].title = bottomTabs[i].rawValue
+            tabBarItems[i].image = bottomTabs[i].tabImage
         }
 
         tabBarItems[0].titlePositionAdjustment.horizontal = -6
@@ -134,13 +134,14 @@ extension HomeTabBarController {
 
     private func addTabBarControllers() {
 
-        for i in 0..<tabs.count {
+        for i in 0..<bottomTabs.count {
 
-            switch tabs[i] {
+            switch bottomTabs[i] {
 
             case .home:
                 let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
                     .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
+                dashboardVC.delegate = self
                 let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
                 dashboardNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = dashboardNavVC
@@ -202,7 +203,7 @@ extension HomeTabBarController {
         let customPickerViewController = CustomPickerViewController()
         customPickerViewController.loadViewIfNeeded()
 
-        let options: [HemburgarMenuOptions] = [.profile, .settings, .logout]
+        let options: [HemburgarMenuOptions] = [.profile, .settings]
         customPickerViewController.pickerItems = options.map({$0.pickerElememt})
 
         if let frame = sender.superview?.convert(sender.frame, to: nil) {
@@ -224,7 +225,7 @@ extension HomeTabBarController {
 
     func tabBarController(_ tabBarController: UITabBarController,
                           didSelect viewController: UIViewController) {
-        title = tabs[selectedIndex].naviagationTitle
+        title = bottomTabs[selectedIndex].naviagationTitle
     }
 }
 
@@ -265,11 +266,17 @@ extension HomeTabBarController: PlusMenuDelegate {
 
     func onTakePhotosSelected() {
         let vc = TakePhotosViewController()
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 
     func onSelectPhotosSelected() {
         let vc = SelectPhotosViewController()
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -346,5 +353,20 @@ extension HomeTabBarController: CustomPickerSelectionDelegate {
             break
         default: break
         }
+    }
+}
+
+// MARK: - DashboardDelegate
+extension HomeTabBarController: DashboardDelegate {
+    func redirectToTrackingScreen(trackingType: TrackingTypes) {
+        if trackingType == .weightTracking {
+            let vc = NutritionUICoordinator.getWeightTrackingViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else if trackingType == .waterTracking {
+            let vc = NutritionUICoordinator.getWaterTrackingViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {}
     }
 }

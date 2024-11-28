@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Hvk-2M-c7H">
-                    <rect key="frame" x="0.0" y="59" width="393" height="500"/>
+                    <rect key="frame" x="0.0" y="64" width="393" height="500"/>
                     <color key="backgroundColor" name="gray-50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="500" id="3OR-g5-6Nh"/>
@@ -33,8 +33,8 @@
             <constraints>
                 <constraint firstItem="Hvk-2M-c7H" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="dph-rl-ANF"/>
                 <constraint firstItem="1EU-Kw-VN7" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dqg-jU-1uc"/>
+                <constraint firstItem="Hvk-2M-c7H" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="5" id="fZb-Y1-h4R"/>
                 <constraint firstItem="Hvk-2M-c7H" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="hPu-6A-0gV"/>
-                <constraint firstItem="Hvk-2M-c7H" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="n0Z-Kx-6ik"/>
                 <constraint firstItem="1EU-Kw-VN7" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="uod-dq-uQY"/>
             </constraints>
             <connections>

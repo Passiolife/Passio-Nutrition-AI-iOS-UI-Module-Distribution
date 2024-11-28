@@ -21,7 +21,7 @@ final class AdvancedTextSearchView: UIView {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var tblViewHeightConstraint: NSLayoutConstraint!
-
+    
     private let connecter = PassioInternalConnector.shared
     private var alternateSearches: SearchResponse?
     private var state: SearchState = .startTyping
@@ -260,6 +260,7 @@ private extension AdvancedTextSearchView {
             // SDK Search
             dispatchGroup.enter()
             searchQueue.async {
+                
                 PassioNutritionAI.shared.searchForFood(byText: searchText) { (searchResponse) in
                     self.alternateSearches = searchResponse
                     dispatchGroup.leave()
@@ -529,3 +530,4 @@ extension AdvancedTextSearchView: UISearchResultsUpdating {
         }
     }
 }
+

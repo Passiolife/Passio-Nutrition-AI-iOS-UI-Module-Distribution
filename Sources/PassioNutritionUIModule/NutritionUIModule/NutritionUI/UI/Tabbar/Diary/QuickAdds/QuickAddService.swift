@@ -24,8 +24,10 @@ final class QuickAddService {
         }
         let maxSuggestedCount = 30
 
-        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
-                                                            toDate: toDate) { [weak self] dayLogs in
+        PassioInternalConnector.shared.fetchDayLogFor(
+            fromDate: fromDate,
+            toDate: toDate
+        ) { [weak self] dayLogs in
             guard let self = self else { return }
 
             // Filter food records by mealTime

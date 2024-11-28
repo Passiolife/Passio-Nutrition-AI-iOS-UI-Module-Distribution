@@ -82,12 +82,14 @@ final class EditProfileViewController: UIViewController {
     private let chevFrame = CGRect(x: 0, y: 0, width: 15, height: 8)
     private var userProfile: UserProfileModel!
     private let values: [Float] = [0.5, 1.0, 1.5, 2.0, 0.5, 1.0, 1.5, 2.0]
-
-    private var recomCalorie = 2100 {
+    
+    private var recomCalorie = Constant.defaultTargetCalories {
         didSet {
-            userProfile.recommendedCalories = recomCalorie > 0 ? recomCalorie : 2100
+            userProfile.caloriesTarget = recomCalorie > 0 ? recomCalorie : Constant.defaultTargetCalories
+            print("Target: \(userProfile.caloriesTarget)")
         }
     }
+    
     private var goalTimeLine: String = Localized.maintainWeight {
         didSet {
             recomCalorie = calculateRecommendedCalorie()
@@ -111,7 +113,7 @@ final class EditProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        userProfile = UserManager.shared.user
+        userProfile = UserManager.shared.user ?? UserProfileModel()
         profileTableView.reloadData()
     }
 
@@ -188,80 +190,87 @@ extension EditProfileViewController {
 // MARK: - Helper
 extension EditProfileViewController {
 
-    private func calculateBMR() -> (Double?, ActivityLevel?) {
+    private func calculateBMR() -> Double? {
         var BMR = 0.0
         var height = 0.0
-        guard let activityLevel = userProfile.activityLevel,
-              let age = userProfile.age,
+        
+        guard let age = userProfile.age,
               let pHeight = userProfile.height,
               let pWeight = userProfile.weight,
-              let gender = userProfile.gender else { return (nil, nil) }
-
+              let gender = userProfile.gender else {
+            return nil
+        }
+        
         height = pHeight * 100
         let calWeight = 10 * pWeight
-
+        
         if gender == .male {
-            BMR = calWeight + (6.25 * height) - Double((5 * age)) + 5 // Kg, cm
+            BMR = calWeight + (6.25 * height) - Double((5 * age)) + 5 // kg, cm
         } else {
-            BMR = calWeight + (6.25 * height) - Double((5 * age)) - 161 // Kg, cm
+            BMR = calWeight + (6.25 * height) - Double((5 * age)) - 161 // kg, cm
         }
-        return (BMR, activityLevel)
+        return BMR
     }
-
+    
     private func calculateCaloriesBasedOnActivityLevel() -> Int {
-        let (bmr, activityLevel) = calculateBMR()
+        let bmr = calculateBMR()
         guard let bmr = bmr else {
             return 0
+        }
+        guard let activityLevel = userProfile.activityLevel else {
+            return Int(bmr)
         }
         switch activityLevel {
         case .notActive:
             return Int(bmr * 1.2)
         case .lightlyActive:
             return Int(bmr * 1.375)
-        case .active:
-            return Int(bmr * 1.725)
         case .moderatelyActive:
             return Int(bmr * 1.55)
-        case .none:
-            return 2100
+        case .active:
+            return Int(bmr * 1.725)
         }
     }
-
-//    private func calculateRecommendedCalorie() -> Int {
-//        var calories = calculateCaloriesBasedOnActivityLevel()
-//        let weightGoalTimeLine = userProfile.goalWeightTimeLine ?? Localized.maintainWeight
-//        let goalValues = calorieDeficitArray
-//
-//        switch weightGoalTimeLine {
-//        case getLocalisedValue(goalValue: 0.5, key: goalValues[0]):
-//            calories -= 250
-//        case getLocalisedValue(goalValue: 1.0, key: goalValues[1]):
-//            calories -= 500
-//        case getLocalisedValue(goalValue: 1.5, key: goalValues[2]):
-//            calories -= 750
-//        case getLocalisedValue(goalValue: 2.0, key: goalValues[3]):
-//            calories -= 1000
-//        case getLocalisedValue(goalValue: 0.5, key: goalValues[4]):
-//            calories += 250
-//        case getLocalisedValue(goalValue: 1.0, key: goalValues[5]):
-//            calories += 500
-//        case getLocalisedValue(goalValue: 1.5, key: goalValues[6]):
-//            calories += 750
-//        case getLocalisedValue(goalValue: 2.0, key: goalValues[7]):
-//            calories += 1000
-//        case Localized.maintainWeight:
-//            calories += 0
-//        default:
-//            calories += 0
-//        }
-//        return calories
-//    }
     
     private func calculateRecommendedCalorie() -> Int {
-        var calories = calculateCaloriesBasedOnActivityLevel()
+        
+        var calories: Int
+        
+        /**
+         1. After entering age, gender, height, and weight, we should be getting at least the BMR.
+         */
+        let bmr = calculateBMR()
+        guard let bmr = bmr else {
+            return Constant.defaultTargetCalories
+        }
+        
+        /**
+         2. If a user enters an activity level, this refines the BMR to account for how active the user is.
+         */
+        guard let activityLevel = userProfile.activityLevel else {
+            return Int(bmr)
+        }
+        
+        switch activityLevel 
+        {
+        case .notActive:
+            calories = Int(bmr * 1.2)
+        case .lightlyActive:
+            calories = Int(bmr * 1.375)
+        case .moderatelyActive:
+            calories = Int(bmr * 1.55)
+        case .active:
+            calories = Int(bmr * 1.725)
+        }
+        
+        /**
+         3. Entering a goal (i.e loosing 1 lb a week ) will then add a calories deficite to meet that target
+            goal (or surplus if they want to gain weight)
+         */
         let weightGoal: WeightGoal = WeightGoal(rawValue: userProfile.goalWeightTimeLine ?? "") ?? .maintain
-
-        switch weightGoal {
+        
+        switch weightGoal 
+        {
         case .lose05:
             calories -= 250
         case .lose1:
@@ -328,20 +337,6 @@ extension EditProfileViewController {
         let items = ActivityLevel.allCases.map { $0.rawValue }
         showPicker(sender: sender, items: items, viewTag: 5)
     }
-
-//    @objc private func showCalorieDeficitPickerViewOld(_ sender: UIButton) {
-//        let items = calorieDeficitArray
-//        let goalValues = [getLocalisedValue(goalValue: 0.5, key: items[0]),
-//                          getLocalisedValue(goalValue: 1.0, key: items[1]),
-//                          getLocalisedValue(goalValue: 1.5, key: items[2]),
-//                          getLocalisedValue(goalValue: 2.0, key: items[3]),
-//                          getLocalisedValue(goalValue: 0.5, key: items[4]),
-//                          getLocalisedValue(goalValue: 1.0, key: items[5]),
-//                          getLocalisedValue(goalValue: 1.5, key: items[6]),
-//                          getLocalisedValue(goalValue: 2.0, key: items[7]),
-//                          items[8]]
-//        showPicker(sender: sender, items: goalValues, viewTag: 11)
-//    }
     
     @objc private func showCalorieDeficitPickerView(_ sender: UIButton) {
         
@@ -501,7 +496,7 @@ extension EditProfileViewController: CustomPickerSelectionDelegate {
             userProfile.mealPlan = mealPlan
             if let carbs = mealPlan.carbsTarget,
                let protien = mealPlan.proteinTarget,
-               let fat = mealPlan.fatTarget{
+               let fat = mealPlan.fatTarget {
                 userProfile.carbsPercent = carbs
                 userProfile.proteinPercent = protien
                 userProfile.fatPercent = fat

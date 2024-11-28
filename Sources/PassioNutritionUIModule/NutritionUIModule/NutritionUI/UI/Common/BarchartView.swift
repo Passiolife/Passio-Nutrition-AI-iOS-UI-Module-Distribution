@@ -26,6 +26,7 @@ class CustomBarChartView: UIView {
     var barWidth: CGFloat = 12
     var numberOfGrids: Int = 3
     var gridLineColor: UIColor = .gray
+    var animateGraph: Bool = false
 
     func setupbarChart(dataSource: [ChartDataSource],
                        baseLine: CGFloat? = nil,
@@ -53,7 +54,8 @@ class CustomBarChartView: UIView {
 
             if let layer = drawLine(points: [startPoint,endPoint],
                                     strokeColor: dataSource[i].color,
-                                    linewidth: self.barWidth) {
+                                    linewidth: self.barWidth,
+                                    animate: animateGraph) {
                 self.layer.addSublayer(layer)
                 self.barLayers.append(layer)
             }
@@ -100,7 +102,8 @@ class CustomBarChartView: UIView {
 
         if let layer = drawLine(points: points,
                                 strokeColor: dataSource.first?.color ?? .blue,
-                                linewidth: lineWidth) {
+                                linewidth: lineWidth,
+                                animate: animateGraph) {
             self.layer.addSublayer(layer)
             self.barLayers.append(layer)
         }
@@ -196,9 +199,9 @@ class CustomBarChartView: UIView {
         return path
     }
 
-    private func drawLine(points: [CGPoint], strokeColor: UIColor, linewidth: CGFloat) -> CAShapeLayer?{
+    private func drawLine(points: [CGPoint], strokeColor: UIColor, linewidth: CGFloat, animate: Bool = false) -> CAShapeLayer?{
         guard let path = pathFrom(points: points) else { return nil }
-        return drawALayer(path, strokeColor, .clear ,linewidth)
+        return drawALayer(path, strokeColor, .clear ,linewidth, animate)
     }
 
     private func drawDot(points: CGPoint,strokeColor: UIColor, radius: CGFloat = 3) -> CAShapeLayer? {
@@ -213,13 +216,25 @@ class CustomBarChartView: UIView {
     private func drawALayer(_ path: UIBezierPath,
                             _ strokeColor: UIColor,
                             _ fillColor: UIColor,
-                            _ linewidth: CGFloat) -> CAShapeLayer {
+                            _ linewidth: CGFloat,
+                            _ animate: Bool = false) -> CAShapeLayer {
         let layer = CAShapeLayer()
         layer.path = path.cgPath
         layer.strokeColor = strokeColor.cgColor
         layer.fillColor = fillColor.cgColor
         layer.lineWidth = linewidth
         layer.strokeEnd = 1
+        if animate {
+            // Animate the drawing of the circle (path animation)
+            let drawAnimation = CABasicAnimation(keyPath: "strokeEnd")
+            drawAnimation.fromValue = 0
+            drawAnimation.toValue = 1
+            drawAnimation.duration = 0.8 // Duration of the animation
+            drawAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            
+            // Add the animation to the shape layer
+            layer.add(drawAnimation, forKey: "drawCircleAnimation")
+        }
         return layer
     }
 

@@ -13,3 +13,14 @@ public struct ScreenSize {
     public static let height = UIScreen.main.bounds.height
     public static let width = UIScreen.main.bounds.width
 }
+
+struct Constant {
+    static let defaultTargetCalories = 2100
+}
+
+var currentTime: String {
+    let date = Date()
+    let formatter = DateFormatter()
+    formatter.dateFormat = "HH:mm:ss.SSS"
+    return formatter.string(from: date)
+}

@@ -18,7 +18,7 @@ let package = Package(
     dependencies: [
          // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
-                 .upToNextMajor(from: "3.0.0")),
+                 exact: "3.2.3"),
         .package(url: "https://github.com/SwipeCellKit/SwipeCellKit",
                  .upToNextMajor(from: "2.7.1")),
         .package(url: "https://github.com/WenchaoD/FSCalendar.git",
@@ -42,7 +42,8 @@ let package = Package(
                 .product(name: "Lottie", package: "lottie-spm")
             ],
             resources: [.process("NutritionUIModule/VoiceLogging.json"), // Lottie Animation
-                        .process("NutritionUIModule/TypingIndicator.json")] // Typing Indicator
+                        .process("NutritionUIModule/TypingIndicator.json"),
+                        .copy("NutritionUIModule/PassioFood.xcdatamodeld")]
 //                        .copy("CoreSDK/ServicesVolume/VolumeKernels/FindMode.metal"), // VolumeKernels
 //                        .copy("CoreSDK/ServicesVolume/VolumeKernels/HeightToVolume.metal"),
 //                        .copy("CoreSDK/ServicesVolume/VolumeKernels/KalmanStatic1D.metal"),

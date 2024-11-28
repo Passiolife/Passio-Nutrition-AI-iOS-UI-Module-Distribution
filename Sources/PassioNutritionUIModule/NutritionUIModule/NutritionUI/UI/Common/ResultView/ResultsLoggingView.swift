@@ -28,12 +28,19 @@ class ResultsLoggingView: UIView {
     @IBOutlet weak var tryAgainButton: UIButton!
     @IBOutlet weak var searchManuallyButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var clearView: UIView!
     @IBOutlet weak var resultsLabel: UILabel!
+    @IBOutlet weak var resultsDescLabel: UILabel!
     @IBOutlet weak var foodResultsTableView: UITableView!
-    @IBOutlet weak var logSelectedButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var logView: UIView!
+    @IBOutlet weak var logSelectedButton: UIButton!
+    @IBOutlet weak var logLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+
     var recognitionData: [PassioSpeechRecognitionModel]? {
         didSet {
             let uniqueData = recognitionData?.uniqued(on: { $0.advisorFoodInfo.recognisedName })
@@ -53,11 +60,7 @@ class ResultsLoggingView: UIView {
 
     private var foodLogs: [FoodLog] = [] {
         didSet {
-            let isEnabled = foodLogs.filter { $0.isSelected }.count > 0
-            logSelectedButton.isEnabled = isEnabled
-            logSelectedButton.alpha = isEnabled ? 1 : 0.8
-            foodResultsTableView.reloadData()
-            tableViewHeightConstraint.constant = foodResultsTableView.contentSize.height >= 200 ? 200 : foodResultsTableView.contentSize.height
+            updateResultUI()
         }
     }
 
@@ -78,7 +81,10 @@ class ResultsLoggingView: UIView {
                                shadowRadius: 6,
                                shadowOpacity: 1)
 
-        resultsLabel.font = .inter(type: .bold, size: 20)
+        resultsLabel.font = .inter(type: .bold, size: 18)
+        resultsDescLabel.font = .inter(type: .regular, size: 14)
+        logLabel.font = .inter(type: .medium, size: 16)
+        
         let title = "Clear".toMutableAttributedString
         title.apply(attribute: [.foregroundColor: UIColor.primaryColor,
                                 .underlineColor: UIColor.primaryColor,
@@ -91,10 +97,12 @@ class ResultsLoggingView: UIView {
         clearButton.setAttributedTitle(title, for: .normal)
         cancelButton.applyBorder(width: 2, color: .primaryColor)
         cancelButton.setTitleColor(.primaryColor, for: .normal)
-        logSelectedButton.backgroundColor = .primaryColor
+        logView.backgroundColor = .primaryColor
         tryAgainButton.tintColor = .primaryColor
         tryAgainButton.setTitleColor(.primaryColor, for: .normal)
         tryAgainButton.applyBorder(width: 2, color: .primaryColor)
+        
+        updateLogUI(isLogging: false)
     }
 
     override func layoutSubviews() {
@@ -114,12 +122,76 @@ class ResultsLoggingView: UIView {
     }
 
     @IBAction func onSearchManually(_ sender: UIButton) {
+        searchManually()
+    }
+    
+    func searchManually() {
         resultLoggingDelegate?.onSearchManuallyTapped()
     }
 
+    // If there is food to log, log the food, otherwise search manually
     @IBAction func onLogSelected(_ sender: UIButton) {
-        getFoodRecord(foods: foodLogs.filter { $0.isSelected }) { [weak self] in
-            self?.resultLoggingDelegate?.onLogSelectedTapped()
+        if foodLogs.count > 0 {
+            updateLogUI(isLogging: true)
+            getFoodRecord(foods: foodLogs.filter { $0.isSelected }) { [weak self] in
+                self?.updateLogUI(isLogging: false)
+                self?.resultLoggingDelegate?.onLogSelectedTapped()
+            }
+        } else {
+            searchManually()
+        }
+    }
+    
+    func updateLogUI(isLogging: Bool) {
+        if isLogging {
+            self.isUserInteractionEnabled = false
+            logLabel.text = "Logging..."
+            activityIndicator.startAnimating()
+        } else {
+            self.isUserInteractionEnabled = true
+            logLabel.text = "Log Selected"
+            activityIndicator.stopAnimating()
+        }
+    }
+    
+    func updateResultUI() {
+        
+        if foodLogs.count > 0 {
+            
+            topConstraint.constant = 8
+            clearView.isHidden = false
+            resultsLabel.text = "Results"
+            resultsDescLabel.text = "Select the foods you would like to log."
+            
+            // Table
+            foodResultsTableView.reloadData()
+            foodResultsTableView.isHidden = false
+            tableViewHeightConstraint.constant = foodResultsTableView.contentSize.height >= 200 ? 200 : foodResultsTableView.contentSize.height
+            
+            searchManuallyStackView.isHidden = false
+
+            // Log
+            let isEnabled = foodLogs.filter { $0.isSelected }.count > 0
+            logView.alpha = isEnabled ? 1 : 0.8
+            logSelectedButton.isEnabled = isEnabled
+            logLabel.text = "Log Selected"
+        }
+        else {
+            topConstraint.constant = 20
+            clearView.isHidden = true
+            resultsLabel.text = "No Results Found"
+            resultsDescLabel.text = "Sorry, we could not find any matches. Please try again or try searching manually."
+            
+            // Table
+            foodResultsTableView.reloadData()
+            foodResultsTableView.isHidden = true
+            
+            searchManuallyStackView.isHidden = true
+
+            // Search manually
+            logView.alpha = 1
+            logSelectedButton.isEnabled = true
+            logLabel.text = "Search Manually"
         }
     }
 

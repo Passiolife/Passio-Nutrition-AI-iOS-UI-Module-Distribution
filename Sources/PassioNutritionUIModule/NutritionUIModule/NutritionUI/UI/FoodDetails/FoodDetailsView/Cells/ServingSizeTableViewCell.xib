@@ -28,7 +28,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6ad-en-AVG">
                         <rect key="frame" x="16" y="8" width="431" height="154"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="TJq-uw-eur">
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TJq-uw-eur">
                                 <rect key="frame" x="16" y="51" width="399" height="42"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="2f" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JBc-5u-gVR">
@@ -52,7 +52,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Whg-S9-6Vc">
-                                        <rect key="frame" x="68" y="0.0" width="331" height="42"/>
+                                        <rect key="frame" x="72" y="0.0" width="327" height="42"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
                                         <color key="tintColor" name="gray-900"/>
@@ -78,8 +78,8 @@
                                     <constraint firstAttribute="height" constant="42" id="gy8-a7-ppX"/>
                                 </constraints>
                             </stackView>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0cO-r7-Z5B">
-                                <rect key="frame" x="14" y="109" width="403" height="30"/>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0cO-r7-Z5B" customClass="CustomSlider" customModule="PassioNutritionUIModule">
+                                <rect key="frame" x="14" y="105" width="403" height="34"/>
                                 <color key="tintColor" name="indigo-600"/>
                                 <color key="thumbTintColor" name="indigo-600"/>
                             </slider>
@@ -90,17 +90,17 @@
                                     <constraint firstAttribute="width" constant="13" id="5qu-Xp-wvb"/>
                                 </constraints>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgW-2g-01B">
-                                <rect key="frame" x="16" y="16" width="142" height="19"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="hgW-2g-01B">
+                                <rect key="frame" x="16" y="16" width="134" height="19"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="  Serving Size: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2K-mE-q2h" userLabel="Serving Size">
-                                        <rect key="frame" x="0.0" y="0.0" width="106.5" height="19"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text=" Serving Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T2K-mE-q2h" userLabel="Serving Size">
+                                        <rect key="frame" x="0.0" y="0.0" width="93.5" height="19"/>
                                         <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="16"/>
                                         <color key="textColor" name="gray-900"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="(13g)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ye9-uE-GQX" userLabel="Serving Size">
-                                        <rect key="frame" x="106.5" y="0.0" width="35.5" height="19"/>
+                                        <rect key="frame" x="98.5" y="0.0" width="35.5" height="19"/>
                                         <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="16"/>
                                         <color key="textColor" name="gray-900"/>
                                         <nil key="highlightedColor"/>
@@ -118,7 +118,7 @@
                             <constraint firstItem="0cO-r7-Z5B" firstAttribute="leading" secondItem="6ad-en-AVG" secondAttribute="leading" constant="16" id="jsn-bx-e5c"/>
                             <constraint firstItem="TJq-uw-eur" firstAttribute="leading" secondItem="6ad-en-AVG" secondAttribute="leading" constant="16" id="k0j-Su-Vh6"/>
                             <constraint firstItem="hgW-2g-01B" firstAttribute="top" secondItem="6ad-en-AVG" secondAttribute="top" constant="16" id="kn7-ic-BP4"/>
-                            <constraint firstItem="0cO-r7-Z5B" firstAttribute="top" secondItem="TJq-uw-eur" secondAttribute="bottom" constant="16" id="lc9-CN-6k2"/>
+                            <constraint firstItem="0cO-r7-Z5B" firstAttribute="top" secondItem="TJq-uw-eur" secondAttribute="bottom" constant="12" id="lc9-CN-6k2"/>
                             <constraint firstAttribute="trailing" secondItem="z5s-W1-a3d" secondAttribute="trailing" constant="32" id="o8b-OK-3S5"/>
                             <constraint firstAttribute="trailing" secondItem="0cO-r7-Z5B" secondAttribute="trailing" constant="16" id="y13-wJ-S8U"/>
                         </constraints>

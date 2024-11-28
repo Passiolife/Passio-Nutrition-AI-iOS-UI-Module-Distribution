@@ -15,6 +15,7 @@ class ProgressViewController: UIViewController {
     @IBOutlet weak var microButton : UIButton!
     @IBOutlet weak var segmentUnderlineView: UIView!
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+
     @IBOutlet private weak var pageFrameView : UIView! {
         willSet {
             addChild(pageMaster)

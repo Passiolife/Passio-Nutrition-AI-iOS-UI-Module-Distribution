@@ -48,6 +48,11 @@ class MacroProgressViewController: UIViewController {
                                  shadowRadius: 8,
                                  shadowOpacity: 1)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        configureDateUI()
+        getDayLogsFrom()
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -114,8 +119,10 @@ extension MacroProgressViewController {
         let (fromDate, toDate) = currentScope == .week
         ? selectedDate.startAndEndOfWeek()! : selectedDate.startAndEndOfMonth()!
 
-        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
-                                                            toDate: toDate) { [weak self] (dayLogs) in
+        PassioInternalConnector.shared.fetchDayLogFor(
+            fromDate: fromDate,
+            toDate: toDate
+        ) { [weak self] (dayLogs) in
             guard let `self` = self else { return }
             DispatchQueue.main.async {
                 self.setupCharts(from: dayLogs)

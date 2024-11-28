@@ -29,7 +29,6 @@ class ImageCapture: InstantiableViewController {
     private var cameraPreviewLayer: AVCaptureVideoPreviewLayer!
     private let photoOutput = AVCapturePhotoOutput()
     private var cancellables = Set<AnyCancellable>()
-    private var resultsLoggingView: ResultsLoggingView?
     private var selectedCellIndexPath: IndexPath?
 
     private var capturedImages: [UIImage] = []

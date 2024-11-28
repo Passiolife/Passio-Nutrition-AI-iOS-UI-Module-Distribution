@@ -10,47 +10,8 @@ import UIKit
 import PassioNutritionAISDK
 #endif
 
-public protocol PassioConnector: AnyObject {
-
-    // UserProfile
-    func updateUserProfile(userProfile: UserProfileModel)
-    func fetchUserProfile(completion: @escaping (UserProfileModel?) -> Void)
-
-    // Records
-    func updateRecord(foodRecord: FoodRecordV3)
-    func deleteRecord(foodRecord: FoodRecordV3)
-    func fetchDayRecords(date: Date, completion: @escaping ([FoodRecordV3]) -> Void)
-    func fetchMealLogsJson(daysBack: Int) -> String
-
-    // User Foods
-    func updateUserFood(record: FoodRecordV3)
-    func deleteUserFood(record: FoodRecordV3)
-    func fetchUserFoods(barcode: String, completion: @escaping ([FoodRecordV3]) -> Void)
-    func fetchUserFoods(refCode: String, completion: @escaping ([FoodRecordV3]) -> Void)
-    func fetchAllUserFoods(completion: @escaping ([FoodRecordV3]) -> Void)
-    func deleteAllUserFood()
-
-    // User Food Image
-    func updateUserFoodImage(with id: String, image: UIImage)
-    func deleteUserFoodImage(with id: String)
-    func fetchUserFoodImage(with id: String, completion: @escaping (UIImage?) -> Void)
-
-    // Favorites
-    func updateFavorite(foodRecord: FoodRecordV3)
-    func deleteFavorite(foodRecord: FoodRecordV3)
-    func fetchFavorites(completion: @escaping ([FoodRecordV3]) -> Void)
-
-    // Recipes
-    func updateRecipe(record: FoodRecordV3)
-    func deleteRecipe(record: FoodRecordV3)
-    func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void)
-
-    // Photos
-    var passioKeyForSDK: String { get }
-    var offsetFoodEditor: CGFloat { get }
-}
-
-public class PassioInternalConnector {
+public class PassioInternalConnector 
+{
     // MARK: Shared Object
     public class var shared: PassioInternalConnector {
         if Static.instance == nil {
@@ -60,28 +21,19 @@ public class PassioInternalConnector {
     }
     private init() {}
 
-    weak var passioExternalConnector: PassioConnector?
+    var connector: PassioConnector = PassioFoodDataConnector.shared
 
     var dateForLogging: Date?
     var mealLabel: MealLabel?
     var cacheFavorites: [FoodRecordV3]?
     var isInNavController = true
 
-    public var passioKeyForSDK: String {
-        passioExternalConnector?.passioKeyForSDK ?? "no key"
-    }
-
     public var bundleForModule: Bundle {
         Bundle.module
     }
 
-    public var offsetFoodEditor: CGFloat {
-        passioExternalConnector?.offsetFoodEditor ?? 0
-    }
-
     public func shutDown() {
         PassioNutritionAI.shared.shutDownPassioSDK()
-        passioExternalConnector = nil
         Static.instance = nil
     }
 
@@ -89,20 +41,39 @@ public class PassioInternalConnector {
         fileprivate static var instance: PassioInternalConnector?
     }
 
-    public func startPassioAppModule(passioExternalConnector: PassioConnector,
+    public func startPassioAppModule(connector: PassioConnector,
                                      presentingViewController: UIViewController,
                                      withViewController: UIViewController,
                                      passioConfiguration: PassioConfiguration) {
+        self.connector = connector
+        UIModuleEntryPoint(presentingViewController: presentingViewController,
+                           withViewController: withViewController,
+                           passioConfiguration: passioConfiguration)
+    }
+    
+    public func startPassioAppModule(presentingViewController: UIViewController,
+                                     withViewController: UIViewController,
+                                     passioConfiguration: PassioConfiguration) {
+        UIModuleEntryPoint(presentingViewController: presentingViewController,
+                           withViewController: withViewController,
+                           passioConfiguration: passioConfiguration)
+    }
+    
+    private func UIModuleEntryPoint(presentingViewController: UIViewController,
+                                    withViewController: UIViewController,
+                                    passioConfiguration: PassioConfiguration) {
 
-        self.passioExternalConnector = passioExternalConnector
-        if PassioNutritionAI.shared.status.mode == .isReadyForDetection {
-            startModule(presentingViewController: presentingViewController,
-                        viewController: withViewController)
-        } else if PassioNutritionAI.shared.status.mode == .notReady {
-            PassioNutritionAI.shared.configure(passioConfiguration: passioConfiguration) { (_) in
-                DispatchQueue.main.async {
-                    self.startModule(presentingViewController: presentingViewController,
-                                     viewController: withViewController)
+        DataMigrationUtil.shared.migrateAllJsonContentToDB { resultStatus in
+            
+            if PassioNutritionAI.shared.status.mode == .isReadyForDetection {
+                self.startModule(presentingViewController: presentingViewController, viewController: withViewController)
+            }
+            else if PassioNutritionAI.shared.status.mode == .notReady {
+                PassioNutritionAI.shared.configure(passioConfiguration: passioConfiguration) { (_) in
+                    DispatchQueue.main.async {
+                        self.startModule(presentingViewController: presentingViewController,
+                                         viewController: withViewController)
+                    }
                 }
             }
         }
@@ -126,228 +97,154 @@ public class PassioInternalConnector {
     }
 }
 
-// MARK: - PassioConnector Delegate
-extension PassioInternalConnector: PassioConnector {
+extension PassioInternalConnector {
 
-    // MARK: UserProfile
+    // MARK: User profile
+    
     public func updateUserProfile(userProfile: UserProfileModel) {
-        passioExternalConnector?.updateUserProfile(userProfile: userProfile)
+        connector.updateUserProfile(userProfile: userProfile)
     }
 
     public func fetchUserProfile(completion: @escaping (UserProfileModel?) -> Void) {
-        guard let connector = passioExternalConnector else {
-            completion(UserProfileModel())
-            return
-        }
         connector.fetchUserProfile { (userProfile) in
             completion(userProfile)
         }
     }
 
-    // MARK: FoodRecordV3
+    // MARK: Records
+    
     public func updateRecord(foodRecord: FoodRecordV3) {
-        guard let connector = passioExternalConnector else { return }
         connector.updateRecord(foodRecord: foodRecord)
     }
 
     public func deleteRecord(foodRecord: FoodRecordV3) {
-        guard let connector = passioExternalConnector else { return }
         connector.deleteRecord(foodRecord: foodRecord)
     }
 
     public func fetchDayRecords(date: Date, completion: @escaping ([FoodRecordV3]) -> Void) {
-        guard let connector = passioExternalConnector else {
-            completion([])
-            return
-        }
         connector.fetchDayRecords(date: date) { (foodRecords) in
             completion(foodRecords)
         }
     }
+
+    // MARK: User foods
     
-    public func fetchMealLogsJson(daysBack: Int) -> String {
-        let toDate = Date()
-        let fromDate = Calendar.current.date(byAdding: .day, value: -daysBack, to: toDate) ?? Date()
-
-        var dayLogs = [DayLog]()
-        PassioInternalConnector.shared.fetchDayLogRecursive(fromDate: fromDate,
-                                                            toDate: toDate) { dayLog in
-            dayLogs.append(contentsOf: dayLog)
-        }
-        let json = dayLogs.generateDataRequestJson()
-        return json
-    }
-
-    // MARK: UserFood
     public func updateUserFood(record: FoodRecordV3) {
-        guard let connector = passioExternalConnector else { return }
         connector.updateUserFood(record: record)
     }
 
     public func deleteUserFood(record: FoodRecordV3) {
-        guard let connector = passioExternalConnector else { return }
         connector.deleteUserFood(record: record)
     }
 
-    public func deleteAllUserFood() {
-        guard let connector = passioExternalConnector else { return }
-        connector.deleteAllUserFood()
-    }
-
     public func fetchUserFoods(barcode: String, completion: @escaping ([FoodRecordV3]) -> Void) {
-        guard let connector = passioExternalConnector else {
-            completion([])
-            return
-        }
         connector.fetchUserFoods(barcode: barcode) { barcodeFood in
             completion(barcodeFood)
         }
     }
 
     public func fetchUserFoods(refCode: String, completion: @escaping ([FoodRecordV3]) -> Void) {
-        guard let connector = passioExternalConnector else {
-            completion([])
-            return
-        }
         connector.fetchUserFoods(refCode: refCode) { userFood in
             completion(userFood)
         }
     }
 
     public func fetchAllUserFoods(completion: @escaping ([FoodRecordV3]) -> Void) {
-        guard let connector = passioExternalConnector else {
-            completion([])
-            return
-        }
         connector.fetchAllUserFoods { userFoods in
             completion(userFoods)
         }
     }
+    
+    public func fetchAllUserFoodsMatching(name: String, completion: @escaping ([FoodRecordV3]) -> Void) {
+        connector.fetchAllUserFoodsMatching(name: name) { userFoods in
+            completion(userFoods)
+        }
+    }
+    
+    // MARK: User food image
 
     public func updateUserFoodImage(with id: String, image: UIImage) {
-        guard let connector = passioExternalConnector else { return }
         connector.updateUserFoodImage(with: id, image: image)
     }
 
     public func deleteUserFoodImage(with id: String) {
-        guard let connector = passioExternalConnector else { return }
         connector.deleteUserFoodImage(with: id)
     }
 
     public func fetchUserFoodImage(with id: String, completion: @escaping (UIImage?) -> Void) {
-        guard let connector = passioExternalConnector else {
-            completion(nil)
-            return
-        }
         connector.fetchUserFoodImage(with: id) { foodImage in
             completion(foodImage)
         }
     }
 
-    // MARK: Favorite
+    // MARK: Favorites
+
     public func updateFavorite(foodRecord: FoodRecordV3) {
-        guard let connector = passioExternalConnector else { return }
         connector.updateFavorite(foodRecord: foodRecord)
-        cacheFavorites = cacheFavorites?.filter { $0.uuid != foodRecord.uuid }
-        cacheFavorites?.append(foodRecord)
     }
 
     public func deleteFavorite(foodRecord: FoodRecordV3) {
-        guard let connector = passioExternalConnector else { return }
         connector.deleteFavorite(foodRecord: foodRecord)
-        cacheFavorites = cacheFavorites?.filter { $0.uuid != foodRecord.uuid }
     }
 
     public func fetchFavorites(completion: @escaping ([FoodRecordV3]) -> Void) {
-        guard let connector = passioExternalConnector else {
-            completion([])
-            return
-        }
-        if let favorites = cacheFavorites {
+        connector.fetchFavorites { favorites in
             completion(favorites)
-        } else {
-            connector.fetchFavorites { (favorites) in
-                self.cacheFavorites = favorites
-                completion(favorites)
-            }
         }
     }
 
+    // MARK: Recipes
+
     public func updateRecipe(record: FoodRecordV3) {
-        guard let connector = passioExternalConnector else { return }
         connector.updateRecipe(record: record)
     }
 
     public func deleteRecipe(record: FoodRecordV3) {
-        guard let connector = passioExternalConnector else { return }
         connector.deleteRecipe(record: record)
     }
 
     public func fetchRecipes(completion: @escaping ([FoodRecordV3]) -> Void) {
-        guard let connector = passioExternalConnector else {
-            completion([])
-            return
-        }
         connector.fetchRecipes { recipes in
             completion(recipes)
         }
     }
+    
+    // MARK: Day logs - Newly added
+
+    public func fetchDayLogFor(fromDate: Date, toDate: Date, completion: @escaping ([DayLog]) -> Void) {
+        connector.fetchDayLogFor(fromDate: fromDate, toDate: toDate) { logs in
+            completion(logs)
+        }
+    }
+    
+    // MARK: Weight Tracking - Newly added
+    public func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        connector.updateWeightRecord(weightRecord: weightRecord, completion: completion)
+    }
+    
+    public func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void) {
+        connector.fetchLatestWeightRecord(completion: completion)
+    }
+    
+    public func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        connector.fetchWeightRecords(startDate: startDate, endDate: endDate, completion: completion)
+    }
+    
+    public func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        connector.deleteWeightRecord(weightRecord: weightRecord, completion: completion)
+    }
+    
+    //MARK: Water Tracking
+    public func updateWaterRecord(waterRecord: WaterTracking, completion: @escaping ((Bool) -> Void)) {
+        connector.updateWaterRecord(waterRecord: waterRecord, completion: completion)
+    }
+    
+    public func fetchWaterRecords(startDate: Date, endDate: Date, completion: @escaping ([WaterTracking]) -> Void) {
+        connector.fetchWaterRecords(startDate: startDate, endDate: endDate, completion: completion)
+    }
+    
+    public func deleteWaterRecord(waterRecord: WaterTracking, completion: @escaping (Bool) -> Void) {
+        connector.deleteWaterRecord(waterRecord: waterRecord, completion: completion)
+    }
 }
 
-// MARK: - Helper
-extension PassioInternalConnector {
-
-    func fetchDayLogFor(fromDate: Date,
-                        toDate: Date,
-                        completion: @escaping ([DayLog]) -> Void) {
-        var dayLogs = [DayLog]()
-        for time in stride(from: fromDate.timeIntervalSince1970,
-                           through: toDate.timeIntervalSince1970,
-                           by: 86400) {
-            let currentDate = Date(timeIntervalSince1970: time)
-            fetchDayRecords(date: currentDate) { (foodRecords) in
-                let daylog = DayLog(date: currentDate, records: foodRecords)
-                dayLogs.append(daylog)
-                if time > toDate.timeIntervalSince1970 - 86400 { // last element
-                    completion(dayLogs)
-                }
-            }
-        }
-    }
-
-    func fetchDayLogRecursive(fromDate: Date,
-                              toDate: Date,
-                              currentLogs: [DayLog] = [],
-                              completion: @escaping ([DayLog]) -> Void) {
-
-        guard fromDate <= toDate else {
-            completion(currentLogs)
-            return
-        }
-
-        fetchDayRecords(date: fromDate) { (foodRecords) in
-            let daylog = DayLog(date: fromDate, records: foodRecords)
-            var updatedLogs = currentLogs
-            updatedLogs.append(daylog)
-
-            // Recursive call with next day
-            let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: fromDate)!
-            self.fetchDayLogRecursive(fromDate: nextDate,
-                                      toDate: toDate,
-                                      currentLogs: updatedLogs,
-                                      completion: completion)
-        }
-    }
-
-    func fetchAllUserFoodsName(completion: @escaping ([String]) -> Void) {
-        fetchAllUserFoods(completion: { records in
-            completion(records.map { $0.name })
-        })
-    }
-
-    func fetchAllUserFoodsMatching(name: String, completion: @escaping ([FoodRecordV3]) -> Void) {
-        fetchAllUserFoods(completion: { records in
-            completion(records.filter { $0.name.lowercased() == name.lowercased() })
-        })
-    }
-}

@@ -61,6 +61,9 @@ class NutritionInformationViewController: InstantiableViewController {
                                       color: .black.withAlphaComponent(0.06),
                                       shadowRadius: 2,
                                       shadowOpacity: 1)
+        
+        let isDisclaimerClosed = PassioUserDefaults.bool(for: .isNutritionInfoDisclaimerClosed)
+        pleaseNoteInfoView.isHidden = isDisclaimerClosed
     }
 
     override func viewDidLayoutSubviews() {
@@ -89,6 +92,7 @@ class NutritionInformationViewController: InstantiableViewController {
 
     @IBAction func onClose(_ sender: UIButton) {
         pleaseNoteInfoView.isHidden = true
+        PassioUserDefaults.store(for: .isNutritionInfoDisclaimerClosed, value: true)
     }
 }
 

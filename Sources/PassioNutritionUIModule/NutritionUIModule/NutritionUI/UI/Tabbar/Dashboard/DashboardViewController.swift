@@ -8,6 +8,10 @@
 import UIKit
 import FSCalendar
 
+protocol DashboardDelegate {
+    func redirectToTrackingScreen(trackingType: TrackingTypes)
+}
+
 class DashboardViewController: UIViewController {
 
     @IBOutlet weak var dateView: UIView!
@@ -17,7 +21,7 @@ class DashboardViewController: UIViewController {
 
     private lazy var calendarScope: FSCalendarScope = .week
     private let connector = PassioInternalConnector.shared
-    private let cells: [CellType] = [.nutrition, .calender]
+    private let cells: [CellType] = [.nutrition, .calender, .weightWater]
     private var dateSelector: DateSelectorViewController?
     private var dayLog: DayLog?
     private var selectedDate: Date = Date() {
@@ -25,14 +29,19 @@ class DashboardViewController: UIViewController {
             setTitle()
             getRecords(for: selectedDate)
             softReloadCalenderCell()
+            fetchWaterTrackingRecord()
             nextDateButton.isEnabled = selectedDate.isToday ? false : true
         }
     }
 
     private enum CellType: Int {
-        case nutrition, calender
+        case nutrition, calender, weightWater
     }
-
+    private var weightTrackingRecord: WeightTracking?
+    private var totalConsumedWater: Double?
+    
+    var delegate: DashboardDelegate? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -44,6 +53,12 @@ class DashboardViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.fetchWeightTrackingRecord()
+        self.fetchWaterTrackingRecord()
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
@@ -61,6 +76,7 @@ class DashboardViewController: UIViewController {
     func registerCell() {
         tableView.register(nibName: DailyNutritionCell.className)
         tableView.register(nibName: CalendarCell.className)
+        tableView.register(nibName: WaterWeightCardCell.className)
     }
 
     @IBAction func onNextPrevButtonPressed(_ sender: UIButton) {
@@ -86,6 +102,52 @@ class DashboardViewController: UIViewController {
         connector.fetchDayRecords(date: date) { (foodRecords) in
             self.dayLog = DayLog(date: date, records: foodRecords)
             self.softReloadNutritionCell()
+        }
+    }
+    
+    func navigateToDiary(date: Date) {
+        guard let vc = self.tabBarController as? HomeTabBarController else { return }
+        vc.selectedIndex = 1
+        if let diaryNavVC = vc.viewControllers?[1] as? UINavigationController,
+           let diaryVC = diaryNavVC.viewControllers.first as? DiaryViewController {
+            diaryVC.selectedDate = date
+        }
+    }
+    
+    private func fetchWeightTrackingRecord() {
+        PassioInternalConnector.shared.fetchLatestWeightRecord { lsatWeightRecord in
+            if let lsatWeightRecord = lsatWeightRecord {
+                self.weightTrackingRecord = lsatWeightRecord
+            }
+            else {
+                self.weightTrackingRecord = nil
+            }
+            if let cellIndex = self.cells.firstIndex(of: .weightWater) {
+                self.tableView.reloadRows(at: [IndexPath(row: cellIndex, section: 0)], with: .automatic)
+            }
+            else {
+                self.tableView.reloadData()
+            }
+            
+        }
+    }
+    
+    private func fetchWaterTrackingRecord() {
+        PassioInternalConnector.shared.fetchWaterRecords(startDate: selectedDate.startOfGivenDay, endDate: selectedDate.endOfGivenDay) { arrWeightTrackingRecord in
+            
+            if arrWeightTrackingRecord.count > 0 {
+                self.totalConsumedWater = arrWeightTrackingRecord.map({$0.water}).reduce(0, +)
+            }
+            else {
+                self.totalConsumedWater = nil
+            }
+            
+            if let cellIndex = self.cells.firstIndex(of: .weightWater) {
+                self.tableView.reloadRows(at: [IndexPath(row: cellIndex, section: 0)], with: .automatic)
+            }
+            else {
+                self.tableView.reloadData()
+            }
         }
     }
 }
@@ -119,9 +181,9 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             let (calories, carbs, protein, fat) = getNutritionSummaryfor(foodRecords: displayedRecords)
             let nuData = NutritionDataModal(
                 calory: (consumed: Int(calories), target: userProfile.caloriesTarget),
-                carb: (consumed: Int(carbs), target: userProfile.carbsGrams),
-                protein: (consumed: Int(protein), target: userProfile.proteinGrams),
-                fat: (consumed: Int(fat), target: userProfile.fatGrams))
+                carb: (consumed: Int(carbs), target: userProfile.carbsTargetGrams),
+                protein: (consumed: Int(protein), target: userProfile.proteinTargetGrams),
+                fat: (consumed: Int(fat), target: userProfile.fatTargetGrams))
             cell.nutritionData = nuData
             return cell
 
@@ -129,19 +191,41 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueCell(cellClass: CalendarCell.self, forIndexPath: indexPath)
             cell.configure(currentDate: self.selectedDate, calendarScope: calendarScope)
             cell.configureDateUI()
+            cell.didSelectDate = { [weak self] date in
+                guard let self = self else { return }
+                self.navigateToDiary(date: date)
+            }
+            cell.didTapDisclosure = { [weak self] in
+                guard let self = self else { return }
+                calendarScope = calendarScope == .month ? FSCalendarScope.week : FSCalendarScope.month
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+            return cell
+        case .weightWater:
+            let cell = tableView.dequeueCell(cellClass: WaterWeightCardCell.self, forIndexPath: indexPath)
+            cell.configureUI(lastWeightRecord: weightTrackingRecord, totalConsumedWater: totalConsumedWater)
+            cell.addWaterButtonAction = {
+                self.delegate?.redirectToTrackingScreen(trackingType: .waterTracking)
+            }
+            
+            cell.addWeightButtonAction = { [weak self] in
+                guard let self = self else { return }
+                self.delegate?.redirectToTrackingScreen(trackingType: .weightTracking)
+            }
+            cell.selectionStyle = .none
             return cell
         }
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch cells[indexPath.row] {
-        case .calender:
-            calendarScope = calendarScope == .month ? FSCalendarScope.week : FSCalendarScope.month
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        default:
-            break
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        switch cells[indexPath.row] {
+//        case .calender:
+//            print("Calendar cell")
+//            break
+//        default:
+//            break
+//        }
+//    }
 }
 
 // MARK: - DateSelection

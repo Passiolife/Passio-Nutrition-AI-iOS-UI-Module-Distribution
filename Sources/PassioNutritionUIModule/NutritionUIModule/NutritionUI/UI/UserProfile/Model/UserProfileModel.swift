@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 #if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
 #endif
@@ -21,11 +22,16 @@ enum Conversion: Double {
 public class UserManager {
 
     static var shared: UserManager = UserManager()
-    private init() { }
+    private init() {
+        configure()
+    }
 
     var user: UserProfileModel?
 
     func configure() {
+        if user != nil {
+            return
+        }
         PassioInternalConnector.shared.fetchUserProfile { profile in
             self.user = profile
         }
@@ -45,16 +51,17 @@ public struct UserProfileModel: Codable, Equatable {
     var gender: GenderSelection?
     var units: UnitSelection = UnitSelection.imperial
     var heightUnits: UnitSelection = UnitSelection.imperial
-    var caloriesTarget = 2100
     var carbsPercent = 50
     var proteinPercent = 25
     var fatPercent = 25
-    var recommendedCalories: Int = 2100
+    var caloriesTarget: Int = Constant.defaultTargetCalories
     var reminderSettings: ReminderSettings?
     var activityLevel: ActivityLevel?
     var mealPlan: PassioMealPlan?
     var goalWater: Double?
     var waterUnit: WaterUnit? = .oz
+    // UUID().uuidString as of now we keep uuid hardcoded to as we have only single user.
+    var uuid: String = "B2B7EAB8-5C57-41B5-9F11-5F1922C63E34"
 
     public init() {}
 
@@ -72,11 +79,11 @@ public struct UserProfileModel: Codable, Equatable {
         self.gender = try? container.decode(GenderSelection.self, forKey: .gender)
         self.units = (try? container.decode(UnitSelection.self, forKey: .units)) ?? .imperial
         self.heightUnits = (try? container.decode(UnitSelection.self, forKey: .heightUnits)) ?? .imperial
-        self.caloriesTarget = (try? container.decode(Int.self, forKey: .caloriesTarget)) ?? 2100
         self.carbsPercent = (try? container.decode(Int.self, forKey: .carbsPercent)) ?? 50
         self.proteinPercent = (try? container.decode(Int.self, forKey: .proteinPercent)) ?? 25
         self.fatPercent = (try? container.decode(Int.self, forKey: .fatPercent)) ?? 25
-        self.recommendedCalories = (try? container.decode(Int.self, forKey: .recommendedCalories)) ?? 2100
+        self.caloriesTarget = (try? container.decode(Int.self, forKey: .caloriesTarget)) ?? Constant.defaultTargetCalories
+
         self.reminderSettings = try? container.decode(ReminderSettings.self, forKey: .reminderSettings)
         self.activityLevel = try? container.decode(ActivityLevel.self, forKey: .activityLevel)
         self.mealPlan = try? container.decode(PassioMealPlan.self, forKey: .mealPlan)
@@ -96,23 +103,13 @@ public struct UserProfileModel: Codable, Equatable {
         }
     }
 
-    var recommendedCarbsGrams: Int {
-        recommendedCalories*carbsPercent/100/4
-    }
-    var recommendedProteinGrams: Int {
-        recommendedCalories*proteinPercent/100/4
-    }
-    var recommendedFatGrams: Int {
-        recommendedCalories*fatPercent/100/9
-    }
-
-    var carbsGrams: Int {
+    var carbsTargetGrams: Int {
         caloriesTarget*carbsPercent/100/4
     }
-    var proteinGrams: Int {
+    var proteinTargetGrams: Int {
         caloriesTarget*proteinPercent/100/4
     }
-    var fatGrams: Int {
+    var fatTargetGrams: Int {
         caloriesTarget*fatPercent/100/9
     }
 
@@ -168,6 +165,28 @@ public struct UserProfileModel: Codable, Equatable {
         }
     }
 
+    var selectedWeightUnit: String {
+        switch units {
+        case .imperial:
+            return "lbs"
+        case .metric:
+            return "kg"
+        }
+        return "lbs"
+    }
+    
+    var goalWeightRemainDespription: String? {
+        guard let goalWeight = goalWeight,
+              let mainWeight = weight, goalWeight > 0 else { return nil}
+        switch units {
+        case .imperial:
+            let goalRemainValue = ((goalWeight - mainWeight) * Conversion.lbsToKg.rawValue)
+            return goalRemainValue.roundDigits(afterDecimal: 1).clean + " lbs"
+        case .metric:
+            return (goalWeight - mainWeight).roundDigits(afterDecimal: 1).clean + " kg"
+        }
+    }
+    
     var heightDescription: String? {
         guard let height = height else { return nil }
         switch heightUnits {
@@ -361,5 +380,77 @@ class MealPlanManager {
         PassioNutritionAI.shared.fetchMealPlans { [weak self] mealPlans in
             self?.mealPlans = mealPlans
         }
+    }
+}
+
+
+internal extension UserProfileModel {
+
+    init(coreModel: TblUserProfile) {
+
+        self.firstName = coreModel.firstName
+        self.lastName = coreModel.lastName
+        self.birthday = coreModel.birthday
+        self.age = Int(coreModel.age)
+        self.weight = coreModel.weight
+        self.goalWeight = coreModel.goalWeight
+        self.goalWeightTimeLine = coreModel.goalWeightTimeLine
+        self.goalWater = coreModel.goalWater
+        self.height = coreModel.height
+        self.gender = GenderSelection(rawValue: coreModel.gender ?? "male")
+        if let coreUnits = coreModel.units {
+            self.units = UnitSelection(rawValue: coreUnits) ?? UnitSelection.imperial
+        }
+        else {
+            self.units = UnitSelection.imperial
+        }
+        
+        if let coreHeightUnits = coreModel.heightUnits {
+            self.heightUnits = UnitSelection(rawValue: coreHeightUnits) ?? UnitSelection.imperial
+        }
+        else {
+            self.heightUnits = UnitSelection.imperial
+        }
+        
+        self.caloriesTarget = Int(coreModel.caloriesTarget)
+        self.carbsPercent = Int(coreModel.carbsPercent)
+        self.proteinPercent = Int(coreModel.proteinPercent)
+        self.fatPercent = Int(coreModel.fatPercent)
+        
+        if let reminderSettings = coreModel.reminderSettings {
+            
+            if let reminderSettingsData = reminderSettings.data(using: .utf8) {
+                do {
+                    let reminderSettings = try JSONDecoder().decode(ReminderSettings.self, from: reminderSettingsData)
+                    self.reminderSettings = reminderSettings
+                } catch let error {
+                    print("Error while parsing ReminderSettings")
+                }
+            }
+            
+            
+        }
+        
+        if let coreActivityLevel = coreModel.activityLevel {
+            self.activityLevel = ActivityLevel(rawValue: coreActivityLevel)
+        }
+        
+        if let coreMealPlan = coreModel.mealPlan {
+            
+            if let coreMealPlanData = coreMealPlan.data(using: .utf8) {
+                do {
+                    let passioMealPlan = try JSONDecoder().decode(PassioMealPlan.self, from: coreMealPlanData)
+                    self.mealPlan = passioMealPlan
+                } catch let error {
+                    print("Error while parsing PassioMealPlan")
+                }
+            }
+        }
+        
+        if let coreWaterUnit = coreModel.waterUnit {
+            self.waterUnit = WaterUnit(rawValue: coreWaterUnit)
+        }
+          
+        self.uuid = coreModel.uuid ?? ""
     }
 }

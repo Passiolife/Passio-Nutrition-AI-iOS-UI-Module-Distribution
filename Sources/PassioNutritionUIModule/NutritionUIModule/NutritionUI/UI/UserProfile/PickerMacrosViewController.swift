@@ -29,7 +29,7 @@ class PickerMacrosViewController: UIViewController {
     @IBOutlet weak var okButton: UIButton!
     
 
-    var modelMacros = Macros(caloriesTarget: 2100,
+    var modelMacros = Macros(caloriesTarget: Constant.defaultTargetCalories,
                              carbsPercent: 0,
                              proteinPercent: 0,
                              fatPercent: 0)

@@ -166,3 +166,30 @@ extension UILabel {
         self.attributedText = attributedString
     }
 }
+
+internal extension String {
+    var getCleanNumber: Double? {
+        // Define the number of decimal places you want to round to
+        let decimalPlaces = 2  // You can change this value as needed
+        
+        // Use a regular expression to find all numbers in the string (including decimals)
+        let pattern = "\\d+(\\.\\d+)?"
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        
+        // Search the string for matches
+        if let match = regex?.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+            // Extract the matched substring
+            let numberString = (self as NSString).substring(with: match.range)
+            
+            // Convert the number string to a Double
+            if let number = Double(numberString) {
+                // Round the number to the specified decimal places
+                let multiplier = pow(10.0, Double(decimalPlaces))
+                let roundedNumber = (number * multiplier).rounded() / multiplier
+                return roundedNumber
+            }
+        }
+        
+        return nil
+    }
+}

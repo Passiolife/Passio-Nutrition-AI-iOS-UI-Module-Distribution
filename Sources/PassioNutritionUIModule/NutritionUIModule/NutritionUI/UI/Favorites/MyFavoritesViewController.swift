@@ -134,7 +134,7 @@ extension MyFavoritesViewController: UITableViewDelegate {
         let favorite = favorites[indexPath.row]
         let editVC = FoodDetailsViewController()
         editVC.foodRecord = favorite
-        editVC.isEditingFavorite = true
+        editVC.isEditingFavorite = false
         editVC.foodDetailsControllerDelegate = self
         navigationController?.pushViewController(editVC, animated: true)
     }
