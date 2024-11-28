@@ -79,8 +79,7 @@ public class PassioInternalConnector
         }
     }
 
-    private func startModule(dismisswithAnimation: Bool = false,
-                             presentingViewController: UIViewController,
+    private func startModule(presentingViewController: UIViewController,
                              viewController: UIViewController) {
 
         if let navController = presentingViewController.navigationController {
