@@ -28,7 +28,7 @@ class MicroProgressViewController: UIViewController {
         return button
     }()
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var dateSelector: DateSelectorViewController?
 
     private var selectedDate: Date = Date() {

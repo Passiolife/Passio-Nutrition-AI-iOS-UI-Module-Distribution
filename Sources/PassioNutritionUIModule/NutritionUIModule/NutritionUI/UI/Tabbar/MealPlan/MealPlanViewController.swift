@@ -262,7 +262,7 @@ extension MealPlanViewController {
         getFoodRecord(from: mealPlanItem) { [weak self] record in
             guard let self, let record else { return }
             if !isEdit {
-                PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                NutritionUIModule.shared.updateRecord(foodRecord: record)
             }
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
@@ -290,7 +290,7 @@ extension MealPlanViewController {
                         group.leave()
                         return
                     }
-                    PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                    NutritionUIModule.shared.updateRecord(foodRecord: record)
                     group.leave()
                 }
             }

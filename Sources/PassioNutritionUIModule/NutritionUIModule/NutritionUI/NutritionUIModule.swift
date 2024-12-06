@@ -1,5 +1,5 @@
 //
-//  PassioInternalConnector.swift
+//  NutritionUIModule.swift
 //  BaseApp
 //
 //  Created by zvika on 1/23/20.
@@ -10,24 +10,24 @@ import UIKit
 import PassioNutritionAISDK
 #endif
 
-public class PassioInternalConnector 
+public class NutritionUIModule
 {
     // MARK: Shared Object
-    public class var shared: PassioInternalConnector {
+    public class var shared: NutritionUIModule {
         if Static.instance == nil {
-            Static.instance = PassioInternalConnector()
+            Static.instance = NutritionUIModule()
         }
         return Static.instance!
     }
     private init() {}
 
-    var connector: PassioConnector = PassioFoodDataConnector.shared
-
     var dateForLogging: Date?
     var mealLabel: MealLabel?
     var cacheFavorites: [FoodRecordV3]?
-    var isInNavController = true
-
+    
+    var connector: PassioConnector = CoreDataPassioConnector.shared
+    private(set) var legacySearch: Bool = false
+    
     public var bundleForModule: Bundle {
         Bundle.module
     }
@@ -38,22 +38,16 @@ public class PassioInternalConnector
     }
 
     private struct Static {
-        fileprivate static var instance: PassioInternalConnector?
-    }
-
-    public func startPassioAppModule(connector: PassioConnector,
-                                     presentingViewController: UIViewController,
-                                     withViewController: UIViewController,
-                                     passioConfiguration: PassioConfiguration) {
-        self.connector = connector
-        UIModuleEntryPoint(presentingViewController: presentingViewController,
-                           withViewController: withViewController,
-                           passioConfiguration: passioConfiguration)
+        fileprivate static var instance: NutritionUIModule?
     }
     
-    public func startPassioAppModule(presentingViewController: UIViewController,
+    public func startPassioAppModule(connector: PassioConnector = CoreDataPassioConnector.shared,
+                                     presentingViewController: UIViewController,
                                      withViewController: UIViewController,
-                                     passioConfiguration: PassioConfiguration) {
+                                     passioConfiguration: PassioConfiguration,
+                                     legacySearch: Bool = false) {
+        self.connector = connector
+        self.legacySearch = legacySearch
         UIModuleEntryPoint(presentingViewController: presentingViewController,
                            withViewController: withViewController,
                            passioConfiguration: passioConfiguration)
@@ -66,7 +60,8 @@ public class PassioInternalConnector
         DataMigrationUtil.shared.migrateAllJsonContentToDB { resultStatus in
             
             if PassioNutritionAI.shared.status.mode == .isReadyForDetection {
-                self.startModule(presentingViewController: presentingViewController, viewController: withViewController)
+                self.startModule(presentingViewController: presentingViewController,
+                                 viewController: withViewController)
             }
             else if PassioNutritionAI.shared.status.mode == .notReady {
                 PassioNutritionAI.shared.configure(passioConfiguration: passioConfiguration) { (_) in
@@ -79,26 +74,24 @@ public class PassioInternalConnector
         }
     }
 
-    private func startModule(dismisswithAnimation: Bool = false,
-                             presentingViewController: UIViewController,
+    private func startModule(presentingViewController: UIViewController,
                              viewController: UIViewController) {
 
         if let navController = presentingViewController.navigationController {
-            navController.pushViewController(viewController, animated: false)
+            navController.pushViewController(viewController, animated: true)
         } else {
             let navController = UINavigationController(rootViewController: viewController)
             navController.modalPresentationStyle = .fullScreen
-            presentingViewController.present(viewController, animated: false)
+            presentingViewController.present(navController, animated: true)
         }
-        self.isInNavController = true
     }
 
     deinit {
-        print("deinit PassioInternalConnector")
+        print("deinit NutritionUIModule")
     }
 }
 
-extension PassioInternalConnector {
+extension NutritionUIModule {
 
     // MARK: User profile
     

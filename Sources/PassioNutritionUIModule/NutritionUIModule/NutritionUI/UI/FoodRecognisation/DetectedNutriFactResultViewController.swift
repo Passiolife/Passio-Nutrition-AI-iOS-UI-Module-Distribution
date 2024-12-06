@@ -33,7 +33,7 @@ class DetectedNutriFactResultViewController: UIViewController {
     @IBOutlet weak var fatUnitLabel        : UILabel!
 
     private let passioSDK = PassioNutritionAI.shared
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
 
     weak var delegate: DetectedNutriFactResultViewControllerDelegate?
 

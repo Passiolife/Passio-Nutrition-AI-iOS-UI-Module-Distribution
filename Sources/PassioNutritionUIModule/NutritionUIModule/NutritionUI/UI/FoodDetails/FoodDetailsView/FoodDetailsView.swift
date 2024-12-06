@@ -32,7 +32,7 @@ class FoodDetailsView: UIView {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var foodDetailsSection: [FoodDetailsCell] = []
     private var dateSelector: DateSelectorViewController?
     private var cachedMaxForSlider = [Int: [String: Float]]()

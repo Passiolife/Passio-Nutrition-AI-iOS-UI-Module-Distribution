@@ -25,7 +25,7 @@ public extension UITableView {
         return cell
     }
 
-    func register(nibName: String, bundle: Bundle = PassioInternalConnector.shared.bundleForModule) {
+    func register(nibName: String, bundle: Bundle = NutritionUIModule.shared.bundleForModule) {
         register(UINib.nibFromBundle(nibName: nibName, bundle: bundle), forCellReuseIdentifier: nibName)
     }
 

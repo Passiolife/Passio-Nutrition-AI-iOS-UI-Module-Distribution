@@ -72,7 +72,7 @@ public class NutritionUICoordinator {
                                           controllerName: String) -> UIViewController {
 
         let storyboard = UIStoryboard(name: storyboardName,
-                                      bundle: PassioInternalConnector.shared.bundleForModule)
+                                      bundle: NutritionUIModule.shared.bundleForModule)
         let vc = storyboard.instantiateViewController(withIdentifier: controllerName)
         return vc
     }

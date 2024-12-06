@@ -39,7 +39,7 @@ class NAFoodItemCell: UITableViewCell {
             foodImageView.setFoodImage(id: foodInfo.iconID,
                                        passioID: foodInfo.iconID,
                                        entityType: .item,
-                                       connector: PassioInternalConnector.shared) { [weak self] image in
+                                       connector: NutritionUIModule.shared) { [weak self] image in
                 DispatchQueue.main.async {
                     self?.foodImageView.image = image
                 }
@@ -114,7 +114,7 @@ class NAFoodItemCell: UITableViewCell {
 //        foodImageView.setFoodImage(id: foodInfo.iconID,
 //                                   passioID: foodInfo.iconID,
 //                                   entityType: .item,
-//                                   connector: PassioInternalConnector.shared) { [weak self] image in
+//                                   connector: NutritionUIModule.shared) { [weak self] image in
 //            DispatchQueue.main.async {
 //                self?.foodImageView.image = image
 //            }

@@ -17,7 +17,7 @@ public extension UIImage {
 
     static func imageFromBundle(named: String) -> UIImage? {
         UIImage(named: named,
-                in: PassioInternalConnector.shared.bundleForModule,
+                in: NutritionUIModule.shared.bundleForModule,
                 compatibleWith: nil)
     }
 
@@ -387,7 +387,7 @@ public extension UIImageView {
     func setFoodImage(id: String,
                       passioID: String,
                       entityType: PassioIDEntityType = .item,
-                      connector: PassioInternalConnector,
+                      connector: NutritionUIModule,
                       completion: @escaping (UIImage) -> Void) {
 
         if id.contains("userFood") || id.contains("Recipe") {

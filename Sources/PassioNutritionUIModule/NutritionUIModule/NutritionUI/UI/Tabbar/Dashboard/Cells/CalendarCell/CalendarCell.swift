@@ -112,8 +112,8 @@ extension CalendarCell {
     }
 
     private func getDayLogsFrom(fromDate: Date, toDate: Date) {
-        PassioInternalConnector.shared.fetchDayLogFor(fromDate: fromDate,
-                                                      toDate: toDate) { [weak self] (dayLogs) in
+        NutritionUIModule.shared.fetchDayLogFor(fromDate: fromDate,
+                                                toDate: toDate) { [weak self] (dayLogs) in
             guard let self = self else { return }
             self.calendarActivityIndicator.startAnimating()
             DispatchQueue.main.async {

@@ -40,7 +40,7 @@ public extension UIColor {
 
     static func colorFromBundle(named: String) -> UIColor? {
         UIColor(named: named,
-                in: PassioInternalConnector.shared.bundleForModule,
+                in: NutritionUIModule.shared.bundleForModule,
                 compatibleWith: nil)
     }
 }
