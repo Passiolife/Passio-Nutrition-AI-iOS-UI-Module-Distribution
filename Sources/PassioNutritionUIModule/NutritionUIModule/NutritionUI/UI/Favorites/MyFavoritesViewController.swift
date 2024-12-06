@@ -22,7 +22,7 @@ final class MyFavoritesViewController: InstantiableViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     weak var delegate: FavoritesViewDelegate?
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private let refreshControl = UIRefreshControl()
     private var favorites = [FoodRecordV3]()
     private var addedToFavorites = -1

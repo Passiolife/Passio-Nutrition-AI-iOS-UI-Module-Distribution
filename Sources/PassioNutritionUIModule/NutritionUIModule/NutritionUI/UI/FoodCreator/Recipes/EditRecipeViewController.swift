@@ -17,7 +17,7 @@ class EditRecipeViewController: InstantiableViewController {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var editRecipeTableView: UITableView!
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var isAddIngredient = true
     private var isReplaceIngredient = true
     private var cachedMaxForSlider: [String: Float] = [:]

@@ -357,7 +357,7 @@ extension NutritionAdvisorVC {
                         if let passioFoodItem {
                             var foodRecord = FoodRecordV3(foodItem: passioFoodItem)
                             foodRecord.mealLabel = MealLabel(mealTime: PassioMealTime.currentMealTime())
-                            PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord)
+                            NutritionUIModule.shared.updateRecord(foodRecord: foodRecord)
                             foodItems[index].isLogged = true
                             dispatchGroup.leave()
                         } else {

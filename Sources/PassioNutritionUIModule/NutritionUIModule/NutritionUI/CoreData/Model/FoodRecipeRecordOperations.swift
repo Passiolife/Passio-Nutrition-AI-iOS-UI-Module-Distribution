@@ -25,9 +25,7 @@ internal class FoodRecipeRecordOperations {
     private func getMainContext() -> NSManagedObjectContext {
         CoreDataManager.shared.mainManagedObjectContext
     }
-    
-    fileprivate let jsonConnector: PassioConnector = JSONPassioConnector.shared
-    
+        
     //MARK: - Insert Food Recipe Record
     func insertFoodRecipeRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
         

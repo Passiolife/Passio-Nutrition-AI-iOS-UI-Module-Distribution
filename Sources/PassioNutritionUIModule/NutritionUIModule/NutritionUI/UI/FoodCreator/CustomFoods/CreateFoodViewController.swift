@@ -31,7 +31,7 @@ final class CreateFoodViewController: InstantiableViewController {
     private let createFoodSections: [CreateFoodSection] = [.foodDetailsTableViewCell,
                                                            .requiredNutritionsTableViewCell,
                                                            .otherNutritionsTableViewCell]
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
 
     private enum CreateFoodSection: String, CaseIterable {
         case foodDetailsTableViewCell

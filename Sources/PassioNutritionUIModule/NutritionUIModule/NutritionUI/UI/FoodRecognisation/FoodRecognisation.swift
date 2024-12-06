@@ -139,7 +139,7 @@ class BarcodeDataSet: FoodRecognitionDataSetConnector, FoodRecognitionDataSet {
             completion(false)
             return
         }
-        PassioInternalConnector.shared.fetchUserFoods(barcode: id) { [weak self] barcodeFood in
+        NutritionUIModule.shared.fetchUserFoods(barcode: id) { [weak self] barcodeFood in
             guard let self, let barcodeFoodRecord = barcodeFood.first else {
                 completion(false)
                 return

@@ -24,7 +24,7 @@ extension FoodDetailsControllerDelegate {
 final class FoodDetailsViewController: UIViewController {
 
     private var activityIndicator: UIActivityIndicatorView?
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var foodDetailsView: FoodDetailsView?
     private var replaceFood = false
     private var isUpdateLogUponCreating = true

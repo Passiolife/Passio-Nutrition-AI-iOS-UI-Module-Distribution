@@ -22,7 +22,7 @@ class WeightTrackingVC: UIViewController {
     @IBOutlet weak var weightTrackTableViewBottomConst: NSLayoutConstraint!
     @IBOutlet weak var weightTrackerListContainer: UIView!
     @IBOutlet weak var dividerView: UIView!
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var selectedDate: Date = Date() {
         didSet {
             configureDateUI()

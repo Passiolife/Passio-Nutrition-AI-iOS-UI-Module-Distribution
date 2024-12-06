@@ -21,7 +21,7 @@ class DiaryViewController: UIViewController {
     @IBOutlet weak var nextDateButton: UIButton!
     @IBOutlet weak var quickAddContainerView: UIView!
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private let numberSectionCellsAbove = 1
     private var dateSelector: DateSelectorViewController?
     private var quickAddViewController: QuickAddSuggestionViewController?

@@ -78,7 +78,7 @@ final class EditProfileViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
 
     private let hemburgarMenuOptions : [HemburgarMenuOptions] = [.settings]
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private let chevFrame = CGRect(x: 0, y: 0, width: 15, height: 8)
     private var userProfile: UserProfileModel!
     private let values: [Float] = [0.5, 1.0, 1.5, 2.0, 0.5, 1.0, 1.5, 2.0]

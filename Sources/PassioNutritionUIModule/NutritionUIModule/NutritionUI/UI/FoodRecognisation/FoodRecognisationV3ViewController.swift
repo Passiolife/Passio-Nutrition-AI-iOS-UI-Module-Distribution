@@ -27,7 +27,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
     @IBOutlet weak var focusButton: UIButton!
 
     private let passioSDK = PassioNutritionAI.shared
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var volumeDetectionMode = VolumeDetectionMode.none
     private var videoLayer: AVCaptureVideoPreviewLayer?
     private var timer: Timer?
@@ -490,7 +490,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                 }
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
-                PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                NutritionUIModule.shared.updateRecord(foodRecord: record)
                 DispatchQueue.main.async {
                     self.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
                 }

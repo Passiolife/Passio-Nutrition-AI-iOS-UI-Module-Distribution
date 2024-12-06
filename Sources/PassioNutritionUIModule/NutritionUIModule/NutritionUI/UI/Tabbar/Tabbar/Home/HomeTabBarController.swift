@@ -139,7 +139,7 @@ extension HomeTabBarController {
             switch bottomTabs[i] {
 
             case .home:
-                let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
+                let dashboardVC = UIStoryboard(name: "Home", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
                 dashboardVC.delegate = self
                 let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
@@ -147,21 +147,21 @@ extension HomeTabBarController {
                 self.viewControllers?[i] = dashboardNavVC
 
             case .diary:
-                let diaryVC = UIStoryboard(name: "Diary", bundle: PassioInternalConnector.shared.bundleForModule)
+                let diaryVC = UIStoryboard(name: "Diary", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "DiaryViewController") as! DiaryViewController
                 let macroNavVC = UINavigationController(rootViewController: diaryVC)
                 macroNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = macroNavVC
 
             case .progress:
-                let progressVC = UIStoryboard(name: "Progress", bundle: PassioInternalConnector.shared.bundleForModule)
+                let progressVC = UIStoryboard(name: "Progress", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "ProgressViewController") as! ProgressViewController
                 let progressNavVC = UINavigationController(rootViewController: progressVC)
                 progressNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = progressNavVC
 
             case .mealPlan:
-                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: PassioInternalConnector.shared.bundleForModule)
+                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "MealPlanViewController") as! MealPlanViewController
                 let mealPlanNavVC = UINavigationController(rootViewController: mealPlanVC)
                 mealPlanNavVC.isNavigationBarHidden = true
