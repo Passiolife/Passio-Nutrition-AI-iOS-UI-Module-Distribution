@@ -173,12 +173,6 @@ extension CalendarCell {
 // MARK: - FSCalender Datasource and delegate
 extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
 
-    func calendar(_ calendar: FSCalendar, 
-                  didSelect date: Date,
-                  at monthPosition: FSCalendarMonthPosition) {
-        self.didSelectDate?(date)
-    }
-    
     func calendar(_ calendar: FSCalendar,
                   boundingRectWillChange bounds: CGRect,
                   animated: Bool) {
@@ -189,7 +183,7 @@ extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     func calendar(_ calendar: FSCalendar,
                   shouldSelect date: Date,
                   at monthPosition: FSCalendarMonthPosition) -> Bool {
-        true
+        false
     }
 
     func calendar(_ calendar: FSCalendar,

@@ -55,11 +55,11 @@ class MealPlanViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        registerCellsAndTableDelegates()
         basicSetup()
         if MealPlanManager.shared.mealPlans.count == 0 {
             MealPlanManager.shared.getMealPlans()
         }
-        registerCellsAndTableDelegates()
     }
     
     func basicSetup() {
@@ -110,6 +110,7 @@ class MealPlanViewController: UIViewController {
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
                 self.collectionView.reloadData()
+                self.collectionView.reloadWithAnimations()
             }
         }
     }

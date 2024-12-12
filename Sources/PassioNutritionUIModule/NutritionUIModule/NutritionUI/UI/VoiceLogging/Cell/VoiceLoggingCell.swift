@@ -42,11 +42,23 @@ class VoiceLoggingCell: UITableViewCell {
 
         } else if let packagedFoodItem = advisorInfo.packagedFoodItem {
 
+            foodImageView.setFoodImage(id: packagedFoodItem.scannedId,
+                                       passioID: packagedFoodItem.scannedId,
+                                       entityType: .item,
+                                       connector: NutritionUIModule.shared) { [weak self] image in
+                DispatchQueue.main.async {
+                    self?.foodImageView.image = image
+                }
+            }
+            
             foodNameLabel.text = packagedFoodItem.name
             foodDetailsLabel.text = packagedFoodItem.details
             let calories = packagedFoodItem.nutrientsReference().calories()?.value.roundDigits(afterDecimal: 2) ?? 0
             foodDetailsLabel.text = "\(packagedFoodItem.amount.selectedQuantity) \(packagedFoodItem.amount.selectedUnit) | \(calories) \(UnitsTexts.cal)"
-
+            
+            checkImage.image = UIImage(systemName: foodLog.isSelected ? "circle.fill" : "circle")
+            checkImage.tintColor = foodLog.isSelected ? .primaryColor : .gray300
+            
         } else {
             foodNameLabel.text = ""
             foodDetailsLabel.text = ""

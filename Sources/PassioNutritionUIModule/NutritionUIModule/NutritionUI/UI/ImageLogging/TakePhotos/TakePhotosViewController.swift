@@ -16,6 +16,10 @@ protocol UsePhotosDelegate: AnyObject {
     func onSelecting(images: [UIImage])
 }
 
+protocol TakePhotosViewDelegate {
+    func onTakePhotoAddIngredientsTapped(foodRecords: [FoodRecordV3])
+}
+
 class TakePhotosViewController: InstantiableViewController, ImageLoggingService {
 
     @IBOutlet weak var messageLabel: UILabel!
@@ -52,7 +56,9 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     }
 
     var isStandAlone = true
+    var resultViewFor: DetectedFoodResultType = .addLog
     weak var delegate: UsePhotosDelegate?
+    var takePhotosViewDelegate: TakePhotosViewDelegate?
     var goToSearch: (() -> Void)?
 
     override func viewDidLoad() {
@@ -261,6 +267,8 @@ extension TakePhotosViewController {
                 resultsLoggingView.tryAgainButton.setImage(image, for: .normal)
                 resultsLoggingView.tryAgainButton.setTitle("Search Again", for: .normal)
                 resultsLoggingView.resultLoggingDelegate = self
+                resultsLoggingView.showCancelButton = true
+                resultsLoggingView.resultViewFor = resultViewFor
                 resultsLoggingView.recognitionData = recognitionData
                 view.addSubview(resultsLoggingView)
                 resultsLoggingView.translatesAutoresizingMaskIntoConstraints = false
@@ -444,6 +452,11 @@ extension TakePhotosViewController: ResultsLoggingDelegate {
 
     func onLogSelectedTapped() {
         NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
+    }
+    
+    func onAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
+        takePhotosViewDelegate?.onTakePhotoAddIngredientsTapped(foodRecords: foodRecords)
+        self.navigationController?.popViewController(animated: true)
     }
 
     func onSearchManuallyTapped() {

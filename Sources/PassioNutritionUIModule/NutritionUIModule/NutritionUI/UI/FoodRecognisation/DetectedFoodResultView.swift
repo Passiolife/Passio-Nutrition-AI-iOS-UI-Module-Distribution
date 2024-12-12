@@ -14,8 +14,15 @@ import PassioNutritionAISDK
 import FirebaseAnalytics
 #endif
 
+internal enum DetectedFoodResultType {
+    case addIngredient
+    case addLog
+}
+
+
 protocol DetectedFoodResultViewDelegate: NSObjectProtocol {
     func didTapOnAddManual()
+    func didTapOnAddIngredient(dataset: (any FoodRecognitionDataSet)?)
     func didTapOnEdit(dataset: (any FoodRecognitionDataSet)?)
     func didTapOnLog(dataset: (any FoodRecognitionDataSet)?)
     func didViewExpanded(isExpanded: Bool)
@@ -36,13 +43,19 @@ class DetectedFoodResultView: CustomModalViewController {
     @IBOutlet weak var manualStackView : UIStackView!
     @IBOutlet weak var buttonEdit      : UIButton!
     @IBOutlet weak var buttonLog       : UIButton!
+    @IBOutlet weak var buttonAddIngredient: UIButton!
     @IBOutlet weak var searchManually: UIButton!
 
     private let passioSDK = PassioNutritionAI.shared
     private let connector = NutritionUIModule.shared
 
     weak var delegate: DetectedFoodResultViewDelegate?
-
+    var resultViewFor: DetectedFoodResultType = .addLog {
+        didSet {
+            updateUI()
+        }
+    }
+    
     private var currentDataSet: (any FoodRecognitionDataSet)? = nil {
         didSet {
             updateUI()
@@ -74,6 +87,7 @@ class DetectedFoodResultView: CustomModalViewController {
         addTapGesture()
         imageFoodIcon.roundMyCorner()
         setDragabble(isDraggable: false)
+        self.buttonAddIngredient.isHidden = true
         updateUI()
     }
 
@@ -139,6 +153,7 @@ class DetectedFoodResultView: CustomModalViewController {
         labelFoodDetails.isHidden = false
         buttonLog.isHidden = true
         buttonEdit.isHidden = true
+        buttonAddIngredient.isHidden = true
         setDragabble(isDraggable: false)
         manualStackView.isHidden = true
         imageFoodIcon.isHidden = true
@@ -151,6 +166,15 @@ class DetectedFoodResultView: CustomModalViewController {
         imageFoodIcon.isHidden = false
         labelFoodDetails.isHidden = true
         manualStackView.isHidden = false
+        
+        if resultViewFor == .addIngredient {
+            self.buttonAddIngredient.isHidden = false
+            self.buttonLog.isHidden = true
+        }
+        else {
+            self.buttonAddIngredient.isHidden = true
+            self.buttonLog.isHidden = false
+        }
     }
 
     private func setupBarcodeDataSet(dataset: BarcodeDataSet) {
@@ -282,5 +306,9 @@ extension DetectedFoodResultView {
 
     @IBAction func buttonLogTapped(_ sender: UIButton) {
         delegate?.didTapOnLog(dataset: currentDataSet)
+    }
+    
+    @IBAction func buttonAddIngredientTapped(_ sender: UIButton) {
+        delegate?.didTapOnAddIngredient(dataset: currentDataSet)
     }
 }

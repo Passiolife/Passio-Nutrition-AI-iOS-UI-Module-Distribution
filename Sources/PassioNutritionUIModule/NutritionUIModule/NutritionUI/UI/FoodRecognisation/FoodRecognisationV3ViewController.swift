@@ -38,7 +38,9 @@ final class FoodRecognitionV3ViewController: UIViewController {
     private var detectionConfig: FoodDetectionConfiguration!
 
     weak var navigateToMyFoodsDelegate: NavigateToMyFoodsDelegate?
-
+    weak var navigateToRecipeDelegate: NavigateToRecipeDelegate?
+    var resultViewFor: DetectedFoodResultType = .addLog
+    
     private var scanMode: ScanMode = .wholeFoods {
         didSet {
             setupScanModeButtonsUI()
@@ -136,9 +138,14 @@ final class FoodRecognitionV3ViewController: UIViewController {
                                                      detectBarcodes: false,
                                                      detectPackagedFood: true)
         foodResultVC?.delegate = self
+        foodResultVC?.resultViewFor = self.resultViewFor
         nutritionFactResultVC?.delegate = self
         activityIndicator.color = .primaryColor
         zoomSlider.minimumTrackTintColor = .primaryColor
+        
+        if resultViewFor == .addIngredient {
+            self.nutritionFactsButton.isHidden = true
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -161,6 +168,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
             if isRecognitionsPaused {
                 if (foodResultVC?.containerViewHeightConstraint?.constant ?? -1) == 0
                     && presentedViewController == nil {
+                    foodResultVC?.resultViewFor = self.resultViewFor
                     configureFoodDetection()
                 }
             }
@@ -200,7 +208,7 @@ private extension FoodRecognitionV3ViewController {
     @objc func presentHint() {
         stopDetection()
         isHintPresented = true
-        ScanningHintViewController.presentHint(presentigVC: navigationController) { [weak self] in
+        ScanningHintViewController.presentHint(presentigVC: navigationController, resultViewFor: resultViewFor) { [weak self] in
             guard let self else { return }
             isHintPresented = false
         }
@@ -446,6 +454,32 @@ extension FoodRecognitionV3ViewController: NutritionFactsDelegate {
 
 // MARK: - DetectedFoodResultView Delegate
 extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
+    
+    func didTapOnAddIngredient(dataset: (any FoodRecognitionDataSet)?) {
+        pauseDetection()
+        
+        if let dataset = dataset as? FoodRecognitionDataSetConnector {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
+                guard let self else { return }
+                dataset.getRecordV3(dataType: dataset) { foodRecordV3 in
+                    if let foodRecordV3 = foodRecordV3 {
+                        self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: foodRecordV3)
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    else {
+                        dataset.getFoodItem { passioFoodItem in
+                            if let passioFoodItem = passioFoodItem {
+                                self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: FoodRecordV3(foodItem: passioFoodItem))
+                            }
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    
+                }
+            })
+        }
+    }
+    
 
     func didScannedWrongBarcode() {
         stopDetection()
@@ -457,7 +491,12 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
     func didTapOnAddManual() {
         let vc = TextSearchViewController()
         vc.advancedSearchDelegate = self
-        vc.shouldPopVC = false
+        if resultViewFor == .addIngredient {
+            vc.isCreateRecipe = true
+        }
+        else {
+            vc.shouldPopVC = false
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -472,17 +511,22 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                     configureFoodDetection()
                     return
                 }
-                navigateToEditViewContorller(record)
+                if resultViewFor == .addLog {
+                    navigateToEditViewContorller(record)
+                }
+                else {
+                    navigateToEditIngredientViewContorller(record)
+                }
             }
         }
     }
 
     func didTaponAlternative(dataset: (any FoodRecognitionDataSet)?) {
-
+        
         if let dataset = dataset as? FoodRecognitionDataSetConnector {
-
+            
             dataset.getRecordV3(dataType: dataset) { [weak self] record in
-
+                
                 guard let self else { return }
                 guard var record = record else {
                     configureFoodDetection()
@@ -490,9 +534,16 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                 }
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
-                NutritionUIModule.shared.updateRecord(foodRecord: record)
-                DispatchQueue.main.async {
-                    self.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
+                
+                if resultViewFor == .addIngredient {
+                    self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: record)
+                    self.navigationController?.popViewController(animated: true)
+                }
+                else {
+                    NutritionUIModule.shared.updateRecord(foodRecord: record)
+                    DispatchQueue.main.async {
+                        self.showMessage(msg: ToastMessages.addedToLog, alignment: .center)
+                    }
                 }
             }
         }
@@ -515,15 +566,21 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
                 }
                 stopDetection()
 
-                var newFoodRecord = record
-                newFoodRecord.uuid = UUID().uuidString
-                newFoodRecord.createdAt = Date()
-                newFoodRecord.mealLabel = MealLabel.mealLabelBy(time: Date())
-                connector.updateRecord(foodRecord: newFoodRecord)
-
-                let popup = FoodRecognisationPopUpController.present(on: self.navigationController,
-                                                                     launchOption: .loggedSuccessfully)
-                popup.delegate = self
+                if resultViewFor == .addIngredient {
+                    self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: record)
+                    self.navigationController?.popViewController(animated: true)
+                }
+                else {
+                    var newFoodRecord = record
+                    newFoodRecord.uuid = UUID().uuidString
+                    newFoodRecord.createdAt = Date()
+                    newFoodRecord.mealLabel = MealLabel.mealLabelBy(time: Date())
+                    connector.updateRecord(foodRecord: newFoodRecord)
+                    
+                    let popup = FoodRecognisationPopUpController.present(on: self.navigationController,
+                                                                         launchOption: .loggedSuccessfully)
+                    popup.delegate = self
+                }
             }
         }
     }
@@ -549,19 +606,25 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
 extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewControllerDelegate {
 
     func onClickNext(dataset: NutritionFactsDataSet) {
-
-        pauseDetection()
-
-        let createFoodVC = CreateFoodViewController()
-        createFoodVC.vcTitle = "Edit Nutrition Facts"
-        createFoodVC.isFromNutritionFacts = true
-        createFoodVC.foodDataSet = dataset
-        createFoodVC.navigateToMyFoodsDelegate = self
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
-            guard let self else { return }
-            navigationController?.pushViewController(createFoodVC, animated: true)
-        })
+        
+        if resultViewFor == .addIngredient {
+            pauseDetection()
+            stopDetection()
+            self.navigationController?.popViewController(animated: true)
+        }
+        else {
+            pauseDetection()
+            let createFoodVC = CreateFoodViewController()
+            createFoodVC.vcTitle = "Edit Nutrition Facts"
+            createFoodVC.isFromNutritionFacts = true
+            createFoodVC.foodDataSet = dataset
+            createFoodVC.navigateToMyFoodsDelegate = self
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
+                guard let self else { return }
+                navigationController?.pushViewController(createFoodVC, animated: true)
+            })
+        }
     }
 
     func renameFoodRecordAlert(dataset: NutritionFactsDataSet) { }
@@ -608,13 +671,35 @@ extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
 
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
-        navigateToEditViewContorller(foodRecord)
+        if resultViewFor == .addIngredient {
+            if isPlusAction {
+                self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: foodRecord)
+                self.navigationController?.popViewController(animated: true)
+            }
+            else {
+                self.navigateToEditIngredientViewContorller(foodRecord)
+            }
+        }
+        else {
+            navigateToEditViewContorller(foodRecord)
+        }
     }
 
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
         let foodRecord = FoodRecordV3(foodItem: foodItem)
-        navigateToEditViewContorller(foodRecord)
+        if resultViewFor == .addIngredient {
+            if isPlusAction {
+                self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: foodRecord)
+                self.navigationController?.popViewController(animated: true)
+            }
+            else {
+                self.navigateToEditIngredientViewContorller(foodRecord)
+            }
+        }
+        else {
+            navigateToEditViewContorller(foodRecord)
+        }
     }
 
     private func navigateToEditViewContorller(_ record: FoodRecordV3) {
@@ -626,5 +711,27 @@ extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
             guard let self else { return }
             navigationController?.pushViewController(editVC, animated: true)
         })
+    }
+    
+    private func navigateToEditIngredientViewContorller(_ record: FoodRecordV3) {
+        let editVC = EditIngredientViewController()
+        editVC.foodItemData = FoodRecordIngredient(foodRecord: record, entityType: .recipe)
+        editVC.indexOfIngredient = 0
+        editVC.saveOnDismiss = false
+        editVC.indexToPop = 2
+        editVC.isAddIngredient = true
+        editVC.delegate = self
+        navigationController?.pushViewController(editVC, animated: true)
+    }
+}
+
+//MARK: - IngredientEditorViewDelegate
+extension FoodRecognitionV3ViewController: IngredientEditorViewDelegate {
+    
+    func ingredientEditedFoodItemData(ingredient: FoodRecordIngredient, atIndex: Int) {
+        var ingredientFood = FoodRecordV3(foodRecordIngredient: ingredient)
+        ingredientFood.ingredients = [ingredient]
+        self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: ingredientFood)
+        self.navigationController?.popViewController(animated: true)
     }
 }

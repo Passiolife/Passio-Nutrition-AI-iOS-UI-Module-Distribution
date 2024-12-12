@@ -13,6 +13,12 @@ import PassioNutritionAISDK
 
 protocol FavoritesViewDelegate: AnyObject {
     func userAddedToLog(foodRecord: FoodRecordV3)
+    func onAddIngredient(foodRecord: FoodRecordV3?)
+}
+
+extension FavoritesViewDelegate {
+    func userAddedToLog(foodRecord: FoodRecordV3) {}
+    func onAddIngredient(foodRecord: FoodRecordV3?) {}
 }
 
 final class MyFavoritesViewController: InstantiableViewController {
@@ -26,6 +32,11 @@ final class MyFavoritesViewController: InstantiableViewController {
     private let refreshControl = UIRefreshControl()
     private var favorites = [FoodRecordV3]()
     private var addedToFavorites = -1
+
+    /* As we don't need to make any logs from Favorite Foods we ignore default set value,
+     * we need only addIngredient enum to check if user redirect form Create/Edit Recipe screen or not.
+     */
+    var resultViewFor: DetectedFoodResultType = .addLog
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,20 +121,27 @@ extension MyFavoritesViewController: UITableViewDataSource {
         newFoodRecord.uuid = UUID().uuidString
         newFoodRecord.createdAt = Date()
         newFoodRecord.mealLabel = MealLabel.mealLabelBy(time: Date())
-        connector.updateRecord(foodRecord: newFoodRecord)
-
-        addedToFavorites = button.tag
-        tableView.reloadData()
-
-        delegate?.userAddedToLog(foodRecord: newFoodRecord)
-
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] (_) in
-            self?.addedToFavorites = -1
-            self?.tableView.reloadData()
+        
+        if resultViewFor == .addIngredient {
+            self.delegate?.onAddIngredient(foodRecord: newFoodRecord)
+            self.navigationController?.popViewController(animated: true)
         }
-
-        showMessage(msg: ToastMessages.addedToLog)
-        NutritionUICoordinator.navigateToDairyAfterAction(navigationController: self.navigationController!)
+        else {
+            connector.updateRecord(foodRecord: newFoodRecord)
+            
+            addedToFavorites = button.tag
+            tableView.reloadData()
+            
+            delegate?.userAddedToLog(foodRecord: newFoodRecord)
+            
+            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] (_) in
+                self?.addedToFavorites = -1
+                self?.tableView.reloadData()
+            }
+            
+            showMessage(msg: ToastMessages.addedToLog)
+            NutritionUICoordinator.navigateToDairyAfterAction(navigationController: self.navigationController!)
+        }
     }
 }
 
@@ -134,6 +152,9 @@ extension MyFavoritesViewController: UITableViewDelegate {
         let favorite = favorites[indexPath.row]
         let editVC = FoodDetailsViewController()
         editVC.foodRecord = favorite
+        
+        editVC.resultViewFor = resultViewFor
+        editVC.isFromMyFavorites = true
         editVC.isEditingFavorite = false
         editVC.foodDetailsControllerDelegate = self
         navigationController?.pushViewController(editVC, animated: true)
@@ -146,6 +167,8 @@ extension MyFavoritesViewController: UITableViewDelegate {
             let editVC = FoodDetailsViewController()
             editVC.foodRecord = favorite
             editVC.isEditingFavorite = true
+            editVC.isFromMyFavorites = true
+            editVC.resultViewFor = self.resultViewFor
             editVC.foodDetailsControllerDelegate = self
             self.navigationController?.pushViewController(editVC, animated: true)
         }
@@ -175,6 +198,11 @@ extension MyFavoritesViewController: FoodDetailsControllerDelegate {
         connector.deleteFavorite(foodRecord: foodRecord)
         favorites = favorites.filter { $0.uuid != foodRecord.uuid }
         tableView.reloadData()
+    }
+    
+    func onFoodDetailsAddIngredient(foodRecord: FoodRecordV3?) {
+        self.delegate?.onAddIngredient(foodRecord: foodRecord)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

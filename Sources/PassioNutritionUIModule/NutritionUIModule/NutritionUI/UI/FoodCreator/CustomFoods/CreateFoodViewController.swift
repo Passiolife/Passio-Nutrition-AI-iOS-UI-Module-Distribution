@@ -20,6 +20,9 @@ protocol NavigateToDiaryDelegate: AnyObject {
 protocol NavigateToMyFoodsDelegate: AnyObject {
     func onNavigateToMyFoods()
 }
+protocol NavigateToRecipeDelegate: AnyObject {
+    func onNavigateToFoodRecipe(with foodRecord: FoodRecordV3)
+}
 
 final class CreateFoodViewController: InstantiableViewController {
 

@@ -62,7 +62,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         }
     }
 
-    private var bottomTabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
+    private var allTabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +84,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        title = bottomTabs[selectedIndex].naviagationTitle
+        title = allTabs[selectedIndex].naviagationTitle
         configureNavBar()
     }
 
@@ -109,9 +109,9 @@ extension HomeTabBarController {
     private func setTabBarItemsTitleAndPosition() {
         guard let tabBarItems = tabBar.items else { return }
 
-        for i in 0..<bottomTabs.count {
-            tabBarItems[i].title = bottomTabs[i].rawValue
-            tabBarItems[i].image = bottomTabs[i].tabImage
+        for i in 0..<allTabs.count {
+            tabBarItems[i].title = allTabs[i].rawValue
+            tabBarItems[i].image = allTabs[i].tabImage
         }
 
         tabBarItems[0].titlePositionAdjustment.horizontal = -6
@@ -134,9 +134,9 @@ extension HomeTabBarController {
 
     private func addTabBarControllers() {
 
-        for i in 0..<bottomTabs.count {
+        for i in 0..<allTabs.count {
 
-            switch bottomTabs[i] {
+            switch allTabs[i] {
 
             case .home:
                 let dashboardVC = UIStoryboard(name: "Home", bundle: NutritionUIModule.shared.bundleForModule)
@@ -225,7 +225,7 @@ extension HomeTabBarController {
 
     func tabBarController(_ tabBarController: UITabBarController,
                           didSelect viewController: UIViewController) {
-        title = bottomTabs[selectedIndex].naviagationTitle
+        title = allTabs[selectedIndex].naviagationTitle
     }
 }
 
@@ -333,6 +333,8 @@ extension HomeTabBarController: FoodDetailsControllerDelegate {
             self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+    func onFoodDetailsAddIngredient(foodRecord: FoodRecordV3?) { }
 }
 
 // MARK: - CustomPickerSelection Delegate

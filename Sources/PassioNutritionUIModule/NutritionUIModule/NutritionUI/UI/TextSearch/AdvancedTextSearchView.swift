@@ -21,7 +21,7 @@ final class AdvancedTextSearchView: UIView {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var tblViewHeightConstraint: NSLayoutConstraint!
-    
+
     private let connecter = NutritionUIModule.shared
     private var alternateSearches: SearchResponse?
     private var state: SearchState = .startTyping
@@ -261,6 +261,7 @@ private extension AdvancedTextSearchView {
             dispatchGroup.enter()
             
             searchQueue.async {
+
                 let isLegacySearch = self.connecter.legacySearch
                 if isLegacySearch {
                     PassioNutritionAI.shared.searchForFood(byText: searchText) { (searchResponse) in
@@ -538,4 +539,3 @@ extension AdvancedTextSearchView: UISearchResultsUpdating {
         }
     }
 }
-

@@ -11,6 +11,10 @@ import PhotosUI
 import PassioNutritionAISDK
 #endif
 
+protocol SelectPhotosViewDelegate {
+    func onSelectPhotoAddIngredientsTapped(foodRecords: [FoodRecordV3])
+}
+
 class SelectPhotosViewController: InstantiableViewController, ImageLoggingService {
 
     @IBOutlet weak var loadingView: UIView!
@@ -20,7 +24,10 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
     private var selectedImages: [UIImage] = []
 
     var isStandAlone = true
+    var resultViewFor: DetectedFoodResultType = .addLog
     weak var delegate: UsePhotosDelegate?
+    var selectPhotosViewDelegate: SelectPhotosViewDelegate?
+
     var goToSearch: (() -> Void)?
     private var resultsLoggingView: ResultsLoggingView!
     
@@ -82,6 +89,10 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
             resultsLoggingView.tryAgainButton.setImage(image, for: .normal)
             resultsLoggingView.tryAgainButton.setTitle("Search Again", for: .normal)
             resultsLoggingView.resultLoggingDelegate = self
+
+            resultsLoggingView.showCancelButton = true
+            resultsLoggingView.resultViewFor = resultViewFor
+            
             resultsLoggingView.recognitionData = recognitionData
             view.addSubview(resultsLoggingView)
             resultsLoggingView.translatesAutoresizingMaskIntoConstraints = false
@@ -194,4 +205,24 @@ extension SelectPhotosViewController: ResultsLoggingDelegate {
             self?.goToSearch?()
         }
     }
+    
+    func onAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
+        self.selectPhotosViewDelegate?.onSelectPhotoAddIngredientsTapped(foodRecords: foodRecords)
+        self.navigationController?.popViewController(animated: true)
+    }
+}
+
+// MARK: - PHPickerViewControllerDelegate
+extension SelectPhotosViewController: CustomAlertDelegate {
+
+    func onRightButtonTapped(textValue: String?) {
+        selectedImages.removeAll()
+        collectionView.reloadData()
+        showPhotos()
+    }
+
+    func onleftButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
 }

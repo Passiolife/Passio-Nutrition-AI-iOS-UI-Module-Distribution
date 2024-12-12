@@ -43,6 +43,7 @@ class EditRecipeViewController: InstantiableViewController {
     var isFromFoodDetails = false
     var isFromSearch = false
     var isShowFoodIcon = false
+    var isFromMyFavorites = false
     var loggedFoodRecord: FoodRecordV3?
     var tempRecipe: FoodRecordV3?
 
@@ -195,7 +196,14 @@ extension EditRecipeViewController {
     @objc func onAddIngredients() {
         isAddIngredient = true
         let plusMenuVC = PlusMenuViewController()
-        plusMenuVC.menuData = [.search]
+        // Hide favorite option if user comes from "My Favorite" screen
+        if isFromMyFavorites {
+            plusMenuVC.menuData = [.useImage , .voiceLogging, .search, .scan]
+        }
+        else {
+            plusMenuVC.menuData = [.useImage ,.favourite, .voiceLogging, .search, .scan]
+        }
+        
         plusMenuVC.delegate = self
         plusMenuVC.modalTransitionStyle = .crossDissolve
         plusMenuVC.modalPresentationStyle = .overFullScreen
@@ -318,7 +326,9 @@ extension EditRecipeViewController {
                                    indexOfIngredient: 0)
             } else {
                 record.name = recipeName
-                record.ingredients[0].iconId = record.iconId
+                if record.ingredients.count > 0 {
+                    record.ingredients[0].iconId = record.iconId
+                }
                 record.updateServingSizeAndUnitsForRecipe()
                 record.barcode = ""
                 record.refCode = ""
@@ -524,15 +534,44 @@ extension EditRecipeViewController: PlusMenuDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func onFoodScannerSelected() {}
+    func onFoodScannerSelected() {
+        let vc = NutritionUICoordinator.getFoodRecognitionV3ViewController()
+        vc.navigateToRecipeDelegate = self
+        vc.resultViewFor = .addIngredient
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
-    func onFavouritesSelected() {}
+    func onFavouritesSelected() {
+        let vc = MyFavoritesViewController()
+        vc.resultViewFor = .addIngredient
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 
-    func onVoiceLoggingSelected() {}
+    func onVoiceLoggingSelected() {
+        let vc = VoiceLoggingViewController()
+        vc.isCreateRecipe = true
+        vc.resultViewFor = .addIngredient
+        vc.delegate = self
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
-    func onTakePhotosSelected() {}
+    func onTakePhotosSelected() {
+        let vc = TakePhotosViewController()
+        vc.resultViewFor = .addIngredient
+        vc.takePhotosViewDelegate = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
-    func onSelectPhotosSelected() {}
+    func onSelectPhotosSelected() {
+        let vc = SelectPhotosViewController()
+        vc.resultViewFor = .addIngredient
+        vc.selectPhotosViewDelegate = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 // MARK: - AdvancedTextSearch ViewDelegate
@@ -599,6 +638,88 @@ extension EditRecipeViewController: IngredientEditorViewDelegate {
                 record.barcode = ""
                 record.refCode = ""
                 recipe = record
+            }
+        }
+    }
+}
+
+// MARK: - NavigateToRecipeDelegate Delegate
+extension EditRecipeViewController: NavigateToRecipeDelegate {
+    func onNavigateToFoodRecipe(with foodRecord: FoodRecordV3) {
+        if let recipe {
+            isReplaceIngredient = false
+            updateRecipe(for: foodRecord,
+                         isPlusAction: true,
+                         indexOfIngredient: recipe.ingredients.count)
+        } else {
+            isReplaceIngredient = false
+            createRecipe(from: nil, record: foodRecord, isPlusAction: true)
+        }
+    }
+}
+
+//MARK: - VoiceLoggingVCDelegate
+extension EditRecipeViewController: VoiceLoggingVCDelegate {
+    func addIngredientsFromFoodRecords(foodRecords: [FoodRecordV3]) {
+        foodRecords.forEach { foodRecordIten in
+            if let recipe {
+                isReplaceIngredient = false
+                updateRecipe(for: foodRecordIten,
+                             isPlusAction: true,
+                             indexOfIngredient: recipe.ingredients.count)
+            } else {
+                isReplaceIngredient = false
+                createRecipe(from: nil, record: foodRecordIten, isPlusAction: true)
+            }
+        }
+    }
+}
+
+// MARK: - FavoritesViewDelegate
+extension EditRecipeViewController: FavoritesViewDelegate {
+    func onAddIngredient(foodRecord: FoodRecordV3?) {
+        guard let foodRecord = foodRecord else { return }
+        if let recipe {
+            isReplaceIngredient = false
+            updateRecipe(for: foodRecord,
+                         isPlusAction: true,
+                         indexOfIngredient: recipe.ingredients.count)
+        } else {
+            isReplaceIngredient = false
+            createRecipe(from: nil, record: foodRecord, isPlusAction: true)
+        }
+    }
+}
+
+//MARK: - TakePhotosViewDelegate
+extension EditRecipeViewController: TakePhotosViewDelegate {
+    func onTakePhotoAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
+        foodRecords.forEach { foodRecordIten in
+            if let recipe {
+                isReplaceIngredient = false
+                updateRecipe(for: foodRecordIten,
+                             isPlusAction: true,
+                             indexOfIngredient: recipe.ingredients.count)
+            } else {
+                isReplaceIngredient = false
+                createRecipe(from: nil, record: foodRecordIten, isPlusAction: true)
+            }
+        }
+    }
+}
+
+//MARK: - SelectPhotosViewDelegate
+extension EditRecipeViewController: SelectPhotosViewDelegate {
+    func onSelectPhotoAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
+        foodRecords.forEach { foodRecordIten in
+            if let recipe {
+                isReplaceIngredient = false
+                updateRecipe(for: foodRecordIten,
+                             isPlusAction: true,
+                             indexOfIngredient: recipe.ingredients.count)
+            } else {
+                isReplaceIngredient = false
+                createRecipe(from: nil, record: foodRecordIten, isPlusAction: true)
             }
         }
     }
