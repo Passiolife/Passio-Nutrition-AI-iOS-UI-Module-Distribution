@@ -18,7 +18,7 @@ let package = Package(
     dependencies: [
          // Dependencies declare other packages that this package depends on.
 //        .package(url: "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
-//                 .upToNextMajor(from: "3.0.0")),
+//                 exact: "3.2.1"),
         .package(url: "https://github.com/SwipeCellKit/SwipeCellKit",
                  .upToNextMajor(from: "2.7.1")),
         .package(url: "https://github.com/WenchaoD/FSCalendar.git",
@@ -43,11 +43,12 @@ let package = Package(
             ],
             resources: [.process("NutritionUIModule/VoiceLogging.json"), // Lottie Animation
                         .process("NutritionUIModule/TypingIndicator.json"),
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/FindMode.metal"), // VolumeKernels
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/HeightToVolume.metal"),
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/KalmanStatic1D.metal"),
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/MakeHeightMap.metal"),
-                        .copy("CoreSDK/ServicesVolume/VolumeKernels/volume_metal.h")]
+                        .copy("NutritionUIModule/PassioFood.xcdatamodeld"),
+                        .copy("PassioNutritionAI/CoreSDK/ServicesVolume/VolumeKernels/FindMode.metal"), // VolumeKernels
+                        .copy("PassioNutritionAI/CoreSDK/ServicesVolume/VolumeKernels/HeightToVolume.metal"),
+                        .copy("PassioNutritionAI/CoreSDK/ServicesVolume/VolumeKernels/KalmanStatic1D.metal"),
+                        .copy("PassioNutritionAI/CoreSDK/ServicesVolume/VolumeKernels/MakeHeightMap.metal"),
+                        .copy("PassioNutritionAI/CoreSDK/ServicesVolume/VolumeKernels/volume_metal.h")]
         ),
     ]
 )

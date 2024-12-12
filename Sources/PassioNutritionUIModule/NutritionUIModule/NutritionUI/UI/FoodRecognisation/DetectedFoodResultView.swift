@@ -47,7 +47,7 @@ class DetectedFoodResultView: CustomModalViewController {
     @IBOutlet weak var searchManually: UIButton!
 
     private let passioSDK = PassioNutritionAI.shared
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
 
     weak var delegate: DetectedFoodResultViewDelegate?
     var resultViewFor: DetectedFoodResultType = .addLog {

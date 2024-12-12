@@ -1,5 +1,5 @@
 //
-//  PassioInternalConnector.swift
+//  NutritionUIModule.swift
 //  BaseApp
 //
 //  Created by zvika on 1/23/20.
@@ -10,24 +10,24 @@ import UIKit
 import PassioNutritionAISDK
 #endif
 
-public class PassioInternalConnector 
+public class NutritionUIModule
 {
     // MARK: Shared Object
-    public class var shared: PassioInternalConnector {
+    public class var shared: NutritionUIModule {
         if Static.instance == nil {
-            Static.instance = PassioInternalConnector()
+            Static.instance = NutritionUIModule()
         }
         return Static.instance!
     }
     private init() {}
 
-    var connector: PassioConnector = JSONPassioConnector.shared
-
     var dateForLogging: Date?
     var mealLabel: MealLabel?
     var cacheFavorites: [FoodRecordV3]?
-    var isInNavController = true
-
+    
+    var connector: PassioConnector = CoreDataPassioConnector.shared
+    private(set) var legacySearch: Bool = false
+    
     public var bundleForModule: Bundle {
         Bundle.module
     }
@@ -38,22 +38,16 @@ public class PassioInternalConnector
     }
 
     private struct Static {
-        fileprivate static var instance: PassioInternalConnector?
-    }
-
-    public func startPassioAppModule(connector: PassioConnector,
-                                     presentingViewController: UIViewController,
-                                     withViewController: UIViewController,
-                                     passioConfiguration: PassioConfiguration) {
-        self.connector = connector
-        UIModuleEntryPoint(presentingViewController: presentingViewController,
-                           withViewController: withViewController,
-                           passioConfiguration: passioConfiguration)
+        fileprivate static var instance: NutritionUIModule?
     }
     
-    public func startPassioAppModule(presentingViewController: UIViewController,
+    public func startPassioAppModule(connector: PassioConnector = CoreDataPassioConnector.shared,
+                                     presentingViewController: UIViewController,
                                      withViewController: UIViewController,
-                                     passioConfiguration: PassioConfiguration) {
+                                     passioConfiguration: PassioConfiguration,
+                                     legacySearch: Bool = false) {
+        self.connector = connector
+        self.legacySearch = legacySearch
         UIModuleEntryPoint(presentingViewController: presentingViewController,
                            withViewController: withViewController,
                            passioConfiguration: passioConfiguration)
@@ -63,39 +57,41 @@ public class PassioInternalConnector
                                     withViewController: UIViewController,
                                     passioConfiguration: PassioConfiguration) {
 
-        if PassioNutritionAI.shared.status.mode == .isReadyForDetection {
-            startModule(presentingViewController: presentingViewController, viewController: withViewController)
-        }
-        else if PassioNutritionAI.shared.status.mode == .notReady {
-            PassioNutritionAI.shared.configure(passioConfiguration: passioConfiguration) { (_) in
-                DispatchQueue.main.async {
-                    self.startModule(presentingViewController: presentingViewController,
-                                     viewController: withViewController)
+        DataMigrationUtil.shared.migrateAllJsonContentToDB { resultStatus in
+            
+            if PassioNutritionAI.shared.status.mode == .isReadyForDetection {
+                self.startModule(presentingViewController: presentingViewController,
+                                 viewController: withViewController)
+            }
+            else if PassioNutritionAI.shared.status.mode == .notReady {
+                PassioNutritionAI.shared.configure(passioConfiguration: passioConfiguration) { (_) in
+                    DispatchQueue.main.async {
+                        self.startModule(presentingViewController: presentingViewController,
+                                         viewController: withViewController)
+                    }
                 }
             }
         }
     }
 
-    private func startModule(dismisswithAnimation: Bool = false,
-                             presentingViewController: UIViewController,
+    private func startModule(presentingViewController: UIViewController,
                              viewController: UIViewController) {
 
         if let navController = presentingViewController.navigationController {
-            navController.pushViewController(viewController, animated: false)
+            navController.pushViewController(viewController, animated: true)
         } else {
             let navController = UINavigationController(rootViewController: viewController)
             navController.modalPresentationStyle = .fullScreen
-            presentingViewController.present(viewController, animated: false)
+            presentingViewController.present(navController, animated: true)
         }
-        self.isInNavController = true
     }
 
     deinit {
-        print("deinit PassioInternalConnector")
+        print("deinit NutritionUIModule")
     }
 }
 
-extension PassioInternalConnector {
+extension NutritionUIModule {
 
     // MARK: User profile
     
@@ -124,10 +120,6 @@ extension PassioInternalConnector {
             completion(foodRecords)
         }
     }
-    
-    public func fetchMealLogsJson(daysBack: Int) -> String {
-        return connector.fetchMealLogsJson(daysBack: daysBack)
-    }
 
     // MARK: User foods
     
@@ -137,10 +129,6 @@ extension PassioInternalConnector {
 
     public func deleteUserFood(record: FoodRecordV3) {
         connector.deleteUserFood(record: record)
-    }
-
-    public func deleteAllUserFood() {
-        connector.deleteAllUserFood()
     }
 
     public func fetchUserFoods(barcode: String, completion: @escaping ([FoodRecordV3]) -> Void) {
@@ -223,10 +211,34 @@ extension PassioInternalConnector {
         }
     }
     
-    public func fetchDayLogRecursive(fromDate: Date, toDate: Date, completion: @escaping ([DayLog]) -> Void) {
-        connector.fetchDayLogRecursive(fromDate: fromDate, toDate: toDate, currentLogs: []) { logs in
-            completion(logs)
-        }
+    // MARK: Weight Tracking - Newly added
+    public func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        connector.updateWeightRecord(weightRecord: weightRecord, completion: completion)
+    }
+    
+    public func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void) {
+        connector.fetchLatestWeightRecord(completion: completion)
+    }
+    
+    public func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void) {
+        connector.fetchWeightRecords(startDate: startDate, endDate: endDate, completion: completion)
+    }
+    
+    public func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void) {
+        connector.deleteWeightRecord(weightRecord: weightRecord, completion: completion)
+    }
+    
+    //MARK: Water Tracking
+    public func updateWaterRecord(waterRecord: WaterTracking, completion: @escaping ((Bool) -> Void)) {
+        connector.updateWaterRecord(waterRecord: waterRecord, completion: completion)
+    }
+    
+    public func fetchWaterRecords(startDate: Date, endDate: Date, completion: @escaping ([WaterTracking]) -> Void) {
+        connector.fetchWaterRecords(startDate: startDate, endDate: endDate, completion: completion)
+    }
+    
+    public func deleteWaterRecord(waterRecord: WaterTracking, completion: @escaping (Bool) -> Void) {
+        connector.deleteWaterRecord(waterRecord: waterRecord, completion: completion)
     }
 }
 

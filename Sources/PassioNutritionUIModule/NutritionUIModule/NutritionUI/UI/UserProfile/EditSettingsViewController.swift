@@ -65,7 +65,7 @@ class EditSettingsViewController: UIViewController {
     @IBOutlet weak var languageButton: UIButton!
 
     var userProfile: UserProfileModel?
-    let connector = PassioInternalConnector.shared
+    let connector = NutritionUIModule.shared
     var unitType = UnitSelection.allCases
     var languages = Language.allCases
     

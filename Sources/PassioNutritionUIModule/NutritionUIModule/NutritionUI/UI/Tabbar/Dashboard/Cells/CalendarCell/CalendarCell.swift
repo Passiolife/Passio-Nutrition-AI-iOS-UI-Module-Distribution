@@ -92,7 +92,7 @@ extension CalendarCell {
 
         let (startDate, endDate) = getCurrentDates()
         nextDateView.alpha = Date() > startDate.startOfToday && Date() < endDate ? 0.5 : 1
-        disclosureButton.transform = CGAffineTransform(rotationAngle: calendarView.scope == .month ? .pi/2 : 0)
+        disclosureButton.transform = CGAffineTransform(rotationAngle: calendarView.scope == .month ? .pi : 0) // .pi/2
         
         if calendarView.scope == .month {
             let dateFormatterr = DateFormatter()
@@ -112,8 +112,8 @@ extension CalendarCell {
     }
 
     private func getDayLogsFrom(fromDate: Date, toDate: Date) {
-        PassioInternalConnector.shared.fetchDayLogFor(fromDate: fromDate,
-                                                      toDate: toDate) { [weak self] (dayLogs) in
+        NutritionUIModule.shared.fetchDayLogFor(fromDate: fromDate,
+                                                toDate: toDate) { [weak self] (dayLogs) in
             guard let self = self else { return }
             self.calendarActivityIndicator.startAnimating()
             DispatchQueue.main.async {

@@ -15,6 +15,7 @@ class MicroProgressViewController: UIViewController {
     @IBOutlet weak var nextDateButton: UIButton!
     @IBOutlet weak var informationCardContainerView: UIView!
     @IBOutlet weak var iButton: UIButton!
+    @IBOutlet weak var slashLabel: UILabel!
 
     lazy var footerButton: UIButton = {
         let button = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: ScreenSize.width, height: 40))
@@ -27,7 +28,7 @@ class MicroProgressViewController: UIViewController {
         return button
     }()
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var dateSelector: DateSelectorViewController?
 
     private var selectedDate: Date = Date() {
@@ -49,11 +50,7 @@ class MicroProgressViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        selectedDate = Date()
-        registerCell()
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
-        onClickIIcon()
+        basicSetup()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -62,6 +59,18 @@ class MicroProgressViewController: UIViewController {
         setDateTitle()
         getRecords(for: selectedDate)
         tableView.reloadData()
+    }
+    
+    func basicSetup() {
+        slashLabel.font = .inter(type: .semiBold, size: 16)
+        selectedDate = Date()
+        registerCell()
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+        onClickIIcon()
+        
+        let isDisclaimerClosed = PassioUserDefaults.bool(for: .isMicroProgressDisclaimerClosed)
+        informationCardContainerView.isHidden = isDisclaimerClosed
+        iButton.isHidden = !isDisclaimerClosed
     }
 
     func registerCell() {
@@ -77,6 +86,7 @@ class MicroProgressViewController: UIViewController {
     @IBAction func onClickCross() {
         iButton.isHidden = false
         informationCardContainerView.isHidden = true
+        PassioUserDefaults.store(for: .isMicroProgressDisclaimerClosed, value: true)
     }
 
     @objc func onClickSeeMore() {

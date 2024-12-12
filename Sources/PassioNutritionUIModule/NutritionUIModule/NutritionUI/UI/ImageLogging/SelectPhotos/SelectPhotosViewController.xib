@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -16,9 +17,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SelectPhotosViewController" customModule="PassioNutritionUIModule">
             <connections>
-                <outlet property="activityIndicatorStackView" destination="iFr-CH-bBf" id="XRg-mv-dBD"/>
-                <outlet property="activityIndicatorView" destination="lgv-WM-ow6" id="tae-GX-TiJ"/>
-                <outlet property="selectedImageCollectionView" destination="Shm-7O-8Oo" id="Wq7-1E-tQ9"/>
+                <outlet property="collectionView" destination="Shm-7O-8Oo" id="Da4-Um-jmL"/>
+                <outlet property="generatingResultsLabel" destination="vAb-V9-0Zy" id="RYa-Qu-DGQ"/>
+                <outlet property="loadingView" destination="CZr-ha-SAq" id="lxh-dX-SAS"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -28,39 +29,52 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Shm-7O-8Oo">
-                    <rect key="frame" x="16" y="84" width="361" height="677"/>
+                    <rect key="frame" x="0.0" y="59" width="393" height="702"/>
                     <color key="backgroundColor" name="gray-50"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="8" minimumInteritemSpacing="8" id="0sK-wx-HsS">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <inset key="sectionInset" minX="16" minY="16" maxX="16" maxY="16"/>
                     </collectionViewFlowLayout>
                 </collectionView>
-                <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iFr-CH-bBf">
-                    <rect key="frame" x="124.66666666666669" y="402.66666666666669" width="144" height="46.666666666666686"/>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZr-ha-SAq">
+                    <rect key="frame" x="109.66666666666669" y="387.66666666666669" width="174" height="76.666666666666686"/>
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="lgv-WM-ow6">
-                            <rect key="frame" x="61.999999999999986" y="0.0" width="20" height="20"/>
-                            <color key="color" name="indigo-600"/>
+                            <rect key="frame" x="76.999999999999986" y="15" width="20" height="20"/>
                         </activityIndicatorView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Generating results..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vAb-V9-0Zy">
-                            <rect key="frame" x="0.0" y="28" width="144" height="18.666666666666671"/>
+                            <rect key="frame" x="15" y="43" width="144" height="18.666666666666671"/>
                             <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                </stackView>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="vAb-V9-0Zy" secondAttribute="bottom" constant="15" id="32t-Cd-vRf"/>
+                        <constraint firstItem="vAb-V9-0Zy" firstAttribute="top" secondItem="lgv-WM-ow6" secondAttribute="bottom" constant="8" id="a6U-yx-ObQ"/>
+                        <constraint firstItem="lgv-WM-ow6" firstAttribute="centerX" secondItem="CZr-ha-SAq" secondAttribute="centerX" id="cEC-Y3-NT7"/>
+                        <constraint firstItem="vAb-V9-0Zy" firstAttribute="leading" secondItem="CZr-ha-SAq" secondAttribute="leading" constant="15" id="egr-lv-oEO"/>
+                        <constraint firstItem="lgv-WM-ow6" firstAttribute="top" secondItem="CZr-ha-SAq" secondAttribute="top" constant="15" id="hqh-hA-Tdv"/>
+                        <constraint firstAttribute="trailing" secondItem="vAb-V9-0Zy" secondAttribute="trailing" constant="15" id="yA6-ac-ivb"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="vwCornerRadius">
+                            <real key="value" value="12"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" name="gray-50"/>
             <constraints>
-                <constraint firstItem="Shm-7O-8Oo" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="25" id="UaK-iP-xqm"/>
-                <constraint firstItem="iFr-CH-bBf" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="meO-gI-bFr"/>
-                <constraint firstItem="iFr-CH-bBf" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="pDA-YI-m3v"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Shm-7O-8Oo" secondAttribute="trailing" constant="16" id="pjv-U6-n5E"/>
-                <constraint firstItem="Shm-7O-8Oo" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="rYT-dl-pFG"/>
+                <constraint firstItem="Shm-7O-8Oo" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="UaK-iP-xqm"/>
+                <constraint firstItem="CZr-ha-SAq" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="aMH-yh-e28"/>
+                <constraint firstItem="CZr-ha-SAq" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="eV0-N6-YAD"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Shm-7O-8Oo" secondAttribute="trailing" id="pjv-U6-n5E"/>
+                <constraint firstItem="Shm-7O-8Oo" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="rYT-dl-pFG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Shm-7O-8Oo" secondAttribute="bottom" constant="57" id="tsb-o6-JSV"/>
             </constraints>
             <point key="canvasLocation" x="130.53435114503816" y="-11.267605633802818"/>
@@ -70,8 +84,8 @@
         <namedColor name="gray-50">
             <color red="0.97647058823529409" green="0.98039215686274506" blue="0.98431372549019602" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <namedColor name="indigo-600">
-            <color red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

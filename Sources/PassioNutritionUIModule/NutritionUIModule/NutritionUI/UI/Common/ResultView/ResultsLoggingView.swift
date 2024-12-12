@@ -29,7 +29,9 @@ class ResultsLoggingView: UIView {
     @IBOutlet weak var tryAgainButton: UIButton!
     @IBOutlet weak var searchManuallyButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var clearView: UIView!
     @IBOutlet weak var resultsLabel: UILabel!
+    @IBOutlet weak var resultsDescLabel: UILabel!
     @IBOutlet weak var foodResultsTableView: UITableView!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var tableViewHeightConstraint: NSLayoutConstraint!
@@ -47,6 +49,8 @@ class ResultsLoggingView: UIView {
         }
     }
     
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+
     var recognitionData: [PassioSpeechRecognitionModel]? {
         didSet {
             let uniqueData = recognitionData?.uniqued(on: { $0.advisorFoodInfo.recognisedName })
@@ -66,11 +70,7 @@ class ResultsLoggingView: UIView {
 
     private var foodLogs: [FoodLog] = [] {
         didSet {
-            let isEnabled = foodLogs.filter { $0.isSelected }.count > 0
-            logSelectedButton.isEnabled = isEnabled
-            logView.alpha = isEnabled ? 1 : 0.8
-            foodResultsTableView.reloadData()
-            tableViewHeightConstraint.constant = foodResultsTableView.contentSize.height >= 200 ? 200 : foodResultsTableView.contentSize.height
+            updateResultUI()
         }
     }
 
@@ -92,7 +92,8 @@ class ResultsLoggingView: UIView {
                                shadowRadius: 6,
                                shadowOpacity: 1)
 
-        resultsLabel.font = .inter(type: .bold, size: 20)
+        resultsLabel.font = .inter(type: .bold, size: 18)
+        resultsDescLabel.font = .inter(type: .regular, size: 14)
         logLabel.font = .inter(type: .medium, size: 16)
         
         let title = "Clear".toMutableAttributedString
@@ -132,25 +133,33 @@ class ResultsLoggingView: UIView {
     }
 
     @IBAction func onSearchManually(_ sender: UIButton) {
+        searchManually()
+    }
+    
+    func searchManually() {
         resultLoggingDelegate?.onSearchManuallyTapped()
     }
 
+    // If there is food to log, log the food, otherwise search manually
     @IBAction func onLogSelected(_ sender: UIButton) {
-        updateLogUI(isLogging: true)
-        
-        if resultViewFor == .addIngredient {
+        if foodLogs.count > 0 {
+            updateLogUI(isLogging: true)
             
-            getFoodRecordForAddingAnIngredients(foods: foodLogs.filter { $0.isSelected }) { [weak self] foodRecordIngredients in
-                self?.updateLogUI(isLogging: false)
-                self?.resultLoggingDelegate?.onAddIngredientsTapped(foodRecords: foodRecordIngredients)
+            if resultViewFor == .addIngredient {
+                
+                getFoodRecordForAddingAnIngredients(foods: foodLogs.filter { $0.isSelected }) { [weak self] foodRecordIngredients in
+                    self?.updateLogUI(isLogging: false)
+                    self?.resultLoggingDelegate?.onAddIngredientsTapped(foodRecords: foodRecordIngredients)
+                }
             }
-             
-        }
-        else {
-            getFoodRecord(foods: foodLogs.filter { $0.isSelected }) { [weak self] in
-                self?.updateLogUI(isLogging: false)
-                self?.resultLoggingDelegate?.onLogSelectedTapped()
+            else {
+                getFoodRecord(foods: foodLogs.filter { $0.isSelected }) { [weak self] in
+                    self?.updateLogUI(isLogging: false)
+                    self?.resultLoggingDelegate?.onLogSelectedTapped()
+                }
             }
+        } else {
+            searchManually()
         }
     }
     
@@ -173,6 +182,47 @@ class ResultsLoggingView: UIView {
                 logLabel.text = "Log Selected"
             }
             activityIndicator.stopAnimating()
+        }
+    }
+    
+    func updateResultUI() {
+        
+        if foodLogs.count > 0 {
+            
+            topConstraint.constant = 8
+            clearView.isHidden = false
+            resultsLabel.text = "Results"
+            resultsDescLabel.text = "Select the foods you would like to log."
+            
+            // Table
+            foodResultsTableView.reloadData()
+            foodResultsTableView.isHidden = false
+            tableViewHeightConstraint.constant = foodResultsTableView.contentSize.height >= 200 ? 200 : foodResultsTableView.contentSize.height
+            
+            searchManuallyStackView.isHidden = false
+
+            // Log
+            let isEnabled = foodLogs.filter { $0.isSelected }.count > 0
+            logView.alpha = isEnabled ? 1 : 0.8
+            logSelectedButton.isEnabled = isEnabled
+            logLabel.text = "Log Selected"
+        }
+        else {
+            topConstraint.constant = 20
+            clearView.isHidden = true
+            resultsLabel.text = "No Results Found"
+            resultsDescLabel.text = "Sorry, we could not find any matches. Please try again or try searching manually."
+            
+            // Table
+            foodResultsTableView.reloadData()
+            foodResultsTableView.isHidden = true
+            
+            searchManuallyStackView.isHidden = true
+
+            // Search manually
+            logView.alpha = 1
+            logSelectedButton.isEnabled = true
+            logLabel.text = "Search Manually"
         }
     }
 
@@ -200,7 +250,7 @@ class ResultsLoggingView: UIView {
                         if let foodItem {
                             var foodRecord = FoodRecordV3(foodItem: foodItem)
                             foodRecord.mealLabel = MealLabel(mealTime: food.foodData.meal ?? PassioMealTime.currentMealTime())
-                            PassioInternalConnector.shared.updateRecord(foodRecord: foodRecord)
+                            NutritionUIModule.shared.updateRecord(foodRecord: foodRecord)
                             dispatchGroup.leave()
                         } else {
                             dispatchGroup.leave()

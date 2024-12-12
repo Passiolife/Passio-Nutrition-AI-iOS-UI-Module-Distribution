@@ -30,6 +30,7 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var imageCollectionView: UICollectionView!
+    @IBOutlet weak var cameraControlsView: UIStackView!
 
     private var captureSession: AVCaptureSession!
     private var backCamera: AVCaptureDevice?
@@ -49,6 +50,7 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
             captureButton.enableDisableButton(with: .transitionCrossDissolve,
                                               duration: 0.17,
                                               isEnabled: thumbnailImages.count >= 7 ? false : true)
+            imageCollectionView.isHidden = false
             imageCollectionView.reloadWithAnimations(withDuration: 0.21)
         }
     }
@@ -57,6 +59,7 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
     var resultViewFor: DetectedFoodResultType = .addLog
     weak var delegate: UsePhotosDelegate?
     var takePhotosViewDelegate: TakePhotosViewDelegate?
+    var goToSearch: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +70,6 @@ class TakePhotosViewController: InstantiableViewController, ImageLoggingService 
         nextButton.enableDisableButton(with: .transitionCrossDissolve,
                                        duration: 0.17,
                                        isEnabled: thumbnailImages.count == 0 ? false : true)
-        activityIndicatorView.color = .primaryColor
         nextButton.backgroundColor = .primaryColor
         cancelButton.applyBorder(width: 2, color: .primaryColor)
         cancelButton.setTitleColor(.primaryColor, for: .normal)
@@ -251,17 +253,8 @@ extension TakePhotosViewController {
             guard let self else { return }
             enableInteration(true)
             activityView.isHidden = true
-            if recognitionModel.count == 0 {
-                showCustomAlert(title: CustomAlert.AlertTitle(titleText: "The system is unable to recognize images.",
-                                                              rightButtonTitle: "Retake",
-                                                              leftButtonTitle: "Cancel"),
-                                font: CustomAlert.AlertFont(titleFont: .inter(type: .medium, size: 18),
-                                                            rightButtonFont: .inter(type: .medium, size: 16),
-                                                            leftButtonFont: .inter(type: .medium, size: 16)),
-                                delegate: self)
-            } else {
-                loadResultLoggingView(recognitionData: recognitionModel)
-            }
+            imageCollectionView.isHidden = true
+            loadResultLoggingView(recognitionData: recognitionModel)
         }
     }
 
@@ -270,6 +263,9 @@ extension TakePhotosViewController {
         DispatchQueue.main.async { [self] in
             resultsLoggingView = ResultsLoggingView.fromNib(bundle: .module)
             if let resultsLoggingView {
+                let image = UIImage.imageFromBundle(named: "takePhotos")
+                resultsLoggingView.tryAgainButton.setImage(image, for: .normal)
+                resultsLoggingView.tryAgainButton.setTitle("Search Again", for: .normal)
                 resultsLoggingView.resultLoggingDelegate = self
                 resultsLoggingView.showCancelButton = true
                 resultsLoggingView.resultViewFor = resultViewFor
@@ -314,25 +310,20 @@ extension TakePhotosViewController: UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        8
+        return 8
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        8
+        return 8
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         let inset = view.frame.width/2 - (80/2)
-        return UIEdgeInsets(
-            top: 0,
-            left: inset,
-            bottom: 0,
-            right: inset
-        )
+        return UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -452,6 +443,7 @@ extension TakePhotosViewController: AVCapturePhotoCaptureDelegate {
 extension TakePhotosViewController: ResultsLoggingDelegate {
 
     func onTryAgainTapped() {
+        imageCollectionView.isHidden = false
         capturedImages.removeAll()
         thumbnailImages.removeAll()
         resultsLoggingView?.removeFromSuperview()
@@ -461,12 +453,16 @@ extension TakePhotosViewController: ResultsLoggingDelegate {
     func onLogSelectedTapped() {
         NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
     }
-
-    func onSearchManuallyTapped() {}
     
     func onAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
         takePhotosViewDelegate?.onTakePhotoAddIngredientsTapped(foodRecords: foodRecords)
         self.navigationController?.popViewController(animated: true)
+    }
+
+    func onSearchManuallyTapped() {
+        navigationController?.popViewController(animated: true) { [weak self] in
+            self?.goToSearch?()
+        }
     }
 }
 

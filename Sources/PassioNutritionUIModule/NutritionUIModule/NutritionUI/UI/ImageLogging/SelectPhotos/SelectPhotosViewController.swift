@@ -17,9 +17,9 @@ protocol SelectPhotosViewDelegate {
 
 class SelectPhotosViewController: InstantiableViewController, ImageLoggingService {
 
-    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    @IBOutlet weak var activityIndicatorStackView: UIStackView!
-    @IBOutlet weak var selectedImageCollectionView: UICollectionView!
+    @IBOutlet weak var loadingView: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var generatingResultsLabel: UILabel!
 
     private var selectedImages: [UIImage] = []
 
@@ -28,63 +28,34 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
     weak var delegate: UsePhotosDelegate?
     var selectPhotosViewDelegate: SelectPhotosViewDelegate?
 
+    var goToSearch: (() -> Void)?
+    private var resultsLoggingView: ResultsLoggingView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        basicSetup()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.showPhotos()
         }
         configureCollectionView()
-        activityIndicatorView.color = .primaryColor
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
         navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func basicSetup() {
+        //navigationController?.setNavigationBarHidden(true, animated: true)
+        setupBackButton()
+        generatingResultsLabel.font = UIFont.inter(type: .medium, size: 15)
     }
 
     // MARK: - Configure CollectionView
     private func configureCollectionView() {
-        selectedImageCollectionView.dataSource = self
-        selectedImageCollectionView.delegate = self
-        selectedImageCollectionView.collectionViewLayout = createCompositionalLayout()
-        selectedImageCollectionView.register(nibName: SelectedImageCell.className)
-    }
-
-    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-
-        let compositionalLayout: UICollectionViewCompositionalLayout = {
-
-            let fraction: CGFloat = 1/3
-
-            // Item
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(fraction),
-                                                  heightDimension: .fractionalHeight(1))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            let inset: CGFloat = 4
-
-            // After item declaration…
-            item.contentInsets = NSDirectionalEdgeInsets(top: inset,
-                                                         leading: inset,
-                                                         bottom: inset,
-                                                         trailing: inset)
-            // Group
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                                   heightDimension: .fractionalWidth(fraction))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
-            // Section
-            let section = NSCollectionLayoutSection(group: group)
-            // After section delcaration…
-            section.contentInsets = NSDirectionalEdgeInsets(top: inset,
-                                                            leading: inset,
-                                                            bottom: inset,
-                                                            trailing: inset)
-            return UICollectionViewCompositionalLayout(section: section)
-        }()
-        return compositionalLayout
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(nibName: SelectedImageCell.className)
     }
 
     // MARK: - Helper
@@ -104,20 +75,8 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
         DispatchQueue.global(qos: .userInteractive).async {
             self.fetchFoodData(for: self.selectedImages) { [weak self] recognitionModel in
                 guard let self else { return }
-                activityIndicatorView.stopAnimating()
-                activityIndicatorStackView.isHidden = true
-
-                if recognitionModel.count == 0 {
-                    showCustomAlert(title: CustomAlert.AlertTitle(titleText: "The system is unable to recognize images.",
-                                                                  rightButtonTitle: "Select Photos",
-                                                                  leftButtonTitle: "Cancel"),
-                                    font: CustomAlert.AlertFont(titleFont: .inter(type: .medium, size: 18),
-                                                                rightButtonFont: .inter(type: .medium, size: 16),
-                                                                leftButtonFont: .inter(type: .medium, size: 16)),
-                                    delegate: self)
-                } else {
-                    loadResultLoggingView(recognitionData: recognitionModel)
-                }
+                loadingView.isHidden = true
+                loadResultLoggingView(recognitionData: recognitionModel)
             }
         }
     }
@@ -125,10 +84,15 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
     private func loadResultLoggingView(recognitionData: [PassioSpeechRecognitionModel]) {
 
         DispatchQueue.main.async { [self] in
-            let resultsLoggingView = ResultsLoggingView.fromNib(bundle: .module)
+            resultsLoggingView = ResultsLoggingView.fromNib(bundle: .module)
+            let image = UIImage.imageFromBundle(named: "useImage")
+            resultsLoggingView.tryAgainButton.setImage(image, for: .normal)
+            resultsLoggingView.tryAgainButton.setTitle("Search Again", for: .normal)
             resultsLoggingView.resultLoggingDelegate = self
+
             resultsLoggingView.showCancelButton = true
             resultsLoggingView.resultViewFor = resultViewFor
+            
             resultsLoggingView.recognitionData = recognitionData
             view.addSubview(resultsLoggingView)
             resultsLoggingView.translatesAutoresizingMaskIntoConstraints = false
@@ -140,19 +104,31 @@ class SelectPhotosViewController: InstantiableViewController, ImageLoggingServic
 }
 
 // MARK: - PHPickerViewControllerDelegate
-extension SelectPhotosViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SelectPhotosViewController: UICollectionViewDataSource {
 
-    func collectionView(_ collectionView: UICollectionView,
-                        numberOfItemsInSection section: Int) -> Int {
-        selectedImages.count
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return selectedImages.count
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueCell(cellClass: SelectedImageCell.self, forIndexPath: indexPath)
         cell.configureCell(with: selectedImages[indexPath.item])
         return cell
+    }
+}
+
+extension SelectPhotosViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemsPerRow = (selectedImages.count > 3) ? 3 : selectedImages.count
+        let flowLayout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let totalSpace = flowLayout.sectionInset.left
+        + flowLayout.sectionInset.right
+        + (flowLayout.minimumInteritemSpacing * CGFloat(itemsPerRow - 1))
+        let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(itemsPerRow))
+        return CGSize(width: size, height: size)
     }
 }
 
@@ -167,7 +143,6 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
                 navigationController?.popViewController(animated: true)
             }
         }
-
         if results.count == 0 {
             navigationController?.popViewController(animated: true)
             return
@@ -197,9 +172,8 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self else { return }
             if isStandAlone {
-                activityIndicatorStackView.isHidden = false
-                activityIndicatorView.startAnimating()
-                selectedImageCollectionView.reloadData()
+                loadingView.isHidden = false
+                collectionView.reloadData()
                 fetchFoodData()
             } else {
                 navigationController?.popViewController(animated: true) { [weak self] in
@@ -215,14 +189,22 @@ extension SelectPhotosViewController: PHPickerViewControllerDelegate {
 extension SelectPhotosViewController: ResultsLoggingDelegate {
 
     func onTryAgainTapped() {
-        navigationController?.popViewController(animated: true)
+        //navigationController?.popViewController(animated: true)
+        resultsLoggingView?.removeFromSuperview()
+        selectedImages.removeAll()
+        collectionView.reloadData()
+        showPhotos()
     }
 
     func onLogSelectedTapped() {
         NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
     }
 
-    func onSearchManuallyTapped() { }
+    func onSearchManuallyTapped() {
+        navigationController?.popViewController(animated: true) { [weak self] in
+            self?.goToSearch?()
+        }
+    }
     
     func onAddIngredientsTapped(foodRecords: [FoodRecordV3]) {
         self.selectPhotosViewDelegate?.onSelectPhotoAddIngredientsTapped(foodRecords: foodRecords)
@@ -235,11 +217,12 @@ extension SelectPhotosViewController: CustomAlertDelegate {
 
     func onRightButtonTapped(textValue: String?) {
         selectedImages.removeAll()
-        selectedImageCollectionView.reloadData()
+        collectionView.reloadData()
         showPhotos()
     }
 
     func onleftButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+    
 }

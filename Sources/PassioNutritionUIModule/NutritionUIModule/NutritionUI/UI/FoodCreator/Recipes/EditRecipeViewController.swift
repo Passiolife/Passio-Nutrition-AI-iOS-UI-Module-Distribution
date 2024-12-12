@@ -17,7 +17,7 @@ class EditRecipeViewController: InstantiableViewController {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var editRecipeTableView: UITableView!
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var isAddIngredient = true
     private var isReplaceIngredient = true
     private var cachedMaxForSlider: [String: Float] = [:]
@@ -32,6 +32,8 @@ class EditRecipeViewController: InstantiableViewController {
                                                         .servingSizeTableViewCell,
                                                         .ingredientsTableViewCell,
                                                         .ingredientInfoTableViewCell]
+    private var recipeDetailsCell: RecipeDetailsCell?
+    
     var isCreate = true
     var vcTitle = RecipeTexts.editRecipe
     var isUpdateLog = true
@@ -223,13 +225,14 @@ extension EditRecipeViewController {
 
         editRecipeTableView.dataSource = self
         editRecipeTableView.delegate = self
+        editRecipeTableView.prefetchDataSource = self
         EditRecipeCell.allCases.forEach {
             editRecipeTableView.register(nibName: $0.rawValue.capitalizingFirst())
         }
     }
 
     private var getRecipeDetailsCell: RecipeDetailsCell? {
-        editRecipeTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RecipeDetailsCell
+        editRecipeTableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? RecipeDetailsCell ?? self.recipeDetailsCell
     }
 
     private func refreshRecipe() {
@@ -335,8 +338,8 @@ extension EditRecipeViewController {
     }
 }
 
-// MARK: - UITableViewDataSource & UITableViewDelegate
-extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - UITableViewDataSource & UITableViewDelegate & UITableViewDataSourcePrefetching
+extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         editRecipeSections.count
@@ -446,6 +449,15 @@ extension EditRecipeViewController: UITableViewDataSource, UITableViewDelegate {
         switch editRecipeSections[indexPath.section] {
         case .recipeDetailsCell, .servingSizeTableViewCell, .ingredientsTableViewCell: .none
         case .ingredientInfoTableViewCell: .delete
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            if  indexPath == IndexPath(row: 0, section: 0),
+                let foodDetailsCell = tableView.cellForRow(at: indexPath) as? RecipeDetailsCell {
+                self.recipeDetailsCell = foodDetailsCell
+            }
         }
     }
 }

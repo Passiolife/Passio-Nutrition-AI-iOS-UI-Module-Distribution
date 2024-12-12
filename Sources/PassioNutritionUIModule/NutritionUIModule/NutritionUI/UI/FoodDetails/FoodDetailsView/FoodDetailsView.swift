@@ -33,13 +33,9 @@ class FoodDetailsView: UIView {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var addIngredientButton: UIButton!
-    private let connector = PassioInternalConnector.shared
-    private let foodDetailsSection: [FoodDetailsCell] = [.foodInfoTableViewCell,
-                                                         .servingSizeTableViewCell,
-                                                         .mealTimeTableViewCell,
-                                                         .dateSelectionTableViewCell,
-                                                         .ingredientsTableViewCell,
-                                                         .ingredientInfoTableViewCell]
+    
+    private let connector = NutritionUIModule.shared
+    private var foodDetailsSection: [FoodDetailsCell] = []
     private var dateSelector: DateSelectorViewController?
     private var cachedMaxForSlider = [Int: [String: Float]]()
 
@@ -75,12 +71,11 @@ class FoodDetailsView: UIView {
     }
     var isEditingRecord = false {
         didSet {
-            saveButton?.setTitle((isEditingRecord || isEditingFavorite)
-                                 ? ButtonTexts.save : ButtonTexts.log, for: .normal)
+            saveButton?.setTitle((isEditingRecord || isEditingFavorite) ? ButtonTexts.save : ButtonTexts.log, for: .normal)
             deleteButton.isHidden = !isEditingRecord
         }
     }
-    var editedTimestamp: Date? {
+    var editedTimestamp: Date = Date() {
         didSet {
             foodDetailsTableView.reloadData()
         }
@@ -94,7 +89,7 @@ class FoodDetailsView: UIView {
 
     private func configureUI() {
 
-        configureTableView()
+        //configureTableView()
         cancelButton?.setTitle(ButtonTexts.cancel, for: .normal)
         saveButton.backgroundColor = .primaryColor
         cancelButton.setTitleColor(.primaryColor, for: .normal)
@@ -102,8 +97,22 @@ class FoodDetailsView: UIView {
         deleteButton?.setTitle(ButtonTexts.delete, for: .normal)
     }
 
-    private func configureTableView() {
+    func configureTableView() {
 
+        if self.isEditingFavorite {
+            foodDetailsSection = [.foodInfoTableViewCell,
+                                  .servingSizeTableViewCell,
+                                  .ingredientsTableViewCell,
+                                  .ingredientInfoTableViewCell]
+        } else {
+            foodDetailsSection = [.foodInfoTableViewCell,
+                                  .servingSizeTableViewCell,
+                                  .mealTimeTableViewCell,
+                                  .dateSelectionTableViewCell,
+                                  .ingredientsTableViewCell,
+                                  .ingredientInfoTableViewCell]
+        }
+        
         foodDetailsTableView.dataSource = self
         foodDetailsTableView.delegate = self
         foodDetailsTableView.estimatedRowHeight = 200
@@ -260,14 +269,14 @@ extension FoodDetailsView: UITableViewDataSource, UITableViewDelegate {
                 .mealTimeTableViewCell,
                 .dateSelectionTableViewCell,
                 .ingredientsTableViewCell:
-            1
+            return 1
 
         case .ingredientInfoTableViewCell:
             if resultViewFor == .addIngredient {
-                foodRecord?.ingredients.count ?? 0
+                return foodRecord?.ingredients.count ?? 0
             }
             else {
-                ingredientsCount > 1 ? ingredientsCount : 0
+                return ingredientsCount > 1 ? ingredientsCount : 0
             }
         }
     }
@@ -287,6 +296,20 @@ extension FoodDetailsView: UITableViewDataSource, UITableViewDelegate {
         case .ingredientInfoTableViewCell: getIngredientInfoCell(indexPath: indexPath)
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch foodDetailsSection[indexPath.section]
+        {
+        case .ingredientInfoTableViewCell:
+            if let foodRecord, foodRecord.ingredients.count >= 1 {
+                foodDetailsDelegate?.onUserSelected(ingredient: foodRecord.ingredients[indexPath.row],
+                                                    indexOfIngredient: indexPath.row)
+            }
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - FoodDetails TableViewCells
@@ -300,7 +323,7 @@ extension FoodDetailsView {
                                          forIndexPath: indexPath)
         let isFavorite = favorites.count > 0 ? "heart.fill" : "heart"
         cell.favouriteButton.setImage(UIImage(systemName: isFavorite), for: .normal)
-        cell.favouriteButton.tintColor = favorites.count > 0 ? UIColor.red : .gray400
+        cell.favouriteButton.tintColor = favorites.count > 0 ? .primaryColor : .gray400
         cell.favouriteButton.addTarget(self,
                                        action: #selector(addRemoveFavorites),
                                        for: .touchUpInside)
@@ -368,16 +391,14 @@ extension FoodDetailsView {
     }
 
     func getDateSelectionCell(indexPath: IndexPath) -> UITableViewCell{
-        let cell = foodDetailsTableView.dequeueCell(cellClass: DateSelectionTableViewCell.self,
-                                         forIndexPath: indexPath)
-        if let editedDate = editedTimestamp {
-            cell.updateWithDate(editedDate)
-        } else if let record = foodRecord {
-            cell.updateWithDate(record.createdAt)
-        }
-        cell.timestampButton.addTarget(self,
-                                       action: #selector(showDateSelector),
-                                       for: .touchUpInside)
+        let cell = foodDetailsTableView.dequeueCell(cellClass: DateSelectionTableViewCell.self, forIndexPath: indexPath)
+//        if let editedDate = editedTimestamp {
+//            cell.updateWithDate(editedDate)
+//        } else if let record = foodRecord {
+//            cell.updateWithDate(record.createdAt)
+//        }
+        cell.updateWithDate(editedTimestamp)
+        cell.timestampButton.addTarget(self, action: #selector(showDateSelector), for: .touchUpInside)
         return cell
     }
 }

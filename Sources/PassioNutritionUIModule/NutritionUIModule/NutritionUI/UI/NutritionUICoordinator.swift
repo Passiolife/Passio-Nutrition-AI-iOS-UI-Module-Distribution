@@ -46,11 +46,33 @@ public class NutritionUICoordinator {
                            controllerName: EditSettingsViewController.className) as! EditSettingsViewController
     }
 
+    //Weight Tracking
+    class func getWeightTrackingViewController() -> WeightTrackingVC {
+        loadViewController(storyboardName: "WaterWeightTracking",
+                           controllerName: WeightTrackingVC.className) as! WeightTrackingVC
+    }
+    
+    class func getAddWeightTrackingViewController() -> AddNewWeightTrackingVC {
+        loadViewController(storyboardName: "WaterWeightTracking",
+                           controllerName: AddNewWeightTrackingVC.className) as! AddNewWeightTrackingVC
+    }
+    
+    //Water Tracking
+    class func getWaterTrackingViewController() -> WaterTrackingVC {
+        loadViewController(storyboardName: "WaterWeightTracking",
+                           controllerName: WaterTrackingVC.className) as! WaterTrackingVC
+    }
+    
+    class func getAddWaterTrackingViewController() -> AddNewWaterTrackingVC {
+        loadViewController(storyboardName: "WaterWeightTracking",
+                           controllerName: AddNewWaterTrackingVC.className) as! AddNewWaterTrackingVC
+    }
+    
     private class func loadViewController(storyboardName: String,
                                           controllerName: String) -> UIViewController {
 
         let storyboard = UIStoryboard(name: storyboardName,
-                                      bundle: PassioInternalConnector.shared.bundleForModule)
+                                      bundle: NutritionUIModule.shared.bundleForModule)
         let vc = storyboard.instantiateViewController(withIdentifier: controllerName)
         return vc
     }

@@ -18,7 +18,9 @@ final class DateSelectorViewController: UIViewController {
     weak var delegate: DateSelectorUIViewDelegate?
     var dateSelector: DateSelectorUIView!
     var dateForPicker: Date?
-
+    var datePickerType: UIDatePicker.Mode = .date
+    var isMaxDateSet: Bool = true
+    
     enum SelectorDirections {
         case down, upWards
     }
@@ -45,7 +47,8 @@ final class DateSelectorViewController: UIViewController {
             let frameStart = CGRect(x: 0, y: -screenWidth, width: screenWidth, height: screenWidth)
             dateSelector = DateSelectorUIView(frame: frameStart, date: Date())
             dateSelector.dateForPicker = dateForPicker ?? Date()
-
+            dateSelector.datePickerType = datePickerType
+            dateSelector.isMaxDateSet = self.isMaxDateSet
             dateSelector?.frame = frameStart
             dateSelector?.delegate = self.delegate
             dateSelector?.roundMyCornerWith(radius: 16)
@@ -87,7 +90,9 @@ final class DateSelectorUIView: ViewFromXIB {
 
     var dateForPicker: Date?
     weak var delegate: DateSelectorUIViewDelegate?
-
+    var datePickerType: UIDatePicker.Mode = .date
+    var isMaxDateSet: Bool = true
+    
     public init(frame: CGRect, date: Date) {
         super.init(frame: frame)
 
@@ -111,7 +116,13 @@ final class DateSelectorUIView: ViewFromXIB {
         datePicker.setValue(UIColor.black, forKeyPath: "textColor")
         datePicker.setValue(false, forKeyPath: "highlightsToday")
         datePicker.overrideUserInterfaceStyle = .dark
-        datePicker.maximumDate = Date()
+        if isMaxDateSet {
+            datePicker.maximumDate = Date()
+        }
+        else {
+            datePicker.maximumDate = nil
+        }
+        datePicker.datePickerMode = datePickerType
     }
 
     @IBAction func okAndDismiss(_ sender: UIButton) {

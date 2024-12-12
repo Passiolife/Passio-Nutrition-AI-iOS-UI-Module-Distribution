@@ -20,7 +20,6 @@ public protocol PassioConnector: AnyObject {
     func updateRecord(foodRecord: FoodRecordV3)
     func deleteRecord(foodRecord: FoodRecordV3)
     func fetchDayRecords(date: Date, completion: @escaping ([FoodRecordV3]) -> Void)
-    func fetchMealLogsJson(daysBack: Int) -> String
     
     // User Foods
     func updateUserFood(record: FoodRecordV3)
@@ -29,7 +28,6 @@ public protocol PassioConnector: AnyObject {
     func fetchUserFoods(refCode: String, completion: @escaping ([FoodRecordV3]) -> Void)
     func fetchAllUserFoods(completion: @escaping ([FoodRecordV3]) -> Void)
     func fetchAllUserFoodsMatching(name: String, completion: @escaping ([FoodRecordV3]) -> Void) // Newly added
-    func deleteAllUserFood()
     
     // User Food Image
     func updateUserFoodImage(with id: String, image: UIImage)
@@ -48,7 +46,17 @@ public protocol PassioConnector: AnyObject {
     
     // Day logs - Newly added
     func fetchDayLogFor(fromDate: Date, toDate: Date, completion: @escaping ([DayLog]) -> Void)
-    func fetchDayLogRecursive(fromDate: Date, toDate: Date, currentLogs: [DayLog], completion: @escaping ([DayLog]) -> Void)
+    
+    // WeightTracking Records
+    func updateWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void)
+    func fetchWeightRecords(startDate: Date, endDate: Date, completion: @escaping ([WeightTracking]) -> Void)
+    func fetchLatestWeightRecord(completion: @escaping (WeightTracking?) -> Void)
+    func deleteWeightRecord(weightRecord: WeightTracking, completion: @escaping (Bool) -> Void)
+    
+    // WaterTracking Records
+    func updateWaterRecord(waterRecord: WaterTracking, completion: @escaping ((Bool) -> Void))
+    func fetchWaterRecords(startDate: Date, endDate: Date, completion: @escaping ([WaterTracking]) -> Void)
+    func deleteWaterRecord(waterRecord: WaterTracking, completion: @escaping (Bool) -> Void)
 }
 
 

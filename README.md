@@ -14,17 +14,17 @@
 ***Note:*** Please click this link https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution to learn how to configure `PassioNutritionAISDK` if you haven't already.
 
 9. `import PassioNutritionUIModule` into the ViewController that you wish to designate as the PassioNutritionUIModule entry point.
-10. Call the 'startPassioAppModule' method of the 'PassioInternalConnector' class with a shared instance on UIButton's @IBAction or on any other function as per your requirement.
+10. Call the 'startPassioAppModule' method of the 'NutritionUIModule' class with a shared instance on UIButton's @IBAction or on any other function as per your requirement.
 	```swift
 	// Set navigationBar as per your app
 	navigationController?.navigationBar.isHidden = false
 	// Instantiate HomeTabBar Controller (Passio's Nutrition UI module)
     let vc = NutriationUICoordinator.getHomeTabbarViewController()
     // Use this method to navigate to Passio's Nutrition UI module
-    PassioInternalConnector.shared.startPassioAppModule(passioExternalConnector: passioExternalConnector,
-		                                                presentingViewController: self,
-		                                                withViewController: vc
-		                                                passioConfiguration: passioConfig)
+    NutritionUIModule.shared.startPassioAppModule(connector: passioExternalConnector,
+                                                  presentingViewController: self,
+                                                  withViewController: vc
+                                                  passioConfiguration: passioConfig)
 
 ## 2. Add PassioNutritionUIModule source code directly to your Xcode Project (Only use this way when you want to fully custmoize UI module)
 

@@ -15,6 +15,8 @@ import PassioNutritionAISDK
 class MealPlanViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var disclaimerView: UIView!
+    @IBOutlet weak var disclaimerLabel: UILabel!
 
     var selectedMealPlan: PassioMealPlan?
     var selectedDay: Int?
@@ -53,13 +55,23 @@ class MealPlanViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         registerCellsAndTableDelegates()
-        
+        basicSetup()
         if MealPlanManager.shared.mealPlans.count == 0 {
             MealPlanManager.shared.getMealPlans()
         }
+    }
+    
+    func basicSetup() {
         
+        let isDisclaimerClosed = PassioUserDefaults.bool(for: .isMealPlanDisclaimerClosed)
+        
+        if isDisclaimerClosed {
+            disclaimerView.isHidden = true
+        } else {
+            disclaimerView.isHidden = false
+            disclaimerLabel.text = "These meal plans are general guidelines and not based on personal dietary needs. Always consult with a healthcare provider or nutritionist."
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -77,6 +89,11 @@ class MealPlanViewController: UIViewController {
         }
     }
 
+    @IBAction func onClose(_ sender: UIButton) {
+        disclaimerView.isHidden = true
+        PassioUserDefaults.store(for: .isMealPlanDisclaimerClosed, value: true)
+    }
+    
     private func getMealPlanData() {
 
         ProgressHUD.show(presentingVC: self)
@@ -246,7 +263,7 @@ extension MealPlanViewController {
         getFoodRecord(from: mealPlanItem) { [weak self] record in
             guard let self, let record else { return }
             if !isEdit {
-                PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                NutritionUIModule.shared.updateRecord(foodRecord: record)
             }
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
@@ -274,7 +291,7 @@ extension MealPlanViewController {
                         group.leave()
                         return
                     }
-                    PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                    NutritionUIModule.shared.updateRecord(foodRecord: record)
                     group.leave()
                 }
             }

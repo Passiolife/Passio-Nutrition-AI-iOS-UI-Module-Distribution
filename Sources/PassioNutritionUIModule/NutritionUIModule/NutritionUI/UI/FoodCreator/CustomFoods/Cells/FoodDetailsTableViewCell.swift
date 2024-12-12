@@ -19,7 +19,7 @@ final class FoodDetailsTableViewCell: UITableViewCell {
     @IBOutlet weak var barcodeTextField: UITextField!
     @IBOutlet weak var barcodeTapView: UIView!
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
 
     var onCreateFoodImage: ((UIImagePickerController.SourceType) -> Void)?
     var onBarcode: (() -> Void)?
@@ -70,9 +70,32 @@ extension FoodDetailsTableViewCell {
 
         isCreateNewFood = false
 
-        nameTextField.text = record.name
-        brandTextField.text = record.details
-        barcodeTextField.text = barcode
+        if let fieldNameChange = nameTextField.text,
+           fieldNameChange.count > 0,
+            fieldNameChange.caseInsensitiveCompare(record.name) != .orderedSame {
+            nameTextField.text = fieldNameChange
+        }
+        else {
+            nameTextField.text = record.name
+        }
+        
+        if let fieldNameChange = brandTextField.text,
+           fieldNameChange.count > 0,
+            fieldNameChange.caseInsensitiveCompare(record.details) != .orderedSame {
+            brandTextField.text = fieldNameChange
+        }
+        else {
+            brandTextField.text = record.details
+        }
+        
+        if let fieldNameChange = barcodeTextField.text,
+           fieldNameChange.count > 0,
+            fieldNameChange.caseInsensitiveCompare(barcode) != .orderedSame {
+            barcodeTextField.text = fieldNameChange
+        }
+        else {
+            barcodeTextField.text = barcode
+        }
 
         connector.fetchUserFoodImage(with: record.iconId) { [weak self] image in
             if let image {

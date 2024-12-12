@@ -78,7 +78,7 @@ final class EditProfileViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
 
     private let hemburgarMenuOptions : [HemburgarMenuOptions] = [.settings]
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private let chevFrame = CGRect(x: 0, y: 0, width: 15, height: 8)
     private var userProfile: UserProfileModel!
     private let values: [Float] = [0.5, 1.0, 1.5, 2.0, 0.5, 1.0, 1.5, 2.0]
@@ -113,7 +113,7 @@ final class EditProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        userProfile = UserManager.shared.user
+        userProfile = UserManager.shared.user ?? UserProfileModel()
         profileTableView.reloadData()
     }
 
@@ -193,11 +193,6 @@ extension EditProfileViewController {
     private func calculateBMR() -> Double? {
         var BMR = 0.0
         var height = 0.0
-        
-        print("age: \(userProfile.age)")
-        print("height: \(userProfile.height)")
-        print("weight: \(userProfile.weight)")
-        print("gender: \(userProfile.gender)")
         
         guard let age = userProfile.age,
               let pHeight = userProfile.height,

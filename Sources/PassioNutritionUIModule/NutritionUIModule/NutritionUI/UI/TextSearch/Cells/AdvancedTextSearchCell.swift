@@ -150,7 +150,7 @@ class AdvancedTextSearchCell: UITableViewCell {
         foodImgView.setFoodImage(id: foodRecord.iconId,
                                passioID: foodRecord.iconId,
                                entityType: foodRecord.entityType,
-                               connector: PassioInternalConnector.shared) { [weak self] foodImage in
+                               connector: NutritionUIModule.shared) { [weak self] foodImage in
             DispatchQueue.main.async {
                 self?.foodImgView.image = foodImage
                 self?.foodImgView.contentMode = .scaleAspectFill

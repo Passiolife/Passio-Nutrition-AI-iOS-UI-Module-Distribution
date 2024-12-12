@@ -31,68 +31,73 @@
                     <rect key="frame" x="0.0" y="0.0" width="393" height="440"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="gaC-uj-pDb">
-                            <rect key="frame" x="16" y="81.333333333333343" width="361" height="318.66666666666663"/>
+                            <rect key="frame" x="16" y="95.333333333333343" width="361" height="304.66666666666663"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jtI-lA-Udy">
-                                    <rect key="frame" x="0.0" y="0.0" width="361" height="20"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="QG5-sV-z2h">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="73.666666666666671"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QnA-pt-rPg">
-                                            <rect key="frame" x="311" y="0.0" width="50" height="20"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jtI-lA-Udy">
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="20"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QnA-pt-rPg">
+                                                    <rect key="frame" x="311" y="0.0" width="50" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="DdF-W2-8rG"/>
+                                                        <constraint firstAttribute="height" constant="20" id="Pn7-kU-qAN"/>
+                                                    </constraints>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal">
+                                                        <attributedString key="attributedTitle">
+                                                            <fragment content="Clear">
+                                                                <attributes>
+                                                                    <color key="NSColor" red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    <font key="NSFont" metaFont="system" size="14"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                    <integer key="NSUnderline" value="1"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="onClear:" destination="iN0-l3-epB" eventType="touchUpInside" id="t2x-oR-qJr"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="50" id="DdF-W2-8rG"/>
-                                                <constraint firstAttribute="height" constant="20" id="Pn7-kU-qAN"/>
+                                                <constraint firstAttribute="height" constant="20" id="Nly-H9-8aA"/>
+                                                <constraint firstAttribute="bottom" secondItem="QnA-pt-rPg" secondAttribute="bottom" id="XTB-GP-Nck"/>
+                                                <constraint firstAttribute="trailing" secondItem="QnA-pt-rPg" secondAttribute="trailing" id="l82-50-AAA"/>
                                             </constraints>
-                                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                            <state key="normal">
-                                                <attributedString key="attributedTitle">
-                                                    <fragment content="Clear">
-                                                        <attributes>
-                                                            <color key="NSColor" red="0.30980392156862746" green="0.27450980392156865" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <font key="NSFont" metaFont="system" size="14"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            <integer key="NSUnderline" value="1"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                            </state>
-                                            <connections>
-                                                <action selector="onClear:" destination="iN0-l3-epB" eventType="touchUpInside" id="t2x-oR-qJr"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="20" id="Nly-H9-8aA"/>
-                                        <constraint firstAttribute="bottom" secondItem="QnA-pt-rPg" secondAttribute="bottom" id="XTB-GP-Nck"/>
-                                        <constraint firstAttribute="trailing" secondItem="QnA-pt-rPg" secondAttribute="trailing" id="l82-50-AAA"/>
-                                    </constraints>
-                                </view>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="O8W-75-jT6">
-                                    <rect key="frame" x="0.0" y="44" width="361" height="43.666666666666657"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4yP-Zf-ohD">
-                                            <rect key="frame" x="0.0" y="0.0" width="361" height="23.333333333333332"/>
-                                            <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="20"/>
-                                            <color key="textColor" name="gray-900"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select the foods you would like to log" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="teJ-HK-rba">
-                                            <rect key="frame" x="0.0" y="27.333333333333329" width="361" height="16.333333333333329"/>
-                                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
-                                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        </view>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="O8W-75-jT6">
+                                            <rect key="frame" x="0.0" y="29.999999999999996" width="361" height="43.666666666666657"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Results" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4yP-Zf-ohD">
+                                                    <rect key="frame" x="0.0" y="0.0" width="361" height="23.333333333333332"/>
+                                                    <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="20"/>
+                                                    <color key="textColor" name="gray-900"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select the foods you would like to log" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="teJ-HK-rba">
+                                                    <rect key="frame" x="0.0" y="27.333333333333329" width="361" height="16.333333333333329"/>
+                                                    <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
                                 </stackView>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0TA-ey-tj2">
-                                    <rect key="frame" x="0.0" y="111.66666666666669" width="361" height="80"/>
+                                    <rect key="frame" x="0.0" y="97.666666666666686" width="361" height="80"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="80" id="Pex-x8-1wO"/>
                                     </constraints>
                                 </tableView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="tiL-OE-hhM">
-                                    <rect key="frame" x="0.0" y="215.66666666666669" width="361" height="29"/>
+                                    <rect key="frame" x="0.0" y="201.66666666666669" width="361" height="29"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhE-s9-RDY">
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="29"/>
@@ -108,7 +113,7 @@
                                     </subviews>
                                 </stackView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="SdW-JF-a6q">
-                                    <rect key="frame" x="0.0" y="268.66666666666669" width="361" height="50"/>
+                                    <rect key="frame" x="0.0" y="254.66666666666669" width="361" height="50"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBT-Fw-Jt6">
                                             <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="50"/>
@@ -220,7 +225,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="gaC-uj-pDb" secondAttribute="trailing" constant="16" id="0x2-iH-Fvy"/>
-                        <constraint firstItem="gaC-uj-pDb" firstAttribute="top" relation="greaterThanOrEqual" secondItem="l0T-Sj-mjk" secondAttribute="top" constant="8" id="Fkt-RA-KSu"/>
+                        <constraint firstItem="gaC-uj-pDb" firstAttribute="top" relation="greaterThanOrEqual" secondItem="l0T-Sj-mjk" secondAttribute="top" constant="12" id="Fkt-RA-KSu"/>
                         <constraint firstAttribute="bottom" secondItem="gaC-uj-pDb" secondAttribute="bottom" constant="40" id="HtK-o9-eBE"/>
                         <constraint firstItem="gaC-uj-pDb" firstAttribute="leading" secondItem="l0T-Sj-mjk" secondAttribute="leading" constant="16" id="dlD-JS-5m0"/>
                     </constraints>
@@ -239,15 +244,18 @@
                 <outlet property="activityIndicator" destination="StC-ca-x4L" id="fBk-bs-MFc"/>
                 <outlet property="cancelButton" destination="szM-XN-zmb" id="Oig-pb-Ro4"/>
                 <outlet property="clearButton" destination="QnA-pt-rPg" id="YEY-MH-9s2"/>
+                <outlet property="clearView" destination="jtI-lA-Udy" id="pZM-BA-p8A"/>
                 <outlet property="contentView" destination="l0T-Sj-mjk" id="pky-P6-1Cc"/>
                 <outlet property="foodResultsTableView" destination="0TA-ey-tj2" id="bff-Oa-Vde"/>
                 <outlet property="logLabel" destination="ntR-Td-eSN" id="v6f-jQ-C30"/>
                 <outlet property="logSelectedButton" destination="AqP-JW-STv" id="E4W-tI-Zls"/>
                 <outlet property="logView" destination="hTZ-DD-FUd" id="vRh-cd-Wnu"/>
+                <outlet property="resultsDescLabel" destination="teJ-HK-rba" id="6gA-UC-UuD"/>
                 <outlet property="resultsLabel" destination="4yP-Zf-ohD" id="U9S-4f-QuC"/>
                 <outlet property="searchManuallyButton" destination="DhE-s9-RDY" id="tD7-h7-urE"/>
                 <outlet property="searchManuallyStackView" destination="tiL-OE-hhM" id="Dsb-Db-9Wx"/>
                 <outlet property="tableViewHeightConstraint" destination="Pex-x8-1wO" id="8ZI-YZ-Ywz"/>
+                <outlet property="topConstraint" destination="Fkt-RA-KSu" id="jVI-KN-T21"/>
                 <outlet property="tryAgainButton" destination="PBT-Fw-Jt6" id="Dyi-CM-ald"/>
             </connections>
             <point key="canvasLocation" x="-196.18320610687022" y="-21.126760563380284"/>

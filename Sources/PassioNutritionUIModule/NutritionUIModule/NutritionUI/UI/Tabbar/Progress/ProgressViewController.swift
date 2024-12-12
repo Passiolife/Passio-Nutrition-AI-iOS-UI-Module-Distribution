@@ -15,6 +15,7 @@ class ProgressViewController: UIViewController {
     @IBOutlet weak var microButton : UIButton!
     @IBOutlet weak var segmentUnderlineView: UIView!
     @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+
     @IBOutlet private weak var pageFrameView : UIView! {
         willSet {
             addChild(pageMaster)
@@ -48,10 +49,10 @@ class ProgressViewController: UIViewController {
 
     private func setupPageViewController() {
         let macroViewController = UIStoryboard(name: "Progress",
-                                               bundle: PassioInternalConnector.shared.bundleForModule)
+                                               bundle: NutritionUIModule.shared.bundleForModule)
             .instantiateViewController(identifier: "MacroProgressViewController") as! MacroProgressViewController
         let microViewController = UIStoryboard(name: "Progress",
-                                               bundle: PassioInternalConnector.shared.bundleForModule)
+                                               bundle: NutritionUIModule.shared.bundleForModule)
             .instantiateViewController(identifier: "MicroProgressViewController") as! MicroProgressViewController
         viewControllerList = [macroViewController, microViewController]
         pageMaster.pageDelegate = self

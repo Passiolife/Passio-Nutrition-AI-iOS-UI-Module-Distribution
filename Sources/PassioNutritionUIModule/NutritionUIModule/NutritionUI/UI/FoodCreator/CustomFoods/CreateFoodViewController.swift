@@ -34,7 +34,7 @@ final class CreateFoodViewController: InstantiableViewController {
     private let createFoodSections: [CreateFoodSection] = [.foodDetailsTableViewCell,
                                                            .requiredNutritionsTableViewCell,
                                                            .otherNutritionsTableViewCell]
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
 
     private enum CreateFoodSection: String, CaseIterable {
         case foodDetailsTableViewCell
@@ -42,6 +42,9 @@ final class CreateFoodViewController: InstantiableViewController {
         case otherNutritionsTableViewCell
     }
 
+    private var foodDetailsTableViewCell: FoodDetailsTableViewCell?
+    private var requiredNutritionsTableViewCell: RequiredNutritionsTableViewCell?
+    
     var vcTitle = "Food Creator"
     var foodDataSet: NutritionFactsDataSet?
     var loggedFoodRecord: FoodRecordV3?
@@ -103,8 +106,8 @@ final class CreateFoodViewController: InstantiableViewController {
 
         view.endEditing(true)
 
-        guard let getFoodDetailCell = getCell(section: 0) as? FoodDetailsTableViewCell,
-              let getRequiredNutritionsCell = getCell(section: 1) as? RequiredNutritionsTableViewCell else {
+        guard let getFoodDetailCell = getCell(section: 0) as? FoodDetailsTableViewCell ?? foodDetailsTableViewCell,
+              let getRequiredNutritionsCell = getCell(section: 1) as? RequiredNutritionsTableViewCell ?? requiredNutritionsTableViewCell else {
             return
         }
 
@@ -138,7 +141,7 @@ final class CreateFoodViewController: InstantiableViewController {
 extension CreateFoodViewController {
 
     private func configureTableView() {
-
+        createFoodTableView.prefetchDataSource = self
         createFoodTableView.dataSource = self
         CreateFoodSection.allCases.forEach {
             createFoodTableView.register(nibName: $0.rawValue.capitalizingFirst())
@@ -303,8 +306,8 @@ extension CreateFoodViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension CreateFoodViewController: UITableViewDataSource {
+// MARK: - UITableViewDataSource, UITableViewDataSourcePrefetching
+extension CreateFoodViewController: UITableViewDataSource, UITableViewDataSourcePrefetching {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         createFoodSections.count
@@ -354,6 +357,21 @@ extension CreateFoodViewController: UITableViewDataSource {
             return cell
         }
     }
+    
+    // MARK: - UITableViewDataSourcePrefetching
+
+        func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+            for indexPath in indexPaths {
+                if  indexPath == IndexPath(row: 0, section: 0),
+                    let foodDetailsCell = tableView.cellForRow(at: indexPath) as? FoodDetailsTableViewCell {
+                    self.foodDetailsTableViewCell = foodDetailsCell
+                }
+                else if  indexPath == IndexPath(row: 0, section: 1),
+                    let nutritionCell = tableView.cellForRow(at: indexPath) as? RequiredNutritionsTableViewCell {
+                    self.requiredNutritionsTableViewCell = nutritionCell
+                }
+            }
+        }
 }
 
 // MARK: - FoodDataSetCell Delegate

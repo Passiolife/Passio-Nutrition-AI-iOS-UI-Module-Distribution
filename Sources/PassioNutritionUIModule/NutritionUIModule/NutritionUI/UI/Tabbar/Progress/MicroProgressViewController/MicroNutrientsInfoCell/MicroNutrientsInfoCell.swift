@@ -13,11 +13,13 @@ final class MicroNutrientsInfoCell: UITableViewCell {
     @IBOutlet weak var nutritionNameLabel: UILabel!
     @IBOutlet weak var consumedValueLabel: UILabel!
     @IBOutlet weak var remainingValueLabel: UILabel!
+    @IBOutlet weak var slashLabel: UILabel!
     @IBOutlet weak var nutrientValueProgressView: UIProgressView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         nutrientValueProgressView.roundMyCornerWith(radius: 7)
+        slashLabel.font = .inter(type: .regular, size: 14)
     }
 }
 

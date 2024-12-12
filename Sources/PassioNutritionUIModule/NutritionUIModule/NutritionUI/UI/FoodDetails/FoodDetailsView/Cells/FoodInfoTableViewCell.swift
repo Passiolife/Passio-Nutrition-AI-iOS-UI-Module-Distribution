@@ -74,7 +74,7 @@ class FoodInfoTableViewCell: UITableViewCell {
         imageFood.setFoodImage(id: foodRecord.iconId,
                                passioID: pidForImage,
                                entityType: foodRecord.entityType,
-                               connector: PassioInternalConnector.shared) { [weak self] foodImage in
+                               connector: NutritionUIModule.shared) { [weak self] foodImage in
             DispatchQueue.main.async {
                 self?.imageFood.image = foodImage
             }
@@ -125,7 +125,7 @@ class FoodInfoTableViewCell: UITableViewCell {
         imageFood.setFoodImage(id: foodIngrident.iconId,
                                passioID: pidForImage,
                                entityType: foodIngrident.entityType,
-                               connector: PassioInternalConnector.shared) { [weak self] foodImage in
+                               connector: NutritionUIModule.shared) { [weak self] foodImage in
             DispatchQueue.main.async {
                 self?.imageFood.image = foodImage
             }

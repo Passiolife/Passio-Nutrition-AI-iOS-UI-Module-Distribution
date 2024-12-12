@@ -28,7 +28,7 @@ final class MyFavoritesViewController: InstantiableViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     weak var delegate: FavoritesViewDelegate?
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private let refreshControl = UIRefreshControl()
     private var favorites = [FoodRecordV3]()
     private var addedToFavorites = -1
@@ -152,9 +152,10 @@ extension MyFavoritesViewController: UITableViewDelegate {
         let favorite = favorites[indexPath.row]
         let editVC = FoodDetailsViewController()
         editVC.foodRecord = favorite
+        
         editVC.resultViewFor = resultViewFor
-        editVC.isEditingFavorite = true
         editVC.isFromMyFavorites = true
+        editVC.isEditingFavorite = false
         editVC.foodDetailsControllerDelegate = self
         navigationController?.pushViewController(editVC, animated: true)
     }

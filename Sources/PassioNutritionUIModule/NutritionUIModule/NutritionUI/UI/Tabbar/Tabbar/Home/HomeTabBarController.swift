@@ -139,28 +139,29 @@ extension HomeTabBarController {
             switch allTabs[i] {
 
             case .home:
-                let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
+                let dashboardVC = UIStoryboard(name: "Home", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
+                dashboardVC.delegate = self
                 let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
                 dashboardNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = dashboardNavVC
 
             case .diary:
-                let diaryVC = UIStoryboard(name: "Diary", bundle: PassioInternalConnector.shared.bundleForModule)
+                let diaryVC = UIStoryboard(name: "Diary", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "DiaryViewController") as! DiaryViewController
                 let macroNavVC = UINavigationController(rootViewController: diaryVC)
                 macroNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = macroNavVC
 
             case .progress:
-                let progressVC = UIStoryboard(name: "Progress", bundle: PassioInternalConnector.shared.bundleForModule)
+                let progressVC = UIStoryboard(name: "Progress", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "ProgressViewController") as! ProgressViewController
                 let progressNavVC = UINavigationController(rootViewController: progressVC)
                 progressNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = progressNavVC
 
             case .mealPlan:
-                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: PassioInternalConnector.shared.bundleForModule)
+                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "MealPlanViewController") as! MealPlanViewController
                 let mealPlanNavVC = UINavigationController(rootViewController: mealPlanVC)
                 mealPlanNavVC.isNavigationBarHidden = true
@@ -202,7 +203,7 @@ extension HomeTabBarController {
         let customPickerViewController = CustomPickerViewController()
         customPickerViewController.loadViewIfNeeded()
 
-        let options: [HemburgarMenuOptions] = [.profile, .settings, .logout]
+        let options: [HemburgarMenuOptions] = [.profile, .settings]
         customPickerViewController.pickerItems = options.map({$0.pickerElememt})
 
         if let frame = sender.superview?.convert(sender.frame, to: nil) {
@@ -265,11 +266,17 @@ extension HomeTabBarController: PlusMenuDelegate {
 
     func onTakePhotosSelected() {
         let vc = TakePhotosViewController()
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 
     func onSelectPhotosSelected() {
         let vc = SelectPhotosViewController()
+        vc.goToSearch = { [weak self] in
+            self?.onSearchSelected()
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -348,5 +355,20 @@ extension HomeTabBarController: CustomPickerSelectionDelegate {
             break
         default: break
         }
+    }
+}
+
+// MARK: - DashboardDelegate
+extension HomeTabBarController: DashboardDelegate {
+    func redirectToTrackingScreen(trackingType: TrackingTypes) {
+        if trackingType == .weightTracking {
+            let vc = NutritionUICoordinator.getWeightTrackingViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else if trackingType == .waterTracking {
+            let vc = NutritionUICoordinator.getWaterTrackingViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {}
     }
 }

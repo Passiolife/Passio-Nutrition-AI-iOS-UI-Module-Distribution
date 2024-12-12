@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 #if canImport(PassioNutritionAISDK)
 import PassioNutritionAISDK
 #endif
@@ -21,12 +22,17 @@ enum Conversion: Double {
 public class UserManager {
 
     static var shared: UserManager = UserManager()
-    private init() { }
+    private init() {
+        configure()
+    }
 
     var user: UserProfileModel?
 
     func configure() {
-        PassioInternalConnector.shared.fetchUserProfile { profile in
+        if user != nil {
+            return
+        }
+        NutritionUIModule.shared.fetchUserProfile { profile in
             self.user = profile
         }
     }
@@ -54,6 +60,8 @@ public struct UserProfileModel: Codable, Equatable {
     var mealPlan: PassioMealPlan?
     var goalWater: Double?
     var waterUnit: WaterUnit? = .oz
+    // UUID().uuidString as of now we keep uuid hardcoded to as we have only single user.
+    var uuid: String = "B2B7EAB8-5C57-41B5-9F11-5F1922C63E34"
 
     public init() {}
 
@@ -157,6 +165,28 @@ public struct UserProfileModel: Codable, Equatable {
         }
     }
 
+    var selectedWeightUnit: String {
+        switch units {
+        case .imperial:
+            return "lbs"
+        case .metric:
+            return "kg"
+        }
+        return "lbs"
+    }
+    
+    var goalWeightRemainDespription: String? {
+        guard let goalWeight = goalWeight,
+              let mainWeight = weight, goalWeight > 0 else { return nil}
+        switch units {
+        case .imperial:
+            let goalRemainValue = ((goalWeight - mainWeight) * Conversion.lbsToKg.rawValue)
+            return goalRemainValue.roundDigits(afterDecimal: 1).clean + " lbs"
+        case .metric:
+            return (goalWeight - mainWeight).roundDigits(afterDecimal: 1).clean + " kg"
+        }
+    }
+    
     var heightDescription: String? {
         guard let height = height else { return nil }
         switch heightUnits {
@@ -247,7 +277,7 @@ public struct UserProfileModel: Codable, Equatable {
             self.proteinPercent = protien
             self.fatPercent = fat
         }
-        PassioInternalConnector.shared.updateUserProfile(userProfile: self)
+        NutritionUIModule.shared.updateUserProfile(userProfile: self)
     }
 
     public var getJSONDict: [String: Any]? {
@@ -350,5 +380,77 @@ class MealPlanManager {
         PassioNutritionAI.shared.fetchMealPlans { [weak self] mealPlans in
             self?.mealPlans = mealPlans
         }
+    }
+}
+
+
+internal extension UserProfileModel {
+
+    init(coreModel: TblUserProfile) {
+
+        self.firstName = coreModel.firstName
+        self.lastName = coreModel.lastName
+        self.birthday = coreModel.birthday
+        self.age = Int(coreModel.age)
+        self.weight = coreModel.weight
+        self.goalWeight = coreModel.goalWeight
+        self.goalWeightTimeLine = coreModel.goalWeightTimeLine
+        self.goalWater = coreModel.goalWater
+        self.height = coreModel.height
+        self.gender = GenderSelection(rawValue: coreModel.gender ?? "male")
+        if let coreUnits = coreModel.units {
+            self.units = UnitSelection(rawValue: coreUnits) ?? UnitSelection.imperial
+        }
+        else {
+            self.units = UnitSelection.imperial
+        }
+        
+        if let coreHeightUnits = coreModel.heightUnits {
+            self.heightUnits = UnitSelection(rawValue: coreHeightUnits) ?? UnitSelection.imperial
+        }
+        else {
+            self.heightUnits = UnitSelection.imperial
+        }
+        
+        self.caloriesTarget = Int(coreModel.caloriesTarget)
+        self.carbsPercent = Int(coreModel.carbsPercent)
+        self.proteinPercent = Int(coreModel.proteinPercent)
+        self.fatPercent = Int(coreModel.fatPercent)
+        
+        if let reminderSettings = coreModel.reminderSettings {
+            
+            if let reminderSettingsData = reminderSettings.data(using: .utf8) {
+                do {
+                    let reminderSettings = try JSONDecoder().decode(ReminderSettings.self, from: reminderSettingsData)
+                    self.reminderSettings = reminderSettings
+                } catch let error {
+                    print("Error while parsing ReminderSettings")
+                }
+            }
+            
+            
+        }
+        
+        if let coreActivityLevel = coreModel.activityLevel {
+            self.activityLevel = ActivityLevel(rawValue: coreActivityLevel)
+        }
+        
+        if let coreMealPlan = coreModel.mealPlan {
+            
+            if let coreMealPlanData = coreMealPlan.data(using: .utf8) {
+                do {
+                    let passioMealPlan = try JSONDecoder().decode(PassioMealPlan.self, from: coreMealPlanData)
+                    self.mealPlan = passioMealPlan
+                } catch let error {
+                    print("Error while parsing PassioMealPlan")
+                }
+            }
+        }
+        
+        if let coreWaterUnit = coreModel.waterUnit {
+            self.waterUnit = WaterUnit(rawValue: coreWaterUnit)
+        }
+          
+        self.uuid = coreModel.uuid ?? ""
     }
 }
