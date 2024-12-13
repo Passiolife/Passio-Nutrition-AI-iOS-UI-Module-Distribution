@@ -142,17 +142,17 @@ class ResultsLoggingView: UIView {
 
     // If there is food to log, log the food, otherwise search manually
     @IBAction func onLogSelected(_ sender: UIButton) {
+        
         if foodLogs.count > 0 {
+            
             updateLogUI(isLogging: true)
             
             if resultViewFor == .addIngredient {
-                
                 getFoodRecordForAddingAnIngredients(foods: foodLogs.filter { $0.isSelected }) { [weak self] foodRecordIngredients in
                     self?.updateLogUI(isLogging: false)
                     self?.resultLoggingDelegate?.onAddIngredientsTapped(foodRecords: foodRecordIngredients)
                 }
-            }
-            else {
+            } else {
                 getFoodRecord(foods: foodLogs.filter { $0.isSelected }) { [weak self] in
                     self?.updateLogUI(isLogging: false)
                     self?.resultLoggingDelegate?.onLogSelectedTapped()
@@ -164,21 +164,21 @@ class ResultsLoggingView: UIView {
     }
     
     func updateLogUI(isLogging: Bool) {
+        
         if isLogging {
             self.isUserInteractionEnabled = false
             if resultViewFor == .addIngredient {
                 logLabel.text = "Adding..."
-            }
-            else {
+            } else {
                 logLabel.text = "Logging..."
             }
             activityIndicator.startAnimating()
-        } else {
+        } 
+        else {
             self.isUserInteractionEnabled = true
             if resultViewFor == .addIngredient {
                 logLabel.text = "Ingredients Selected"
-            }
-            else {
+            } else {
                 logLabel.text = "Log Selected"
             }
             activityIndicator.stopAnimating()
