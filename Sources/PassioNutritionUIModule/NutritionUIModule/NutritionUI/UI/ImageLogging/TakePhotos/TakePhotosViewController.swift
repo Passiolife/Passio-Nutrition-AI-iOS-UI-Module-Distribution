@@ -267,7 +267,6 @@ extension TakePhotosViewController {
                 resultsLoggingView.tryAgainButton.setImage(image, for: .normal)
                 resultsLoggingView.tryAgainButton.setTitle("Search Again", for: .normal)
                 resultsLoggingView.resultLoggingDelegate = self
-                resultsLoggingView.showCancelButton = true
                 resultsLoggingView.resultViewFor = resultViewFor
                 resultsLoggingView.recognitionData = recognitionData
                 view.addSubview(resultsLoggingView)
