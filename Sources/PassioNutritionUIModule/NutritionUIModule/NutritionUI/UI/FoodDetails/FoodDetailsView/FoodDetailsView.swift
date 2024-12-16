@@ -40,9 +40,11 @@ class FoodDetailsView: UIView {
     private var cachedMaxForSlider = [Int: [String: Float]]()
 
     var saveToConnector: Bool = true
+    var isFromMyFavorites = false
     var isEditingFavorite = false
     var isFromCustomFoodList = false
     var isFromRecipeList = false
+    
     /* As we don't need to make any logs from Favorite Food -> Food Details -> Food Details View we ignore default set value,
      * we need only addIngredient enum to check if user redirect form Create/Edit Recipe screen or not.
      */
@@ -145,8 +147,16 @@ extension FoodDetailsView {
         
         if saveToConnector {
             if editedTimestamp != nil {
-                connector.deleteRecord(foodRecord: record)
-                record.createdAt = editedTimestamp ?? record.createdAt
+                // https://app.zenhub.com/workspaces/nutrition-ai-6553a6e30a14f004a13d6dac/issues/gh/passiolife/ios-demo-app/581
+                if isFromMyFavorites == true && isEditingFavorite == false {
+                    record.uuid = UUID().uuidString
+                    record.createdAt = editedTimestamp ?? record.createdAt
+                }
+                else {
+                    connector.deleteRecord(foodRecord: record)
+                    record.createdAt = editedTimestamp ?? record.createdAt
+                }
+                
             } else if isFromCustomFoodList || isFromRecipeList {
                 record.uuid = UUID().uuidString
                 record.createdAt = Date()

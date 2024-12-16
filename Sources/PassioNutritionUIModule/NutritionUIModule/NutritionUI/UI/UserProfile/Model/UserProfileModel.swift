@@ -376,9 +376,10 @@ class MealPlanManager {
 
     private init() {}
 
-    func getMealPlans() {
+    func getMealPlans(completion: @escaping () -> Void = {}) {
         PassioNutritionAI.shared.fetchMealPlans { [weak self] mealPlans in
             self?.mealPlans = mealPlans
+            completion()
         }
     }
 }
