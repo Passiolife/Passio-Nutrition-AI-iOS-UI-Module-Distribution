@@ -147,9 +147,11 @@ class EditSettingsViewController: UIViewController {
     }
     
     private func didUpdateLanguage(_ language: Language) {
-        PassioUserDefaults.setLanguage(language)
-        PassioNutritionAI.shared.updateLanguage(languageCode: language.ISOCode)
-        languageTextfield.text = language.label
+        let success = PassioNutritionAI.shared.updateLanguage(languageCode: language.ISOCode)
+        if success {
+            PassioUserDefaults.setLanguage(language)
+            languageTextfield.text = language.label
+        }
     }
 
     @objc private func showUnit(_ sender: UIButton) {
