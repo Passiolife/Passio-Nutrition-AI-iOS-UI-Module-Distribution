@@ -10,12 +10,14 @@ import UIKit
 
 public final class ProgressHUD {
 
-    public static func show(presentingVC: UIViewController, color: UIColor = .primaryColor) {
+    public static func show(presentingVC: UIViewController, 
+                            color: UIColor = .primaryColor,
+                            alpha: CGFloat = 0.5) {
 
         DispatchQueue.main.async {
 
             let viewController = UIViewController()
-            viewController.view.backgroundColor = .white.withAlphaComponent(0.5)
+            viewController.view.backgroundColor = .white.withAlphaComponent(alpha)
 
             guard let containerView = viewController.view else { return }
 

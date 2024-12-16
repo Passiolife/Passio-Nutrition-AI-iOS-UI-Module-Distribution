@@ -43,7 +43,7 @@ final class FoodDetailsViewController: UIViewController {
     var isFromBarcode = false
     var isFromRecipeList = false
     var isFromMyFavorites = false
-
+    
     weak var delegate: FoodDetailsDelegate?
     weak var foodDetailsControllerDelegate: FoodDetailsControllerDelegate?
     
@@ -60,6 +60,7 @@ final class FoodDetailsViewController: UIViewController {
         let nib = UINib.nibFromBundle(nibName: FoodDetailsView.className)
         foodDetailsView = nib.instantiate(withOwner: self, options: nil).first as? FoodDetailsView
         foodDetailsView?.foodDetailsDelegate = self
+        foodDetailsView?.isFromMyFavorites = isFromMyFavorites
         foodDetailsView?.isEditingFavorite = isEditingFavorite
         foodDetailsView?.isEditingRecord = isEditingRecord
         foodDetailsView?.configureTableView()
