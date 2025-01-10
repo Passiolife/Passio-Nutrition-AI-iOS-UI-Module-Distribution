@@ -202,6 +202,7 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
             return cell
+            
         case .weightWater:
             let cell = tableView.dequeueCell(cellClass: WaterWeightCardCell.self, forIndexPath: indexPath)
             cell.configureUI(lastWeightRecord: weightTrackingRecord, totalConsumedWater: totalConsumedWater)
