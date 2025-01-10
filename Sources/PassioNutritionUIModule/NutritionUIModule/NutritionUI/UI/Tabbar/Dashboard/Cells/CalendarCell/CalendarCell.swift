@@ -183,7 +183,13 @@ extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     func calendar(_ calendar: FSCalendar,
                   shouldSelect date: Date,
                   at monthPosition: FSCalendarMonthPosition) -> Bool {
-        false
+        true
+    }
+    
+    func calendar(_ calendar: FSCalendar,
+                  didSelect date: Date,
+                  at monthPosition: FSCalendarMonthPosition) {
+        self.didSelectDate?(date)
     }
 
     func calendar(_ calendar: FSCalendar,
