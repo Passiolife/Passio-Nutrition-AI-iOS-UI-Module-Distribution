@@ -166,8 +166,7 @@ extension BarcodeRecogniserViewController {
 
     func setupVideoLayer() {
         guard videoLayer == nil else { return }
-        if let vLayer = passioSDK.getPreviewLayerWithGravity(volumeDetectionMode: .none,
-                                                             videoGravity: .resizeAspectFill) {
+        if let vLayer = passioSDK.getPreviewLayerWithGravity(videoGravity: .resizeAspectFill) {
             videoLayer = vLayer
             let bgFrame = previewView.bounds
             vLayer.frame = bgFrame
@@ -179,7 +178,7 @@ extension BarcodeRecogniserViewController {
         addTapGestureForFocus()
         isRecognitionsPaused = false
         let detectionConfig = FoodDetectionConfiguration(detectVisual: true,
-                                                         volumeDetectionMode: .none,
+                                                         //volumeDetectionMode: .none,
                                                          detectBarcodes: true,
                                                          detectPackagedFood: true)
         DispatchQueue.global(qos: .userInteractive).async { [weak self] () in

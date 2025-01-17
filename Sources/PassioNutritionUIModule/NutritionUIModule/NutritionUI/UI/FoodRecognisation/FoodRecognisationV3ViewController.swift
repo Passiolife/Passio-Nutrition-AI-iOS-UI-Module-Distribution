@@ -28,7 +28,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
 
     private let passioSDK = PassioNutritionAI.shared
     private let connector = NutritionUIModule.shared
-    private var volumeDetectionMode = VolumeDetectionMode.none
+    //private var volumeDetectionMode = VolumeDetectionMode.none
     private var videoLayer: AVCaptureVideoPreviewLayer?
     private var timer: Timer?
     private var isRecognitionsPaused = false
@@ -134,7 +134,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
         dataset = nil
         setupNavigation()
         detectionConfig = FoodDetectionConfiguration(detectVisual: true,
-                                                     volumeDetectionMode: volumeDetectionMode,
+                                                     //volumeDetectionMode: volumeDetectionMode,
                                                      detectBarcodes: false,
                                                      detectPackagedFood: true)
         foodResultVC?.delegate = self
@@ -337,8 +337,7 @@ private extension FoodRecognitionV3ViewController {
 
     func setupVideoLayer() {
         guard videoLayer == nil else { return }
-        if let vLayer = passioSDK.getPreviewLayerWithGravity(volumeDetectionMode: volumeDetectionMode,
-                                                             videoGravity: .resizeAspectFill) {
+        if let vLayer = passioSDK.getPreviewLayerWithGravity(videoGravity: .resizeAspectFill) {
             videoLayer = vLayer
             let bgFrame = previewView.bounds
             vLayer.frame = bgFrame
