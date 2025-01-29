@@ -65,6 +65,7 @@ extension QuickAddSuggestionViewController {
     private func registerCellsAndTableDelegates() {
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = false
         let layout = UICollectionViewCompositionalLayout { [weak self] (sectionNumber, env) in
             return self?.collectionLayout(height: 60)
         }
@@ -90,7 +91,7 @@ extension QuickAddSuggestionViewController {
             if var record = foodRecord {
                 record.createdAt = Date()
                 record.mealLabel = MealLabel.mealLabelBy()
-                PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                NutritionUIModule.shared.updateRecord(foodRecord: record)
                 DispatchQueue.main.async {
                     self?.getQuickSuggestion()
                     self?.showMessage(msg: ToastMessages.addedToLog, alignment: .center)

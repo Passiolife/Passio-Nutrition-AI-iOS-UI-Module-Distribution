@@ -16,7 +16,7 @@ class RecipesViewController: InstantiableViewController {
     @IBOutlet weak var recipesTableView: UITableView!
     @IBOutlet weak var createNewRecipeButton: UIButton!
     
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var recipes: [FoodRecordV3] = [] {
         didSet {
             recipesTableView.reloadData()

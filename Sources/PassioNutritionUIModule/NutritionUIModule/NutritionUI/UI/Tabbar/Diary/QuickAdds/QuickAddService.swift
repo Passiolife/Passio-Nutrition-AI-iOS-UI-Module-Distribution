@@ -24,10 +24,8 @@ final class QuickAddService {
         }
         let maxSuggestedCount = 30
 
-        PassioInternalConnector.shared.fetchDayLogFor(
-            fromDate: fromDate,
-            toDate: toDate
-        ) { [weak self] dayLogs in
+        NutritionUIModule.shared.fetchDayLogFor(fromDate: fromDate, 
+                                                toDate: toDate) { [weak self] dayLogs in
             guard let self = self else { return }
 
             // Filter food records by mealTime
@@ -51,7 +49,7 @@ final class QuickAddService {
             // Convert food record names to lowercase and count occurrences
             let lowerCasedFoodRecords = finalFoodRecords.map { record in
                 var recordCopy = record
-                recordCopy.name = record.name.lowercased()
+                //recordCopy.name = record.name.lowercased()
                 return recordCopy
             }
 
@@ -61,7 +59,8 @@ final class QuickAddService {
 
             // Sort and remove duplicates, keeping the most frequent items first
             let sortedFoodRecords = lowerCasedFoodRecords
-                .uniqued(on: \.name)
+                //.uniqued(on: \.name)
+                .uniqued(on: { $0.name.lowercased() })
                 .sorted { foodNamesCount[$0.name] ?? 0 > foodNamesCount[$1.name] ?? 0 }
 
             let userSuggestedFoods = sortedFoodRecords.map { SuggestedFoods(foodRecord: $0) }
@@ -97,7 +96,8 @@ final class QuickAddService {
 
             // Combine SDK suggestions with user suggestions and ensure uniqueness by food name
             let combinedSuggestedFoods = (userSuggestedFoods + sdkSuggestedFoods)
-                .uniqued(on: \.name)
+                //.uniqued(on: \.name)
+                .uniqued(on: { $0.name.lowercased() })
                 .filter { !todayRecords.contains($0.name.lowercased()) } // Exclude today's records
 
             // Limit the results to 30 suggestions

@@ -266,7 +266,7 @@ extension AddNewWaterTrackingVC {
                 waterTrackModel = WaterTracking(id: waterRecord.id, water: value, dateTime: recordDateTime)
             }
             
-            PassioInternalConnector.shared.updateWaterRecord(waterRecord: waterTrackModel) { bResult in
+            NutritionUIModule.shared.updateWaterRecord(waterRecord: waterTrackModel) { bResult in
                 if bResult {
                     self.delegate?.refreshRecords()
                     self.navigationController?.popViewController(animated: true)

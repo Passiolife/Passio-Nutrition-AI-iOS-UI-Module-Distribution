@@ -29,7 +29,7 @@ class IngredientEditorView: UIView {
     @IBOutlet weak var buttonSave: UIButton!
 
     let passioSDK = PassioNutritionAI.shared
-    let connector = PassioInternalConnector.shared
+    let connector = NutritionUIModule.shared
     var cachedMaxForSlider = [Int: [String: Float]]()
     var indexOfIngredient = 0
     var isAddIngredient = false {

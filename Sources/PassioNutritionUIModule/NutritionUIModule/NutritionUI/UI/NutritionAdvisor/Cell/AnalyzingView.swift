@@ -15,7 +15,7 @@ class AnalyzingView: UIView
     @IBOutlet weak var loader: LottieAnimationView!
     @IBOutlet weak var titleLabel: UILabel!
 
-    init(frame: CGRect, bundle: Bundle = PassioInternalConnector.shared.bundleForModule) {
+    init(frame: CGRect, bundle: Bundle = NutritionUIModule.shared.bundleForModule) {
         super.init(frame: frame)
         bundle.loadNibNamed(String(describing: AnalyzingView.self), owner: self, options: nil)
         self.addSubview(self.contentView)

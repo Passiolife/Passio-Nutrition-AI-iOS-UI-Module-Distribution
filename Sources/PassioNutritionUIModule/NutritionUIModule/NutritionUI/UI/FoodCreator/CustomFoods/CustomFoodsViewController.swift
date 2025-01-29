@@ -13,7 +13,7 @@ class CustomFoodsViewController: InstantiableViewController {
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var customFoodsTableView: UITableView!
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     var customFoods: [FoodRecordV3] = [] {
         didSet {
             customFoodsTableView.reloadData()

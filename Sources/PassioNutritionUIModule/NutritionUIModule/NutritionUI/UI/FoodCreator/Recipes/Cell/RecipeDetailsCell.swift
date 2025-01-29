@@ -78,7 +78,7 @@ class RecipeDetailsCell: UITableViewCell {
         recipeNameTextField.text = record.name
 
         if isShowFoodIcon {
-            PassioInternalConnector.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
+            NutritionUIModule.shared.fetchUserFoodImage(with: record.iconId) { [weak self] image in
                 if let image {
                     DispatchQueue.main.async {
                         self?.recipeImageView.image = image
@@ -87,7 +87,7 @@ class RecipeDetailsCell: UITableViewCell {
                     self?.recipeImageView.setFoodImage(id: record.iconId,
                                                        passioID: record.iconId,
                                                        entityType: record.entityType,
-                                                       connector: PassioInternalConnector.shared) { image in
+                                                       connector: NutritionUIModule.shared) { image in
                         DispatchQueue.main.async {
                             self?.recipeImageView.image = image
                         }

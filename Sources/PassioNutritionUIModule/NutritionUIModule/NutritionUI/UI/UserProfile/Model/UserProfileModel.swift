@@ -32,7 +32,7 @@ public class UserManager {
         if user != nil {
             return
         }
-        PassioInternalConnector.shared.fetchUserProfile { profile in
+        NutritionUIModule.shared.fetchUserProfile { profile in
             self.user = profile
         }
     }
@@ -277,7 +277,7 @@ public struct UserProfileModel: Codable, Equatable {
             self.proteinPercent = protien
             self.fatPercent = fat
         }
-        PassioInternalConnector.shared.updateUserProfile(userProfile: self)
+        NutritionUIModule.shared.updateUserProfile(userProfile: self)
     }
 
     public var getJSONDict: [String: Any]? {
@@ -376,9 +376,10 @@ class MealPlanManager {
 
     private init() {}
 
-    func getMealPlans() {
+    func getMealPlans(completion: @escaping () -> Void = {}) {
         PassioNutritionAI.shared.fetchMealPlans { [weak self] mealPlans in
             self?.mealPlans = mealPlans
+            completion()
         }
     }
 }

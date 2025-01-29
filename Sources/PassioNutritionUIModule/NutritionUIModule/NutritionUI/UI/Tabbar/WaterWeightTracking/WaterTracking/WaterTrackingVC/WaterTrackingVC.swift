@@ -29,7 +29,7 @@ class WaterTrackingVC: UIViewController {
     @IBOutlet weak var quickAddOptionSmallBottleWaterLabel: UILabel!
     @IBOutlet weak var quickAddOptionLargeBottleWaterLabel: UILabel!
     
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var selectedDate: Date = Date() {
         didSet {
             configureDateUI()
@@ -244,7 +244,7 @@ extension WaterTrackingVC {
     private func insertQuickWaterOption(waterToAdd: QuickAddWater) {
         let waterTrackModel = WaterTracking(water: waterToAdd.rawValue, dateTime: Date())
         
-        PassioInternalConnector.shared.updateWaterRecord(waterRecord: waterTrackModel) { bResult in
+        NutritionUIModule.shared.updateWaterRecord(waterRecord: waterTrackModel) { bResult in
             if bResult {
                 self.getWaterTrackingRecords()
             }

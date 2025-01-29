@@ -1,5 +1,5 @@
 //
-//  PassioFoodDataConnector.swift
+//  CoreDataPassioConnector.swift
 
 import Foundation
 import UIKit
@@ -8,12 +8,12 @@ import CoreData
 import PassioNutritionAISDK
 #endif
 
-public class PassioFoodDataConnector {
+public class CoreDataPassioConnector {
     
     // MARK: Shared Object
-    public class var shared: PassioFoodDataConnector {
+    public class var shared: CoreDataPassioConnector {
         if Static.instance == nil {
-            Static.instance = PassioFoodDataConnector()
+            Static.instance = CoreDataPassioConnector()
         }
         return Static.instance!
     }
@@ -21,11 +21,11 @@ public class PassioFoodDataConnector {
     private init() {}
     
     private struct Static {
-        fileprivate static var instance: PassioFoodDataConnector?
+        fileprivate static var instance: CoreDataPassioConnector?
     }
 }
 
-extension PassioFoodDataConnector: PassioConnector {
+extension CoreDataPassioConnector: PassioConnector {
     
     public func fetchAllUserFoodsMatching(name: String, completion: @escaping ([FoodRecordV3]) -> Void) {
         FoodRecordOperations.shared.fetchFoodRecords(whereClause: name) { foodRecords, error in

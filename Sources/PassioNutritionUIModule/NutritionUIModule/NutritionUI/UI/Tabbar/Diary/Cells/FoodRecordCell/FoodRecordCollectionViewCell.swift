@@ -48,7 +48,7 @@ class FoodRecordCollectionViewCell: SwipeCollectionViewCell {
         imageFood.setFoodImage(id: foodRecord.iconId,
                                passioID: pidForImage,
                                entityType: foodRecord.entityType,
-                               connector: PassioInternalConnector.shared) { [weak self] foodImage in
+                               connector: NutritionUIModule.shared) { [weak self] foodImage in
             DispatchQueue.main.async {
                 self?.imageFood.image = foodImage
             }

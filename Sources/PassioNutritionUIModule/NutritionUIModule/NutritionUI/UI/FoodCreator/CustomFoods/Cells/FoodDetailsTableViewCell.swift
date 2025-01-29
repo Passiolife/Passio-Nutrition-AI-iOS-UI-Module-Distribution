@@ -19,7 +19,7 @@ final class FoodDetailsTableViewCell: UITableViewCell {
     @IBOutlet weak var barcodeTextField: UITextField!
     @IBOutlet weak var barcodeTapView: UIView!
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
 
     var onCreateFoodImage: ((UIImagePickerController.SourceType) -> Void)?
     var onBarcode: (() -> Void)?

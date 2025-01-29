@@ -20,7 +20,7 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var nextDateButton: UIButton!
 
     private lazy var calendarScope: FSCalendarScope = .week
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private let cells: [CellType] = [.nutrition, .calender, .weightWater]
     private var dateSelector: DateSelectorViewController?
     private var dayLog: DayLog?
@@ -106,16 +106,16 @@ class DashboardViewController: UIViewController {
     }
     
     func navigateToDiary(date: Date) {
-        guard let vc = self.tabBarController as? HomeTabBarController else { return }
-        vc.selectedIndex = 1
-        if let diaryNavVC = vc.viewControllers?[1] as? UINavigationController,
-           let diaryVC = diaryNavVC.viewControllers.first as? DiaryViewController {
-            diaryVC.selectedDate = date
+            guard let vc = self.tabBarController as? HomeTabBarController else { return }
+            vc.selectedIndex = 1
+            if let diaryNavVC = vc.viewControllers?[1] as? UINavigationController,
+               let diaryVC = diaryNavVC.viewControllers.first as? DiaryViewController {
+                diaryVC.selectedDate = date
+            }
         }
-    }
-    
+
     private func fetchWeightTrackingRecord() {
-        PassioInternalConnector.shared.fetchLatestWeightRecord { lsatWeightRecord in
+        NutritionUIModule.shared.fetchLatestWeightRecord { lsatWeightRecord in
             if let lsatWeightRecord = lsatWeightRecord {
                 self.weightTrackingRecord = lsatWeightRecord
             }
@@ -133,7 +133,8 @@ class DashboardViewController: UIViewController {
     }
     
     private func fetchWaterTrackingRecord() {
-        PassioInternalConnector.shared.fetchWaterRecords(startDate: selectedDate.startOfGivenDay, endDate: selectedDate.endOfGivenDay) { arrWeightTrackingRecord in
+        NutritionUIModule.shared.fetchWaterRecords(startDate: selectedDate.startOfGivenDay,
+                                                   endDate: selectedDate.endOfGivenDay) { arrWeightTrackingRecord in
             
             if arrWeightTrackingRecord.count > 0 {
                 self.totalConsumedWater = arrWeightTrackingRecord.map({$0.water}).reduce(0, +)
@@ -201,6 +202,7 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
             return cell
+            
         case .weightWater:
             let cell = tableView.dequeueCell(cellClass: WaterWeightCardCell.self, forIndexPath: indexPath)
             cell.configureUI(lastWeightRecord: weightTrackingRecord, totalConsumedWater: totalConsumedWater)

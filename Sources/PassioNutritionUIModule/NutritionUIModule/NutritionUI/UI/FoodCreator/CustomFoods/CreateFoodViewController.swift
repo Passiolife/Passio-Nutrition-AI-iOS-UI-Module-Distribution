@@ -20,6 +20,9 @@ protocol NavigateToDiaryDelegate: AnyObject {
 protocol NavigateToMyFoodsDelegate: AnyObject {
     func onNavigateToMyFoods()
 }
+protocol NavigateToRecipeDelegate: AnyObject {
+    func onNavigateToFoodRecipe(with foodRecord: FoodRecordV3)
+}
 
 final class CreateFoodViewController: InstantiableViewController {
 
@@ -31,7 +34,7 @@ final class CreateFoodViewController: InstantiableViewController {
     private let createFoodSections: [CreateFoodSection] = [.foodDetailsTableViewCell,
                                                            .requiredNutritionsTableViewCell,
                                                            .otherNutritionsTableViewCell]
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
 
     private enum CreateFoodSection: String, CaseIterable {
         case foodDetailsTableViewCell

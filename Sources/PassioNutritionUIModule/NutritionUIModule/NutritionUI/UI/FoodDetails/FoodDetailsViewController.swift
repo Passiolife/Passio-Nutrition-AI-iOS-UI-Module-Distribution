@@ -13,18 +13,20 @@ import PassioNutritionAISDK
 protocol FoodDetailsControllerDelegate: AnyObject {
     func deleteFromEdit(foodRecord: FoodRecordV3)
     func navigateToMyFoods(index: Int)
+    func onFoodDetailsAddIngredient(foodRecord: FoodRecordV3?)
 }
 
 extension FoodDetailsControllerDelegate {
     func deleteFromEdit(foodRecord: FoodRecordV3) { }
     func navigateToMyFoods(index: Int) { }
+    func onAddIngredient(foodRecord: FoodRecordV3?) { }
 }
 
 // MARK: - FoodDetailsViewController
 final class FoodDetailsViewController: UIViewController {
 
     private var activityIndicator: UIActivityIndicatorView?
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private var foodDetailsView: FoodDetailsView?
     private var replaceFood = false
     private var isUpdateLogUponCreating = true
@@ -40,9 +42,15 @@ final class FoodDetailsViewController: UIViewController {
     var isFromCustomFoodList = false
     var isFromBarcode = false
     var isFromRecipeList = false
-
+    var isFromMyFavorites = false
+    
     weak var delegate: FoodDetailsDelegate?
     weak var foodDetailsControllerDelegate: FoodDetailsControllerDelegate?
+    
+    /* As we don't need to make any logs from Favorite Food -> Food Details we ignore default set value,
+     * we need only addIngredient enum to check if user redirect form Create/Edit Recipe screen or not.
+     */
+    var resultViewFor: DetectedFoodResultType = .addLog
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +60,7 @@ final class FoodDetailsViewController: UIViewController {
         let nib = UINib.nibFromBundle(nibName: FoodDetailsView.className)
         foodDetailsView = nib.instantiate(withOwner: self, options: nil).first as? FoodDetailsView
         foodDetailsView?.foodDetailsDelegate = self
+        foodDetailsView?.isFromMyFavorites = isFromMyFavorites
         foodDetailsView?.isEditingFavorite = isEditingFavorite
         foodDetailsView?.isEditingRecord = isEditingRecord
         foodDetailsView?.configureTableView()
@@ -59,7 +68,10 @@ final class FoodDetailsViewController: UIViewController {
         foodDetailsView?.saveToConnector = !isEditingFavorite
         foodDetailsView?.isFromCustomFoodList = isFromCustomFoodList
         foodDetailsView?.isFromRecipeList = isFromRecipeList
-
+        foodDetailsView?.resultViewFor = resultViewFor
+        if resultViewFor == .addIngredient {
+            foodDetailsView?.adjustBottomButton()
+        }
         if let foodEditorView = foodDetailsView {
             view.addSubview(foodEditorView)
         }
@@ -79,9 +91,10 @@ final class FoodDetailsViewController: UIViewController {
         fetchRecipes(completion: { _ in })
 
         isRecipe = foodRecord.entityType == .recipe && foodRecord.ingredients.count > 1
-
-        if !isRecipe {
-            setupRightNavigationButton()
+        if resultViewFor != .addIngredient {
+            if !isRecipe {
+                setupRightNavigationButton()
+            }
         }
     }
 }
@@ -247,6 +260,7 @@ private extension FoodDetailsViewController {
         editRecipeVC.isFromRecipeList = isFromRecipeList
         editRecipeVC.isFromUserFoodsList = isFromCustomFood
         editRecipeVC.isFromFoodDetails = true
+        editRecipeVC.isFromMyFavorites = isFromMyFavorites
         editRecipeVC.isFromSearch = isFromSearch
         editRecipeVC.isShowFoodIcon = isShowFoodIcon
         editRecipeVC.loadViewIfNeeded()
@@ -313,6 +327,11 @@ extension FoodDetailsViewController: FoodDetailsDelegate {
         } else {
             onEditFood(isEditFood: false)
         }
+    }
+    
+    func onAddIngredient(foodRecord: FoodRecordV3?) {
+        foodDetailsControllerDelegate?.onFoodDetailsAddIngredient(foodRecord: foodRecord)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

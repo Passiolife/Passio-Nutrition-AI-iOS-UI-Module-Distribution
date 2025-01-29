@@ -21,7 +21,7 @@ class DiaryViewController: UIViewController {
     @IBOutlet weak var nextDateButton: UIButton!
     @IBOutlet weak var quickAddContainerView: UIView!
 
-    private let connector = PassioInternalConnector.shared
+    private let connector = NutritionUIModule.shared
     private let numberSectionCellsAbove = 1
     private var dateSelector: DateSelectorViewController?
     private var quickAddViewController: QuickAddSuggestionViewController?
@@ -367,6 +367,8 @@ extension DiaryViewController: FoodDetailsControllerDelegate {
         dayLog.setNew(foodRecords: dayLog.records.filter { $0.uuid != foodRecord.uuid })
         collectionView.reloadData()
     }
+
+    func onFoodDetailsAddIngredient(foodRecord: FoodRecordV3?) { }
 }
 
 // MARK: - FavoritesView Delegate
@@ -376,6 +378,8 @@ extension DiaryViewController: FavoritesViewDelegate {
         connector.updateRecord(foodRecord: foodRecord)
         setDayLogFor(date: dayLog.date)
     }
+
+    func onAddIngredient(foodRecord: FoodRecordV3?) { }
 }
 
 // MARK: - QuickSuggestion Delegate

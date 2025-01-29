@@ -47,19 +47,26 @@ class MealPlanViewController: UIViewController {
         }
     }
 
-    var sections: [Section] = [.dietType, .bf, .l, .d, .s]
+    var sections: [Section] = []
     var breakfastMealPlanItem: [PassioMealPlanItem] = []
     var lunchMealPlanItem: [PassioMealPlanItem] = []
     var dinnerMealPlanItem: [PassioMealPlanItem] = []
     var snacksMealPlanItem: [PassioMealPlanItem] = []
 
+    var mealPlansFetched: Bool {
+        MealPlanManager.shared.mealPlans.count > 0
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        basicSetup()
-        if MealPlanManager.shared.mealPlans.count == 0 {
-            MealPlanManager.shared.getMealPlans()
-        }
         registerCellsAndTableDelegates()
+        basicSetup()
+        if !mealPlansFetched {
+            MealPlanManager.shared.getMealPlans() { [weak self] in
+                guard let self = self else { return }
+                self.getData()
+            }
+        }
     }
     
     func basicSetup() {
@@ -76,7 +83,12 @@ class MealPlanViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        if mealPlansFetched {
+            getData()
+        }
+    }
+    
+    func getData() {
         if let mealPlan = UserManager.shared.user?.mealPlan {
             if selectedMealPlan != mealPlan {
                 selectedMealPlan = mealPlan
@@ -96,7 +108,7 @@ class MealPlanViewController: UIViewController {
     
     private func getMealPlanData() {
 
-        ProgressHUD.show(presentingVC: self)
+        ProgressHUD.show(presentingVC: self, color: .gray500, alpha: 0.7)
         PassioNutritionAI.shared.fetchMealPlanForDay(mealPlanLabel: selectedMealPlan?.mealPlanLabel ?? "",
                                                      day: selectedDay ?? 1) { [weak self] mealPlanItems in
 
@@ -106,10 +118,25 @@ class MealPlanViewController: UIViewController {
             lunchMealPlanItem = mealPlanItems.filter { $0.mealTime == .lunch }
             dinnerMealPlanItem = mealPlanItems.filter { $0.mealTime == .dinner }
             snacksMealPlanItem = mealPlanItems.filter { $0.mealTime == .snack }
-
+            
+            sections = [.dietType]
+            if breakfastMealPlanItem.count > 0 {
+                sections.append(.bf)
+            }
+            if lunchMealPlanItem.count > 0 {
+                sections.append(.l)
+            }
+            if dinnerMealPlanItem.count > 0 {
+                sections.append(.d)
+            }
+            if snacksMealPlanItem.count > 0 {
+                sections.append(.s)
+            }
+            
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
                 self.collectionView.reloadData()
+                self.collectionView.reloadWithAnimations()
             }
         }
     }
@@ -262,7 +289,7 @@ extension MealPlanViewController {
         getFoodRecord(from: mealPlanItem) { [weak self] record in
             guard let self, let record else { return }
             if !isEdit {
-                PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                NutritionUIModule.shared.updateRecord(foodRecord: record)
             }
             DispatchQueue.main.async {
                 ProgressHUD.hide(presentedVC: self)
@@ -290,7 +317,7 @@ extension MealPlanViewController {
                         group.leave()
                         return
                     }
-                    PassioInternalConnector.shared.updateRecord(foodRecord: record)
+                    NutritionUIModule.shared.updateRecord(foodRecord: record)
                     group.leave()
                 }
             }

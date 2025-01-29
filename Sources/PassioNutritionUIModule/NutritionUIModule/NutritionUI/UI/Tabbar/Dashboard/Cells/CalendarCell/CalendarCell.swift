@@ -31,6 +31,19 @@ final class CalendarCell: UITableViewCell {
         formatter.dateFormat = DateFormatString.yyyy_MM_dd
         return formatter
     }()
+    
+    enum FirstWeekday: Int {
+        case sunday = 1
+        case monday = 2
+        case tuesday = 3
+        case wednesday = 4
+        case thursday = 5
+        case friday = 6
+        case saturday = 7
+    }
+    
+    let firstWeekday: FirstWeekday = .sunday
+    
     var loggedRecordsDates: [String] = [] {
         didSet {
             calendarView.reloadData()
@@ -51,6 +64,7 @@ final class CalendarCell: UITableViewCell {
 
         adherenceIconImageView.tintColor = .primaryColor
         calendarView.scope = .week
+        calendarView.firstWeekday = UInt(firstWeekday.rawValue)
         shadowView.dropShadow(radius: 8,
                               offset: CGSize(width: 0, height: 1),
                               color: .black.withAlphaComponent(0.06),
@@ -112,8 +126,8 @@ extension CalendarCell {
     }
 
     private func getDayLogsFrom(fromDate: Date, toDate: Date) {
-        PassioInternalConnector.shared.fetchDayLogFor(fromDate: fromDate,
-                                                      toDate: toDate) { [weak self] (dayLogs) in
+        NutritionUIModule.shared.fetchDayLogFor(fromDate: fromDate,
+                                                toDate: toDate) { [weak self] (dayLogs) in
             guard let self = self else { return }
             self.calendarActivityIndicator.startAnimating()
             DispatchQueue.main.async {
@@ -145,13 +159,30 @@ extension CalendarCell {
         calendarView.collectionViewLayout.sectionInsets = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         calendarView.delegate?.calendarCurrentPageDidChange?(calendarView)
     }
-
+    
+//    private func getCurrentDates() -> (startDate: Date, endDate: Date) {
+//        let startDate: Date
+//        let endDate: Date
+//        if calendarView.scope == .week {
+//            startDate = calendarView.currentPage
+//            endDate = calendarView.gregorian.date(byAdding: .day, value: 6, to: startDate) ?? Date()
+//        } else { // .month
+//            let indexPath = calendarView.calculator.indexPath(for: calendarView.currentPage, scope: .month)
+//            startDate = calendarView.calculator.monthHead(forSection: (indexPath?.section)!)!
+//            endDate = calendarView.gregorian.date(byAdding: .day, value: 41, to: startDate) ?? Date()
+//        }
+//        return (startDate, endDate)
+//    }
+    
     private func getCurrentDates() -> (startDate: Date, endDate: Date) {
         let startDate: Date
         let endDate: Date
         if calendarView.scope == .week {
-            startDate = calendarView.currentPage
-            endDate = calendarView.gregorian.date(byAdding: .day, value: 6, to: startDate) ?? Date()
+            let visibleDate = calendarView.currentPage
+            var calendar = calendarView.gregorian ?? Calendar.current
+            calendar.firstWeekday = firstWeekday.rawValue
+            startDate = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: visibleDate)) ?? Date()
+            endDate = calendar.date(byAdding: .day, value: 6, to: startDate) ?? Date()
         } else { // .month
             let indexPath = calendarView.calculator.indexPath(for: calendarView.currentPage, scope: .month)
             startDate = calendarView.calculator.monthHead(forSection: (indexPath?.section)!)!
@@ -173,12 +204,6 @@ extension CalendarCell {
 // MARK: - FSCalender Datasource and delegate
 extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
 
-    func calendar(_ calendar: FSCalendar, 
-                  didSelect date: Date,
-                  at monthPosition: FSCalendarMonthPosition) {
-        self.didSelectDate?(date)
-    }
-    
     func calendar(_ calendar: FSCalendar,
                   boundingRectWillChange bounds: CGRect,
                   animated: Bool) {
@@ -190,6 +215,12 @@ extension CalendarCell: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
                   shouldSelect date: Date,
                   at monthPosition: FSCalendarMonthPosition) -> Bool {
         true
+    }
+    
+    func calendar(_ calendar: FSCalendar,
+                  didSelect date: Date,
+                  at monthPosition: FSCalendarMonthPosition) {
+        self.didSelectDate?(date)
     }
 
     func calendar(_ calendar: FSCalendar,

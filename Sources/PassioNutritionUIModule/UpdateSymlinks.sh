@@ -10,8 +10,6 @@
 # /path/to/target: The path where you want to create the symlink.
 # add sudo befor ln -s for permission issue
 
-rm CoreSDK
 rm PassioNutritionAI
 
-sudo ln -s $PASSIO_XCODE_Source/iOS-Passio-Core-SDK/CoreSDK $PASSIO_XCODE_Target
 sudo ln -s $PASSIO_XCODE_Source/iOS-Passio-Nutrition-SDK/PassioNutritionAI $PASSIO_XCODE_Target

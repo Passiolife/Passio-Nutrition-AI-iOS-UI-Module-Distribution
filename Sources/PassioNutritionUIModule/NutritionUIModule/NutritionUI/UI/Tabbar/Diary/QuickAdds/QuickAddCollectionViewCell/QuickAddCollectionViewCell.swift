@@ -27,7 +27,7 @@ class QuickAddCollectionViewCell: UICollectionViewCell {
         imageView.setFoodImage(id: foodResult.iconId,
                                passioID: foodResult.iconId,
                                entityType: .item,
-                               connector: PassioInternalConnector.shared) { [weak self] image in
+                               connector: NutritionUIModule.shared) { [weak self] image in
             DispatchQueue.main.async {
                 self?.imageView.image = image
             }

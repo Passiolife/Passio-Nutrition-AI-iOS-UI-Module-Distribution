@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Passiolife/Passio-Nutrition-AI-iOS-SDK-Distribution",
       "state" : {
-        "revision" : "30880c6ed1a756d54bfc2144e12f3aafc8d71cd9",
-        "version" : "3.2.3"
+        "revision" : "42d64413a361b8fca46b15f37d78f7ef807ae1f4",
+        "version" : "3.2.4"
       }
     },
     {

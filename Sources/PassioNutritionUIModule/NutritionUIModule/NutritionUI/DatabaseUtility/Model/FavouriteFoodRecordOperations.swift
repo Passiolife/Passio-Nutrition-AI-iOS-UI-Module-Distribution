@@ -26,7 +26,7 @@ internal class FavouriteFoodRecordOperations {
         CoreDataManager.shared.mainManagedObjectContext
     }
     
-    fileprivate let jsonConnector: PassioConnector = JSONPassioConnector.shared
+    fileprivate let passioImageUtility = PassioImageUtility.shared
     
     //MARK: - Insert Favourite food record
     func insertFavouriteFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
@@ -661,17 +661,17 @@ internal class FavouriteFoodRecordOperations {
     //MARK: - Favourite Food Image
     //MARK: - Store User Created Favourite Food Image
     func saveUserCreatedFavouriteFoodImage(id: String, image: UIImage) {
-        jsonConnector.updateUserFoodImage(with: id, image: image)
+        passioImageUtility.updateUserFoodImage(with: id, image: image)
     }
     
     //MARK: - Fetch User Created Favourite Food Image
     func fetchUserCreatedFavouriteFoodImage(id: String, completion: @escaping ((UIImage?) -> Void)) {
-        jsonConnector.fetchUserFoodImage(with: id, completion: completion)
+        passioImageUtility.fetchUserFoodImage(with: id, completion: completion)
     }
     
     //MARK: - Delete User Created Favourite Food Image
     func deleteUserCreatedFavouriteFoodImage(id: String) {
-        jsonConnector.deleteUserFoodImage(with: id)
+        passioImageUtility.deleteUserFoodImage(with: id)
     }
     
 }

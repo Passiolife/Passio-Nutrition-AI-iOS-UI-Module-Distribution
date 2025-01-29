@@ -62,7 +62,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
         }
     }
 
-    private var bottomTabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
+    private var allTabs: [Tabs] = [.home, .diary, .mealPlan, .progress]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +84,7 @@ final class HomeTabBarController: UITabBarController, UITabBarControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        title = bottomTabs[selectedIndex].naviagationTitle
+        title = allTabs[selectedIndex].naviagationTitle
         configureNavBar()
     }
 
@@ -109,9 +109,9 @@ extension HomeTabBarController {
     private func setTabBarItemsTitleAndPosition() {
         guard let tabBarItems = tabBar.items else { return }
 
-        for i in 0..<bottomTabs.count {
-            tabBarItems[i].title = bottomTabs[i].rawValue
-            tabBarItems[i].image = bottomTabs[i].tabImage
+        for i in 0..<allTabs.count {
+            tabBarItems[i].title = allTabs[i].rawValue
+            tabBarItems[i].image = allTabs[i].tabImage
         }
 
         tabBarItems[0].titlePositionAdjustment.horizontal = -6
@@ -134,12 +134,12 @@ extension HomeTabBarController {
 
     private func addTabBarControllers() {
 
-        for i in 0..<bottomTabs.count {
+        for i in 0..<allTabs.count {
 
-            switch bottomTabs[i] {
+            switch allTabs[i] {
 
             case .home:
-                let dashboardVC = UIStoryboard(name: "Home", bundle: PassioInternalConnector.shared.bundleForModule)
+                let dashboardVC = UIStoryboard(name: "Home", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "DashboardViewController") as! DashboardViewController
                 dashboardVC.delegate = self
                 let dashboardNavVC = UINavigationController(rootViewController: dashboardVC)
@@ -147,21 +147,21 @@ extension HomeTabBarController {
                 self.viewControllers?[i] = dashboardNavVC
 
             case .diary:
-                let diaryVC = UIStoryboard(name: "Diary", bundle: PassioInternalConnector.shared.bundleForModule)
+                let diaryVC = UIStoryboard(name: "Diary", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "DiaryViewController") as! DiaryViewController
                 let macroNavVC = UINavigationController(rootViewController: diaryVC)
                 macroNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = macroNavVC
 
             case .progress:
-                let progressVC = UIStoryboard(name: "Progress", bundle: PassioInternalConnector.shared.bundleForModule)
+                let progressVC = UIStoryboard(name: "Progress", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "ProgressViewController") as! ProgressViewController
                 let progressNavVC = UINavigationController(rootViewController: progressVC)
                 progressNavVC.isNavigationBarHidden = true
                 self.viewControllers?[i] = progressNavVC
 
             case .mealPlan:
-                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: PassioInternalConnector.shared.bundleForModule)
+                let mealPlanVC = UIStoryboard(name: "MealPlan", bundle: NutritionUIModule.shared.bundleForModule)
                     .instantiateViewController(identifier: "MealPlanViewController") as! MealPlanViewController
                 let mealPlanNavVC = UINavigationController(rootViewController: mealPlanVC)
                 mealPlanNavVC.isNavigationBarHidden = true
@@ -225,7 +225,7 @@ extension HomeTabBarController {
 
     func tabBarController(_ tabBarController: UITabBarController,
                           didSelect viewController: UIViewController) {
-        title = bottomTabs[selectedIndex].naviagationTitle
+        title = allTabs[selectedIndex].naviagationTitle
     }
 }
 
@@ -333,6 +333,8 @@ extension HomeTabBarController: FoodDetailsControllerDelegate {
             self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+    func onFoodDetailsAddIngredient(foodRecord: FoodRecordV3?) { }
 }
 
 // MARK: - CustomPickerSelection Delegate

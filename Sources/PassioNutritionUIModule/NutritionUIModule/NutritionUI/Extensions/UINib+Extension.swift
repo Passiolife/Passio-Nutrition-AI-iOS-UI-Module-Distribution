@@ -10,7 +10,7 @@ import UIKit
 
 extension UINib {
 
-    static func nibFromBundle(nibName: String, bundle: Bundle = PassioInternalConnector.shared.bundleForModule) -> UINib {
+    static func nibFromBundle(nibName: String, bundle: Bundle = NutritionUIModule.shared.bundleForModule) -> UINib {
         UINib(nibName: nibName,
               bundle: bundle)
     }

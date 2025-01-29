@@ -73,7 +73,7 @@ class IngredientInfoTableViewCell: UITableViewCell {
         imageFood.setFoodImage(id: imageId,
                                passioID: imageId,
                                entityType: ingredient.entityType,
-                               connector: PassioInternalConnector.shared) { image in
+                               connector: NutritionUIModule.shared) { image in
             DispatchQueue.main.async {
                 self.imageFood.image = image
             }

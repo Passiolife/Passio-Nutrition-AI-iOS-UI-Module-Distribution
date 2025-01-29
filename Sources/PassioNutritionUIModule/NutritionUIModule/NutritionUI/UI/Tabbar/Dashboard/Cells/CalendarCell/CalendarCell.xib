@@ -40,8 +40,8 @@
                                     <action selector="disclosureButtonTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uPf-v5-TbO"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="jaq-FT-5JQ">
-                                <rect key="frame" x="16" y="16" width="177.5" height="24"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="jaq-FT-5JQ">
+                                <rect key="frame" x="16" y="16" width="178.5" height="24"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="adherence_icon" translatesAutoresizingMaskIntoConstraints="NO" id="qKb-B4-cXt">
                                         <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
@@ -52,7 +52,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekly Adherence" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KhM-pN-ICQ">
-                                        <rect key="frame" x="28" y="0.0" width="149.5" height="24"/>
+                                        <rect key="frame" x="29" y="0.0" width="149.5" height="24"/>
                                         <fontDescription key="fontDescription" name="Inter-SemiBold" family="Inter" pointSize="18"/>
                                         <color key="textColor" name="gray-900"/>
                                         <nil key="highlightedColor"/>

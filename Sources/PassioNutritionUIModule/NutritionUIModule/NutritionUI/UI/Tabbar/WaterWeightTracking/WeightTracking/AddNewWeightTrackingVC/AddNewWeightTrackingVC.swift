@@ -261,7 +261,7 @@ extension AddNewWeightTrackingVC {
                 weightTrackModel = WeightTracking(id: weightRecord.id, weight: value, dateTime: recordDateTime)
             }
             
-            PassioInternalConnector.shared.updateWeightRecord(weightRecord: weightTrackModel) { bResult in
+            NutritionUIModule.shared.updateWeightRecord(weightRecord: weightTrackModel) { bResult in
                 if bResult {
                     self.delegate?.refreshRecords()
                     self.navigationController?.popViewController(animated: true)
