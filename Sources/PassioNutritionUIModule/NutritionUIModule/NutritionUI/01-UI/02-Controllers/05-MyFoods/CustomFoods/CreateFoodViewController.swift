@@ -104,6 +104,7 @@ final class CreateFoodViewController: InstantiableViewController {
 
     @IBAction func onSave(_ sender: UIButton) {
 
+        print("navigateToMyFoods")
         view.endEditing(true)
 
         guard let getFoodDetailCell = getCell(section: 0) as? FoodDetailsTableViewCell ?? foodDetailsTableViewCell,
@@ -226,6 +227,17 @@ extension CreateFoodViewController {
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     self.navigationController?.popToSpecificViewController(HomeTabBarController.self)
+                    
+                    /* Go to My Foods screen */
+                    
+//                    guard let viewControllers = self.navigationController?.viewControllers else { return }
+//                    for element in viewControllers {
+//                        if let homeTabBar = element as? HomeTabBarController {
+//                            self.navigationController?.popToSpecificViewController(HomeTabBarController.self)
+//                            homeTabBar.navigateToMyFoods(index: 0)
+//                            break
+//                        }
+//                    }
                 }
 
             } else {

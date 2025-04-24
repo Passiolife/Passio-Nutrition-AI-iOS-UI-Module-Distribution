@@ -24,3 +24,7 @@ var currentTime: String {
     formatter.dateFormat = "HH:mm:ss.SSS"
     return formatter.string(from: date)
 }
+
+func Delay(_ seconds: Double, _ execute: @escaping () -> Void) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: execute)
+}

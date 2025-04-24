@@ -238,6 +238,11 @@ extension HomeTabBarController: PlusMenuDelegate {
         vc.navigateToMyFoodsDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func onFoodScannerSelectedNew() {
+        let vc = BarcodeScanVC.load(storyboard: .SCAN)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
     func onSearchSelected() {
         let vc = TextSearchViewController()

@@ -275,8 +275,8 @@ class SpinnerView: UIView {
     let circlePathLayer = CAShapeLayer()
 
     func spin(color: UIColor, lineWidth: CGFloat) {
-        circlePathLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
 
+        circlePathLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
         circlePathLayer.strokeColor = color.cgColor
         circlePathLayer.fillColor = nil
         circlePathLayer.lineWidth = lineWidth
@@ -285,6 +285,20 @@ class SpinnerView: UIView {
         animate(layer: circlePathLayer)
         layer.addSublayer(circlePathLayer)
     }
+    
+//    func spin(color: UIColor, lineWidth: CGFloat) {
+//        stop()
+//        
+//        circlePathLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
+//        circlePathLayer.strokeColor = color.cgColor
+//        circlePathLayer.fillColor = nil
+//        circlePathLayer.lineWidth = lineWidth
+//        circlePathLayer.bounds = bounds
+//        
+//        setPath(to: circlePathLayer)
+//        animate(layer: circlePathLayer)
+//        layer.addSublayer(circlePathLayer)
+//    }
 
     func stop(){
         layer.removeAllAnimations()

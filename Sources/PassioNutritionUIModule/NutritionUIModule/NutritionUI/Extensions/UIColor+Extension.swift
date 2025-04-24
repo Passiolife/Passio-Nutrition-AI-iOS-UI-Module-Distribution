@@ -102,3 +102,9 @@ public extension UIColor { // Marcro Graphs
         colorFromBundle(named: "GFatOver") ?? .red
     }
 }
+
+extension UIColor {
+    func alpha(_ alpha: CGFloat) -> UIColor {
+        return self.withAlphaComponent(alpha)
+    }
+}

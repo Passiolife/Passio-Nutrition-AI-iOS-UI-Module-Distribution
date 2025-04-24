@@ -32,7 +32,7 @@ final class FoodDetailsViewController: UIViewController {
     private var isUpdateLogUponCreating = true
     private var isRecipe = false
     private var isMakeRecipe = false
-
+    
     var userFood: FoodRecordV3?
     var recipe: FoodRecordV3?
     var foodRecord: FoodRecordV3?
@@ -43,6 +43,7 @@ final class FoodDetailsViewController: UIViewController {
     var isFromBarcode = false
     var isFromRecipeList = false
     var isFromMyFavorites = false
+    var isFromBarcodeScan = false
     
     weak var delegate: FoodDetailsDelegate?
     weak var foodDetailsControllerDelegate: FoodDetailsControllerDelegate?
@@ -275,7 +276,6 @@ private extension FoodDetailsViewController {
 extension FoodDetailsViewController: FoodDetailsDelegate {
 
     func onAddFoodToLog(foodRecord: FoodRecordV3) {
-
         if isEditingFavorite {
             connector.updateFavorite(foodRecord: foodRecord)
             navigationController?.popViewController(animated: true)
@@ -283,10 +283,18 @@ extension FoodDetailsViewController: FoodDetailsDelegate {
             if !isEditingRecord {
                 showMessage(msg: ToastMessages.addedToLog)
             }
-            NutritionUICoordinator.navigateToDairyAfterAction(
-                navigationController: navigationController,
-                selectedDate: foodRecord.createdAt
-            )
+            if isFromBarcodeScan {
+                /**
+                 Set flag to `BarcodeScanVC` if you want to show
+                 its popup instead of toast (don't show above toast)
+                 */
+                self.navigationController?.popViewController(animated: true)
+            } else {
+                NutritionUICoordinator.navigateToDairyAfterAction(
+                    navigationController: navigationController,
+                    selectedDate: foodRecord.createdAt
+                )
+            }
         }
     }
 

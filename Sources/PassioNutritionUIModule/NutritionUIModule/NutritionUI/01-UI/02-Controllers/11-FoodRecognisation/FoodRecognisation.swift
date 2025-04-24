@@ -40,9 +40,7 @@ class FoodRecognitionDataSetConnector {
         }
     }
 
-    func getRecordV3(dataType: FoodRecognitionDataSetConnector,
-                     completion: @escaping (FoodRecordV3?) -> Void) {
-
+    func getRecordV3(dataType: FoodRecognitionDataSetConnector, completion: @escaping (FoodRecordV3?) -> Void) {
 
         var barcode = dataType.id ?? ""
         if barcode.count == 13 && barcode.first == "0" { barcode.removeFirst() }
@@ -116,6 +114,7 @@ class BarcodeDataSet: FoodRecognitionDataSetConnector, FoodRecognitionDataSet {
         return lhs.candidate?.value == rhs.candidate?.value
     }
 
+    // fetch food item
     override func getFoodItem(completion: @escaping (PassioFoodItem?) -> Void) {
 
         fetchBarcodeFoodFromLocal { isUserFoodBarcode in

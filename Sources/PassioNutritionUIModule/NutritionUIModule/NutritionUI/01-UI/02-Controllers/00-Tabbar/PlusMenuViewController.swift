@@ -10,6 +10,7 @@ import UIKit
 
 protocol PlusMenuDelegate: AnyObject {
     func onFoodScannerSelected()
+    func onFoodScannerSelectedNew()
     func onSearchSelected()
     func onFavouritesSelected()
     func onMyFoodsSelected()
@@ -42,6 +43,7 @@ final class PlusMenuViewController: InstantiableViewController {
         case favourite
         case search
         case scan
+        case barcodeScan
         case myFoods
         case voiceLogging
         case useImage
@@ -54,6 +56,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .favourite: UIImage.imageFromBundle(named: "favorites")
             case .search: UIImage.imageFromBundle(named: "search")
             case .scan: UIImage.imageFromBundle(named: "foodScanner")
+            case .barcodeScan: UIImage.imageFromBundle(named: "foodScanner")
             case .myFoods: UIImage.imageFromBundle(named: "myFoods")
             case .voiceLogging: UIImage.imageFromBundle(named: "voiceLogging")
             case .takePhotos: UIImage.imageFromBundle(named: "takePhotos")
@@ -68,6 +71,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .favourite: Localized.favorites
             case .search: Localized.textSearch
             case .scan: Localized.foodScan
+            case .barcodeScan: "Scan a Barcode"
             case .myFoods: "My Foods"
             case .voiceLogging: "Voice Logging"
             case .takePhotos: "Take Photos"
@@ -85,6 +89,7 @@ final class PlusMenuViewController: InstantiableViewController {
                                    .useImage,
                                    .search,
                                    .scan,
+                                   //.barcodeScan,
                                    .takePhotos,
                                    .selectPhotos]
     var menuData: [Rows] = [.myFoods,
@@ -94,6 +99,7 @@ final class PlusMenuViewController: InstantiableViewController {
                             .useImage,
                             .search,
                             .scan,
+                            //.barcodeScan,
                             .takePhotos,
                             .selectPhotos]
     var bottomCountedValue: CGFloat = 70.0
@@ -179,6 +185,8 @@ extension PlusMenuViewController: UITableViewDataSource, UITableViewDelegate {
             delegate?.onFavouritesSelected()
         case .scan:
             delegate?.onFoodScannerSelected()
+        case .barcodeScan:
+            delegate?.onFoodScannerSelectedNew()
         case .search:
             delegate?.onSearchSelected()
         case .myFoods:

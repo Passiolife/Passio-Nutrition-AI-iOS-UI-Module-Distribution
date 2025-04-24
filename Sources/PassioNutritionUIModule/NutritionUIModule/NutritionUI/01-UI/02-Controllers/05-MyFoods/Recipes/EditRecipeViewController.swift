@@ -527,6 +527,8 @@ extension EditRecipeViewController: CustomPickerSelectionDelegate {
 // MARK: - PlusMenu Delegate
 extension EditRecipeViewController: PlusMenuDelegate {
 
+    func onFoodScannerSelectedNew() { }
+    
     func onSearchSelected() {
         let vc = TextSearchViewController()
         vc.advancedSearchDelegate = self
