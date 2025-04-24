@@ -82,6 +82,19 @@ public extension UIView {
         }
         self.clipsToBounds = true
     }
+    
+    func roundCorner(_ radius: CGFloat, top: Bool = false, bottom: Bool = false) {
+        self.layer.cornerRadius = radius
+        self.layer.masksToBounds = true
+        self.layer.maskedCorners = []
+        if top {
+            self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        }
+        if bottom {
+            self.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
+        self.clipsToBounds = true
+    }
 
     func fadeIn(seconds: Double,
                 animationType: UIView.KeyframeAnimationOptions = .calculationModeLinear) {
@@ -292,5 +305,40 @@ extension CALayer {
         CATransaction.setValue(true, forKey: kCATransactionDisableActions)
         callback()
         CATransaction.commit()
+    }
+}
+
+extension UIView {
+    
+    func showLoader(_ activity: String = "Please wait...",
+                    yInset: CGFloat = 0.0) {
+        DispatchQueue.main.async {
+            if let processView = self.viewWithTag(1000) as? ProcessView {
+                processView.updateActivity(activity)
+            } else {
+                let frame = CGRect(x: self.frame.origin.x,
+                                   y: self.frame.origin.y-yInset,
+                                   width: self.frame.width,
+                                   height: self.frame.height)
+                let processView = ProcessView.init(frame: frame, activity: activity)
+                processView.tag = 1000
+                self.addSubview(processView)
+            }
+        }
+    }
+    
+    func removeLoader() {
+        DispatchQueue.main.async {
+            if let view = self.viewWithTag(1000) {
+                UIView.transition(with: view,
+                                  duration: 0.25, // 0.35
+                                  options: .transitionCrossDissolve,
+                                  animations: {
+                    view.alpha = 0 },
+                                  completion: { finished in
+                    view.removeFromSuperview()
+                })
+            }
+        }
     }
 }

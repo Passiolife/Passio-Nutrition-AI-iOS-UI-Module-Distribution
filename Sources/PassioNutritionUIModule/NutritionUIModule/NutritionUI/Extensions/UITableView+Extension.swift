@@ -10,14 +10,6 @@ import UIKit
 
 public extension UITableView {
 
-    func reloadWithAnimations(withDuration: Double = 0.5) {
-        UIView.transition(with: self, duration: withDuration,
-                          options: [.transitionCrossDissolve, .allowUserInteraction],
-                          animations: {
-            self.reloadData()
-        })
-    }
-
     func dequeueCell<T: UITableViewCell>(cellClass: T.Type, forIndexPath indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableCell(withIdentifier: T.identifier, for: indexPath) as? T else {
             fatalError("Unable to Dequeue Reusable TableView Cell")
@@ -39,6 +31,14 @@ public extension UITableView {
             fatalError("Error: cell with identifier: \(view) is not \(T.self)")
         }
         return view
+    }
+    
+    func reloadWithAnimations(withDuration: Double = 0.5) {
+        UIView.transition(with: self, duration: withDuration,
+                          options: [.transitionCrossDissolve, .allowUserInteraction],
+                          animations: {
+            self.reloadData()
+        })
     }
     
     func scrollToBottom() {

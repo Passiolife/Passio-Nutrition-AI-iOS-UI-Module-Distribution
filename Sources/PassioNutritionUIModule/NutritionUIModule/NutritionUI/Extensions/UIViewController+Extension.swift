@@ -302,3 +302,38 @@ public extension UIViewController {
         ]
     }
 }
+
+extension UIViewController {
+    
+    class var storyboardID: String {
+        return "\(self)"
+    }
+    
+    static func instantiateFrom(appStoryboard: AppStoryboard<UIViewController>) -> Self? {
+        return appStoryboard.viewController(viewControllerClass: self) as? Self
+    }
+    
+    static func load(storyboard: AppStoryboard<UIViewController>) -> Self {
+        return storyboard.viewController(viewControllerClass: self) as! Self
+    }
+}
+
+extension UIViewController {
+    
+    typealias Completion = ()->()
+    
+    func showAlert(title: String? = "",
+                   message: String? = "",
+                   buttonTitle: String? = "Ok",
+                   okEvent: Completion? = nil) {
+        
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: buttonTitle, style:.default, handler: { (action: UIAlertAction!) in
+                okEvent?()
+            })
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+}

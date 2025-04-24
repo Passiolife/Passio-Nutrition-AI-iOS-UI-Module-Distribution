@@ -13,8 +13,10 @@ import PassioNutritionAISDK
 #endif
 
 final class FoodRecognitionV3ViewController: UIViewController {
-
+    
     @IBOutlet weak var cameraButtonStackView: UIStackView!
+    @IBOutlet weak var wholeFoodsButton: UIButton!
+    @IBOutlet weak var barcodeButton: UIButton!
     @IBOutlet weak var nutritionFactsButton: UIButton!
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var foodDetectedView: UIView!
@@ -23,7 +25,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
     @IBOutlet weak var zoomSlider: UISlider!
     @IBOutlet weak var flashLightButton: UIButton!
     @IBOutlet weak var focusButton: UIButton!
-
+    
     private let passioSDK = PassioNutritionAI.shared
     private let connector = NutritionUIModule.shared
     //private var volumeDetectionMode = VolumeDetectionMode.none
@@ -34,12 +36,12 @@ final class FoodRecognitionV3ViewController: UIViewController {
     private var isFlashlightOn: Bool = false
     private let white40Color = UIColor.white.withAlphaComponent(0.40)
     private var detectionConfig: FoodDetectionConfiguration!
-
+    
     weak var navigateToMyFoodsDelegate: NavigateToMyFoodsDelegate?
     weak var navigateToRecipeDelegate: NavigateToRecipeDelegate?
     var resultViewFor: DetectedFoodResultType = .addLog
     
-    private var scanMode: ScanMode = .barcode {
+    private var scanMode: ScanMode = .wholeFoods {
         didSet {
             setupScanModeButtonsUI()
             passioSDK.stopFoodDetection()
@@ -48,17 +50,17 @@ final class FoodRecognitionV3ViewController: UIViewController {
             configureFoodDetection()
         }
     }
-
+    
     private enum ScanMode {
         case wholeFoods, barcode, nutritionFacts
     }
-
+    
     public var dataset: (any FoodRecognitionDataSet)? {
         didSet {
             Task { @MainActor in
-
+                
                 sendCameraViewToBack(isSendBack: false)
-
+                
                 if dataset != nil {
                     tempDataset = dataset
                 }
@@ -119,16 +121,16 @@ final class FoodRecognitionV3ViewController: UIViewController {
         ) as? DetectedNutriFactResultViewController
         return vc
     }()
-
+    
     // MARK: View LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if !PassioUserDefaults.bool(for: .scanningOnboardingCompleted) {
             PassioUserDefaults.store(for: .scanningOnboardingCompleted, value: true)
             presentHint()
         }
-
+        
         dataset = nil
         setupNavigation()
         detectionConfig = FoodDetectionConfiguration(detectVisual: true,
@@ -142,14 +144,13 @@ final class FoodRecognitionV3ViewController: UIViewController {
         zoomSlider.minimumTrackTintColor = .primaryColor
         
         if resultViewFor == .addIngredient {
-            //self.nutritionFactsButton.isHidden = true
+            self.nutritionFactsButton.isHidden = true
         }
-        setupScanModeButtonsUI()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         if AVCaptureDevice.authorizationStatus(for: .video) == .authorized { // already authorized
             setupVideoAndStartDetection()
         } else {
@@ -161,7 +162,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
                 }
             }
         }
-
+        
         timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true, block: { [weak self] _ in
             guard let self else { return }
             if isRecognitionsPaused {
@@ -173,10 +174,10 @@ final class FoodRecognitionV3ViewController: UIViewController {
             }
         })
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         timer?.invalidate()
         passioSDK.stopFoodDetection()
         isRecognitionsPaused = true
@@ -188,7 +189,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
 
 // MARK: - @IBAction
 private extension FoodRecognitionV3ViewController {
-
+    
     @IBAction func onScanMode(_ sender: UIButton) {
         scanMode = switch sender.tag {
         case 0: .wholeFoods
@@ -197,13 +198,13 @@ private extension FoodRecognitionV3ViewController {
         default: .wholeFoods
         }
     }
-
+    
     @IBAction func onZoomLevelChanged(_ sender: UISlider) {
         guard let _ = videoLayer else { return }
         if sender.value < 1 { return }
         passioSDK.setCamera(toVideoZoomFactor: CGFloat(sender.value))
     }
-
+    
     @objc func presentHint() {
         stopDetection()
         isHintPresented = true
@@ -212,24 +213,24 @@ private extension FoodRecognitionV3ViewController {
             isHintPresented = false
         }
     }
-
+    
     @IBAction func onFocusTapped(_ sender: UIButton) {
         isFocusEnabled.toggle()
     }
-
+    
     func addTapGestureForFocus() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapToFocus))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
     }
-
+    
     @objc func onTapToFocus(_ gesture: UITapGestureRecognizer) {
         guard let videoLayer = videoLayer, isFocusEnabled else { return }
         let tappedPoint = gesture.location(in: view)
         let convertedPoint = videoLayer.captureDevicePointConverted(fromLayerPoint: tappedPoint)
         passioSDK.setTapToFocus(pointOfInterest: convertedPoint)
     }
-
+    
     @IBAction func onFlashlight(_ sender: UIButton) {
         passioSDK.enableFlashlight(enabled: !isFlashlightOn, level: 1)
         isFlashlightOn.toggle()
@@ -240,52 +241,58 @@ private extension FoodRecognitionV3ViewController {
 
 // MARK: - Helper methods: Food Detection
 private extension FoodRecognitionV3ViewController {
-
+    
     func setupScanModeButtonsUI() {
-
+        
         var zoomValue: Float
-
+        
         switch scanMode {
         case .wholeFoods:
+            wholeFoodsButton.animateBackgroundColor(color: .primaryColor)
+            barcodeButton.animateBackgroundColor(color: white40Color)
             nutritionFactsButton.animateBackgroundColor(color: white40Color)
             zoomValue = 1
-
+            
         case .barcode:
+            wholeFoodsButton.animateBackgroundColor(color: white40Color)
+            barcodeButton.animateBackgroundColor(color: .primaryColor)
             nutritionFactsButton.animateBackgroundColor(color: white40Color)
             zoomValue = 1.5
-
+            
         case .nutritionFacts:
+            wholeFoodsButton.animateBackgroundColor(color: white40Color)
+            barcodeButton.animateBackgroundColor(color: white40Color)
             nutritionFactsButton.animateBackgroundColor(color: .primaryColor)
             zoomValue = 1
         }
         zoomSlider.setValue(zoomValue, animated: true)
         passioSDK.setCamera(toVideoZoomFactor: CGFloat(zoomValue))
     }
-
+    
     func configureFoodDetection() {
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { [weak self] in
-
+            
             guard let self else { return }
-
+            
             switch scanMode {
-
+                
             case .wholeFoods:
                 detectionConfig.detectVisual = true
                 detectionConfig.detectPackagedFood = true
                 detectionConfig.detectBarcodes = false
-
+                
             case .barcode:
                 detectionConfig.detectVisual = false
                 detectionConfig.detectPackagedFood = false
                 detectionConfig.detectBarcodes = true
-
+                
             case .nutritionFacts:
                 detectionConfig.detectVisual = false
                 detectionConfig.detectPackagedFood = true
                 detectionConfig.detectBarcodes = false
             }
-
+            
             if scanMode == .nutritionFacts {
                 startNutritionFactsDetection()
             } else {
@@ -293,7 +300,7 @@ private extension FoodRecognitionV3ViewController {
             }
         }
     }
-
+    
     func sendCameraViewToBack(isSendBack: Bool) {
         if isSendBack {
             view.insertSubview(zoomSlider, belowSubview: foodDetectedView)
@@ -305,9 +312,9 @@ private extension FoodRecognitionV3ViewController {
             view.bringSubviewToFront(zoomSlider)
         }
     }
-
+    
     func setupNavigation() {
-
+        
         title = "Food Scanner"
         setupBackButton()
         navigationController?.isNavigationBarHidden = false
@@ -318,7 +325,7 @@ private extension FoodRecognitionV3ViewController {
         rightButton.tintColor = .gray400
         navigationItem.rightBarButtonItem = rightButton
     }
-
+    
     func setupVideoAndStartDetection() {
         Task { @MainActor in
             setupVideoLayer()
@@ -327,7 +334,7 @@ private extension FoodRecognitionV3ViewController {
             }
         }
     }
-
+    
     func setupVideoLayer() {
         guard videoLayer == nil else { return }
         if let vLayer = passioSDK.getPreviewLayerWithGravity(videoGravity: .resizeAspectFill) {
@@ -335,31 +342,31 @@ private extension FoodRecognitionV3ViewController {
             let bgFrame = previewView.bounds
             vLayer.frame = bgFrame
             previewView.layer.insertSublayer(vLayer, at: 0)
-
+            
             zoomSlider.minimumValue = Float(passioSDK.getMinMaxCameraZoomLevel.minLevel ?? 0)
             zoomSlider.maximumValue = 10 // Float(passioSDK.getMinMaxCameraZoomLevel.maxLevel ?? 0)
         }
     }
-
+    
     func startFoodDetection(with configuration: FoodDetectionConfiguration) {
         addTapGestureForFocus()
         isRecognitionsPaused = false
-
+        
         Task.detached(priority: .userInitiated) { [weak self] () in
             guard let self else { return }
             passioSDK.startFoodDetection(detectionConfig: configuration,
-                                              foodRecognitionDelegate: self) { (ready) in
+                                         foodRecognitionDelegate: self) { (ready) in
                 if !ready {
                     print("SDK was not configured correctly \(self.passioSDK.status)")
                 }
             }
         }
     }
-
+    
     func startNutritionFactsDetection() {
-
+        
         isRecognitionsPaused = false
-
+        
         Task.detached(priority: .userInitiated) { [weak self] () in
             guard let self else { return }
             self.passioSDK.startNutritionFactsDetection(nutritionfactsDelegate: self) { isReady in
@@ -369,24 +376,24 @@ private extension FoodRecognitionV3ViewController {
             }
         }
     }
-
+    
     func pauseDetection() {
         passioSDK.stopFoodDetection()
         isRecognitionsPaused = true
     }
-
+    
     func stopDetection() {
         passioSDK.stopFoodDetection()
         isRecognitionsPaused = true
         foodDetectedView.isHidden = true
         nutritionDetectedView.isHidden = true
     }
-
+    
     func startLoading() {
         activityIndicator.startAnimating()
         view.isUserInteractionEnabled = false
     }
-
+    
     func endLoading() {
         activityIndicator.stopAnimating()
         view.isUserInteractionEnabled = true
@@ -395,28 +402,28 @@ private extension FoodRecognitionV3ViewController {
 
 // MARK: - FoodRecognition Delegate
 extension FoodRecognitionV3ViewController: FoodRecognitionDelegate {
-
+    
     func recognitionResults(candidates: FoodCandidates?, image: UIImage?) {
-
+        
         guard !isRecognitionsPaused,
               !isHintPresented,
               videoLayer != nil,
               (foodResultVC?.containerViewHeightConstraint?.constant ?? -1) == 0 else {
             return
         }
-
+        
         // Barcode
         if let barcode = candidates?.barcodeCandidates?.first {
             dataset = BarcodeDataSet(candidate: barcode)
             return
         }
-
+        
         // PackagedFood
         if let candidate = candidates?.packagedFoodCandidates?.first {
             dataset = PackageFoodDataSet(candidate: candidate)
             return
         }
-
+        
         // Normal Food
         if let firstCandidate = candidates?.detectedCandidates.first,
            firstCandidate.passioID != "BKG0001" {
@@ -425,7 +432,7 @@ extension FoodRecognitionV3ViewController: FoodRecognitionDelegate {
             dataset = VisualFoodDataSet(candidate: firstCandidate,topKResults: _tempArray)
             return
         }
-
+        
         if tempDataset != nil {
             tempDataset = nil
         }
@@ -434,9 +441,9 @@ extension FoodRecognitionV3ViewController: FoodRecognitionDelegate {
 
 // MARK: - NutritionFacts Delegate
 extension FoodRecognitionV3ViewController: NutritionFactsDelegate {
-
+    
     func recognitionResults(nutritionFacts: PassioNutritionFacts?, text: String?) {
-
+        
         if let nutritionFacts = nutritionFacts, nutritionFacts.foundNutritionFactsLabel {
             dataset = NutritionFactsDataSet(nutritionFacts: nutritionFacts)
             return
@@ -472,14 +479,14 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
         }
     }
     
-
+    
     func didScannedWrongBarcode() {
         stopDetection()
         let popup = FoodRecognisationPopUpController.present(on: navigationController,
                                                              launchOption: .barcodeFailure)
         popup.delegate = self
     }
-
+    
     func didTapOnAddManual() {
         let vc = TextSearchViewController()
         vc.advancedSearchDelegate = self
@@ -491,11 +498,11 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
         }
         navigationController?.pushViewController(vc, animated: true)
     }
-
+    
     func didTapOnEdit(dataset: (any FoodRecognitionDataSet)?) {
-
+        
         pauseDetection()
-
+        
         if let dataset = dataset as? FoodRecognitionDataSetConnector {
             dataset.getRecordV3(dataType: dataset) { [weak self] record in
                 guard let self else { return }
@@ -512,7 +519,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
             }
         }
     }
-
+    
     func didTaponAlternative(dataset: (any FoodRecognitionDataSet)?) {
         
         if let dataset = dataset as? FoodRecognitionDataSetConnector {
@@ -540,24 +547,24 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
             }
         }
     }
-
+    
     func didTapOnLog(dataset: (any FoodRecognitionDataSet)?) {
-
+        
         startLoading()
         pauseDetection()
-
+        
         if let dataset = dataset as? FoodRecognitionDataSetConnector {
             
             dataset.getRecordV3(dataType: dataset) { [weak self] record in
                 guard let self else { return }
                 endLoading()
-
+                
                 guard let record = record else {
                     configureFoodDetection()
                     return
                 }
                 stopDetection()
-
+                
                 if resultViewFor == .addIngredient {
                     self.navigateToRecipeDelegate?.onNavigateToFoodRecipe(with: record)
                     self.navigationController?.popViewController(animated: true)
@@ -576,7 +583,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
             }
         }
     }
-
+    
     func didViewExpanded(isExpanded: Bool) {
         if isExpanded {
             sendCameraViewToBack(isSendBack: true)
@@ -586,7 +593,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
             configureFoodDetection()
         }
     }
-
+    
     func didViewStartedDragging(isDragging: Bool) {
         if isDragging {
             sendCameraViewToBack(isSendBack: true)
@@ -596,7 +603,7 @@ extension FoodRecognitionV3ViewController: DetectedFoodResultViewDelegate {
 
 // MARK: - DetectedNutriFactResultViewController Delegate
 extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewControllerDelegate {
-
+    
     func onClickNext(dataset: NutritionFactsDataSet) {
         
         if resultViewFor == .addIngredient {
@@ -618,14 +625,14 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
             })
         }
     }
-
+    
     func renameFoodRecordAlert(dataset: NutritionFactsDataSet) { }
-
+    
     func onClickCancel() {
         dataset = nil
         configureFoodDetection()
     }
-
+    
     func didNutriFactViewExpanded(isExpanded: Bool) {
         isExpanded ? pauseDetection() : configureFoodDetection()
     }
@@ -633,7 +640,7 @@ extension FoodRecognitionV3ViewController: DetectedNutriFactResultViewController
 
 // MARK: - DetectedNutriFactResultViewController Delegate
 extension FoodRecognitionV3ViewController: NavigateToMyFoodsDelegate {
-
+    
     func onNavigateToMyFoods() {
         navigateToMyFoodsDelegate?.onNavigateToMyFoods()
         navigationController?.popViewController(animated: true)
@@ -642,25 +649,25 @@ extension FoodRecognitionV3ViewController: NavigateToMyFoodsDelegate {
 
 // MARK: - FoodRecognisationPopUp Delegate
 extension FoodRecognitionV3ViewController: FoodRecognisationPopUpDelegate {
-
+    
     func didAskForNutritionScanBarcodeFailure() {
         startNutritionFactsDetection()
     }
-
+    
     func didAskNavigateToDiary() {
         NutritionUICoordinator.navigateToDairyAfterAction(navigationController: navigationController)
     }
-
+    
     func didAskContinueScanning() {
         configureFoodDetection()
     }
-
+    
     func didCancelOnBarcodeFailure() { }
 }
 
 // MARK: - AdvancedTextSearchView Delegate
 extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
-
+    
     func userSelectedFood(record: FoodRecordV3?, isPlusAction: Bool) {
         guard let foodRecord = record else { return }
         if resultViewFor == .addIngredient {
@@ -676,7 +683,7 @@ extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
             navigateToEditViewContorller(foodRecord)
         }
     }
-
+    
     func userSelectedFoodItem(item: PassioFoodItem?, isPlusAction: Bool) {
         guard let foodItem = item else { return }
         let foodRecord = FoodRecordV3(foodItem: foodItem)
@@ -693,12 +700,12 @@ extension FoodRecognitionV3ViewController: AdvancedTextSearchViewDelegate {
             navigateToEditViewContorller(foodRecord)
         }
     }
-
+    
     private func navigateToEditViewContorller(_ record: FoodRecordV3) {
-
+        
         let editVC = FoodDetailsViewController()
         editVC.foodRecord = record
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: { [weak self] () in
             guard let self else { return }
             navigationController?.pushViewController(editVC, animated: true)
