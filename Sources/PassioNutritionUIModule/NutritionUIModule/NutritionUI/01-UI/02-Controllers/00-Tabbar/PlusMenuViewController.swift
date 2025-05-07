@@ -89,7 +89,7 @@ final class PlusMenuViewController: InstantiableViewController {
                                    .useImage,
                                    .search,
                                    .scan,
-                                   //.barcodeScan,
+                                   .barcodeScan,
                                    .takePhotos,
                                    .selectPhotos]
     var menuData: [Rows] = [.myFoods,
@@ -99,7 +99,7 @@ final class PlusMenuViewController: InstantiableViewController {
                             .useImage,
                             .search,
                             .scan,
-                            //.barcodeScan,
+                            .barcodeScan,
                             .takePhotos,
                             .selectPhotos]
     var bottomCountedValue: CGFloat = 70.0

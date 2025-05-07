@@ -45,6 +45,7 @@ extension PassioImageUtility {
     private func locallyUpdateUserFood(image: UIImage, url: URL) -> Bool {
         do {
             let encodedImageData = image.pngData()
+            print("URL path: \(url.path)")
             if fileManager.fileExists(atPath: url.path) {
                 try fileManager.removeItem(atPath: url.path)
             }

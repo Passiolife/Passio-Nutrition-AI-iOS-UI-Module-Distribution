@@ -115,7 +115,11 @@ internal class CustomFoodRecordOperations {
     }
     
     //MARK: - Insert OR Update Custom food record
-    func insertOrUpdateFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
+    
+    func insertOrUpdateFoodRecord(foodRecord: FoodRecordV3,
+                                  isNew: Bool = false,
+                                  uniqueId: String = "",
+                                  completion: @escaping ((Bool, Error?) -> Void)) {
         
         let mainContext = self.getMainContext()
         
@@ -128,17 +132,20 @@ internal class CustomFoodRecordOperations {
             var dbFoodRecordV3: TblCustomFoodRecord?
             
             do {
-                
                 // Fetch existing records
                 let results = try mainContext.fetch(fetchRequest)
                 
-                if let firstRecord = results.first {
-                    dbFoodRecordV3 = firstRecord
-                    print( "Existing Custom Record found to update")
-                }
-                else {
+                if isNew {
                     dbFoodRecordV3 = TblCustomFoodRecord(context: mainContext)
-                    print( "New Custom Record is created for storage")
+                } else {
+                    if let firstRecord = results.first {
+                        dbFoodRecordV3 = firstRecord
+                        print( "Existing Custom Record found to update")
+                    }
+                    else {
+                        dbFoodRecordV3 = TblCustomFoodRecord(context: mainContext)
+                        print( "New Custom Record is created for storage")
+                    }
                 }
                 
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else {
@@ -185,8 +192,8 @@ internal class CustomFoodRecordOperations {
                 foodRecord.servingUnits.compactMap({$0}).forEach({ strServingUnits.append($0.toJsonString() ?? "") })
                 dbFoodRecordV3.servingUnits = strServingUnits
                 
-                dbFoodRecordV3.uuid = foodRecord.uuid
-                
+                dbFoodRecordV3.uuid = isNew ? UUID().uuidString : foodRecord.uuid
+
                 var foodIngredients: [TblCustomFoodRecordIngredient] = []
                 
                 foodRecord.ingredients.forEach { foodRecordIngredient in
@@ -605,6 +612,7 @@ internal class CustomFoodRecordOperations {
                 
                 // Delete the event
                 foodRecordResult.forEach { recordToDelete in
+                    print("Deleting record...")
                     mainContext.delete(recordToDelete)
                 }
                 

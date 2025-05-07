@@ -112,7 +112,7 @@ internal class FoodRecordOperations {
     //MARK: - Insert OR Update food record
     func insertOrUpdateFoodRecord(foodRecord: FoodRecordV3, completion: @escaping ((Bool, Error?) -> Void)) {
         
-        let mainContext = self.getMainContext()
+        let mainContext = self.getMainContext()//
         
         mainContext.perform {
             
@@ -123,9 +123,9 @@ internal class FoodRecordOperations {
             var dbFoodRecordV3: TblFoodRecordV3?
             
             do {
-                
                 // Fetch existing records
                 let results = try mainContext.fetch(fetchRequest)
+                
                 if let firstRecord = results.first {
                     dbFoodRecordV3 = firstRecord
                     print( "Existing FoodLog Record found to update")
@@ -136,18 +136,11 @@ internal class FoodRecordOperations {
                 }
                 
                 guard let dbFoodRecordV3 = dbFoodRecordV3 else {
-                    
-                    let errorDomain = "passio.food.record.operation"
-                    let errorCode = 7001
-
-                    // Create userInfo dictionary
                     let userInfo: [String: Any] = [
                         NSLocalizedDescriptionKey: "Failed to fetch object",
-                        NSLocalizedRecoverySuggestionErrorKey: "Food recrod is not found or object is in appropriate"
+                        NSLocalizedRecoverySuggestionErrorKey: "Food record is not found or object is not appropriate"
                     ]
-
-                    // Create NSError
-                    let error = NSError(domain: errorDomain, code: errorCode, userInfo: userInfo)
+                    let error = NSError(domain: "passio.food.record.operation", code: 7001, userInfo: userInfo)
                     mainContext.saveChanges()
                     completion(false, error as Error)
                     return
@@ -210,21 +203,15 @@ internal class FoodRecordOperations {
                 }
                 
                 dbFoodRecordV3.ingredients = NSSet(array: foodIngredients)
-                
                 mainContext.saveChanges()
-                
-                
                 // print("Passio Logs >>> Insert/Update Log Record: \(endTime.getTimeIntervalInSeconds(fromTime: currentTime))")
-                
                 completion(true, nil)
-                
-            } catch let error {
+            }
+            catch let error {
                 mainContext.saveChanges()
                 print( "Failed to fetch match and save as new FoodLog recored: \(error)")
                 completion(false, error)
             }
-            
-            
         }
     }
     

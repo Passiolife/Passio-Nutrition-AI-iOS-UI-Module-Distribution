@@ -115,6 +115,14 @@ extension CoreDataPassioConnector: PassioConnector {
     }
     
     //MARK: - Userfood Section
+    public func createUserFood(record: FoodRecordV3, uniqueId: String) {
+        CustomFoodRecordOperations.shared.insertOrUpdateFoodRecord(foodRecord: record, isNew: true, uniqueId: uniqueId) { (resultStatus, resultError) in
+            if let error = resultError {
+                print("Failed to save CustomFood record :: \(error)")
+            }
+        }
+    }
+    
     public func updateUserFood(record: FoodRecordV3) {
         CustomFoodRecordOperations.shared.insertOrUpdateFoodRecord(foodRecord: record) { (resultStatus, resultError) in
             if let error = resultError {

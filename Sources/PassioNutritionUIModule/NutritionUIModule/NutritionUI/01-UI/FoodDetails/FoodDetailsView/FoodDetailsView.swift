@@ -133,11 +133,17 @@ class FoodDetailsView: UIView {
     }
 }
 
-// MARK: - @IBAction & @objc
+// MARK: - @IBAction 
 extension FoodDetailsView {
 
-    func enableInteration(_ isEnable: Bool) {
-        self.isUserInteractionEnabled = isEnable
+    @IBAction func cancel(_ sender: UIButton) {
+        foodDetailsDelegate?.onCancelFood()
+    }
+    
+    @IBAction func onDelete(_ sender: UIButton) {
+        if let foodRecord {
+            foodDetailsDelegate?.onDelete(foodRecord: foodRecord)
+        }
     }
     
     @IBAction func onFoodLog(_ sender: UIButton) {
@@ -145,9 +151,12 @@ extension FoodDetailsView {
         guard var record = foodRecord else { return }
         enableInteration(false)
         
-        if saveToConnector {
-            if editedTimestamp != nil {
+        if saveToConnector
+        {
+            if editedTimestamp != nil
+            {
                 // https://app.zenhub.com/workspaces/nutrition-ai-6553a6e30a14f004a13d6dac/issues/gh/passiolife/ios-demo-app/581
+                
                 if isFromMyFavorites == true && isEditingFavorite == false {
                     record.uuid = UUID().uuidString
                     record.createdAt = editedTimestamp ?? record.createdAt
@@ -156,8 +165,8 @@ extension FoodDetailsView {
                     connector.deleteRecord(foodRecord: record)
                     record.createdAt = editedTimestamp ?? record.createdAt
                 }
-                
-            } else if isFromCustomFoodList || isFromRecipeList {
+            }
+            else if isFromCustomFoodList || isFromRecipeList {
                 record.uuid = UUID().uuidString
                 record.createdAt = Date()
             }
@@ -167,16 +176,10 @@ extension FoodDetailsView {
         foodDetailsDelegate?.onAddFoodToLog(foodRecord: record)
     }
 
-    @IBAction func onDelete(_ sender: UIButton) {
-        if let foodRecord {
-            foodDetailsDelegate?.onDelete(foodRecord: foodRecord)
-        }
+    func enableInteration(_ isEnable: Bool) {
+        self.isUserInteractionEnabled = isEnable
     }
-
-    @IBAction func cancel(_ sender: UIButton) {
-        foodDetailsDelegate?.onCancelFood()
-    }
-
+    
     @objc func addRemoveFavorites() {
 
         guard let foodRecord = foodRecord else { return }
