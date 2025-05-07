@@ -79,8 +79,9 @@ extension CustomFoodsViewController {
         }
     }
 
-    private func navigateToCreateFood(with record: FoodRecordV3) {
+    private func navigateToCreateFood(with record: FoodRecordV3, isEditingExistingFood: Bool = false) {
         let createFoodVC = CreateFoodViewController()
+        createFoodVC.isEditingExistingFood = isEditingExistingFood
         createFoodVC.isFromCustomFoodList = true
         createFoodVC.isCreateNewFood = false
         createFoodVC.loadViewIfNeeded()
@@ -116,7 +117,7 @@ extension CustomFoodsViewController: UITableViewDataSource, UITableViewDelegate 
     UISwipeActionsConfiguration? {
 
         let editItem = UIContextualAction(style: .normal, title: ButtonTexts.edit) { (_, _, _) in
-            self.navigateToCreateFood(with: self.customFoods[indexPath.row])
+            self.navigateToCreateFood(with: self.customFoods[indexPath.row], isEditingExistingFood: true)
         }
         editItem.backgroundColor = .primaryColor
 

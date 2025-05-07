@@ -37,6 +37,7 @@ public struct FoodRecordV3: Codable, Equatable {
     public var mealLabel: MealLabel = .snack
     public var barcode: String = ""
     public var refCode: String = ""
+    public var referenceCutomFoodUUID: String?
 
     public var ingredients: [FoodRecordIngredient] = []
 

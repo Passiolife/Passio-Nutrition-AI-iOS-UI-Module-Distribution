@@ -417,7 +417,7 @@
                                                     <constraint firstAttribute="height" constant="50" id="nE9-3h-hWn"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
-                                                <state key="normal" title="Continue Scanning">
+                                                <state key="normal" title="Scan Another">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>

@@ -57,7 +57,8 @@ final class CreateFoodViewController: InstantiableViewController {
     var isFromNutritionFacts = false
     var isBarcodeExistInFoodList = false
     var isFromSearch = false
-
+    var isFromBarcodeScan = false
+    
     var foodRecord: FoodRecordV3? {
         didSet {
             configureUserFood()
@@ -196,13 +197,26 @@ extension CreateFoodViewController {
 
         record.iconId = record.iconId.contains("userFood") ? record.iconId : "userFood.\(record.iconId)"
         record.refCode = record.refCode.contains("userFood") ? record.refCode : "userFood.\(record.refCode)"
-
+        
+//        if isEditingExistingFood {
+//            connector.deleteUserFood(record: record)
+//        }
+//        connector.updateUserFood(record: record)
+        
+        let uniqueId = UUID().uuidString
+        
         if isEditingExistingFood {
             connector.deleteUserFood(record: record)
+            connector.updateUserFood(record: record)
         }
-        connector.updateUserFood(record: record)
+        else {
+            connector.createUserFood(record: record, uniqueId: uniqueId)
+        }
+                
+        // Image
+        print("record iconId: \(record.iconId)")
         connector.updateUserFoodImage(with: record.iconId, image: foodDetails.image.get180pImage)
-
+        
         if isFromCustomFoodList {
             navigationController?.popToSpecificViewController(MyFoodsSelectionViewController.self)
 
@@ -215,34 +229,40 @@ extension CreateFoodViewController {
 
                 if let loggedFoodRecord {
                     record.uuid = loggedFoodRecord.uuid
+                    //record.uuid = isEditingExistingFood ? loggedFoodRecord.uuid : uniqueId
                     record.createdAt = loggedFoodRecord.createdAt
                     record.mealLabel = loggedFoodRecord.mealLabel
                     connector.deleteRecord(foodRecord: loggedFoodRecord)
+                    print("isUpdateLog: A")
                 } else {
                     connector.deleteRecord(foodRecord: record)
+                    print("isUpdateLog: B")
                 }
 
                 DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 0.2) {
                     self.connector.updateRecord(foodRecord: record)
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    self.navigationController?.popToSpecificViewController(HomeTabBarController.self)
-                    
-                    /* Go to My Foods screen */
-                    
-//                    guard let viewControllers = self.navigationController?.viewControllers else { return }
-//                    for element in viewControllers {
-//                        if let homeTabBar = element as? HomeTabBarController {
-//                            self.navigationController?.popToSpecificViewController(HomeTabBarController.self)
-//                            homeTabBar.navigateToMyFoods(index: 0)
-//                            break
-//                        }
-//                    }
+                    if self.isFromBarcodeScan {
+                        self.navigateToMyFoods()
+                    } else {
+                        self.navigationController?.popToSpecificViewController(HomeTabBarController.self)
+                    }
                 }
-
             } else {
                 delegate?.onSaveNavigateToDiary(isUpdateLog: false)
                 navigationController?.popToSpecificViewController(HomeTabBarController.self)
+            }
+        }
+    }
+    
+    private func navigateToMyFoods() {
+        guard let viewControllers = self.navigationController?.viewControllers else { return }
+        for element in viewControllers {
+            if let homeTabBar = element as? HomeTabBarController {
+                self.navigationController?.popToSpecificViewController(HomeTabBarController.self)
+                homeTabBar.navigateToMyFoods(index: 0)
+                break
             }
         }
     }

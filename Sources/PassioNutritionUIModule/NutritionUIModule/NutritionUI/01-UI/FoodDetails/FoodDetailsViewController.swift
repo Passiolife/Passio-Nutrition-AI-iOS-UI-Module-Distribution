@@ -171,32 +171,62 @@ private extension FoodDetailsViewController {
     }
 
     func fetchUserFoods(completion: @escaping (FoodRecordV3?) -> Void) {
-
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-
             guard let self else { return }
-
+            guard let foodRecord = foodRecord else {
+                completion(nil)
+                return
+            }
+            if foodRecord.refCode != "" {
+                print("Refcode::: \(foodRecord.refCode)")
+                print("Name::: \(foodRecord.name)")
+                connector.fetchUserFoods(refCode: foodRecord.refCode) { [weak self] userFoods in
+                    for food in userFoods {
+                        print("Food name: \(food.name)")
+                    }
+//                    guard let self, let matchedUserFood = userFoods.first else {
+//                        completion(nil)
+//                        return
+//                    }
+                    guard let self, let matchedUserFood = userFoods.first(where: { $0.name == foodRecord.name }) else {
+                        completion(nil)
+                        return
+                    }
+                    print("matchedUserFood: \(matchedUserFood.name)")
+                    self.userFood = matchedUserFood
+                    completion(matchedUserFood)
+                }
+            }
+            else {
+                connector.fetchAllUserFoodsMatching(name: foodRecord.name) { [weak self] userFoods in
+                    guard let self,
+                          let matchedUserFood = userFoods.first else {
+                        completion(nil)
+                        return
+                    }
+                    self.userFood = matchedUserFood
+                    completion(matchedUserFood)
+                }
+            }
+        }
+    }
+    
+    func fetchUserFoods2(completion: @escaping (FoodRecordV3?) -> Void) {
+        
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            
+            guard let self else { return }
+            
             if let foodRecord {
-                if foodRecord.refCode != "" {
-                    connector.fetchUserFoods(refCode: foodRecord.refCode) { [weak self] userFoods in
-                        guard let self,
-                              let matchedUserFood = userFoods.first else {
-                            completion(nil)
-                            return
-                        }
-                        self.userFood = matchedUserFood
-                        completion(matchedUserFood)
+                // Removed the fetch using refCode. See above function
+                connector.fetchAllUserFoodsMatching(name: foodRecord.name) { [weak self] userFoods in
+                    guard let self,
+                          let matchedUserFood = userFoods.first else {
+                        completion(nil)
+                        return
                     }
-                } else {
-                    connector.fetchAllUserFoodsMatching(name: foodRecord.name) { [weak self] userFoods in
-                        guard let self,
-                              let matchedUserFood = userFoods.first else {
-                            completion(nil)
-                            return
-                        }
-                        self.userFood = matchedUserFood
-                        completion(matchedUserFood)
-                    }
+                    self.userFood = matchedUserFood
+                    completion(matchedUserFood)
                 }
             } else {
                 completion(nil)
@@ -244,6 +274,7 @@ private extension FoodDetailsViewController {
         createFoodVC.loggedFoodRecord = loggedFoodRecord
         createFoodVC.loadViewIfNeeded()
         createFoodVC.delegate = self
+        createFoodVC.isFromBarcodeScan = isFromBarcodeScan
         navigationController?.pushViewController(createFoodVC, animated: true)
     }
 

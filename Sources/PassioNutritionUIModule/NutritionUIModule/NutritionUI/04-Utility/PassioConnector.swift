@@ -22,6 +22,7 @@ public protocol PassioConnector: AnyObject {
     func fetchDayRecords(date: Date, completion: @escaping ([FoodRecordV3]) -> Void)
     
     // User Foods
+    func createUserFood(record: FoodRecordV3, uniqueId: String) 
     func updateUserFood(record: FoodRecordV3)
     func deleteUserFood(record: FoodRecordV3)
     func fetchUserFoods(barcode: String, completion: @escaping ([FoodRecordV3]) -> Void)

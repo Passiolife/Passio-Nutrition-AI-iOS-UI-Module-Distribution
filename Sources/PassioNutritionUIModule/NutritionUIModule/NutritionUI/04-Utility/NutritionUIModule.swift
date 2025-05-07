@@ -123,6 +123,10 @@ extension NutritionUIModule {
 
     // MARK: User foods
     
+    public func createUserFood(record: FoodRecordV3, uniqueId: String) {
+        connector.createUserFood(record: record, uniqueId: uniqueId)
+    }
+    
     public func updateUserFood(record: FoodRecordV3) {
         connector.updateUserFood(record: record)
     }
