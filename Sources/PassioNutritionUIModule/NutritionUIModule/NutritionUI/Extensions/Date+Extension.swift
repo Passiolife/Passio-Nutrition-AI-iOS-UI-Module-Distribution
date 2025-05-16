@@ -52,13 +52,13 @@ extension Date {
                                                to: self).day ?? 0
     }
 
-    func convertDate(dateFormat: String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = dateFormat
-        formatter.timeZone = TimeZone.autoupdatingCurrent
-        let dateString = formatter.string(from: self)
-        return dateString
-    }
+//    func convertDate(dateFormat: String) -> String {
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = dateFormat
+//        formatter.timeZone = TimeZone.autoupdatingCurrent
+//        let dateString = formatter.string(from: self)
+//        return dateString
+//    }
 
     var isToday: Bool {
         Calendar.current.isDateInToday(self)
