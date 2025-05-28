@@ -25,6 +25,8 @@ let package = Package(
                  .upToNextMajor(from: "2.8.4")),
         .package(url: "https://github.com/SimonFairbairn/SwiftyMarkdown",
                  .upToNextMajor(from: "1.2.4")),
+//        .package(url: "https://github.com/hackiftekhar/IQKeyboardManager.git",
+//                 .upToNextMajor(from: "8.0.1")),
         .package(url: "https://github.com/airbnb/lottie-spm.git",
                  .upToNextMajor(from: "4.4.3"))
     ],
@@ -39,6 +41,7 @@ let package = Package(
                 "SwipeCellKit",
                 "FSCalendar",
                 "SwiftyMarkdown",
+                //"IQKeyboardManager",
                 .product(name: "Lottie", package: "lottie-spm")
             ],
             resources: [.process("NutritionUIModule/VoiceLogging.json"), // Lottie Animation

@@ -367,7 +367,6 @@ private extension FoodRecognitionV3ViewController {
         
         /** The following code is commented because `startNutritionFactsDetection` is deprecated */
         
-        /**
         isRecognitionsPaused = false
         
         Task.detached(priority: .userInitiated) { [weak self] () in
@@ -378,7 +377,6 @@ private extension FoodRecognitionV3ViewController {
                 }
             }
         }
-         */
     }
     
     func pauseDetection() {

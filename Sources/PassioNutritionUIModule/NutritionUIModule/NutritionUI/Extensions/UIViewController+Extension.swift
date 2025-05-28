@@ -337,3 +337,31 @@ extension UIViewController {
         }
     }
 }
+
+extension UIViewController {
+    
+    func push(_ controller: UIViewController, animated: Bool = true) {
+        self.navigationController?.pushViewController(controller, animated: animated)
+    }
+    
+    func pop(animated: Bool = true) {
+        self.navigationController?.popViewController(animated: animated)
+    }
+    
+    func popToRoot(animated: Bool = true) {
+        self.navigationController?.popToRootViewController(animated: animated)
+    }
+    
+    func present(_ vc: UIViewController,
+                 presentation: UIModalPresentationStyle = .overFullScreen,
+                 transition: UIModalTransitionStyle = .crossDissolve,
+                 animated: Bool = true,
+                 completion: (()->Void)? = nil) {
+        
+        DispatchQueue.main.async {
+            vc.modalTransitionStyle = transition
+            vc.modalPresentationStyle = presentation
+            self.present(vc, animated: animated, completion: completion)
+        }
+    }
+}
