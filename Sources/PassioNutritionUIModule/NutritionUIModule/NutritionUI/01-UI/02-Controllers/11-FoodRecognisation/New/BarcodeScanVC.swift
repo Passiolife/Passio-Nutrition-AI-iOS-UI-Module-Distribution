@@ -63,10 +63,15 @@ class BarcodeScanVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         basicSetup()
+        
+        // Temp (Remove below and enable viewWillAppear)
+        Delay(0) {
+            self.goToNutritionFacts()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        askCameraPermission()
+        //askCameraPermission()
     }
     
     func basicSetup() {
@@ -87,7 +92,7 @@ class BarcodeScanVC: UIViewController {
             attributedText.addAttributes([.foregroundColor: UIColor.primaryColor, .font: boldFont], range: nsRange)
         }
         takePhotoLabel.attributedText = attributedText
-        spinnerView.backgroundColor = .primaryColor.alpha(0.06)
+        spinnerView.backgroundColor = UIColor.rgb(242, 242, 247)
         spinner.color = .primaryColor
         
         self.state = .idle
@@ -199,7 +204,8 @@ class BarcodeScanVC: UIViewController {
     
     // Other
     func goToNutritionFacts() {
-        print("nutritionFactsTapped")
+        let vc = NFScanVC.load(storyboard: .SCAN)
+        self.push(vc)
     }
     
     private func navigateToEditViewContorller(_ record: FoodRecordV3) {

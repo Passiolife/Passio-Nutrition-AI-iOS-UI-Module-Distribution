@@ -74,4 +74,15 @@ extension UITextField {
         let matchedComma = [",", "，", "、", "٬", "٫"].first(where: { (text ?? "").contains($0) }) ?? ""
         return text?.replacingOccurrences(of: matchedComma, with: ".") ?? ""
     }
+    
+    func addDoneButtonToKeyboard(target: Any, action: Selector) {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: target, action: action)
+        
+        toolbar.setItems([flexSpace, doneButton], animated: false)
+        self.inputAccessoryView = toolbar
+    }
 }

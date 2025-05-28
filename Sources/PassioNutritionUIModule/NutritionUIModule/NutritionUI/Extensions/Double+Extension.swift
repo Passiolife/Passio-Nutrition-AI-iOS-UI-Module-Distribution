@@ -52,6 +52,26 @@ public extension Double {
     var clean: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
+    /**
+     000.5 → 0.5
+     00.0800000 → 0.08
+     */
+    var trim: String {
+        let string = String(self)
+        if string.contains(".") {
+            // Trim trailing zeros and ensure at least one digit after decimal if needed
+            var trimmed = string
+            while trimmed.last == "0" {
+                trimmed.removeLast()
+            }
+            if trimmed.last == "." {
+                trimmed.removeLast()
+            }
+            return trimmed
+        } else {
+            return string
+        }
+    }
 
     func normalize(toMultipleOf multiple: Int) -> Double {
         guard multiple > 0 else {

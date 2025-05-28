@@ -12,6 +12,11 @@ import Combine
 import PassioNutritionAISDK
 #endif
 
+/**
+ Use this when you want to capture multiple images
+ This is a View Controller
+ */
+
 class ImageCapture: InstantiableViewController {
 
     @IBOutlet weak var messageLabel: UILabel!
