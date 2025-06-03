@@ -15,6 +15,30 @@ class CustomSlider: UISlider {
     }
 }
 
+class PassioSlider: UISlider {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupThumbImage()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupThumbImage()
+    }
+    
+    private func setupThumbImage() {
+        guard let image = UIImage.imageFromBundle(named: "sliderThumbSmall") else { return }
+        self.setThumbImage(image, for: .normal)
+        self.setThumbImage(image, for: .highlighted)
+    }
+    
+    override func trackRect(forBounds bounds: CGRect) -> CGRect {
+        let point = CGPoint(x: bounds.minX, y: bounds.midY)
+        return CGRect(origin: point, size: CGSize(width: bounds.width, height: 6))
+    }
+}
+
 class ServingSizeTableViewCell: UITableViewCell {
 
     @IBOutlet weak var weightLabel: UILabel!

@@ -1192,13 +1192,13 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scan_frame" translatesAutoresizingMaskIntoConstraints="NO" id="fE2-6j-KVo">
-                                <rect key="frame" x="16" y="116.33333333333331" width="361" height="398.99999999999994"/>
+                                <rect key="frame" x="16" y="171.33333333333337" width="361" height="399"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="fE2-6j-KVo" secondAttribute="height" multiplier="19:21" id="OJv-JD-HJf"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AFK-be-MHq">
-                                <rect key="frame" x="16" y="531.33333333333337" width="361" height="72"/>
+                                <rect key="frame" x="16" y="586.33333333333337" width="361" height="72"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="RdT-Uf-mqb">
                                         <rect key="frame" x="59.666666666666686" y="17.333333333333258" width="242" height="37"/>
@@ -1467,7 +1467,7 @@
                             <constraint firstItem="QLU-Nt-ixA" firstAttribute="bottom" secondItem="guV-KN-kKt" secondAttribute="bottom" constant="20" id="i8c-nI-2se"/>
                             <constraint firstItem="cIK-I0-eoT" firstAttribute="leading" secondItem="QLU-Nt-ixA" secondAttribute="leading" id="itW-Lt-rrG"/>
                             <constraint firstItem="QLU-Nt-ixA" firstAttribute="trailing" secondItem="27D-Md-c7X" secondAttribute="trailing" constant="16" id="kXj-iH-Dn0"/>
-                            <constraint firstItem="fE2-6j-KVo" firstAttribute="centerY" secondItem="mi4-Cg-7Uc" secondAttribute="centerY" multiplier="0.8" constant="-25" id="sDo-oZ-NX9"/>
+                            <constraint firstItem="fE2-6j-KVo" firstAttribute="centerY" secondItem="mi4-Cg-7Uc" secondAttribute="centerY" multiplier="0.8" constant="30" id="sDo-oZ-NX9"/>
                             <constraint firstItem="27D-Md-c7X" firstAttribute="leading" secondItem="QLU-Nt-ixA" secondAttribute="leading" constant="16" id="vag-z4-W41"/>
                             <constraint firstItem="QLU-Nt-ixA" firstAttribute="trailing" secondItem="AFK-be-MHq" secondAttribute="trailing" constant="16" id="yFi-zi-ub1"/>
                         </constraints>

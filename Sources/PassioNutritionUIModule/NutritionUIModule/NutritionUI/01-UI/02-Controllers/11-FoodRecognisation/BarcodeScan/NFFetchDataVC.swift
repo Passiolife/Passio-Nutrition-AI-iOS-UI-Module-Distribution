@@ -16,6 +16,9 @@ class NFFetchDataVC: UIViewController {
     @IBOutlet weak var progressBar: ProgressBar!
     @IBOutlet weak var cancelButton: UIButton!
 
+    @IBOutlet weak var viewAnalysing: UIView!
+    @IBOutlet weak var viewItemSaved: UIView!
+
     var capturedImage: UIImage? = nil
     private let PassioSDK = PassioNutritionAI.shared
 
@@ -25,9 +28,6 @@ class NFFetchDataVC: UIViewController {
         super.viewDidLoad()
         basicSetup()
         getNutritionFacts()
-//        Delay(2) {
-//            self.showNoDataFound()
-//        }
     }
     
     func basicSetup() {
@@ -37,6 +37,9 @@ class NFFetchDataVC: UIViewController {
         progressBar.layer.borderWidth = 2
         capturedImageView.image = capturedImage
 
+        setupBackButton()
+        self.title = "Photo Preview"
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     func startProgress() {
@@ -63,6 +66,7 @@ class NFFetchDataVC: UIViewController {
     }
     
     func getNutritionFacts() {
+        updateUI(isAnalysing: true)
         guard let image = capturedImage else { return }
         startProgress()
         PassioSDK.recognizeNutritionFactsRemote(image: image, resolution: .res_1080) { passioFoodItem in
@@ -76,25 +80,57 @@ class NFFetchDataVC: UIViewController {
     }
     
     func didReceiveResult(foodItem: PassioFoodItem?) {
-        printAny(foodItem)
-        
-        if let foodItem {
-            let foodRecord = FoodRecordV3(foodItem: foodItem)
-            let vc = NFEditDataVC.load(storyboard: .SCAN)
-            vc.foodRecord = foodRecord
-            vc.capturedImage = self.capturedImage
-            self.present(vc)
-        } else {
-            print("No data found")
+        guard let foodItem = foodItem else {
+            showNoDataFound()
+            return
+        }
+        guard foodItem.hasNutritionFacts else {
+            showNoDataFound()
+            return
+        }
+        let foodRecord = FoodRecordV3(foodItem: foodItem)
+        navigateToEditData(foodRecord: foodRecord)
+    }
+    
+    func navigateToEditData(foodRecord: FoodRecordV3? = nil) {
+        let vc = NFEditDataVC.load(storyboard: .SCAN)
+        vc.foodRecord = foodRecord
+        vc.capturedImage = self.capturedImage
+        let navigationController = UINavigationController(rootViewController: vc)
+        navigationController.setNavigationBarHidden(true, animated: false)
+        self.present(navigationController)
+        vc.onSave = {
+            self.onSave()
+        }
+        vc.onCancel = {
+            self.onCancel()
         }
     }
     
-    func printTest() {
-        
+    func onSave() {
+        updateUI(isAnalysing: false)
     }
     
-    func done() {
-        self.showAlert(title: "Done")
+    func onCancel() {
+        self.pop()
+    }
+    
+    func updateUI(isAnalysing: Bool) {
+        if isAnalysing {
+            viewAnalysing.isHidden = false
+            viewItemSaved.isHidden = true
+        } else {
+            viewAnalysing.isHidden = true
+            viewItemSaved.isHidden = false
+        }
+    }
+    
+    @IBAction func viewDiaryTapped(_ sender: UIButton) {
+        NutritionUICoordinator.navigateToDairyAfterAction(navigationController: self.navigationController)
+    }
+    
+    @IBAction func AddMoreTapped(_ sender: UIButton) {
+        self.navigationController?.popToSpecificViewController(BarcodeScanVC.self, isAnimated: true)
     }
     
     @objc func updateProgress() {
@@ -131,6 +167,30 @@ class NFFetchDataVC: UIViewController {
     }
     
     func enterManually() {
-        self.pop()
+        navigateToEditData()
+    }
+}
+
+extension PassioFoodItem {
+    
+    var hasNutritionFacts: Bool {
+        self.hasFullMacros && self.hasServingSize
+    }
+    
+    var hasFullMacros: Bool {
+        let nutrients = self.nutrientsReference()
+        if nutrients.calories() != nil &&
+            nutrients.carbs() != nil &&
+            nutrients.protein() != nil &&
+            nutrients.fat() != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    var hasServingSize: Bool {
+        self.amount.selectedQuantity > 0 &&
+        !self.amount.selectedUnit.isEmpty
     }
 }

@@ -23,7 +23,9 @@ class BarcodeScanVC: UIViewController {
     }
     
     @IBOutlet weak var previewView: UIView!
-    @IBOutlet weak var zoomSlider: UISlider!
+    @IBOutlet weak var zoomSlider: PassioSlider!
+    @IBOutlet weak var focusButton: UIButton!
+    @IBOutlet weak var flashLightButton: UIButton!
 
     // Scanning
     @IBOutlet weak var scanningView: UIView!
@@ -53,25 +55,36 @@ class BarcodeScanVC: UIViewController {
     var detectedBarcode = ""
     var foodItem: PassioFoodItem?
     var foodRecord: FoodRecordV3?
-    
+    var isFlashlightOn: Bool = false
+
     var state: State = .idle {
         didSet {
             didUpdateState()
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        basicSetup()
-        
-        // Temp (Remove below and enable viewWillAppear)
-        Delay(0) {
-            self.goToNutritionFacts()
+    private var isFocusEnabled = false {
+        didSet {
+            focusButton.setImage(UIImage(resource: isFocusEnabled ? .focusIcon : .focusOffIcon), for: .normal)
         }
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        basicSetup()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-        //askCameraPermission()
+        askCameraPermission()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        passioSDK.stopFoodDetection()
+        videoLayer?.removeFromSuperlayer()
+        videoLayer = nil
+        passioSDK.removeVideoLayer()
     }
     
     func basicSetup() {
@@ -95,16 +108,21 @@ class BarcodeScanVC: UIViewController {
         spinnerView.backgroundColor = UIColor.rgb(242, 242, 247)
         spinner.color = .primaryColor
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapToFocus))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+        
+        zoomSlider.minimumTrackTintColor = .primaryColor
+        zoomSlider.maximumTrackTintColor = UIColor.white.alpha(0.35)
+        zoomSlider.tintColor = .white
+        
         self.state = .idle
     }
     
     func setupNavigation() {
         self.title = "Barcode Scan"
         setupBackButton()
-        navigationController?.isNavigationBarHidden = false
-        let rightButton = UIBarButtonItem(image: UIImage.imageFromBundle(named: "hint_icon"), style: .plain, target: self, action: #selector(presentHint))
-        rightButton.tintColor = .gray400
-        navigationItem.rightBarButtonItem = rightButton
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     func configureFoodDetection() {
@@ -151,11 +169,18 @@ class BarcodeScanVC: UIViewController {
         previewView.layer.insertSublayer(layer, at: 0)
         videoLayer = layer
         
-        zoomSlider.minimumValue = Float(passioSDK.getMinMaxCameraZoomLevel.minLevel ?? 0)
-        zoomSlider.maximumValue = 10
+        MainQueue {
+            self.zoomSlider.minimumValue = Float(self.passioSDK.getMinMaxCameraZoomLevel.minLevel ?? 0)
+            self.zoomSlider.maximumValue = 10
+        }
     }
     
     func startDetection() {
+        
+        let zoomValue: Float = 1.5
+        zoomSlider.setValue(zoomValue, animated: true)
+        passioSDK.setCamera(toVideoZoomFactor: CGFloat(zoomValue))
+        
         Delay(0.12) {
             Task.detached(priority: .userInitiated) { [weak self] () in
                 guard let self else { return }
@@ -218,8 +243,32 @@ class BarcodeScanVC: UIViewController {
         })
     }
     
+    @IBAction func onZoomLevelChanged(_ sender: UISlider) {
+        guard let _ = videoLayer else { return }
+        if sender.value < 1 { return }
+        passioSDK.setCamera(toVideoZoomFactor: CGFloat(sender.value))
+    }
+    
+    @IBAction func onFocusTapped(_ sender: UIButton) {
+        isFocusEnabled.toggle()
+    }
+    
+    @objc func onTapToFocus(_ gesture: UITapGestureRecognizer) {
+        guard let videoLayer = videoLayer, isFocusEnabled else { return }
+        let tappedPoint = gesture.location(in: view)
+        let convertedPoint = videoLayer.captureDevicePointConverted(fromLayerPoint: tappedPoint)
+        passioSDK.setTapToFocus(pointOfInterest: convertedPoint)
+    }
+    
+    @IBAction func onFlashlight(_ sender: UIButton) {
+        passioSDK.enableFlashlight(enabled: !isFlashlightOn, level: 1)
+        isFlashlightOn.toggle()
+        flashLightButton.setImage(UIImage(systemName: isFlashlightOn ? "flashlight.on.fill" : "flashlight.off.fill"),
+                                  for: .normal)
+    }
+    
     @objc func presentHint() {
-        
+        self.showTip(for: .captureNutritionFacts)
     }
 }
 
@@ -233,7 +282,6 @@ extension BarcodeScanVC: FoodRecognitionDelegate {
     func didDetectBarcode(_ barcodeCandidate: BarcodeCandidate) {
         let barcode = barcodeCandidate.value
         if barcode == self.detectedBarcode { return }
-        print("Barcode: \(barcode)")
         self.detectedBarcode = barcode
         self.foodItem = nil
         self.foodRecord = nil
