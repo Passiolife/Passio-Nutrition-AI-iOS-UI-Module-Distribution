@@ -365,3 +365,11 @@ extension UIViewController {
         }
     }
 }
+
+extension UIViewController {
+    func showTip(for tip: Tip) {
+        let vc = TipPopupVC.load(storyboard: .SCAN)
+        vc.tip = tip
+        self.present(vc)
+    }
+}

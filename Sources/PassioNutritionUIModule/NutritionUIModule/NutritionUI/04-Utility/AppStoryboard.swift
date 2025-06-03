@@ -13,6 +13,7 @@ import UIKit
 enum AppStoryboard<T: UIViewController>: String {
     
     case SCAN = "Scan"
+    case FOOD_RECOGNISATION = "FoodRecognisation"
     
     var instance: UIStoryboard {
         return UIStoryboard(name: self.rawValue, bundle: NutritionUIModule.shared.bundleForModule)

@@ -236,30 +236,30 @@ extension HomeTabBarController: PlusMenuDelegate {
     func onFoodScannerSelected() {
         let vc = NutritionUICoordinator.getFoodRecognitionV3ViewController()
         vc.navigateToMyFoodsDelegate = self
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func onFoodScannerSelectedNew() {
         let vc = BarcodeScanVC.load(storyboard: .SCAN)
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func onSearchSelected() {
         let vc = TextSearchViewController()
         vc.shouldPopVC = false
         vc.advancedSearchDelegate = self
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func onFavouritesSelected() {
         let vc = MyFavoritesViewController()
         vc.modalPresentationStyle = .fullScreen
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func onMyFoodsSelected() {
         let vc = MyFoodsSelectionViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func onVoiceLoggingSelected() {
@@ -267,7 +267,7 @@ extension HomeTabBarController: PlusMenuDelegate {
         vc.goToSearch = { [weak self] in
             self?.onSearchSelected()
         }
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func onTakePhotosSelected() {
@@ -275,7 +275,7 @@ extension HomeTabBarController: PlusMenuDelegate {
         vc.goToSearch = { [weak self] in
             self?.onSearchSelected()
         }
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func onSelectPhotosSelected() {
@@ -283,12 +283,12 @@ extension HomeTabBarController: PlusMenuDelegate {
         vc.goToSearch = { [weak self] in
             self?.onSearchSelected()
         }
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func onNutritionAdvisorSelected() {
         let vc = NutritionAdvisorVC()
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -369,14 +369,14 @@ private extension FoodRecognitionV3ViewController {
         
         isRecognitionsPaused = false
         
-        Task.detached(priority: .userInitiated) { [weak self] () in
-            guard let self else { return }
-            self.passioSDK.startNutritionFactsDetection(nutritionfactsDelegate: self) { isReady in
-                if !isReady {
-                    print("Nutrition Facts not available \(self.passioSDK.status)")
-                }
-            }
-        }
+//        Task.detached(priority: .userInitiated) { [weak self] () in
+//            guard let self else { return }
+//            self.passioSDK.startNutritionFactsDetection(nutritionfactsDelegate: self) { isReady in
+//                if !isReady {
+//                    print("Nutrition Facts not available \(self.passioSDK.status)")
+//                }
+//            }
+//        }
     }
     
     func pauseDetection() {

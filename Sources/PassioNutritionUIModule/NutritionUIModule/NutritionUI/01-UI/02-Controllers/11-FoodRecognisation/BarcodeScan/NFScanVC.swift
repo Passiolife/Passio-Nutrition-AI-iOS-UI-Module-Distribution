@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import AVFoundation
+#if canImport(PassioNutritionAISDK)
+import PassioNutritionAISDK
+#endif
 
 class NFScanVC: UIViewController {
     
@@ -13,15 +17,21 @@ class NFScanVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //setupCamera()
-        
-        // Temp
-        let image = UIImage.imageFromBundle(named: "NF1")
-        if let image = image {
-            fetchData(image: image)
-        } else {
-            print("No image")
-        }
+        basicSetup()
+        setupCamera()
+    }
+    
+    func basicSetup() {
+        setupBackButton()
+        self.title = "Barcode Scan"
+        self.navigationController?.isNavigationBarHidden = false
+        let rightButton = UIBarButtonItem(image: UIImage.imageFromBundle(named: "hint_icon"), style: .plain, target: self, action: #selector(presentHint))
+        rightButton.tintColor = UIColor.gray400
+        navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    @objc func presentHint() {
+        self.showTip(for: .captureNutritionFacts)
     }
     
     func setupCamera() {
@@ -43,7 +53,7 @@ class NFScanVC: UIViewController {
     func fetchData(image: UIImage) {
         let vc = NFFetchDataVC.load(storyboard: .SCAN)
         vc.capturedImage = image
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

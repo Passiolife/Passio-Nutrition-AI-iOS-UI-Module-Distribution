@@ -56,7 +56,7 @@ final class PlusMenuViewController: InstantiableViewController {
             case .favourite: UIImage.imageFromBundle(named: "favorites")
             case .search: UIImage.imageFromBundle(named: "search")
             case .scan: UIImage.imageFromBundle(named: "foodScanner")
-            case .barcodeScan: UIImage.imageFromBundle(named: "foodScanner")
+            case .barcodeScan: UIImage.imageFromBundle(named: "barcode_menu") 
             case .myFoods: UIImage.imageFromBundle(named: "myFoods")
             case .voiceLogging: UIImage.imageFromBundle(named: "voiceLogging")
             case .takePhotos: UIImage.imageFromBundle(named: "takePhotos")
@@ -76,32 +76,34 @@ final class PlusMenuViewController: InstantiableViewController {
             case .voiceLogging: "Voice Logging"
             case .takePhotos: "Take Photos"
             case .selectPhotos: "Select Photos"
-            case .useImage: "Use Image"
+            case .useImage: "Photo Logging"
             case .nutritionAdvisor: "AI Advisor"
             }
         }
     }
 
-    private let allRows: [Rows] = [.myFoods,
-                                   .favourite,
+    private let allRows: [Rows] = [.useImage,
+                                   .barcodeScan,
+                                   //.scan,
                                    .voiceLogging,
                                    .nutritionAdvisor,
-                                   .useImage,
                                    .search,
-                                   .scan,
-                                   .barcodeScan,
+                                   .myFoods,
+                                   .favourite,
                                    .takePhotos,
                                    .selectPhotos]
-    var menuData: [Rows] = [.myFoods,
-                            .favourite,
+    
+    var menuData: [Rows] = [.useImage,
+                            .barcodeScan,
+                            //.scan,
                             .voiceLogging,
                             .nutritionAdvisor,
-                            .useImage,
                             .search,
-                            .scan,
-                            .barcodeScan,
+                            .myFoods,
+                            .favourite,
                             .takePhotos,
                             .selectPhotos]
+    
     var bottomCountedValue: CGFloat = 70.0
 
     weak var delegate: PlusMenuDelegate?
