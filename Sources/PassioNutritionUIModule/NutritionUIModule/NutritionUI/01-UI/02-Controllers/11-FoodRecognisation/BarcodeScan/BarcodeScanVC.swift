@@ -49,7 +49,6 @@ class BarcodeScanVC: UIViewController {
 
     // SDK
     private let passioSDK = PassioNutritionAI.shared
-    private var detectionConfig: FoodDetectionConfiguration!
     private let connector = NutritionUIModule.shared
 
     var detectedBarcode = ""
@@ -81,16 +80,16 @@ class BarcodeScanVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        passioSDK.stopFoodDetection()
+        stopDetection()
         videoLayer?.removeFromSuperlayer()
         videoLayer = nil
         passioSDK.removeVideoLayer()
+        detectedBarcode = ""
     }
     
     func basicSetup() {
         self.view.backgroundColor = .white
         setupNavigation()
-        configureFoodDetection()
         scanningView.roundCorner(20, top: true)
         foodInfoView.roundCorner(20, top: true)
         
@@ -125,14 +124,6 @@ class BarcodeScanVC: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
     }
     
-    func configureFoodDetection() {
-        self.detectionConfig = FoodDetectionConfiguration(
-            detectVisual: false,
-            detectBarcodes: true,
-            detectPackagedFood: false
-        )
-    }
-    
     fileprivate func askCameraPermission() {
         AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
             if granted { 
@@ -164,12 +155,12 @@ class BarcodeScanVC: UIViewController {
         // The video layer is already set up, so no need to do it again
         if videoLayer != nil { return }
         
-        guard let layer = passioSDK.getPreviewLayerWithGravity(videoGravity: .resizeAspectFill) else { return }
-        layer.frame = previewView.bounds
-        previewView.layer.insertSublayer(layer, at: 0)
-        videoLayer = layer
-        
         MainQueue {
+            guard let layer = self.passioSDK.getPreviewLayerWithGravity(videoGravity: .resizeAspectFill) else { return }
+            layer.frame = self.previewView.bounds
+            self.previewView.layer.insertSublayer(layer, at: 0)
+            self.videoLayer = layer
+            
             self.zoomSlider.minimumValue = Float(self.passioSDK.getMinMaxCameraZoomLevel.minLevel ?? 0)
             self.zoomSlider.maximumValue = 10
         }
@@ -184,8 +175,7 @@ class BarcodeScanVC: UIViewController {
         Delay(0.12) {
             Task.detached(priority: .userInitiated) { [weak self] () in
                 guard let self else { return }
-                passioSDK.startFoodDetection(detectionConfig: self.detectionConfig,
-                                             foodRecognitionDelegate: self) { ready in
+                passioSDK.startBarcodeScanning(recognitionDelegate: self) { ready in
                     if !ready {
                         print("SDK was not configured correctly \(self.passioSDK.status)")
                     }
@@ -195,7 +185,7 @@ class BarcodeScanVC: UIViewController {
     }
     
     func stopDetection() {
-        passioSDK.stopFoodDetection()
+        passioSDK.stopBarcodeScanning()
     }
     
     // Scanning
@@ -269,23 +259,6 @@ class BarcodeScanVC: UIViewController {
     
     @objc func presentHint() {
         self.showTip(for: .captureNutritionFacts)
-    }
-}
-
-extension BarcodeScanVC: FoodRecognitionDelegate {
-    
-    func recognitionResults(candidates: (any FoodCandidates)?, image: UIImage?) {
-        guard let barcodeCandidate = candidates?.barcodeCandidates?.first else { return }
-        didDetectBarcode(barcodeCandidate)
-    }
-    
-    func didDetectBarcode(_ barcodeCandidate: BarcodeCandidate) {
-        let barcode = barcodeCandidate.value
-        if barcode == self.detectedBarcode { return }
-        self.detectedBarcode = barcode
-        self.foodItem = nil
-        self.foodRecord = nil
-        self.getData()
     }
 }
 
@@ -475,5 +448,22 @@ extension BarcodeScanVC {
                 completion(foodRecord)
             }
         }
+    }
+}
+
+extension BarcodeScanVC: BarcodeRecognitionDelegate {
+    
+    func recognitionResults(barcodeCandidates: [BarcodeCandidate]?, image: UIImage?) {
+        guard let barcodeCandidate = barcodeCandidates?.first else { return }
+        didDetectBarcode(barcodeCandidate)
+    }
+    
+    func didDetectBarcode(_ barcodeCandidate: BarcodeCandidate) {
+        let barcode = barcodeCandidate.value
+        if barcode == self.detectedBarcode { return }
+        self.detectedBarcode = barcode
+        self.foodItem = nil
+        self.foodRecord = nil
+        self.getData()
     }
 }

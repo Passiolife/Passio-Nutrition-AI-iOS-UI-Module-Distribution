@@ -100,7 +100,7 @@ final class BarcodeRecogniserViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        passioSDK.stopFoodDetection()
+        passioSDK.stopBarcodeScanning()
         videoLayer?.removeFromSuperlayer()
         videoLayer = nil
         passioSDK.removeVideoLayer()
@@ -178,13 +178,11 @@ extension BarcodeRecogniserViewController {
         addTapGestureForFocus()
         isRecognitionsPaused = false
         let detectionConfig = FoodDetectionConfiguration(detectVisual: true,
-                                                         //volumeDetectionMode: .none,
                                                          detectBarcodes: true,
                                                          detectPackagedFood: true)
         DispatchQueue.global(qos: .userInteractive).async { [weak self] () in
             guard let self else { return }
-            self.passioSDK.startFoodDetection(detectionConfig: detectionConfig,
-                                              foodRecognitionDelegate: self) { (ready) in
+            passioSDK.startBarcodeScanning(recognitionDelegate: self) { ready in
                 if !ready {
                     print("SDK was not configured correctly \(self.passioSDK.status)")
                 }
@@ -235,33 +233,31 @@ extension BarcodeRecogniserViewController {
 }
 
 // MARK: - FoodRecognitionDelegate
-extension BarcodeRecogniserViewController: FoodRecognitionDelegate {
 
-    func recognitionResults(candidates: FoodCandidates?, image: UIImage?) {
-
+extension BarcodeRecogniserViewController: BarcodeRecognitionDelegate {
+    
+    func recognitionResults(barcodeCandidates: [BarcodeCandidate]?, image: UIImage?) {
+        
         guard !isRecognitionsPaused, videoLayer != nil else { return }
-
-        if let barcode = candidates?.barcodeCandidates?.first {
-
-            checkInSystemBarcodeAvailable(dataset: BarcodeDataSet(candidate: barcode)) { (userFood,
-                                                                                          systemFood) in
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-                    manageBarcodeInSystemView(barcode: barcode.value, 
-                                              userFood: userFood,
-                                              systemFood: systemFood)
-                }
+        guard let barcode = barcodeCandidates?.first else { return }
+        
+        checkInSystemBarcodeAvailable(dataset: BarcodeDataSet(candidate: barcode)) { (userFood, systemFood) in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                manageBarcodeInSystemView(barcode: barcode.value,
+                                          userFood: userFood,
+                                          systemFood: systemFood)
             }
         }
     }
-
+    
     private func checkInSystemBarcodeAvailable(dataset: BarcodeDataSet,
                                                completion: @escaping (Bool, Bool) -> Void) {
-
+        
         dataset.getFoodItem(completion: { [weak self] (passioFoodItem) in
-
+            
             guard let self else { return }
-
+            
             if let barcodeFoodRecord = dataset.foodRecord { // Local User Food Barcode
                 foodRecord = barcodeFoodRecord
                 isUserFoodBarcode = true
@@ -276,16 +272,16 @@ extension BarcodeRecogniserViewController: FoodRecognitionDelegate {
             }
         })
     }
-
+    
     private func manageBarcodeInSystemView(barcode: String,
                                            userFood: Bool,
                                            systemFood: Bool) {
-
+        
         scanGuideView.isHidden = true
         barcodeInSystemView.isHidden = !(userFood || systemFood)
         barcodeDetectedStackView.isHidden = (userFood || systemFood)
         barcodeTextField.text = barcode
-
+        
         if userFood {
             barcodeSystemLabel.text = "Custom Food Already Exists"
             barcodeMatchesLabel.text = "This barcode matches an existing item in your custom food list. You can use the existing item, or create a new food without the barcode."
@@ -297,6 +293,26 @@ extension BarcodeRecogniserViewController: FoodRecognitionDelegate {
         }
     }
 }
+
+//extension BarcodeRecogniserViewController: FoodRecognitionDelegate {
+//
+//    func recognitionResults(candidates: FoodCandidates?, image: UIImage?) {
+//
+//        guard !isRecognitionsPaused, videoLayer != nil else { return }
+//
+//        if let barcode = candidates?.barcodeCandidates?.first {
+//
+//            checkInSystemBarcodeAvailable(dataset: BarcodeDataSet(candidate: barcode)) { (userFood, systemFood) in
+//                DispatchQueue.main.async { [weak self] in
+//                    guard let self else { return }
+//                    manageBarcodeInSystemView(barcode: barcode.value, 
+//                                              userFood: userFood,
+//                                              systemFood: systemFood)
+//                }
+//            }
+//        }
+//    }
+//}
 
 // MARK: - UITextField Delegate
 extension BarcodeRecogniserViewController: UITextFieldDelegate {
