@@ -76,7 +76,7 @@ class RecogniseBarcodeVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        passioSDK.stopFoodDetection()
+        passioSDK.stopBarcodeScanning()
         videoLayer?.removeFromSuperlayer()
         videoLayer = nil
         passioSDK.removeVideoLayer()
@@ -123,13 +123,9 @@ class RecogniseBarcodeVC: UIViewController {
     
     func startDetection() {
         addTapGestureForFocus()
-        let detectionConfig = FoodDetectionConfiguration(detectVisual: true,
-                                                         detectBarcodes: true,
-                                                         detectPackagedFood: true)
         DispatchQueue.global(qos: .userInteractive).async { [weak self] in
             guard let self else { return }
-            self.passioSDK.startFoodDetection(detectionConfig: detectionConfig,
-                                              foodRecognitionDelegate: self) { ready in
+            passioSDK.startBarcodeScanning(recognitionDelegate: self) { ready in
                 if !ready { print("SDK was not configured correctly \(self.passioSDK.status)") }
             }
         }
@@ -198,16 +194,6 @@ class RecogniseBarcodeVC: UIViewController {
     }
 }
 
-extension RecogniseBarcodeVC: FoodRecognitionDelegate {
-    
-    func recognitionResults(candidates: FoodCandidates?, image: UIImage?) {
-        guard state == .detecting else { return }
-        guard videoLayer != nil else { return }
-        guard let barcode = candidates?.barcodeCandidates?.first else { return }
-        barcodeDetected(barcode)
-    }
-}
-
 extension RecogniseBarcodeVC {
     
     func barcodeDetected(_ barcode: BarcodeCandidate) {
@@ -238,5 +224,15 @@ extension RecogniseBarcodeVC {
             }
             self.updateUI()
         })
+    }
+}
+
+extension RecogniseBarcodeVC: BarcodeRecognitionDelegate {
+    
+    func recognitionResults(barcodeCandidates: [BarcodeCandidate]?, image: UIImage?) {
+        guard state == .detecting else { return }
+        guard videoLayer != nil else { return }
+        guard let barcode = barcodeCandidates?.first else { return }
+        barcodeDetected(barcode)
     }
 }

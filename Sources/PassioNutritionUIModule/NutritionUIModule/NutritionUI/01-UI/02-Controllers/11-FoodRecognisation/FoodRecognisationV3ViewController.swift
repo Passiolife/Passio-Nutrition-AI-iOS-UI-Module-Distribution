@@ -44,7 +44,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
     private var scanMode: ScanMode = .wholeFoods {
         didSet {
             setupScanModeButtonsUI()
-            passioSDK.stopFoodDetection()
+            passioSDK.stopBarcodeScanning()
             isRecognitionsPaused = true
             dataset = nil
             configureFoodDetection()
@@ -179,7 +179,7 @@ final class FoodRecognitionV3ViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         timer?.invalidate()
-        passioSDK.stopFoodDetection()
+        passioSDK.stopBarcodeScanning()
         isRecognitionsPaused = true
         videoLayer?.removeFromSuperlayer()
         videoLayer = nil
@@ -354,8 +354,7 @@ private extension FoodRecognitionV3ViewController {
         
         Task.detached(priority: .userInitiated) { [weak self] () in
             guard let self else { return }
-            passioSDK.startFoodDetection(detectionConfig: configuration,
-                                         foodRecognitionDelegate: self) { (ready) in
+            passioSDK.startBarcodeScanning(recognitionDelegate: self) { ready in
                 if !ready {
                     print("SDK was not configured correctly \(self.passioSDK.status)")
                 }
@@ -380,12 +379,12 @@ private extension FoodRecognitionV3ViewController {
     }
     
     func pauseDetection() {
-        passioSDK.stopFoodDetection()
+        passioSDK.stopBarcodeScanning()
         isRecognitionsPaused = true
     }
     
     func stopDetection() {
-        passioSDK.stopFoodDetection()
+        passioSDK.stopBarcodeScanning()
         isRecognitionsPaused = true
         foodDetectedView.isHidden = true
         nutritionDetectedView.isHidden = true
@@ -403,9 +402,48 @@ private extension FoodRecognitionV3ViewController {
 }
 
 // MARK: - FoodRecognition Delegate
-extension FoodRecognitionV3ViewController: FoodRecognitionDelegate {
+
+//extension FoodRecognitionV3ViewController: FoodRecognitionDelegate {
+//    
+//    func recognitionResults(candidates: FoodCandidates?, image: UIImage?) {
+//        
+//        guard !isRecognitionsPaused,
+//              !isHintPresented,
+//              videoLayer != nil,
+//              (foodResultVC?.containerViewHeightConstraint?.constant ?? -1) == 0 else {
+//            return
+//        }
+//        
+//        // Barcode
+//        if let barcode = candidates?.barcodeCandidates?.first {
+//            dataset = BarcodeDataSet(candidate: barcode)
+//            return
+//        }
+//        
+//        // PackagedFood
+//        if let candidate = candidates?.packagedFoodCandidates?.first {
+//            dataset = PackageFoodDataSet(candidate: candidate)
+//            return
+//        }
+//        
+//        // Normal Food
+//        if let firstCandidate = candidates?.detectedCandidates.first,
+//           firstCandidate.passioID != "BKG0001" {
+//            var _tempArray = candidates?.detectedCandidates ?? []
+//            _tempArray.remove(at: 0)
+//            dataset = VisualFoodDataSet(candidate: firstCandidate,topKResults: _tempArray)
+//            return
+//        }
+//        
+//        if tempDataset != nil {
+//            tempDataset = nil
+//        }
+//    }
+//}
+
+extension FoodRecognitionV3ViewController: BarcodeRecognitionDelegate {
     
-    func recognitionResults(candidates: FoodCandidates?, image: UIImage?) {
+    func recognitionResults(barcodeCandidates: [BarcodeCandidate]?, image: UIImage?) {
         
         guard !isRecognitionsPaused,
               !isHintPresented,
@@ -414,24 +452,8 @@ extension FoodRecognitionV3ViewController: FoodRecognitionDelegate {
             return
         }
         
-        // Barcode
-        if let barcode = candidates?.barcodeCandidates?.first {
+        if let barcode = barcodeCandidates?.first {
             dataset = BarcodeDataSet(candidate: barcode)
-            return
-        }
-        
-        // PackagedFood
-        if let candidate = candidates?.packagedFoodCandidates?.first {
-            dataset = PackageFoodDataSet(candidate: candidate)
-            return
-        }
-        
-        // Normal Food
-        if let firstCandidate = candidates?.detectedCandidates.first,
-           firstCandidate.passioID != "BKG0001" {
-            var _tempArray = candidates?.detectedCandidates ?? []
-            _tempArray.remove(at: 0)
-            dataset = VisualFoodDataSet(candidate: firstCandidate,topKResults: _tempArray)
             return
         }
         
